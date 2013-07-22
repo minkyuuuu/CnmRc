@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 시작화면에서 메인메뉴 (채널,볼륨 / 사방향키 / 쿼티) -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <fragment
+        android:id="@+id/top_menu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px110"
+        class="com.cnm.cnmrc.fragment.MainTopMenu" />
+
+    <FrameLayout
+        android:id="@+id/remocon_panel"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/repeat_main_panel"
+        android:layout_weight="1" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <fragment
+                android:id="@+id/numeric_pad"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px280"
+                class="com.cnm.cnmrc.fragment.MainNumericPad" />
+
+            <fragment
+                android:id="@+id/bottom_menu"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px90"
+                android:layout_gravity="bottom"
+                class="com.cnm.cnmrc.fragment.MainBottomMenu" />
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

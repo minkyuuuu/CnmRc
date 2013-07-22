@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- hdpi -->
+<!-- 여기서의 dpi는 2/3를 곱하고 다시 2/3를 곱한갑. -->
+<!-- 이유는 디자인이 720기준으로 작성되어 480으로 변환후 다시 dp를 계산하기 때문 -->
+<resources>
+
+    <!-- font size -->
+    <dimen name="sp12">5.33sp</dimen>
+    <dimen name="sp16">7.11sp</dimen>
+    <dimen name="sp18">8sp</dimen>
+    <dimen name="sp24">10.67sp</dimen>
+    <dimen name="sp30">13.33sp</dimen>
+    
+    <!-- pixel -->
+    <dimen name="px1">0.44dp</dimen>
+    <dimen name="px_1">-0.44dp</dimen>
+    <dimen name="px2">0.89dp</dimen>
+    <dimen name="px_2">-0.89dp</dimen>
+    <dimen name="px3">1.33dp</dimen>
+    <dimen name="px_3">-1.33dp</dimen>
+    <dimen name="px4">1.78dp</dimen>
+    <dimen name="px_4">-1.78dp</dimen>
+    <dimen name="px5">2.22dp</dimen>
+    <dimen name="px6">2.67dp</dimen>
+    <dimen name="px7">3.11dp</dimen>
+    <dimen name="px8">3.56dp</dimen>
+    <dimen name="px_8">-3.56dp</dimen>
+    <dimen name="px9">4dp</dimen>
+    <dimen name="px10">4.44dp</dimen>
+    <dimen name="px_10">-4.44dp</dimen>
+    
+    <dimen name="px11">4.89dp</dimen>
+    <dimen name="px12">5.33dp</dimen>
+    <dimen name="px13">5.78dp</dimen>
+    <dimen name="px14">6.22dp</dimen>
+    <dimen name="px15">6.67dp</dimen>
+    <dimen name="px16">7.11dp</dimen>
+    <dimen name="px17">7.56dp</dimen>
+    <dimen name="px18">8dp</dimen>
+    <dimen name="px19">8.44dp</dimen>
+    <dimen name="px20">8.89dp</dimen>
+    
+    <dimen name="px21">9.33dp</dimen>
+    <dimen name="px22">9.78dp</dimen>
+    <dimen name="px23">10.22dp</dimen>
+    <dimen name="px24">10.67dp</dimen>
+    <dimen name="px25">11.11dp</dimen>
+    <dimen name="px26">11.56dp</dimen>
+    <dimen name="px27">12dp</dimen>
+    <dimen name="px28">12.44dp</dimen>
+    <dimen name="px29">12.89dp</dimen>
+    <dimen name="px30">13.33dp</dimen>
+    
+    <dimen name="px31">13.78dp</dimen>
+    <dimen name="px32">14.22dp</dimen>
+    <dimen name="px33">14.67dp</dimen>
+    <dimen name="px34">15.11dp</dimen>
+    <dimen name="px35">15.56dp</dimen>
+    <dimen name="px36">16dp</dimen>
+    <dimen name="px37">16.44dp</dimen>
+    <dimen name="px38">16.89dp</dimen>
+    <dimen name="px39">17.33dp</dimen>
+    <dimen name="px40">17.78dp</dimen>
+    
+    <dimen name="px41">18.22dp</dimen>
+    <dimen name="px42">18.67dp</dimen>
+    <dimen name="px43">19.11dp</dimen>
+    <dimen name="px44">19.56dp</dimen>
+    <dimen name="px45">20dp</dimen>
+    <dimen name="px46">20.44dp</dimen>
+    <dimen name="px47">20.89dp</dimen>
+    <dimen name="px48">21.33dp</dimen>
+    <dimen name="px49">21.78dp</dimen>
+    <dimen name="px50">22.22dp</dimen>
+    
+    <dimen name="px51">22.67dp</dimen>
+    <dimen name="px52">23.11dp</dimen>
+    <dimen name="px53">23.56dp</dimen>
+    <dimen name="px54">24dp</dimen>
+    <dimen name="px55">24.44dp</dimen>
+    <dimen name="px56">24.89dp</dimen>
+    <dimen name="px57">25.33dp</dimen>
+    <dimen name="px58">25.78dp</dimen>
+    <dimen name="px59">26.22dp</dimen>
+    <dimen name="px60">26.67dp</dimen>
+    
+    <dimen name="px61">27.11dp</dimen>
+    <dimen name="px62">27.56dp</dimen>
+    <dimen name="px63">28dp</dimen>
+    <dimen name="px64">28.44dp</dimen>
+    <dimen name="px65">28.89dp</dimen>
+    <dimen name="px66">29.33dp</dimen>
+    <dimen name="px67">29.78dp</dimen>
+    <dimen name="px68">30.22dp</dimen>
+    <dimen name="px69">30.67dp</dimen>
+    <dimen name="px70">31.11dp</dimen>
+    
+    <dimen name="px71">31.56dp</dimen>
+    <dimen name="px72">32dp</dimen>
+    <dimen name="px73">32.44dp</dimen>
+    <dimen name="px74">32.89dp</dimen>
+    <dimen name="px75">33.33dp</dimen>
+    <dimen name="px76">33.78dp</dimen>
+    <dimen name="px77">34.22dp</dimen>
+    <dimen name="px78">34.67dp</dimen>
+    <dimen name="px79">35.11dp</dimen>
+    <dimen name="px80">35.56dp</dimen>
+    
+    <dimen name="px81">36dp</dimen>
+    <dimen name="px82">36.44dp</dimen>
+    <dimen name="px83">36.89dp</dimen>
+    <dimen name="px84">37.33dp</dimen>
+    <dimen name="px85">37.78dp</dimen>
+    <dimen name="px86">38.22dp</dimen>
+    <dimen name="px87">38.67dp</dimen>
+    <dimen name="px88">39.11dp</dimen>
+    <dimen name="px89">39.56dp</dimen>
+    <dimen name="px90">40dp</dimen>
+    
+    <dimen name="px91">40.44dp</dimen>
+    <dimen name="px92">40.89dp</dimen>
+    <dimen name="px93">41.33dp</dimen>
+    <dimen name="px94">41.78dp</dimen>
+    <dimen name="px95">42.22dp</dimen>
+    <dimen name="px96">42.67dp</dimen>
+    <dimen name="px97">43.11dp</dimen>
+    <dimen name="px98">43.56dp</dimen>
+    <dimen name="px99">44dp</dimen>
+    <dimen name="px100">44.44dp</dimen>
+    
+    <dimen name="px101">44.89dp</dimen>
+    <dimen name="px102">45.33dp</dimen>
+    <dimen name="px103">45.78dp</dimen>
+    <dimen name="px104">46.22dp</dimen>
+    <dimen name="px105">46.67dp</dimen>
+    <dimen name="px106">47.11dp</dimen>
+    <dimen name="px107">47.56dp</dimen>
+    <dimen name="px108">48dp</dimen>
+    <dimen name="px109">48.44dp</dimen>
+    <dimen name="px110">48.89dp</dimen>
+    
+    <dimen name="px111">49.33dp</dimen>
+    <dimen name="px112">49.78dp</dimen>
+    <dimen name="px113">50.22dp</dimen>
+    <dimen name="px114">50.67dp</dimen>
+    <dimen name="px115">51.11dp</dimen>
+    <dimen name="px116">51.56dp</dimen>
+    <dimen name="px117">52dp</dimen>
+    <dimen name="px118">52.44dp</dimen>
+    <dimen name="px119">52.89dp</dimen>
+    <dimen name="px120">53.33dp</dimen>
+    
+    <dimen name="px121">53.78dp</dimen>
+    <dimen name="px122">54.22dp</dimen>
+    <dimen name="px123">54.67dp</dimen>
+    <dimen name="px124">55.11dp</dimen>
+    <dimen name="px125">55.56dp</dimen>
+    <dimen name="px126">56dp</dimen>
+    <dimen name="px127">56.44dp</dimen>
+    <dimen name="px128">56.89dp</dimen>
+    <dimen name="px129">57.33dp</dimen>
+    <dimen name="px130">57.78dp</dimen>
+    
+    <dimen name="px131">58.22dp</dimen>
+    <dimen name="px132">58.67dp</dimen>
+    <dimen name="px133">59.11dp</dimen>
+    <dimen name="px134">59.56dp</dimen>
+    <dimen name="px135">60dp</dimen>
+    <dimen name="px136">60.44dp</dimen>
+    <dimen name="px137">60.89dp</dimen>
+    <dimen name="px138">61.33dp</dimen>
+    <dimen name="px139">61.78dp</dimen>
+    <dimen name="px140">62.22dp</dimen>
+    
+    <dimen name="px141">62.67dp</dimen>
+    <dimen name="px142">63.11dp</dimen>
+    <dimen name="px143">63.56dp</dimen>
+    <dimen name="px144">64dp</dimen>
+    <dimen name="px145">64.44dp</dimen>
+    <dimen name="px146">64.89dp</dimen>
+    <dimen name="px147">65.33dp</dimen>
+    <dimen name="px148">65.78dp</dimen>
+    <dimen name="px149">66.22dp</dimen>
+    <dimen name="px150">66.67dp</dimen>
+    
+    <dimen name="px152">67.56dp</dimen>
+    <dimen name="px154">68.44dp</dimen>
+    <dimen name="px155">68.89dp</dimen>
+    <dimen name="px158">70.22dp</dimen>
+
+    <dimen name="px160">71.11dp</dimen>
+    <dimen name="px162">72dp</dimen>
+    <dimen name="px166">73.78dp</dimen>
+    <dimen name="px167">74.22dp</dimen>
+    <dimen name="px168">74.67dp</dimen>
+    
+    <dimen name="px170">75.56dp</dimen>
+    <dimen name="px172">76.44dp</dimen>
+    <dimen name="px174">77.33dp</dimen>
+    <dimen name="px176">78.22dp</dimen>
+    <dimen name="px180">80dp</dimen>
+    <dimen name="px188">83.56dp</dimen>
+    <dimen name="px190">84.44dp</dimen>
+    <dimen name="px192">85.33dp</dimen>
+    <dimen name="px197">87.56dp</dimen>
+    
+    <dimen name="px199">88.44dp</dimen>
+    <dimen name="px200">88.89dp</dimen>
+    <dimen name="px210">93.33dp</dimen>
+    <dimen name="px216">96dp</dimen>
+    <dimen name="px217">96.44dp</dimen>
+    <dimen name="px223">99.11dp</dimen>
+    <dimen name="px227">100.89dp</dimen>
+    <dimen name="px228">101.33dp</dimen>
+    <dimen name="px229">101.78dp</dimen>
+    
+    <dimen name="px230">102.22dp</dimen>
+    <dimen name="px240">106.67dp</dimen>
+    <dimen name="px245">108.89dp</dimen>
+    <dimen name="px248">110.22dp</dimen>
+    <dimen name="px250">111.11dp</dimen>
+    <dimen name="px260">115.56dp</dimen>
+    <dimen name="px270">120dp</dimen>
+    <dimen name="px280">124.44dp</dimen>
+    <dimen name="px281">124.89dp</dimen>
+    <dimen name="px282">125.33dp</dimen>
+    <dimen name="px283">125.78dp</dimen>
+    <dimen name="px284">126.22dp</dimen>
+    <dimen name="px285">126.67dp</dimen>
+    
+    <dimen name="px300">133.33dp</dimen>
+    <dimen name="px315">140dp</dimen>
+    <dimen name="px320">142.22dp</dimen>
+    <dimen name="px330">146.67dp</dimen>
+    <dimen name="px335">148.89dp</dimen>
+    <dimen name="px340">151.11dp</dimen>
+    
+    <dimen name="px351">156dp</dimen>
+    
+    <dimen name="px364">161.78dp</dimen>
+    <dimen name="px370">164.44dp</dimen>
+    
+    <dimen name="px386">171.56dp</dimen>
+    
+    <dimen name="px408">181.33dp</dimen>
+    <dimen name="px464">206.22dp</dimen>
+    <dimen name="px470">208.29dp</dimen>
+    
+    <dimen name="px500">222.22dp</dimen>
+    <dimen name="px506">224.89dp</dimen>
+    
+    <dimen name="px550">244.44dp</dimen>
+    <dimen name="px560">248.89dp</dimen>
+    <dimen name="px566">251.56dp</dimen>
+    <dimen name="px568">252.44dp</dimen>
+    
+    <dimen name="px570">253.33dp</dimen>
+    <dimen name="px580">257.78dp</dimen>
+    <dimen name="px590">262.22dp</dimen>
+    <dimen name="px600">266.67dp</dimen>
+    <dimen name="px618">274.67dp</dimen>
+    <dimen name="px620">275.56dp</dimen>
+    <dimen name="px630">280dp</dimen>
+    <dimen name="px640">284.44dp</dimen>
+    
+   	<dimen name="px888">394.67dp</dimen>
+ 	<dimen name="px890">395.56dp</dimen>
+    
+
+</resources>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/px590"
+    android:layout_height="@dimen/px335"
+    android:background="@drawable/rcmenu_bg" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px90"
+        android:layout_gravity="top"
+        android:layout_marginTop="@dimen/px40" >
+
+        <ImageButton
+            android:id="@+id/mirroring"
+            android:layout_width="@dimen/px126"
+            android:layout_height="@dimen/px90"
+            android:layout_centerInParent="true"
+            android:background="@drawable/main_base_rcmenu_icon"
+            android:contentDescription="@string/accessibility_rcmenu_mirror"
+            android:src="@drawable/rcmenu_icon_mirror" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px90"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/px126" >
+
+        <ImageButton
+            android:id="@+id/four_way"
+            android:layout_width="@dimen/px126"
+            android:layout_height="@dimen/px90"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/px100"
+            android:background="@drawable/main_base_rcmenu_icon"
+            android:contentDescription="@string/accessibility_rcmenu_4way"
+            android:src="@drawable/rcmenu_icon_4way" />
+
+        <ImageButton
+            android:id="@+id/qwerty"
+            android:layout_width="@dimen/px126"
+            android:layout_height="@dimen/px90"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/px100"
+            android:background="@drawable/main_base_rcmenu_icon"
+            android:contentDescription="@string/accessibility_rcmenu_qwerty"
+            android:src="@drawable/rcmenu_icon_qwerty" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px90"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/px5" >
+
+        <ImageButton
+            android:id="@+id/channel_volume"
+            android:layout_width="@dimen/px126"
+            android:layout_height="@dimen/px90"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/px50"
+            android:background="@drawable/main_base_rcmenu_icon"
+            android:contentDescription="@string/accessibility_rcmenu_chvol"
+            android:src="@drawable/rcmenu_icon_chvol" />
+
+        <ImageButton
+            android:id="@+id/config"
+            android:layout_width="@dimen/px126"
+            android:layout_height="@dimen/px90"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/px50"
+            android:background="@drawable/main_base_rcmenu_icon"
+            android:contentDescription="@string/accessibility_rcmenu_config"
+            android:src="@drawable/rcmenu_icon_setting" />
+    </RelativeLayout>
+
+</FrameLayout>

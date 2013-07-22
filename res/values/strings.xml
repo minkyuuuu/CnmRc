@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">CnmRc</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    
+    
+    
+    <string name="qwerty_hint">입력해주세요.</string>
+    
+    <!-- mobile Accessibility -->
+    <string name="accessibility_general_button">Button Pressed</string>
+    
+    <string name="accessibility_remocon_icon">Remocon Icon</string>
+    
+    <string name="accessibility_stb_power">SetTopBox Power Button</string>
+    <string name="accessibility_integration_ui_main">Integration UI main on SetTopBox</string>
+    <string name="accessibility_vod">VOD main menu</string>
+    <string name="accessibility_ch">TV channel main menu</string>
+    <string name="accessibility_search">Search menu</string>
+    
+    <string name="accessibility_rcmenu_mirror">Mirroring TV</string>
+    <string name="accessibility_rcmenu_4way">Directional Pad</string>
+    <string name="accessibility_rcmenu_qwerty">Qwerty</string>
+    <string name="accessibility_rcmenu_chvol">Channel and Volume</string>
+    <string name="accessibility_rcmenu_config">Application Configuration</string>
+
+</resources>

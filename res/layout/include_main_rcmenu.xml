@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 하단의 리모콘아이콘 및 리모콘메뉴 -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|center_horizontal"
+    >
+
+    <LinearLayout
+        android:id="@+id/remocon_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:orientation="vertical"
+        android:visibility="invisible" >
+
+        <fragment
+            android:id="@+id/fragment_remocon_menu"
+            android:layout_width="@dimen/px590"
+            android:layout_height="@dimen/px335"
+            class="com.cnm.cnmrc.fragment.MainRcMenu" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/remocon_icon"
+        android:layout_width="@dimen/px126"
+        android:layout_height="@dimen/px103"
+        android:layout_gravity="bottom|center_horizontal"
+        android:contentDescription="@string/accessibility_remocon_icon"
+        android:background="@drawable/main_remocon_icon_on" />
+
+</FrameLayout>
