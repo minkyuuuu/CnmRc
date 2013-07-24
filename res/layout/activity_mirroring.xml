@@ -2,15 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#cf000000"
+    android:background="#ff8b8b8b"
     android:orientation="vertical" >
 
-    <com.cnm.cnmrc.custom.ExtendedEditText
-        android:id="@+id/qwerty"
+    <fragment
+        android:id="@+id/top_menu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/px120"
-        android:singleLine="true"
-        android:hint="@string/qwerty_hint" />
+        android:layout_height="@dimen/px110"
+        class="com.cnm.cnmrc.fragment.RcTopMenu" />
 
 </LinearLayout>

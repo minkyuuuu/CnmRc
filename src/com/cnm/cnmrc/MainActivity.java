@@ -1,8 +1,8 @@
 package com.cnm.cnmrc;
 
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -14,33 +14,36 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
-import com.cnm.cnmrc.fragment.remocon.RcChannelVolume;
-import com.cnm.cnmrc.fragment.remocon.RcFourWay;
+import com.cnm.cnmrc.fragment.RcChannelVolume;
+import com.cnm.cnmrc.fragment.RcFourWay;
 
 /**
  * 
  * @author hwangminkyu
  * @date   2013.7.17
  * 
- * 명명규칙 :
- * 1) 메인 리모컨관련 화면 : remocon
- * 2) 하단의 리모컨이동 메뉴 : rcmenu
- * 3) 하단 중앙의 리모컨아이콘 : remocon_icon
+ * 메인화면 구
+ * 1) 상단메뉴(top) / 하단숫자(numeric) / 하단메뉴(bottom) / 하단써클메뉴(circle)
+ * 2) 채널,볼륨(channelvolume)  -- panel
+ * 3) 사방향(fourway)			  -- panel
+ * 3) 하단중앙 리모컨아이콘 : remoconicon
  *
  */
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
+	
+	boolean doubleBackKeyPressedToExitApp;
 
 	ImageButton mStbPower, mIntegrationUiMain, mVod, mTVChannel, mSearch;	// top menu
-	ImageButton m1, m2, m3, m4, m5, m6, m7, m8, m9, m0, mClear, mEnter;		// numeric menu
 	ImageButton mPrevious, mFavoriteChannel, mViewSwitch, mExit;			// bottom menu
 	ImageButton mMirroring, mFourWay, mQwerty, mChannelVolume, mConfig;		// rcmenu
 	
 	FrameLayout mMiddleBackgound;
-	LinearLayout mRemoconMenu;
+	LinearLayout mCircleMenu;
 	ImageButton mRemoconIcon;
-	boolean toggleRemoconMenu = true; // 리모컨메뉴가 보이는지???
+	boolean toggleCircleMenu = true; // 리모컨메뉴가 보이는지???
 	
 	Animation animationFadeOut, animationZoomOut;
 	
@@ -95,7 +98,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		
 		// remocon icon
 		mMiddleBackgound = (FrameLayout) findViewById(R.id.middle_background);
-		mRemoconMenu = (LinearLayout) findViewById(R.id.remocon_menu);
+		mCircleMenu = (LinearLayout) findViewById(R.id.remocon_menu);
 		mRemoconIcon = (ImageButton) findViewById(R.id.remocon_icon);
 		
 		animationFadeOut = AnimationUtils.loadAnimation(this, R.anim.qwerty_fade_out);
@@ -146,7 +149,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             @Override
             public void onAnimationEnd(Animation animation) {
             	mMiddleBackgound.setVisibility(View.INVISIBLE);
-            	mRemoconMenu.setVisibility(View.INVISIBLE);
+            	mCircleMenu.setVisibility(View.INVISIBLE);
             	mRemoconIcon.setBackgroundResource(R.drawable.main_remocon_icon_on); // 리모컨아이콘 이미지가 바뀌어야 한다.
             }
 
@@ -169,7 +172,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		switch (v.getId()) {
 		// remocon icon
 		case R.id.remocon_icon:
-			if (toggleRemoconMenu) {
+			if (toggleCircleMenu) {
 				remoconIconOffNoAni();
 			} else {
 				remoconIconOnNoAni();
@@ -193,8 +196,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			Log.i("hwang", "search");
 			break;
 			
-		// numeric menu
-			
 		// bottom menu
 		case R.id.previous:
 			Log.i("hwang", "previous");
@@ -212,6 +213,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// rcmenu
 		case R.id.mirroring:
 			remoconIconOn();
+			{
+				Intent intent = new Intent(this, MirroringActivity.class);
+				startActivity(intent);
+			}
 			Log.i("hwang", "mirroring");
 			break;
 		case R.id.four_way:
@@ -222,8 +227,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			break;
 		case R.id.qwerty:
 			remoconIconOn();
-			Intent intent = new Intent(this, QwertyActivity.class);
-			startActivity(intent);
+			{
+				Intent intent = new Intent(this, QwertyActivity.class);
+				startActivity(intent);
+			}
 			overridePendingTransition(R.anim.qwerty_zoom_in, 0);
 			
 			/*FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -250,21 +257,21 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 	private void remoconIconOn() {
 		if(mMiddleBackgound.getVisibility() == View.VISIBLE) mMiddleBackgound.startAnimation(animationFadeOut);
-		if(mRemoconMenu.getVisibility() == View.VISIBLE) mRemoconMenu.startAnimation(animationFadeOut);
-		toggleRemoconMenu = true;
+		if(mCircleMenu.getVisibility() == View.VISIBLE) mCircleMenu.startAnimation(animationFadeOut);
+		toggleCircleMenu = true;
 	}
 	
 	private void remoconIconOnNoAni() {
 		mMiddleBackgound.setVisibility(View.INVISIBLE);
-		mRemoconMenu.setVisibility(View.INVISIBLE);
-		toggleRemoconMenu = true;
+		mCircleMenu.setVisibility(View.INVISIBLE);
+		toggleCircleMenu = true;
 		mRemoconIcon.setBackgroundResource(R.drawable.main_remocon_icon_on); // 리모컨아이콘 이미지가 바뀌어야 한다.
 	}
 
 	private void remoconIconOffNoAni() {
 		mMiddleBackgound.setVisibility(View.VISIBLE);
-		mRemoconMenu.setVisibility(View.VISIBLE);
-		toggleRemoconMenu = false;
+		mCircleMenu.setVisibility(View.VISIBLE);
+		toggleCircleMenu = false;
 		mRemoconIcon.setBackgroundResource(R.drawable.main_remocon_icon_off); // 리모컨아이콘 이미지가 바뀌어야 한다.
 	}
 
@@ -278,6 +285,42 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		
 	}*/
 	
+	@Override
+	public void onBackPressed() {
+        if (doubleBackKeyPressedToExitApp) {
+            super.onBackPressed();
+            return;
+        }
+        
+        this.doubleBackKeyPressedToExitApp = true;
+        Toast.makeText(this, R.string.app_exit, Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+             doubleBackKeyPressedToExitApp=false;   
+            }
+        }, 2000);
+	}
+	
+	/*private long lastPressedTime;
+	private static final int PERIOD = 2000;
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+			switch (event.getAction()) {
+			case KeyEvent.ACTION_DOWN:
+				if (event.getDownTime() - lastPressedTime < PERIOD) {
+					finish();
+				} else {
+					Toast.makeText(this, R.string.app_exit, Toast.LENGTH_SHORT).show();
+					lastPressedTime = event.getEventTime();
+				}
+				return true;
+			}
+		}
+		return false;
+	}*/
 
 	
 	

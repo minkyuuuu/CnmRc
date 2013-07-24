@@ -28,7 +28,12 @@
         <activity
             android:name=".QwertyActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".MirroringActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            />
     </application>
 
 </manifest>

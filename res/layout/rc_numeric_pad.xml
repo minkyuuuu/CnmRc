@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/px280"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px162"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <!-- 상단 (1,2,3,4,5,6,7) -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px72"
+            android:orientation="horizontal" >
+
+            <View
+                android:layout_width="@dimen/px26"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:id="@+id/numeric_n1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="81"
+                    android:tag="num_1"
+                    android:background="@drawable/numeric_n1"
+                    android:contentDescription="@string/accessibility_general_button" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="17" />
+
+                <ImageButton
+                    android:id="@+id/numeric_n2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="81"
+                    android:tag="num_2"
+                    android:background="@drawable/numeric_n2"
+                    android:contentDescription="@string/accessibility_general_button" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="17" />
+
+                <ImageButton
+                    android:id="@+id/numeric_n3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="81"
+                    android:tag="num_3"
+                    android:background="@drawable/numeric_n3"
+                    android:contentDescription="@string/accessibility_general_button" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="17" />
+
+                <ImageButton
+                    android:id="@+id/numeric_n4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="81"
+                    android:tag="num_4"
+                    android:background="@drawable/numeric_n4"
+                    android:contentDescription="@string/accessibility_general_button" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="17" />
+
+                <ImageButton
+                    android:id="@+id/numeric_n5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="81"
+                    android:tag="num_5"
+                    android:background="@drawable/numeric_n5"
+                    android:contentDescription="@string/accessibility_general_button" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="17" />
+
+                <ImageButton
+                    android:id="@+id/numeric_n6"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="81"
+                    android:tag="num_6"
+                    android:background="@drawable/numeric_n6"
+                    android:contentDescription="@string/accessibility_general_button" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="17" />
+
+                <ImageButton
+                    android:id="@+id/numeric_n7"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="81"
+                    android:tag="num_7"
+                    android:background="@drawable/numeric_n7"
+                    android:contentDescription="@string/accessibility_general_button" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/px26"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px18" />
+
+        <!-- 하단 (지우기,8,9,0,확인) -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px72"
+            android:orientation="horizontal" >
+
+            <View
+                android:layout_width="@dimen/px39"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal" >
+
+                <ImageButton
+                    android:id="@+id/numeric_nback"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="166"
+                    android:tag="num_back"
+                    android:background="@drawable/numeric_nback"
+                    android:contentDescription="@string/accessibility_general_button" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="17" />
+
+                <ImageButton
+                    android:id="@+id/numeric_n8"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="81"
+                    android:tag="num_8"
+                    android:background="@drawable/numeric_n8"
+                    android:contentDescription="@string/accessibility_general_button" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="17" />
+
+                <ImageButton
+                    android:id="@+id/numeric_n9"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="81"
+                    android:tag="num_9"
+                    android:background="@drawable/numeric_n9"
+                    android:contentDescription="@string/accessibility_general_button" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="17" />
+
+                <ImageButton
+                    android:id="@+id/numeric_n0"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="81"
+                    android:tag="num_0"
+                    android:background="@drawable/numeric_n0"
+                    android:contentDescription="@string/accessibility_general_button" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="17" />
+
+                <ImageButton
+                    android:id="@+id/numeric_nok"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="165"
+                    android:tag="num_ok"
+                    android:background="@drawable/numeric_nok"
+                    android:contentDescription="@string/accessibility_general_button" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/px39"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

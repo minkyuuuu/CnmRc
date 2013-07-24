@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent" 
+    android:background="@drawable/repeat_main_numeric_pad"
+    >
 
     <!-- 시작화면에서 메인메뉴 (채널,볼륨 / 사방향키 / 쿼티) -->
     <include
