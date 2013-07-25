@@ -3,11 +3,8 @@
 <resources>
 
     <!-- font size -->
-    <dimen name="sp12">6sp</dimen>
-    <dimen name="sp16">8sp</dimen>
-    <dimen name="sp18">9sp</dimen>
-    <dimen name="sp24">12sp</dimen>
-    <dimen name="sp30">15sp</dimen>
+    <dimen name="sp17">17sp</dimen>
+    <dimen name="sp20">20sp</dimen>
     
     <!-- pixel -->
     <dimen name="px1">0.5dp</dimen>
@@ -238,6 +235,7 @@
     <dimen name="px364">182dp</dimen>
     <dimen name="px370">185dp</dimen>
     
+    <dimen name="px380">190dp</dimen>
     <dimen name="px386">193dp</dimen>
     
     <dimen name="px408">204dp</dimen>
@@ -247,6 +245,8 @@
     <dimen name="px500">225dp</dimen>
     <dimen name="px506">253dp</dimen>
     
+    <dimen name="px520">260dp</dimen>
+    <dimen name="px540">270dp</dimen>
     <dimen name="px550">275dp</dimen>
     <dimen name="px560">280dp</dimen>
     <dimen name="px566">283dp</dimen>

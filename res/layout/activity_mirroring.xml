@@ -9,6 +9,6 @@
         android:id="@+id/top_menu"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px110"
-        class="com.cnm.cnmrc.fragment.RcTopMenu" />
+        class="com.cnm.cnmrc.fragment.rc.RcTopMenu" />
 
 </LinearLayout>

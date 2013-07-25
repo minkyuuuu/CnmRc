@@ -5,11 +5,9 @@
 <resources>
 
     <!-- font size -->
-    <dimen name="sp12">5.33sp</dimen>
-    <dimen name="sp16">7.11sp</dimen>
-    <dimen name="sp18">8sp</dimen>
-    <dimen name="sp24">10.67sp</dimen>
-    <dimen name="sp30">13.33sp</dimen>
+    <!-- hdpi = xhdpi x 80% -->
+    <dimen name="sp17">13.6sp</dimen>
+    <dimen name="sp20">16sp</dimen>
     
     <!-- pixel -->
     <dimen name="px1">0.44dp</dimen>
@@ -240,6 +238,7 @@
     <dimen name="px364">161.78dp</dimen>
     <dimen name="px370">164.44dp</dimen>
     
+    <dimen name="px380">168.89dp</dimen>
     <dimen name="px386">171.56dp</dimen>
     
     <dimen name="px408">181.33dp</dimen>
@@ -249,6 +248,8 @@
     <dimen name="px500">222.22dp</dimen>
     <dimen name="px506">224.89dp</dimen>
     
+    <dimen name="px520">231.11dp</dimen>
+    <dimen name="px540">240dp</dimen>
     <dimen name="px550">244.44dp</dimen>
     <dimen name="px560">248.89dp</dimen>
     <dimen name="px566">251.56dp</dimen>

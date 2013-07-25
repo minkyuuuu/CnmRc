@@ -59,7 +59,7 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/px10"
                             android:background="@drawable/anim_tappress"
-                            android:contentDescription="@string/accessibility_general_button"
+                            android:contentDescription="@string/accessibility_no_action"
                             android:visibility="invisible" />
                     </FrameLayout>
 

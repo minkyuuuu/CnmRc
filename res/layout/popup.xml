@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#80000000" >
+
+    <RelativeLayout
+        android:layout_width="@dimen/px580"
+        android:layout_height="@dimen/px380"
+        android:layout_gravity="center"
+        android:background="#ffe8bc22"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical" 
+            >
+
+            <TextView
+                android:id="@+id/popup_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#ff413f3e"
+                android:textSize="@dimen/sp20" />
+
+            <ImageView
+                android:layout_width="@dimen/px520"
+                android:layout_height="@dimen/px2"
+                android:layout_marginTop="@dimen/px10"
+                android:background="#ff000000"
+                android:contentDescription="@string/accessibility_no_action" />
+
+            <TextView
+                android:id="@+id/popup_line_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/px20"
+                android:gravity="center"
+                android:textColor="#ff413f3e"
+                android:textSize="@dimen/sp17" />
+
+            <TextView
+                android:id="@+id/popup_line_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#ff413f3e"
+                android:textSize="@dimen/sp17" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/px20"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/popup_yes"
+                    android:layout_width="@dimen/px240"
+                    android:layout_height="@dimen/px80"
+                    android:gravity="center"
+                    />
+
+                <Button
+                    android:id="@+id/popup_no"
+                    android:layout_width="@dimen/px240"
+                    android:layout_height="@dimen/px80"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

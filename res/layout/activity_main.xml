@@ -13,6 +13,16 @@
     
     
     
+    <!-- VOD, TVchannel -->
+    <FrameLayout
+        android:id="@+id/vod_tvch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" >
+    </FrameLayout>
+    
+    
+    
     <!-- rcmenu가 나타날때 반투명 백그라운드 -->
     <FrameLayout
         android:id="@+id/middle_background"

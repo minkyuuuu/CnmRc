@@ -20,7 +20,7 @@
             android:id="@+id/fragment_remocon_menu"
             android:layout_width="@dimen/px590"
             android:layout_height="@dimen/px335"
-            class="com.cnm.cnmrc.fragment.RcCircleMenu" />
+            class="com.cnm.cnmrc.fragment.rc.RcCircleMenu" />
     </LinearLayout>
 
     <ImageButton

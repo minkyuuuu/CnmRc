@@ -16,8 +16,9 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.cnm.cnmrc.fragment.RcChannelVolume;
-import com.cnm.cnmrc.fragment.RcFourWay;
+import com.cnm.cnmrc.fragment.popup.MirroringEnterPopup;
+import com.cnm.cnmrc.fragment.rc.RcChannelVolume;
+import com.cnm.cnmrc.fragment.rc.RcFourWay;
 
 /**
  * 
@@ -213,10 +214,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// rcmenu
 		case R.id.mirroring:
 			remoconIconOn();
-			{
-				Intent intent = new Intent(this, MirroringActivity.class);
-				startActivity(intent);
-			}
+//			{
+//				Intent intent = new Intent(this, MirroringActivity.class);
+//				startActivity(intent);
+//			}
+			
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			MirroringEnterPopup mirroringEnter = new MirroringEnterPopup();
+			//ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			//ft.setCustomAnimations(R.anim.zoom_enter, 0);
+			mirroringEnter.show(ft, MirroringEnterPopup.class.getSimpleName());
+			
 			Log.i("hwang", "mirroring");
 			break;
 		case R.id.four_way:
@@ -301,6 +309,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         }, 2000);
 	}
+	
+	public void openMirroring() {
+		Intent intent = new Intent(this, MirroringActivity.class);
+		startActivity(intent);
+	}
+	
 	
 	/*private long lastPressedTime;
 	private static final int PERIOD = 2000;
