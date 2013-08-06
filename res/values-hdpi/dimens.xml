@@ -8,6 +8,7 @@
     <!-- hdpi = xhdpi x 80% -->
     <dimen name="sp17">13.6sp</dimen>
     <dimen name="sp20">16sp</dimen>
+    <dimen name="sp26">20.8sp</dimen>
     
     <!-- pixel -->
     <dimen name="px1">0.44dp</dimen>
@@ -204,6 +205,7 @@
     
     <dimen name="px199">88.44dp</dimen>
     <dimen name="px200">88.89dp</dimen>
+    <dimen name="px206">91.56dp</dimen>
     <dimen name="px210">93.33dp</dimen>
     <dimen name="px216">96dp</dimen>
     <dimen name="px217">96.44dp</dimen>
@@ -225,6 +227,7 @@
     <dimen name="px283">125.78dp</dimen>
     <dimen name="px284">126.22dp</dimen>
     <dimen name="px285">126.67dp</dimen>
+    <dimen name="px290">128.89dp</dimen>
     
     <dimen name="px300">133.33dp</dimen>
     <dimen name="px315">140dp</dimen>

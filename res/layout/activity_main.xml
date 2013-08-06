@@ -1,40 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:background="@drawable/repeat_main_numeric_pad"
-    >
+    android:layout_height="match_parent"
+    android:background="@drawable/repeat_main_numeric_pad" >
 
     <!-- 시작화면에서 메인메뉴 (채널,볼륨 / 사방향키 / 쿼티) -->
+
     <include
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         layout="@layout/include_main_remocon" />
-    
-    
-    
-    <!-- VOD, TVchannel -->
+
+    <!-- VOD, TVchannel 메인화면 -->
+
     <FrameLayout
-        android:id="@+id/vod_tvch"
+        android:id="@+id/vod_tvch_panel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible" >
     </FrameLayout>
-    
-    
-    
-    <!-- rcmenu가 나타날때 반투명 백그라운드 -->
+
+    <!-- 하단 bottom menu -->
+
+    <fragment
+        android:id="@+id/bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px90"
+        android:layout_gravity="bottom"
+        class="com.cnm.cnmrc.fragment.rc.RcBottomMenu" />
+
+    <!-- circle menu가 보일때 바탕에 깔리는 반투명배경 -->
+
     <FrameLayout
-        android:id="@+id/middle_background"
+        android:id="@+id/circle_menu_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#80000000"
         android:visibility="invisible" >
     </FrameLayout>
-    
-    
 
     <!-- 하단의 리모콘아이콘 및 리모콘메뉴 -->
+
     <include
         android:layout_width="match_parent"
         android:layout_height="match_parent"

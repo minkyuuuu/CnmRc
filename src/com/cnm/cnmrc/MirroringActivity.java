@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
-import com.cnm.cnmrc.fragment.popup.MirroringEnterPopup;
-import com.cnm.cnmrc.fragment.popup.MirroringExitPopup;
+import com.cnm.cnmrc.fragment.popup.PopupMirroringEnter;
+import com.cnm.cnmrc.fragment.popup.PopupMirroringExit;
 
 public class MirroringActivity extends FragmentActivity {
 
@@ -23,10 +23,10 @@ public class MirroringActivity extends FragmentActivity {
 	@Override
 	public void onBackPressed() {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		MirroringExitPopup mirroringExit = new MirroringExitPopup();
+		PopupMirroringExit mirroringExit = new PopupMirroringExit();
 		//ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 		//ft.setCustomAnimations(R.anim.zoom_enter, 0);
-		mirroringExit.show(ft, MirroringExitPopup.class.getSimpleName());
+		mirroringExit.show(ft, PopupMirroringExit.class.getSimpleName());
 		//super.onBackPressed();
 	}
 

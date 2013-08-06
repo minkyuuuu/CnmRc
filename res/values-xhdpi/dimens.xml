@@ -5,6 +5,7 @@
     <!-- font size -->
     <dimen name="sp17">17sp</dimen>
     <dimen name="sp20">20sp</dimen>
+    <dimen name="sp26">26sp</dimen>
     
     <!-- pixel -->
     <dimen name="px1">0.5dp</dimen>
@@ -201,6 +202,7 @@
     
     <dimen name="px199">99.5dp</dimen>
     <dimen name="px200">100dp</dimen>
+    <dimen name="px206">103dp</dimen>
     <dimen name="px210">105dp</dimen>
     <dimen name="px216">108dp</dimen>
     <dimen name="px217">108.5dp</dimen>
@@ -222,6 +224,7 @@
     <dimen name="px283">141.5dp</dimen>
     <dimen name="px284">142dp</dimen>
     <dimen name="px285">142.5dp</dimen>
+    <dimen name="px290">145dp</dimen>
     
     <dimen name="px300">150dp</dimen>
     <dimen name="px315">152.5dp</dimen>

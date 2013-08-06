@@ -14,11 +14,11 @@
         class="com.cnm.cnmrc.fragment.rc.RcTopMenu" />
 
     <FrameLayout
-        android:id="@+id/remocon_panel"
+        android:id="@+id/rc_panel"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/repeat_main_panel"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="@drawable/repeat_main_panel" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -35,12 +35,12 @@
                 android:layout_height="@dimen/px280"
                 class="com.cnm.cnmrc.fragment.rc.RcNumericPad" />
 
-            <fragment
-                android:id="@+id/bottom_menu"
+            <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/px90"
-                android:layout_gravity="bottom"
-                class="com.cnm.cnmrc.fragment.rc.RcBottomMenu" />
+                android:layout_gravity="bottom" 
+                android:background="#ff00ffff"
+                />
         </LinearLayout>
     </FrameLayout>
 

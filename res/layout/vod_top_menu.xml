@@ -3,56 +3,44 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/px110"
     android:background="#ff7961aa"
-    android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    >
 
-    <ImageButton
-        android:id="@+id/stb_power"
-        android:layout_width="@dimen/px98"
-        android:layout_height="@dimen/px94"
-        android:layout_marginLeft="@dimen/px27"
-        android:background="@drawable/main_top_stb_power"
-        android:contentDescription="@string/accessibility_stb_power" />
-
-    <ImageButton
-        android:id="@+id/integration_ui_main"
-        android:layout_width="@dimen/px98"
-        android:layout_height="@dimen/px94"
-        android:layout_marginLeft="@dimen/px16"
-        android:background="@drawable/main_top_integration_ui_main"
-        android:contentDescription="@string/accessibility_integration_ui_main" />
+    <TextView
+        android:id="@+id/vod_top_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/px10"
+        android:gravity="left|center"
+        android:textStyle="bold"
+        android:textColor="#ffffffff"
+        android:textSize="@dimen/sp26" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/px206"
         android:layout_height="@dimen/px94"
+        android:layout_gravity="center_vertical"
         android:gravity="right"
         android:orientation="horizontal" >
 
         <ImageButton
-            android:id="@+id/vod"
+            android:id="@+id/vod_top_search"
             android:layout_width="@dimen/px98"
             android:layout_height="@dimen/px94"
             android:layout_marginRight="@dimen/px10"
-            android:background="@drawable/main_base_top_icon"
-            android:contentDescription="@string/accessibility_vod"
-            android:src="@drawable/top_icon_vod" />
-
-        <ImageButton
-            android:id="@+id/tv_channel"
-            android:layout_width="@dimen/px98"
-            android:layout_height="@dimen/px94"
-            android:layout_marginRight="@dimen/px10"
-            android:background="@drawable/main_base_top_icon"
-            android:contentDescription="@string/accessibility_ch"
-            android:src="@drawable/top_icon_ch" />
-
-        <ImageButton
-            android:id="@+id/search"
-            android:layout_width="@dimen/px98"
-            android:layout_height="@dimen/px94"
             android:background="@drawable/main_base_top_icon"
             android:contentDescription="@string/accessibility_search"
             android:src="@drawable/top_icon_search" />
+
+        <ImageButton
+            android:id="@+id/vod_top_category"
+            android:layout_width="@dimen/px98"
+            android:layout_height="@dimen/px94"
+            android:background="@drawable/main_base_top_icon"
+            android:contentDescription="@string/accessibility_vod_big_list"
+            android:src="@drawable/top_icon_list" />
     </LinearLayout>
 
 </LinearLayout>

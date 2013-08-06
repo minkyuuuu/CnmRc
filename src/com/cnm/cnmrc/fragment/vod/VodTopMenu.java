@@ -19,20 +19,32 @@ package com.cnm.cnmrc.fragment.vod;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 
 public class VodTopMenu extends Fragment implements View.OnClickListener{
 
-	View layout;
+	TextView mTitle;
+	
+	ImageButton mVodTopCategory;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//		layout = inflater.inflate(R.layout.fragment_main_top_menu, null);
-		layout = inflater.inflate(R.layout.vod_top_menu, container, false);
+		//View layout = inflater.inflate(R.layout.fragment_main_top_menu, null);
+		View layout = inflater.inflate(R.layout.vod_top_menu, container, false);
+		
+		mTitle = (TextView) layout.findViewById(R.id.vod_top_title);
+		mTitle.setText(getString(R.string.vod_main_title));
+		
+		mVodTopCategory = (ImageButton) layout.findViewById(R.id.vod_top_category);
+		mVodTopCategory.setOnClickListener(this);
 
 		return layout;
 	}
@@ -53,6 +65,14 @@ public class VodTopMenu extends Fragment implements View.OnClickListener{
 	public void onClick(View v) {
 		
 		switch(v.getId()){
+		case R.id.vod_top_category:
+			Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_FRAGMENT_VOD);
+			if (fragment != null) {
+				((Vod)fragment).mLayout.toggleSidebar();
+				Log.i("hwang", "sliding menu");
+			}
+			//((MainActivity) getActivity()).mLayout.toggleSidebar();
+			break;
 		}
 	}
 	
