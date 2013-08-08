@@ -3,8 +3,8 @@
 
     <color name="transparent">#00000000</color>
     
-    <color name="vod_main_category_background_pressed">#ff9d84bd</color>
-    <color name="vod_main_category_background_normal">#ff484748</color>
+    <color name="vod_category_background_pressed">#ff9d84bd</color>
+    <color name="vod_category_background_normal">#ff484748</color>
     
     <color name="vod_main_category_list_pressed">#ffffffff</color>
     <color name="vod_main_category_list_normal">#ffa4a3a3</color>

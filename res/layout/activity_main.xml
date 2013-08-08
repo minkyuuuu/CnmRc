@@ -2,17 +2,20 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/repeat_main_numeric_pad" >
+    android:background="@drawable/repeat_default_bg" >
 
-    <!-- 시작화면에서 메인메뉴 (채널,볼륨 / 사방향키 / 쿼티) -->
-
+    <!-- 처음에 시작되는 기본화면 (상단메뉴, 중간의 볼륨/채널 및 사방향키 영역, 숫자패드 영) -->
+    <!-- 기본화면 상단메뉴는 rc_top_menu -->
+    <!-- 미러TV, 쿼티는 전체화면을 사용하는 Activity로 처리함. -->
     <include
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        layout="@layout/include_main_remocon" />
+        layout="@layout/include_main" />
 
-    <!-- VOD, TVchannel 메인화면 -->
-
+    
+    
+    <!-- 상단메뉴의 vod, tvch 화면을 위한 fragment 대체영역 -->
+    <!-- vod, tvch 메뉴는 자신의 vod_top_menu를 갖는다. -->
     <FrameLayout
         android:id="@+id/vod_tvch_panel"
         android:layout_width="match_parent"
@@ -20,17 +23,19 @@
         android:visibility="invisible" >
     </FrameLayout>
 
+    
+    
     <!-- 하단 bottom menu -->
-
     <fragment
-        android:id="@+id/bottom_menu"
+        android:id="@+id/fragment_rc_bottom_menu"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px90"
         android:layout_gravity="bottom"
         class="com.cnm.cnmrc.fragment.rc.RcBottomMenu" />
 
+    
+    
     <!-- circle menu가 보일때 바탕에 깔리는 반투명배경 -->
-
     <FrameLayout
         android:id="@+id/circle_menu_background"
         android:layout_width="match_parent"
@@ -39,11 +44,12 @@
         android:visibility="invisible" >
     </FrameLayout>
 
-    <!-- 하단의 리모콘아이콘 및 리모콘메뉴 -->
-
+    
+    
+    <!-- 하단의 리모콘아이콘 및 써클메뉴 -->
     <include
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        layout="@layout/include_main_rcmenu" />
+        layout="@layout/include_circle_menu" />
 
 </FrameLayout>

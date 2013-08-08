@@ -214,6 +214,7 @@
     <dimen name="px230">115dp</dimen>
     <dimen name="px240">120dp</dimen>
     <dimen name="px245">122.5dp</dimen>
+    <dimen name="px246">123dp</dimen>
     <dimen name="px248">124dp</dimen>
     <dimen name="px250">125dp</dimen>
     <dimen name="px260">130dp</dimen>

@@ -19,7 +19,6 @@ package com.cnm.cnmrc.fragment.vod;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -27,63 +26,86 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
+import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
 import com.cnm.cnmrc.slidingmenu.SlidingMenu;
 
-public class Vod extends Fragment implements SlidingMenu.Listener {
+public class Vod extends Fragment implements View.OnClickListener, SlidingMenu.Listener {
 	
-	public ListView      mList;
-	protected SlidingMenu 	mLayout;
-	protected String[] mStrings = {"오늘의 추천", "영화VOD", "인기케이블&미드", "TV다시보기VOD", "애니메애션&키즈", "교육&EBS", "마이TV"};
+	public SlidingMenu mSlidingMenu;
 	
-	public static Vod newInstance(long num) {
-		Vod f = new Vod();
-		Bundle args = new Bundle();
-		args.putLong("num", num);
-		f.setArguments(args);
-		return f;
-	}
-
+	FrameLayout mCategoryCover;
+	ListView 	mCategory;
+	
+	String[] mCategoryArray = null;
+	int selectedCategory = 0;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View layout = inflater.inflate(R.layout.vod, container, false);
 
-        mLayout = (SlidingMenu) layout.findViewById(R.id.animation_layout);
-        mLayout.setListener(this);
+		mSlidingMenu = (SlidingMenu) layout.findViewById(R.id.animation_layout);
+		mSlidingMenu.setListener(this);
 		
-        mList   = (ListView) layout.findViewById(R.id.sidebar_list);
+		mCategoryCover = (FrameLayout) layout.findViewById(R.id.category_cover);
+		mCategoryCover.setOnClickListener(this);
+		mCategoryCover.setVisibility(View.GONE);
+		
+        mCategory   = (ListView) layout.findViewById(R.id.category_list);
         
-        ArrayList<String> arrayList = new ArrayList<String>(mStrings.length);
-        for(String file: mStrings) {
-        	arrayList.add(file);
+        mCategoryArray= getActivity().getResources().getStringArray(R.array.vod_category);
+        ArrayList<String> arrayList = new ArrayList<String>(mCategoryArray.length);
+        for(String item: mCategoryArray) {
+        	arrayList.add(item);
         }
         
-        VodMainAdapter adapter = new VodMainAdapter(getActivity(), R.layout.list_item_vod_main_big_list, arrayList);
-        mList.setAdapter(adapter);
-        
-        mList.setDivider(null);
-        mList.setDividerHeight(0);
-        //mList.setSelector(getActivity().getResources().getDrawable(R.drawable.aaa));    
-        //mList.setSelector(Color.RED);  
-        mList.setDrawSelectorOnTop(false);
-        //mList.setOverScrollMode(ListView.OVER_SCROLL_NEVER); 
-        
-        mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        VodAdapter adapter = new VodAdapter(getActivity(), R.layout.list_item_vod_category, arrayList);
+        mCategory.setAdapter(adapter);
+        mCategory.setDivider(null);
+        mCategory.setDividerHeight(0);
+        mCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-            	Log.i("hwang", "category is selected");
+            	// sidebar가 닫힐때까지 다른 item선택되지 않게하기 위해서...
+            	mCategoryCover.setVisibility(View.VISIBLE);
+                
+            	// change category text color
             	view.setSelected(true);
+            	selectedCategory = position;
+            	
+            	// change title
+        		Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_vod_top_menu);
+        		if (f != null) ((VodTopMenu)f).setTitle(position);
+        		
+        		// close sidebar
+        		mSlidingMenu.toggleSidebar();
+        			
+            	Log.i("hwang", "category is selected");
+            	
+				/*View v;
+				int count = parent.getChildCount();
+				v = parent.getChildAt(position);*/
             }
         });
+        
+        // -----------------------
+        // 하단의 bottom menu 설정
+        // -----------------------
+		Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_rc_bottom_menu);
+		if (f != null) ((RcBottomMenu)f).setVodTvchMode();
         
 		return layout;
 	}
 	
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -96,22 +118,59 @@ public class Vod extends Fragment implements SlidingMenu.Listener {
 		
 	}
 	
+	@Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        
+        // ----------------------------------------------------------------------------------------------
+        // vod에 일부인 vodtopmenu fragment는 vod가 destory될 때 자식인 vodtopmenu도 같이 destory해주진 않는다.
+        // 이유는 아마 자식이래도 같은 fragment 레벨이므로 vod의 생명주기와 함께 하는것이 아니라 Activity의 관리를 받는것 같다.
+        // ----------------------------------------------------------------------------------------------
+        Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_vod_top_menu);
+        if (f != null) getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
+        
+        // -----------------------
+        // 하단의 bottom menu 설정
+        // -----------------------
+		f = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_rc_bottom_menu);
+		if (f != null) ((RcBottomMenu)f).setRemoconMode();
+    }
+	
 	/*
-	 * back key처리에대한 확인에 대한 메소드이다. 
+	 * back key처리에대한 확인절차의 의미이다. 
 	 */
 	public boolean allowBackPressed() {
-		return true;
+		if(mSlidingMenu.isOpening()) return false;
+		else return true;
 	}
 
 	@Override
 	public void onSidebarOpened() {
-		// TODO Auto-generated method stub
+		
+		// 현재 선택된 category를 clear...
+		clearSelectedAll();
+		
+		// listview의 getChildAt()은 화면에 리스트가 보여야지만 view를 가져온다.
+		// 보이지 않으면 null을 리턴한다.
+		View selectedItem = mCategory.getChildAt(selectedCategory);
+		if(selectedItem != null) selectedItem.setSelected(true);
+		
+		//mCategory.performItemClick(mCategory.getChildAt(selectedCategory), selectedCategory, mCategory.getAdapter().getItemId(selectedCategory));
+		
+		Log.i("hwang", "onSidebarOpened");
+		
+	}
+
+	private void clearSelectedAll() {
+		for (int i = 0; i < mCategoryArray.length; i++) {
+			mCategory.getChildAt(i).setSelected(false);
+		}
 		
 	}
 
 	@Override
 	public void onSidebarClosed() {
-		// TODO Auto-generated method stub
+		mCategoryCover.setVisibility(View.GONE);
 		
 	}
 
@@ -120,5 +179,12 @@ public class Vod extends Fragment implements SlidingMenu.Listener {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

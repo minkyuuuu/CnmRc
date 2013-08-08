@@ -17,25 +17,38 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.cnm.cnmrc.fragment.popup.PopupMirroringEnter;
+import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
 import com.cnm.cnmrc.fragment.rc.RcChannelVolume;
 import com.cnm.cnmrc.fragment.rc.RcFourWay;
 import com.cnm.cnmrc.fragment.vod.Vod;
 
 /**
  * 
- * @author hwangminkyu
+ * @author minkyu
  * @date 2013.7.17
  * 
  * 메인화면 구성
  * 1) 상단메뉴(top) / 하단숫자(numeric) / 하단메뉴(bottom) / 하단써클메뉴(circle)
  * 
- * 여기서 pannel이란 용어는 fragment가 대체돼는 FrameLayout viewgroup을 의미한다.
- * 2) vod_tvch_panel : top menu에서 vod, tvch 아이콘의 메인화면이 대체돼는 fragment 영역
- * 3) rc_panel : circle menu에서 미러TV, 사방향키, 채널/볼륨 화면이 대체돼는 fragment 영역
+ *    여기서 pannel이란 용어는 fragment가 대체되는 FrameLayout viewgroup을 의미한다.
+ * 2) vod_tvch_panel : top menu에서 vod, tvch 아이콘의 메인화면이 대체되는 fragment 영역
+ * 3) rc_panel : circle menu에서 미러TV, 사방향키, 채널/볼륨 화면이 대체되는 fragment 영역
  *               circle menu의 쿼티화면은 activity로 처리함.
  *               
- * 4) 하단중앙 리모컨아이콘 : remocon icon
- *
+ * 4) 하단중앙 리모컨아이콘 : rc icon
+ * 
+ * 5) 처음시작화면이 메인화면이 리모컨화면이므로, 메인화면을 rc용어와 함께 사용함.
+ * 
+ * 6) 써클메뉴
+ *    - 볼륨/채널, 사방향키는 rc_panel의 Fragment로 처리함.
+ *    - 미러TV, 쿼티, 설정은 전체화면을 사용하는 Activity로 처리함.
+ *    
+ * 7) 상단메뉴
+ *    - vod, tvch은 vod_tvch_panel의 Fragment로 처리함.
+ *    - 검색은 전체화면을 사용하는 Activity로 처리함.
+ *    
+ * 8) fragment의 id는 fragment_*로 시작됨.
+ * 
  */
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
@@ -48,8 +61,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	
 	boolean doubleBackKeyPressedToExitApp;
 	
+	FrameLayout mRcPanel;				// rc_panel(채널/볼륨, 사방향) 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
+	FrameLayout mRcNumericPad;			// rc_numeric_pad 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
+	
 	ImageButton mStbPower, mIntegrationUiMain, mVod, mTVChannel, mSearch;	// top menu (셋탑전원, 통합ui메인, vod, TV채널, 검색)
-	ImageButton mPrevious, mFavoriteChannel, mViewSwitch, mExit;			// bottom menu (이전, 선호채널, 보기전환, 나가기)
 	ImageButton mMirroring, mFourWay, mQwerty, mChannelVolume, mConfig;		// circle menu (미러TV, 사방향키, 쿼티, 채널/볼륨, 설정)
 	
 	ImageButton mRcIcon;				// remocon icon
@@ -57,10 +72,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	FrameLayout mCircleMenuBg;			// circle menu가 보일때 바탕에 깔리는 반투명배경의 레이아웃
 	boolean toggleCircleMenu = true; 	// circle menu가 보이는지 or 안보이는지?
 
-	FrameLayout mVodTvchPanel;				// top menu의 vod, tvch 아이콘의 메인화면의 레이아웃
+	FrameLayout mVodTvchPanel;			// top menu의 vod, tvch 아이콘의 메인화면의 레이아웃
 	
-	Animation animationRcMain;
-	Animation animationFadeOut, animationZoomOut;
+	Animation aniRcPanelFadeout;
+	Animation aniRcTopMenuFadein;
+	Animation aniQwertyFadeout;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +97,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// ----------------------------------
 		RcChannelVolume channelVolume = RcChannelVolume.newInstance(1);
 		chagneFragment(channelVolume, TAG_FRAGMENT_CHANNEL_VOLUME);
+		
+		// ----------------------
+        // 하단의 bottom menu 설정
+		// ----------------------
+		Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_rc_bottom_menu);
+		if (f != null) {
+			((RcBottomMenu)f).setRemoconMode();
+		}
+        
 	}
 	
 
@@ -92,6 +117,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	}
 
 	private void initUI() {
+		// rc_panel (채널/볼륨, 사방향) 
+		mRcPanel = (FrameLayout) findViewById(R.id.rc_panel);
+		
+		// rc_numeric_pad
+		mRcNumericPad = (FrameLayout) findViewById(R.id.rc_numeric_pad);
+		
 		// top menu
 		mStbPower = (ImageButton) findViewById(R.id.stb_power);
 		mIntegrationUiMain = (ImageButton) findViewById(R.id.integration_ui_main);
@@ -102,10 +133,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// numeric menu
 
 		// bottom menu
-		mPrevious = (ImageButton) findViewById(R.id.previous);
-		mFavoriteChannel = (ImageButton) findViewById(R.id.favorite_channel);
-		mViewSwitch = (ImageButton) findViewById(R.id.view_switch);
-		mExit = (ImageButton) findViewById(R.id.exit);
 		
 		// remocon icon
 		mRcIcon = (ImageButton) findViewById(R.id.rc_icon);
@@ -122,10 +149,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// VOD and TVCh 메인화면
 		mVodTvchPanel = (FrameLayout) findViewById(R.id.vod_tvch_panel);
 
-		animationRcMain= AnimationUtils.loadAnimation(this, R.anim.rc_main_fadein);
+		// animation
+		aniRcPanelFadeout= AnimationUtils.loadAnimation(this, R.anim.rc_panel_fadeout);
+		aniRcPanelFadeout.setFillAfter(true);
 		
-		animationFadeOut = AnimationUtils.loadAnimation(this, R.anim.qwerty_fade_out);
-		// animationZoomOut = AnimationUtils.loadAnimation(this, R.anim.qwerty_zoom_out);
+		aniRcTopMenuFadein= AnimationUtils.loadAnimation(this, R.anim.rc_top_menu_fadein);
+		aniQwertyFadeout = AnimationUtils.loadAnimation(this, R.anim.qwerty_fadeout);
 	}
 
 	private void setEvent() {
@@ -147,10 +176,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// numeric menu
 
 		// bottom menu
-		mPrevious.setOnClickListener(this);
-		mFavoriteChannel.setOnClickListener(this);	// 선호채널
-		mViewSwitch.setOnClickListener(this);		// 보기전환
-		mExit.setOnClickListener(this);
 
 		// remocon icon
 		mRcIcon.setOnClickListener(this);
@@ -162,23 +187,35 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		mChannelVolume.setOnClickListener(this);
 		mConfig.setOnClickListener(this);
 
-		animationFadeOut.setAnimationListener(new Animation.AnimationListener() {
+/*		aniRcPanelFadeout.setAnimationListener(new Animation.AnimationListener() {
 			@Override
-			public void onAnimationStart(Animation animation) {
-
-			}
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-            	mCircleMenuBg.setVisibility(View.INVISIBLE);
-            	mCircleMenu.setVisibility(View.INVISIBLE);
-            	mRcIcon.setBackgroundResource(R.drawable.main_remocon_icon_on); // 리모컨아이콘 이미지가 바뀌어야 한다.
-            }
-
+			public void onAnimationStart(Animation animation) { }
+			
 			@Override
-			public void onAnimationRepeat(Animation animation) {
-
+			public void onAnimationEnd(Animation animation) {
+				mRcPanel.setVisibility(View.INVISIBLE);
+				mVod.setVisibility(View.INVISIBLE);
+				mTVChannel.setVisibility(View.INVISIBLE);
+				mSearch.setVisibility(View.INVISIBLE);
 			}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) { }
+		});*/
+		
+		aniQwertyFadeout.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) { }
+			
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				mCircleMenuBg.setVisibility(View.INVISIBLE);
+				mCircleMenu.setVisibility(View.INVISIBLE);
+				mRcIcon.setBackgroundResource(R.drawable.rc_icon); // 리모컨아이콘 이미지가 바뀌어야 한다.
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) { }
 		});
 
 	}
@@ -211,15 +248,22 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		case R.id.vod: 
 			{
 				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-				Vod vodMain = new Vod();
+				Vod vod = new Vod();
 				
 				//  ft.replace전에 animation을 설정해야 한다.
-				ft.setCustomAnimations(R.anim.vod_chtv_main_entering, 0, 0, R.anim.vod_chtv_main_exit);
+				// ft.setCustomAnimations(R.anim.vod_chtv_main_entering, 0, 0, R.anim.vod_chtv_main_exit); // 두 번째 진입때 문제발생...
+				ft.setCustomAnimations(R.anim.vod_chtv_main_entering, 0);
 				//ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-				ft.replace(R.id.vod_tvch_panel, vodMain, TAG_FRAGMENT_VOD);
+				ft.replace(R.id.vod_tvch_panel, vod, TAG_FRAGMENT_VOD);
 				ft.addToBackStack(null);	// fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
 				ft.commit();
 	
+				mRcPanel.startAnimation(aniRcPanelFadeout);
+				mRcNumericPad.startAnimation(aniRcPanelFadeout);
+				mSearch.startAnimation(aniRcPanelFadeout);
+				mVod.startAnimation(aniRcPanelFadeout);
+				mTVChannel.startAnimation(aniRcPanelFadeout);
+				
 				mVodTvchPanel.setVisibility(View.VISIBLE);
 			}
 			Log.i("hwang", "vod main");
@@ -232,18 +276,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			break;
 
 		// bottom menu
-		case R.id.previous:
-			Log.i("hwang", "previous");
-			break;
-		case R.id.favorite_channel:
-			Log.i("hwang", "favorite_channel");
-			break;
-		case R.id.view_switch:
-			Log.i("hwang", "view_switch");
-			break;
-		case R.id.exit:
-			Log.i("hwang", "exit");
-			break;
 
 		// circle menu
 		case R.id.mirroring:
@@ -293,9 +325,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 	private void rcIconOn() {
 		if (mCircleMenuBg.getVisibility() == View.VISIBLE)
-			mCircleMenuBg.startAnimation(animationFadeOut);
+			mCircleMenuBg.startAnimation(aniQwertyFadeout);
 		if (mCircleMenu.getVisibility() == View.VISIBLE)
-			mCircleMenu.startAnimation(animationFadeOut);
+			mCircleMenu.startAnimation(aniQwertyFadeout);
 		toggleCircleMenu = true;
 	}
 
@@ -303,7 +335,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		mCircleMenuBg.setVisibility(View.INVISIBLE);
 		mCircleMenu.setVisibility(View.INVISIBLE);
 		toggleCircleMenu = true;
-		mRcIcon.setBackgroundResource(R.drawable.main_remocon_icon_on); // 리모컨아이콘 이미지가 바뀌어야 한다.
+		mRcIcon.setBackgroundResource(R.drawable.rc_icon); // 리모컨아이콘 이미지가 바뀌어야 한다.
 	}
 
 	private void rcIconOffNoAni() {
@@ -334,20 +366,31 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         	return;
 		}
 		
-		
-		
 		// ---------------------
 		// vod, chtv main
 		// ---------------------
 		final Vod vodTVch = (Vod) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD);
 		if (vodTVch != null) {
 			if (vodTVch.allowBackPressed()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
-				mStbPower.startAnimation(animationRcMain);
-				mIntegrationUiMain.startAnimation(animationRcMain);
-				mVod.startAnimation(animationRcMain);
-				mTVChannel.startAnimation(animationRcMain);
-				mSearch.startAnimation(animationRcMain);
+				mStbPower.startAnimation(aniRcTopMenuFadein);
+				mIntegrationUiMain.startAnimation(aniRcTopMenuFadein);
+				mVod.startAnimation(aniRcTopMenuFadein);
+				mTVChannel.startAnimation(aniRcTopMenuFadein);
+				mSearch.startAnimation(aniRcTopMenuFadein);
+				
+				mRcPanel.startAnimation(aniRcTopMenuFadein);
+				mRcNumericPad.startAnimation(aniRcTopMenuFadein);
+				mVodTvchPanel.setVisibility(View.INVISIBLE);
+				
 				super.onBackPressed();
+				return;
+			}
+			else {	// sidebar가 열려있는경우...
+				Fragment f = getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_FRAGMENT_VOD);
+				if (f != null) {
+					((Vod)f).mSlidingMenu.toggleSidebar();
+					Log.i("hwang", "closing sidebar!!!");
+				}
 				return;
 			}
 		}

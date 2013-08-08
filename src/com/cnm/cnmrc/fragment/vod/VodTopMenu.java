@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,17 +32,23 @@ import com.cnm.cnmrc.R;
 
 public class VodTopMenu extends Fragment implements View.OnClickListener{
 
+	View layout;
+	
 	TextView mTitle;
 	
 	ImageButton mVodTopCategory;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		//View layout = inflater.inflate(R.layout.fragment_main_top_menu, null);
-		View layout = inflater.inflate(R.layout.vod_top_menu, container, false);
+
+		//layout = inflater.inflate(R.layout.fragment_main_top_menu, null);
+		layout = inflater.inflate(R.layout.vod_top_menu, container, false);
 		
+		// ----------------
+		// 기본화면은 "예고편"
+		// ----------------
 		mTitle = (TextView) layout.findViewById(R.id.vod_top_title);
-		mTitle.setText(getString(R.string.vod_main_title));
+		setTitle(0);
 		
 		mVodTopCategory = (ImageButton) layout.findViewById(R.id.vod_top_category);
 		mVodTopCategory.setOnClickListener(this);
@@ -49,6 +56,12 @@ public class VodTopMenu extends Fragment implements View.OnClickListener{
 		return layout;
 	}
 	
+	public void setTitle(int index) {
+		String[] categoryArray = getActivity().getResources().getStringArray(R.array.vod_category);
+		mTitle.setText(categoryArray[index]);
+		
+	}
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -62,13 +75,18 @@ public class VodTopMenu extends Fragment implements View.OnClickListener{
 	}
 	
 	@Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+	
+	@Override
 	public void onClick(View v) {
 		
 		switch(v.getId()){
 		case R.id.vod_top_category:
-			Fragment fragment = getActivity().getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_FRAGMENT_VOD);
-			if (fragment != null) {
-				((Vod)fragment).mLayout.toggleSidebar();
+			Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_FRAGMENT_VOD);
+			if (f != null) {
+				((Vod)f).mSlidingMenu.toggleSidebar();
 				Log.i("hwang", "sliding menu");
 			}
 			//((MainActivity) getActivity()).mLayout.toggleSidebar();

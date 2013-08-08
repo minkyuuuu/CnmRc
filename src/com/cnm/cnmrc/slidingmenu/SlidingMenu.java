@@ -21,10 +21,10 @@ package com.cnm.cnmrc.slidingmenu;
 // update the package name to match your app
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.OvershootInterpolator;
 import android.view.animation.TranslateAnimation;
 
 import com.cnm.cnmrc.R;
@@ -92,7 +92,8 @@ public class SlidingMenu extends ViewGroup {
                 mContent.layout(l - mSidebarWidth, 0, r - mSidebarWidth, b);
             }
         } else {
-            mContent.layout(l, 0, r, b);
+            mContent.layout(l, 0, r, b);	// 기본화면
+            //mContent.layout(l - mSidebarWidth, 0, r - mSidebarWidth, b);
         }
     }
 
@@ -186,6 +187,13 @@ public class SlidingMenu extends ViewGroup {
             mAnimation.setAnimationListener(mOpenListener);
         }
         mAnimation.setDuration(DURATION);
+        
+//        mAnimation.setInterpolator(new AnticipateOvershootInterpolator(1.0f));
+//        mAnimation.setInterpolator(new AnticipateOvershootInterpolator(1.0f, 1.0f));
+//        mAnimation.setInterpolator(new DecelerateInterpolator(2.0f)); // ok
+        
+        mAnimation.setInterpolator(new OvershootInterpolator(1.7f));
+        
         mAnimation.setFillAfter(true);
         mAnimation.setFillEnabled(true);
         mContent.startAnimation(mAnimation);
@@ -216,16 +224,19 @@ public class SlidingMenu extends ViewGroup {
         }
 
         public void onAnimationStart(Animation animation) {
-            iSidebar.setVisibility(View.VISIBLE);
+            //iSidebar.setVisibility(View.VISIBLE);
+            if (mListener != null) {
+                mListener.onSidebarOpened();
+            }
         }
 
         public void onAnimationEnd(Animation animation) {
             iContent.clearAnimation();
             mOpened = !mOpened;
             requestLayout();
-            if (mListener != null) {
+            /*if (mListener != null) {
                 mListener.onSidebarOpened();
-            }
+            }*/
         }
     }
 
@@ -245,7 +256,7 @@ public class SlidingMenu extends ViewGroup {
 
         public void onAnimationEnd(Animation animation) {
             iContent.clearAnimation();
-            iSidebar.setVisibility(View.INVISIBLE);
+            //iSidebar.setVisibility(View.INVISIBLE);
             mOpened = !mOpened;
             requestLayout();
             if (mListener != null) {

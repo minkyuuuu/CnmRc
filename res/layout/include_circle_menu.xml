@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- 하단의 리모콘아이콘 및 써클메뉴 -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|center_horizontal" 
+    >
+
+    <LinearLayout
+        android:id="@+id/circle_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:orientation="vertical"
+        android:visibility="invisible" >
+
+        <fragment
+            android:id="@+id/fragment_rc_circle_menu"
+            android:layout_width="@dimen/px590"
+            android:layout_height="@dimen/px335"
+            class="com.cnm.cnmrc.fragment.rc.RcCircleMenu" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/rc_icon"
+        android:layout_width="@dimen/px126"
+        android:layout_height="@dimen/px103"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@drawable/rc_icon"
+        android:contentDescription="@string/accessibility_rc_icon" />
+
+</FrameLayout>
