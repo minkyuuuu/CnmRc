@@ -31,7 +31,7 @@ import com.cnm.cnmrc.R;
 
 public class SlidingMenu extends ViewGroup {
 
-    public final static int DURATION = 200;
+    private final static int DURATION = 200;
 
     protected boolean mPlaceLeft = false;
     protected boolean mOpened;

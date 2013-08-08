@@ -20,7 +20,7 @@ import com.cnm.cnmrc.fragment.popup.PopupMirroringEnter;
 import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
 import com.cnm.cnmrc.fragment.rc.RcChannelVolume;
 import com.cnm.cnmrc.fragment.rc.RcFourWay;
-import com.cnm.cnmrc.fragment.vod.Vod;
+import com.cnm.cnmrc.fragment.vodtvch.VodTvchBase;
 
 /**
  * 
@@ -49,13 +49,17 @@ import com.cnm.cnmrc.fragment.vod.Vod;
  *    
  * 8) fragment의 id는 fragment_*로 시작됨.
  * 
+ * 9) vod, tvch 화면의 depth에 따른 명명규칙 (3가지 타입)
+ *    - List
+ *    - SemiDetail (Detail화면전에 보이는 list화면)
+ *    - Detail
+ * 
  */
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 	
 	// string constant for fragment tag 
-	public final static String TAG_FRAGMENT_VOD = "vod";
-	public final static String TAG_FRAGMENT_TVCH = "tvch";
+	public final static String TAG_FRAGMENT_VOD_TVCH = "vod_tvch";
 	public final static String TAG_FRAGMENT_FOURWAY = "fourway";
 	public final static String TAG_FRAGMENT_CHANNEL_VOLUME = "channel_volume";
 	
@@ -128,7 +132,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		mIntegrationUiMain = (ImageButton) findViewById(R.id.integration_ui_main);
 		mVod = (ImageButton) findViewById(R.id.vod);
 		mTVChannel = (ImageButton) findViewById(R.id.tvch);
-		mSearch = (ImageButton) findViewById(R.id.vod_top_search);
+		mSearch = (ImageButton) findViewById(R.id.vod_tvch_top_search);
 		
 		// numeric menu
 
@@ -247,31 +251,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			break;
 		case R.id.vod: 
 			{
-				FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-				Vod vod = new Vod();
-				
-				//  ft.replace전에 animation을 설정해야 한다.
-				// ft.setCustomAnimations(R.anim.vod_chtv_main_entering, 0, 0, R.anim.vod_chtv_main_exit); // 두 번째 진입때 문제발생...
-				ft.setCustomAnimations(R.anim.vod_chtv_main_entering, 0);
-				//ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-				ft.replace(R.id.vod_tvch_panel, vod, TAG_FRAGMENT_VOD);
-				ft.addToBackStack(null);	// fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
-				ft.commit();
-	
-				mRcPanel.startAnimation(aniRcPanelFadeout);
-				mRcNumericPad.startAnimation(aniRcPanelFadeout);
-				mSearch.startAnimation(aniRcPanelFadeout);
-				mVod.startAnimation(aniRcPanelFadeout);
-				mTVChannel.startAnimation(aniRcPanelFadeout);
-				
-				mVodTvchPanel.setVisibility(View.VISIBLE);
+				VodTvchBase vodTvch = VodTvchBase.newInstance("vod");
+				goToVodTvch(vodTvch);
 			}
-			Log.i("hwang", "vod main");
 			break ;
-		case R.id.tvch:
-			Log.i("hwang", "tvch main");
+		case R.id.tvch: 
+			{
+				VodTvchBase vodTvch = VodTvchBase.newInstance("tvch");
+				goToVodTvch(vodTvch);
+			}
 			break;
-		case R.id.vod_top_search:
+		case R.id.vod_tvch_top_search:
 			Log.i("hwang", "search");
 			break;
 
@@ -323,6 +313,27 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 	}
 
+
+	private void goToVodTvch(VodTvchBase vodTvch) {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		
+		//  ft.replace전에 animation을 설정해야 한다.
+		// ft.setCustomAnimations(R.anim.vod_chtv_main_entering, 0, 0, R.anim.vod_chtv_main_exit); // 두 번째 진입때 문제발생...
+		ft.setCustomAnimations(R.anim.vod_tvch_base_entering, 0);
+		//ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+		ft.replace(R.id.vod_tvch_panel, vodTvch, TAG_FRAGMENT_VOD_TVCH);
+		ft.addToBackStack(null);	// fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
+		ft.commit();
+		
+		mRcPanel.startAnimation(aniRcPanelFadeout);
+		mRcNumericPad.startAnimation(aniRcPanelFadeout);
+		mSearch.startAnimation(aniRcPanelFadeout);
+		mVod.startAnimation(aniRcPanelFadeout);
+		mTVChannel.startAnimation(aniRcPanelFadeout);
+		
+		mVodTvchPanel.setVisibility(View.VISIBLE);
+	}
+
 	private void rcIconOn() {
 		if (mCircleMenuBg.getVisibility() == View.VISIBLE)
 			mCircleMenuBg.startAnimation(aniQwertyFadeout);
@@ -367,28 +378,20 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		}
 		
 		// ---------------------
-		// vod, chtv main
+		// vod, tvch base
 		// ---------------------
-		final Vod vodTVch = (Vod) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD);
+		final VodTvchBase vodTVch = (VodTvchBase) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
 		if (vodTVch != null) {
 			if (vodTVch.allowBackPressed()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
-				mStbPower.startAnimation(aniRcTopMenuFadein);
-				mIntegrationUiMain.startAnimation(aniRcTopMenuFadein);
-				mVod.startAnimation(aniRcTopMenuFadein);
-				mTVChannel.startAnimation(aniRcTopMenuFadein);
-				mSearch.startAnimation(aniRcTopMenuFadein);
-				
-				mRcPanel.startAnimation(aniRcTopMenuFadein);
-				mRcNumericPad.startAnimation(aniRcTopMenuFadein);
-				mVodTvchPanel.setVisibility(View.INVISIBLE);
+				backToRc();
 				
 				super.onBackPressed();
 				return;
 			}
 			else {	// sidebar가 열려있는경우...
-				Fragment f = getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_FRAGMENT_VOD);
+				Fragment f = getSupportFragmentManager().findFragmentByTag(MainActivity.TAG_FRAGMENT_VOD_TVCH);
 				if (f != null) {
-					((Vod)f).mSlidingMenu.toggleSidebar();
+					((VodTvchBase)f).mSlidingMenu.toggleSidebar();
 					Log.i("hwang", "closing sidebar!!!");
 				}
 				return;
@@ -412,6 +415,19 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         }, 2000);
         
+	}
+
+
+	private void backToRc() {
+		mStbPower.startAnimation(aniRcTopMenuFadein);
+		mIntegrationUiMain.startAnimation(aniRcTopMenuFadein);
+		mVod.startAnimation(aniRcTopMenuFadein);
+		mTVChannel.startAnimation(aniRcTopMenuFadein);
+		mSearch.startAnimation(aniRcTopMenuFadein);
+		
+		mRcPanel.startAnimation(aniRcTopMenuFadein);
+		mRcNumericPad.startAnimation(aniRcTopMenuFadein);
+		mVodTvchPanel.setVisibility(View.INVISIBLE);
 	}
 
 	public void openMirroring() {

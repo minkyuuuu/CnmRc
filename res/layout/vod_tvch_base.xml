@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cnm.cnmrc.slidingmenu.SlidingMenu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/animation_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- 우측의 sidebar 메뉴 -->
+    <LinearLayout
+        android:id="@+id/menu"
+        android:layout_width="@dimen/px290"
+        android:layout_height="match_parent"
+        android:background="#ff484748"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" >
+
+            <ListView
+                android:id="@+id/category_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <FrameLayout
+                android:id="@+id/category_cover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="false"
+                android:background="@android:color/transparent" >
+            </FrameLayout>
+        </FrameLayout>
+        
+		<!-- 하단메뉴공간을 보상하는 영역 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px90"
+            android:background="@drawable/repeat_default_bg" >
+        </FrameLayout>
+    </LinearLayout>
+
+    
+    
+    <!-- vod, tvch base -->
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/repeat_default_bg"
+        android:orientation="vertical" >
+
+        <fragment
+            android:id="@+id/fragment_vod_tvch_top_menu"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px110"
+            class="com.cnm.cnmrc.fragment.vodtvch.VodTvchTopMenu" />
+
+        <!-- data loading 영역 -->
+        <FrameLayout
+            android:id="@+id/data_loading_panel"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" 
+            android:background="#30ffff00"
+            />
+        
+        <!-- 하단메뉴공간을 보상하는 영역 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px90"
+            >
+        </FrameLayout>
+    </LinearLayout>
+
+</com.cnm.cnmrc.slidingmenu.SlidingMenu>

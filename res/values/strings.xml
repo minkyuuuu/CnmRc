@@ -21,6 +21,14 @@
         <item>장르별</item>
     </string-array>
 
+    <!-- tvch -->
+    <string-array name="tvch_category">
+        <item>전체채널</item>
+        <item>장르별채널</item>
+        <item>HD채널</item>
+        <item>유료채널</item>
+    </string-array>
+
     <!-- popup -->
     <string name="popup_yes">예</string>
     <string name="popup_no">아니오</string>
