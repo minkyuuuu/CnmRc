@@ -53,6 +53,7 @@ import com.cnm.cnmrc.fragment.vodtvch.VodTvchBase;
  *    - List
  *    - SemiDetail (Detail화면전에 보이는 list화면)
  *    - Detail
+ *    * 만약 클래스명이 변경되면 이를 프로그램으로 변경적용해야한다. 이유는 클래스를 런타임동적로딩으로 처리했음.
  * 
  */
 

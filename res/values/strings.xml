@@ -20,6 +20,12 @@
         <item>TV다시보기</item>
         <item>장르별</item>
     </string-array>
+    <string-array name="vod_class_type">
+        <item>VodSemiDetail</item>
+        <item>VodSemiDetail</item>
+        <item>VodSemiDetail</item>
+        <item>CommonList</item>
+    </string-array>
 
     <!-- tvch -->
     <string-array name="tvch_category">
@@ -28,6 +34,15 @@
         <item>HD채널</item>
         <item>유료채널</item>
     </string-array>
+        <string-array name="tvch_class_type">
+        <item>TvchSemiDetail</item>
+        <item>CommonList</item>
+        <item>TvchSemiDetail</item>
+        <item>TvchSemiDetail</item>
+    </string-array>
+    
+        
+        
 
     <!-- popup -->
     <string name="popup_yes">예</string>

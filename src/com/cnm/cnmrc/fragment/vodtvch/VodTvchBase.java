@@ -16,6 +16,7 @@
 
 package com.cnm.cnmrc.fragment.vodtvch;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -32,7 +33,6 @@ import android.widget.ListView;
 
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
-import com.cnm.cnmrc.fragment.rc.RcChannelVolume;
 import com.cnm.cnmrc.slidingmenu.SlidingMenu;
 
 public class VodTvchBase extends Fragment implements View.OnClickListener, SlidingMenu.Listener {
@@ -47,11 +47,14 @@ public class VodTvchBase extends Fragment implements View.OnClickListener, Slidi
 	
 	public SlidingMenu mSlidingMenu;
 	
-	FrameLayout mCategoryCover;
+	FrameLayout mCategoryCover, mLoadingData;
 	ListView 	mCategory;
 	
+	String packageName = "com.cnm.cnmrc.fragment.vodtvch.";
 	String[] mCategoryArray = null;
+	String[] mClassTypeArray = null;
 	int selectedCategory = 0;
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +62,8 @@ public class VodTvchBase extends Fragment implements View.OnClickListener, Slidi
 
 		mSlidingMenu = (SlidingMenu) layout.findViewById(R.id.animation_layout);
 		mSlidingMenu.setListener(this);
+		
+		mLoadingData = (FrameLayout) layout.findViewById(R.id.loading_data_panel);
 		
 		mCategoryCover = (FrameLayout) layout.findViewById(R.id.category_cover);
 		mCategoryCover.setOnClickListener(this);
@@ -70,8 +75,14 @@ public class VodTvchBase extends Fragment implements View.OnClickListener, Slidi
         // type check (vod or tvch)
         // --------------------------
         String type = getArguments().getString("type");
-        if(type.equals("vod")) mCategoryArray= getActivity().getResources().getStringArray(R.array.vod_category);
-        if(type.equals("tvch")) mCategoryArray= getActivity().getResources().getStringArray(R.array.tvch_category);
+        if(type.equals("vod")) {
+        	mCategoryArray= getActivity().getResources().getStringArray(R.array.vod_category);
+        	mClassTypeArray= getActivity().getResources().getStringArray(R.array.vod_class_type);
+        }
+        if(type.equals("tvch")) {
+        	mCategoryArray= getActivity().getResources().getStringArray(R.array.tvch_category);
+        	mClassTypeArray= getActivity().getResources().getStringArray(R.array.tvch_class_type);
+        }
         
         ArrayList<String> arrayList = new ArrayList<String>(mCategoryArray.length);
         for(String item: mCategoryArray) {
@@ -128,13 +139,31 @@ public class VodTvchBase extends Fragment implements View.OnClickListener, Slidi
 		// ---------------
 		// data loading
 		// ---------------
-		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-		VodList vodlist = VodList.newInstance(mCategoryArray[0]);
-		ft.replace(R.id.data_loading_panel, vodlist);
-		//ft.addToBackStack(null);	// fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
-		ft.commit();
+		loadingData();
+		
         
 		return layout;
+	}
+
+	private void loadingData() {
+		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+		Class<?> classObject;
+		try {
+			classObject = Class.forName(packageName + mClassTypeArray[selectedCategory]);
+			Object obj = classObject.newInstance();
+
+			Base base = ((Base) obj).newInstance(mCategoryArray[selectedCategory]);
+
+			//ft.addToBackStack(null);
+			ft.replace(R.id.loading_data_panel, base);
+			ft.commit();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (java.lang.InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
@@ -196,9 +225,13 @@ public class VodTvchBase extends Fragment implements View.OnClickListener, Slidi
 		if (f != null) ((VodTvchTopMenu)f).setTitle(position, mCategoryArray);
 	}
 	
+	
+	
+	
+	
+	
 	@Override
-	public void onSidebarOpened() {
-		
+	public void onSidebarOpenedStart() {
 		// 현재 선택된 category를 clear...
 		clearSelectedAll();
 		
@@ -209,36 +242,50 @@ public class VodTvchBase extends Fragment implements View.OnClickListener, Slidi
 		
 		//mCategory.performItemClick(mCategory.getChildAt(selectedCategory), selectedCategory, mCategory.getAdapter().getItemId(selectedCategory));
 		
-		Log.i("hwang", "onSidebarOpened");
-		
+		Log.i("hwang", "onSidebarOpened Start");
 	}
-
 	@Override
-	public void onSidebarClosed() {
+	public void onSidebarOpenedEnd() {
+		// TODO Auto-generated method stub
+	}
+	@Override
+	public void onSidebarClosedStart() {
+		// 왜 안되지?
+        Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.loading_data_panel);
+        if (f != null) getActivity().getSupportFragmentManager().beginTransaction().hide(f).commit();
+		
+        //mLoadingData.setVisibility(View.INVISIBLE);
+	}
+	@Override
+	public void onSidebarClosedEnd() {
 		mCategoryCover.setVisibility(View.GONE);
 		
 		// ---------------
 		// data loading
 		// ---------------
-		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-		VodList vodlist = VodList.newInstance(mCategoryArray[selectedCategory]);
-		ft.replace(R.id.data_loading_panel, vodlist);
-		//ft.addToBackStack(null);	// fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
-		ft.commit();
-		
+		loadingData();
 	}
-
 	@Override
 	public boolean onContentTouchedWhenOpening() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	
+	
+	
+	
+	
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+
+
 
 
 }

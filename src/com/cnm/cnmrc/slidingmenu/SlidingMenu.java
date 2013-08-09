@@ -24,6 +24,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.view.animation.TranslateAnimation;
 
@@ -31,7 +32,7 @@ import com.cnm.cnmrc.R;
 
 public class SlidingMenu extends ViewGroup {
 
-    private final static int DURATION = 200;
+    private final static int DURATION = 500;
 
     protected boolean mPlaceLeft = false;
     protected boolean mOpened;
@@ -190,9 +191,9 @@ public class SlidingMenu extends ViewGroup {
         
 //        mAnimation.setInterpolator(new AnticipateOvershootInterpolator(1.0f));
 //        mAnimation.setInterpolator(new AnticipateOvershootInterpolator(1.0f, 1.0f));
-//        mAnimation.setInterpolator(new DecelerateInterpolator(2.0f)); // ok
+        mAnimation.setInterpolator(new DecelerateInterpolator(50.0f)); // ok
         
-        mAnimation.setInterpolator(new OvershootInterpolator(1.7f));
+        mAnimation.setInterpolator(new OvershootInterpolator(1.0f));
         
         mAnimation.setFillAfter(true);
         mAnimation.setFillEnabled(true);
@@ -226,7 +227,7 @@ public class SlidingMenu extends ViewGroup {
         public void onAnimationStart(Animation animation) {
             //iSidebar.setVisibility(View.VISIBLE);
             if (mListener != null) {
-                mListener.onSidebarOpened();
+                mListener.onSidebarOpenedStart();
             }
         }
 
@@ -234,9 +235,9 @@ public class SlidingMenu extends ViewGroup {
             iContent.clearAnimation();
             mOpened = !mOpened;
             requestLayout();
-            /*if (mListener != null) {
-                mListener.onSidebarOpened();
-            }*/
+            if (mListener != null) {
+                mListener.onSidebarOpenedEnd();
+            }
         }
     }
 
@@ -250,8 +251,12 @@ public class SlidingMenu extends ViewGroup {
         }
 
         public void onAnimationRepeat(Animation animation) {
+
         }
         public void onAnimationStart(Animation animation) {
+            if (mListener != null) {
+                mListener.onSidebarClosedStart();
+            }
         }
 
         public void onAnimationEnd(Animation animation) {
@@ -260,14 +265,16 @@ public class SlidingMenu extends ViewGroup {
             mOpened = !mOpened;
             requestLayout();
             if (mListener != null) {
-                mListener.onSidebarClosed();
+                mListener.onSidebarClosedEnd();
             }
         }
     }
 
     public interface Listener {
-        public void onSidebarOpened();
-        public void onSidebarClosed();
+        public void onSidebarOpenedStart();
+        public void onSidebarOpenedEnd();
+        public void onSidebarClosedStart();
+        public void onSidebarClosedEnd();
         public boolean onContentTouchedWhenOpening();
     }
 }
