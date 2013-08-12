@@ -30,22 +30,26 @@ public class TvchSemiDetail extends Base implements View.OnClickListener{
 
 	View layout;
 	
-	public TvchSemiDetail newInstance(String type) {
+	public TvchSemiDetail newInstance(String type, boolean isFirstDepth) {
 		TvchSemiDetail f = new TvchSemiDetail();
 		Bundle args = new Bundle();
 		args.putString("type", type);
+		args.putBoolean("isFirstDepth", isFirstDepth);
 		f.setArguments(args);
 		return f;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		layout = inflater.inflate(R.layout.tvch_semi_detail, container, false);
+		layout = inflater.inflate(R.layout.tvch_semidetail, container, false);
 		
 		TextView text = (TextView) layout.findViewById(R.id.text);
+		text.setOnClickListener(this);
 		String type = getArguments().getString("type");
-		text.setText(type);
-
+		text.setText(this.getClass().getSimpleName() + "\n" + type);
+		
+		isFirstDepth = getArguments().getBoolean("isFirstDepth");
+		
 		return layout;
 	}
 	
@@ -64,7 +68,10 @@ public class TvchSemiDetail extends Base implements View.OnClickListener{
 	@Override
 	public void onClick(View v) {
 		
-		switch(v.getId()){
+		switch (v.getId()) {
+		case R.id.text:
+			loadingData(5, "\nTvchDetail  ", false); // false : 1 depth가 아님.
+			break;
 		}
 	}
 	

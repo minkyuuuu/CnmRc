@@ -16,24 +16,39 @@
 
 package com.cnm.cnmrc.fragment.vodtvch;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 
-public class VodList extends Fragment implements View.OnClickListener{
+public class VodList extends Base implements View.OnClickListener {
 
 	View layout;
+
+	boolean isSemiDetail = false;	// 다음 depth가 semiDetail인가?
 	
-	public static VodList newInstance(String type) {
+	ListView 	mListView;
+	String[] mArray = null;
+	ArrayList<String> arrayList = null;
+
+	public VodList newInstance(String type, boolean isFirstDepth) {
 		VodList f = new VodList();
 		Bundle args = new Bundle();
 		args.putString("type", type);
+		args.putBoolean("isFirstDepth", isFirstDepth);	
 		f.setArguments(args);
 		return f;
 	}
@@ -41,31 +56,76 @@ public class VodList extends Fragment implements View.OnClickListener{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		layout = inflater.inflate(R.layout.vod_list, container, false);
+
+		isFirstDepth = getArguments().getBoolean("isFirstDepth");
 		
-		TextView text = (TextView) layout.findViewById(R.id.text);
-		String type = getArguments().getString("type");
-		text.setText(type);
+		// listview
+		mListView   = (ListView) layout.findViewById(R.id.vod_list);
+		
+		// 현재의 depth 체크
+		FragmentManager fm = getActivity().getSupportFragmentManager();
+		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
+		if (f != null) {
+			if( ((VodTvch)f).currentDepth == 1 )  {
+				mArray= getActivity().getResources().getStringArray(R.array.vod_genre);
+			}
+			if( ((VodTvch)f).currentDepth == 2 )  {
+				mArray= getActivity().getResources().getStringArray(R.array.vod_today_recommendation);
+			}
+		}
+		
+        arrayList = new ArrayList<String>(mArray.length);
+        for(String item: mArray) {
+        	arrayList.add(item);
+        }
+        
+        // check isSemiDetail
+        if(arrayList.get(0).equals("오늘의 추천")) isSemiDetail = false;
+        if(arrayList.get(0).equals("MD추천")) isSemiDetail = true;
+        
+		// -------------------
+		// vod list type
+		// -------------------
+        VodListAdapter adapter = new VodListAdapter(getActivity(), R.layout.list_item_vod_list, arrayList);
+        mListView.setAdapter(adapter);
+        mListView.setDivider(null);
+        mListView.setDividerHeight(0);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+        		FragmentManager fm = getActivity().getSupportFragmentManager();
+        		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
+        		if (f != null) ((VodTvch)f).currentDepth++;
+        		
+    			if (isSemiDetail)
+    				loadingData(1, arrayList.get(position), false); // 1 : VodSemiDetail, false : 1 depth가 아님.
+    			else 
+    				loadingData(0, arrayList.get(position), false); // 0 : VodList, false : 1 depth가 아님.
+            }
+
+        });
 
 		return layout;
 	}
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		
+
 	}
-	
+
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		
+
 	}
-	
+
 	@Override
 	public void onClick(View v) {
-		
-		switch(v.getId()){
+
+		switch (v.getId()) {
 		}
 	}
-	
+
 }

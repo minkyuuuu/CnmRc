@@ -6,9 +6,12 @@
 
     <!-- font size -->
     <!-- hdpi = xhdpi x 80% -->
-    <dimen name="sp17">13.6sp</dimen>
-    <dimen name="sp20">16sp</dimen>
-    <dimen name="sp26">20.8sp</dimen>
+    <dimen name="sp15">12sp</dimen>		<!-- 26pt -->
+    <dimen name="sp16">12.8sp</dimen>	<!-- 28pt -->
+    <dimen name="sp17">13.6sp</dimen>	<!-- 30pt -->
+    <dimen name="sp20">16sp</dimen>		<!-- 35pt -->
+    <dimen name="sp23">18.4sp</dimen>	<!-- 40pt -->
+    <dimen name="sp26">20.8sp</dimen>	<!-- 45pt -->
     
     <!-- pixel -->
     <dimen name="px1">0.44dp</dimen>
@@ -244,8 +247,10 @@
     
     <dimen name="px380">168.89dp</dimen>
     <dimen name="px386">171.56dp</dimen>
+    <dimen name="px398">176.89dp</dimen>
     
     <dimen name="px408">181.33dp</dimen>
+    <dimen name="px446">198.22dp</dimen>
     <dimen name="px464">206.22dp</dimen>
     <dimen name="px470">208.29dp</dimen>
     

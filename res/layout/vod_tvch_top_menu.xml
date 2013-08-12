@@ -12,6 +12,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/px10"
         android:gravity="center"
+        android:singleLine="true"
         android:text="예고편"
         android:textStyle="bold"
         android:textColor="#ffffffff"

@@ -47,7 +47,7 @@
             android:src="@drawable/top_icon_ch" />
 
         <ImageButton
-            android:id="@+id/vod_tvch_top_search"
+            android:id="@+id/search"
             android:layout_width="@dimen/px98"
             android:layout_height="@dimen/px94"
             android:background="@drawable/main_base_top_icon"

@@ -30,10 +30,11 @@ public class TvchDetail extends Base implements View.OnClickListener{
 
 	View layout;
 	
-	public TvchDetail newInstance(String type) {
+	public TvchDetail newInstance(String type, boolean isFirstDepth) {
 		TvchDetail f = new TvchDetail();
 		Bundle args = new Bundle();
 		args.putString("type", type);
+		args.putBoolean("isFirstDepth", isFirstDepth);
 		f.setArguments(args);
 		return f;
 	}
@@ -44,8 +45,10 @@ public class TvchDetail extends Base implements View.OnClickListener{
 		
 		TextView text = (TextView) layout.findViewById(R.id.text);
 		String type = getArguments().getString("type");
-		text.setText(type);
-
+		text.setText(this.getClass().getSimpleName() + type);
+		
+		isFirstDepth = getArguments().getBoolean("isFirstDepth");
+		
 		return layout;
 	}
 	

@@ -19,77 +19,62 @@ package com.cnm.cnmrc.fragment.vodtvch;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 
-public class VodTvchTopMenu extends Fragment implements View.OnClickListener{
+public class TvchList extends Base implements View.OnClickListener {
 
 	View layout;
-	
-	TextView mTitle;
-	
-	ImageButton mVodTopCategory;
+
+	boolean isSemiDetail = true;	// 다음 depth가 semiDetail인가?
+
+	public TvchList newInstance(String type, boolean isFirstDepth) {
+		TvchList f = new TvchList();
+		Bundle args = new Bundle();
+		args.putString("type", type);
+		args.putBoolean("isFirstDepth", isFirstDepth);	
+		f.setArguments(args);
+		return f;
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		layout = inflater.inflate(R.layout.tvch_list, container, false);
 
-		//layout = inflater.inflate(R.layout.fragment_main_top_menu, null);
-		layout = inflater.inflate(R.layout.vod_tvch_top_menu, container, false);
-		
-		mTitle = (TextView) layout.findViewById(R.id.vod_tvch_top_title);
-		
-		mVodTopCategory = (ImageButton) layout.findViewById(R.id.vod_tvch_top_category);
-		mVodTopCategory.setOnClickListener(this);
+		TextView text = (TextView) layout.findViewById(R.id.text);
+		text.setOnClickListener(this);
+		String type = getArguments().getString("type");
+		text.setText(this.getClass().getSimpleName() + type);
+
+		isFirstDepth = getArguments().getBoolean("isFirstDepth");
 
 		return layout;
-	}
-	
-	public void setTitle(int index, String[] categoryArray) {
-		mTitle.setText(categoryArray[index]);
-	}
-	
-	public void setTitle(String title) {
-		mTitle.setText(title);
 	}
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		
+
 	}
-	
+
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		
+
 	}
-	
-	@Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-	
+
 	@Override
 	public void onClick(View v) {
-		
-		switch(v.getId()){
-		case R.id.vod_tvch_top_category:
-			Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
-			if (f != null) {
-				((VodTvch)f).mSlidingMenu.toggleSidebar();
-				Log.i("hwang", "sliding menu");
-			}
-			//((MainActivity) getActivity()).mLayout.toggleSidebar();
+
+		switch (v.getId()) {
+		case R.id.text:
+			loadingData(4, "\nTvchSemiDetail  ", false); // false : 1 depth가 아님.
 			break;
 		}
 	}
-	
+
 }

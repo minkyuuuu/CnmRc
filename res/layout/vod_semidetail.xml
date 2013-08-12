@@ -5,10 +5,10 @@
     android:background="@drawable/repeat_default_bg" >
 
     <ListView
-        android:id="@+id/vod_list"
+        android:id="@+id/vod_semidetail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:drawSelectorOnTop="true"
-        android:listSelector="@drawable/vod_list_background" />
+        android:listSelector="@drawable/vod_semidetail_background" >
+    </ListView>
 
 </FrameLayout>

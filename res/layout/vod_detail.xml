@@ -2,17 +2,289 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/repeat_default_bg"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="vod detail"
-        android:textColor="#ffff0000"
-        android:textSize="30sp"
-        android:textStyle="italic" />
+    <!-- 1st of 4th -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px88"
+        android:gravity="center_vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="미스터고 미스터고"
+                android:textColor="#ff333333"
+                android:textSize="@dimen/sp23"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/hdicon_res_id"
+                android:layout_width="@dimen/px66"
+                android:layout_height="@dimen/px40"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/px20"
+                android:background="@drawable/hdicon"
+                android:contentDescription="@string/accessibility_no_action" />
+
+            <ImageView
+                android:id="@+id/age_res_id"
+                android:layout_width="@dimen/px40"
+                android:layout_height="@dimen/px40"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/px14"
+                android:background="@drawable/age19"
+                android:contentDescription="@string/accessibility_no_action" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- 2nd of 4th -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px446"
+        android:background="#99ffffff"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px24" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px398"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/title_res_id"
+                android:layout_width="@dimen/px280"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/px24"
+                android:layout_marginRight="@dimen/px24"
+                android:background="@drawable/mister_go_big"
+                android:contentDescription="@string/accessibility_no_action" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                >
+
+                <LinearLayout
+                    android:id="@+id/linear_director"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px52"
+                    android:layout_alignParentTop="true"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/director"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center"
+                        android:singleLine="true"
+                        android:text="감독 :"
+                        android:textColor="#ff333333"
+                        android:textSize="@dimen/sp16"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/director_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center"
+                        android:singleLine="true"
+                        android:text=" 김용화"
+                        android:textColor="#ff797979"
+                        android:textSize="@dimen/sp15"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_cast"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px52"
+                    android:layout_below="@id/linear_director"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/cast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center"
+                        android:singleLine="true"
+                        android:text="출연 :"
+                        android:textColor="#ff333333"
+                        android:textSize="@dimen/sp16"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/cast_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center"
+                        android:singleLine="true"
+                        android:text=" 성동일, 서교"
+                        android:textColor="#ff797979"
+                        android:textSize="@dimen/sp15"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_watching"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px52"
+                    android:layout_below="@id/linear_cast"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/watching"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center"
+                        android:singleLine="true"
+                        android:text="관람등급 :"
+                        android:textColor="#ff333333"
+                        android:textSize="@dimen/sp16"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/watching_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center"
+                        android:singleLine="true"
+                        android:text=" 12세이상"
+                        android:textColor="#ff797979"
+                        android:textSize="@dimen/sp15"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px52"
+                    android:layout_below="@id/linear_watching"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center"
+                        android:singleLine="true"
+                        android:text="가격 :"
+                        android:textColor="#ff333333"
+                        android:textSize="@dimen/sp16"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/price_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center"
+                        android:singleLine="true"
+                        android:text=" 4,000원"
+                        android:textColor="#ff797979"
+                        android:textSize="@dimen/sp15"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="vertical" >
+
+                    <ImageButton
+                        android:id="@+id/vod_zzim"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/px66"
+                        android:layout_marginBottom="@dimen/px20"
+                        android:background="@drawable/vod_zzim"
+                        android:contentDescription="@string/accessibility_no_action" />
+
+                    <ImageButton
+                        android:id="@+id/vod_tv_watching"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/px66"
+                        android:background="@drawable/vod_tv_watching"
+                        android:contentDescription="@string/accessibility_no_action" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="@dimen/px24"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px24" />
+    </LinearLayout>
+
+    <!-- 3rd of 4th -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px68"
+        android:background="#99d3c5e1" >
+
+        <TextView
+            android:id="@+id/synopsys"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/px24"
+            android:gravity="left|center"
+            android:singleLine="true"
+            android:text="시놉시스"
+            android:textColor="#ff333333"
+            android:textSize="@dimen/sp16"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <!-- 4th of 4th -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/px24"
+        android:layout_marginRight="@dimen/px24"
+        android:layout_marginTop="@dimen/px24"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:id="@+id/scroller"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fillViewport="true" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/scroller_text" 
+                android:textColor="#ff797979"
+                android:textSize="@dimen/sp15"
+                />
+        </ScrollView>
+    </LinearLayout>
 
 </LinearLayout>

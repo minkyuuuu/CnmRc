@@ -30,10 +30,11 @@ public class VodDetail extends Base implements View.OnClickListener{
 
 	View layout;
 	
-	public VodDetail newInstance(String type) {
+	public VodDetail newInstance(String type, boolean isFirstDepth) {
 		VodDetail f = new VodDetail();
 		Bundle args = new Bundle();
 		args.putString("type", type);
+		args.putBoolean("isFirstDepth", isFirstDepth);
 		f.setArguments(args);
 		return f;
 	}
@@ -42,9 +43,11 @@ public class VodDetail extends Base implements View.OnClickListener{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		layout = inflater.inflate(R.layout.vod_detail, container, false);
 		
-		TextView text = (TextView) layout.findViewById(R.id.text);
-		String type = getArguments().getString("type");
-		text.setText(type);
+//		TextView text = (TextView) layout.findViewById(R.id.text);
+//		String type = getArguments().getString("type");
+//		text.setText("상세보기");
+		
+		isFirstDepth = getArguments().getBoolean("isFirstDepth");
 
 		return layout;
 	}
