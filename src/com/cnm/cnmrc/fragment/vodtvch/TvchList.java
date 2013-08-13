@@ -16,21 +16,25 @@
 
 package com.cnm.cnmrc.fragment.vodtvch;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.cnm.cnmrc.R;
 
-public class TvchList extends Base implements View.OnClickListener {
+public class TvchList extends Base {
 
 	View layout;
 
-	boolean isSemiDetail = true;	// 다음 depth가 semiDetail인가?
+	ListView 	mListView;
+	String[] mArray = null;
+	ArrayList<String> arrayList = null;
 
 	public TvchList newInstance(String type, boolean isFirstDepth) {
 		TvchList f = new TvchList();
@@ -45,12 +49,37 @@ public class TvchList extends Base implements View.OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		layout = inflater.inflate(R.layout.tvch_list, container, false);
 
-		TextView text = (TextView) layout.findViewById(R.id.text);
-		text.setOnClickListener(this);
-		String type = getArguments().getString("type");
-		text.setText(this.getClass().getSimpleName() + type);
-
 		isFirstDepth = getArguments().getBoolean("isFirstDepth");
+		
+		
+		// listview
+		mListView   = (ListView) layout.findViewById(R.id.tvch_list_listview);
+		
+		// 장르별 채널 정보 
+		mArray= getActivity().getResources().getStringArray(R.array.tvch_genre);
+		
+        arrayList = new ArrayList<String>(mArray.length);
+        for(String item: mArray) {
+        	arrayList.add(item);
+        }
+        
+		// -------------------
+		// vod list type
+		// -------------------
+        VodListAdapter adapter = new VodListAdapter(getActivity(), R.layout.list_item_vod_list, arrayList);
+        mListView.setAdapter(adapter);
+        mListView.setDivider(null);
+        mListView.setDividerHeight(0);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+            	increaseCurrentDepth();
+        		
+            	loadingData(4, arrayList.get(position), false); // 4 : TvchSemiDetail, 		false : 1 depth가 아님.
+            }
+
+        });
 
 		return layout;
 	}
@@ -67,14 +96,5 @@ public class TvchList extends Base implements View.OnClickListener {
 
 	}
 
-	@Override
-	public void onClick(View v) {
-
-		switch (v.getId()) {
-		case R.id.text:
-			loadingData(4, "\nTvchSemiDetail  ", false); // false : 1 depth가 아님.
-			break;
-		}
-	}
 
 }

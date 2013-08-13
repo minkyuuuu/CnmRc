@@ -13,7 +13,7 @@
     <!-- vod -->
     <string name="vod_main_title">VOD</string>
     <string name="vod_main_title_1">애니메이션\u0026키즈</string>
-    
+
     <string-array name="vod_category">
         <item>예고편</item>
         <item>최신영화</item>
@@ -34,14 +34,24 @@
         <item>HD채널</item>
         <item>유료채널</item>
     </string-array>
-        <string-array name="tvch_class_type">
+    <string-array name="tvch_genre">
+        <item>지상파/장르</item>
+        <item>영화</item>
+        <item>드라마/여성</item>
+        <item>음악/오락</item>
+        <item>스포츠/게임</item>
+        <item>뉴스/다큐</item>
+        <item>교육/키즈</item>
+        <item>종교/기타</item>
+        <item>홈쇼핑</item>
+    </string-array>
+    <string-array name="tvch_class_type">
         <item>TvchSemiDetail</item>
         <item>TvchList</item>
         <item>TvchSemiDetail</item>
         <item>TvchSemiDetail</item>
     </string-array>
-    
-    
+
     <!-- 나중에 지울것... -->
     <string-array name="vod_genre">
         <item>오늘의 추천</item>
@@ -63,7 +73,7 @@
         <item>나만의 추천 VOD</item>
         <item>VOD이벤트 진행</item>
     </string-array>
-    
+
     <string name="scroller_text">야구하는 고릴라 ‘링링’과 15세 소녀
 세상에 없던 가장 특별한 이야기가 시작된다!
 
@@ -82,8 +92,7 @@
 곧 전국민의 슈퍼스타로 거듭나게 되는데...!
 
 2013년 여름
-대한민국 꿈의 영화
-</string>
+대한민국 꿈의 영화</string>
 
     <!-- popup -->
     <string name="popup_yes">예</string>

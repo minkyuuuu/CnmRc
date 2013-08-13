@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="#ff413f3e"
-                android:textSize="@dimen/sp20" />
+                android:textSize="@dimen/sp35" />
 
             <ImageView
                 android:layout_width="@dimen/px520"
@@ -40,7 +40,7 @@
                 android:layout_marginTop="@dimen/px20"
                 android:gravity="center"
                 android:textColor="#ff413f3e"
-                android:textSize="@dimen/sp17" />
+                android:textSize="@dimen/sp30" />
 
             <TextView
                 android:id="@+id/popup_line_2"
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="#ff413f3e"
-                android:textSize="@dimen/sp17" />
+                android:textSize="@dimen/sp30" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

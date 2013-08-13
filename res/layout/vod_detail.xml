@@ -27,7 +27,7 @@
                 android:singleLine="true"
                 android:text="미스터고 미스터고"
                 android:textColor="#ff333333"
-                android:textSize="@dimen/sp23"
+                android:textSize="@dimen/sp40"
                 android:textStyle="bold" />
 
             <ImageView
@@ -97,7 +97,7 @@
                         android:singleLine="true"
                         android:text="감독 :"
                         android:textColor="#ff333333"
-                        android:textSize="@dimen/sp16"
+                        android:textSize="@dimen/sp28"
                         android:textStyle="bold" />
 
                     <TextView
@@ -108,7 +108,7 @@
                         android:singleLine="true"
                         android:text=" 김용화"
                         android:textColor="#ff797979"
-                        android:textSize="@dimen/sp15"
+                        android:textSize="@dimen/sp26"
                         />
                 </LinearLayout>
 
@@ -128,7 +128,7 @@
                         android:singleLine="true"
                         android:text="출연 :"
                         android:textColor="#ff333333"
-                        android:textSize="@dimen/sp16"
+                        android:textSize="@dimen/sp28"
                         android:textStyle="bold" />
 
                     <TextView
@@ -139,7 +139,7 @@
                         android:singleLine="true"
                         android:text=" 성동일, 서교"
                         android:textColor="#ff797979"
-                        android:textSize="@dimen/sp15"
+                        android:textSize="@dimen/sp26"
                         />
                 </LinearLayout>
 
@@ -159,7 +159,7 @@
                         android:singleLine="true"
                         android:text="관람등급 :"
                         android:textColor="#ff333333"
-                        android:textSize="@dimen/sp16"
+                        android:textSize="@dimen/sp28"
                         android:textStyle="bold" />
 
                     <TextView
@@ -170,7 +170,7 @@
                         android:singleLine="true"
                         android:text=" 12세이상"
                         android:textColor="#ff797979"
-                        android:textSize="@dimen/sp15"
+                        android:textSize="@dimen/sp26"
                         />
                 </LinearLayout>
 
@@ -190,7 +190,7 @@
                         android:singleLine="true"
                         android:text="가격 :"
                         android:textColor="#ff333333"
-                        android:textSize="@dimen/sp16"
+                        android:textSize="@dimen/sp28"
                         android:textStyle="bold" />
 
                     <TextView
@@ -201,7 +201,7 @@
                         android:singleLine="true"
                         android:text=" 4,000원"
                         android:textColor="#ff797979"
-                        android:textSize="@dimen/sp15"
+                        android:textSize="@dimen/sp26"
                         />
                 </LinearLayout>
 
@@ -256,7 +256,7 @@
             android:singleLine="true"
             android:text="시놉시스"
             android:textColor="#ff333333"
-            android:textSize="@dimen/sp16"
+            android:textSize="@dimen/sp28"
             android:textStyle="bold" />
     </RelativeLayout>
 
@@ -282,7 +282,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/scroller_text" 
                 android:textColor="#ff797979"
-                android:textSize="@dimen/sp15"
+                android:textSize="@dimen/sp26"
                 />
         </ScrollView>
     </LinearLayout>

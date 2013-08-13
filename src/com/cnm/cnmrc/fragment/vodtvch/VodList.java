@@ -16,22 +16,16 @@
 
 package com.cnm.cnmrc.fragment.vodtvch;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 
 public class VodList extends Base implements View.OnClickListener {
@@ -63,15 +57,11 @@ public class VodList extends Base implements View.OnClickListener {
 		mListView   = (ListView) layout.findViewById(R.id.vod_list);
 		
 		// 현재의 depth 체크
-		FragmentManager fm = getActivity().getSupportFragmentManager();
-		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
-		if (f != null) {
-			if( ((VodTvch)f).currentDepth == 1 )  {
-				mArray= getActivity().getResources().getStringArray(R.array.vod_genre);
-			}
-			if( ((VodTvch)f).currentDepth == 2 )  {
-				mArray= getActivity().getResources().getStringArray(R.array.vod_today_recommendation);
-			}
+		if( getCurrentDepth() == 1 )  {
+			mArray= getActivity().getResources().getStringArray(R.array.vod_genre);
+		}
+		if( getCurrentDepth() == 2 )  {
+			mArray= getActivity().getResources().getStringArray(R.array.vod_today_recommendation);
 		}
 		
         arrayList = new ArrayList<String>(mArray.length);
@@ -94,9 +84,7 @@ public class VodList extends Base implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-        		FragmentManager fm = getActivity().getSupportFragmentManager();
-        		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
-        		if (f != null) ((VodTvch)f).currentDepth++;
+            	increaseCurrentDepth();
         		
     			if (isSemiDetail)
     				loadingData(1, arrayList.get(position), false); // 1 : VodSemiDetail, false : 1 depth가 아님.

@@ -2,18 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    >
+    android:background="@drawable/repeat_default_bg" >
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="common list"
-        android:textColor="#ffff0000"
-        android:textSize="30sp"
-        android:textStyle="italic" />
+    <ListView
+        android:id="@+id/tvch_list_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:drawSelectorOnTop="true"
+        android:listSelector="@drawable/vod_list_background" />
 
 </FrameLayout>

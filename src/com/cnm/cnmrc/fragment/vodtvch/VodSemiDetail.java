@@ -29,7 +29,7 @@ import android.widget.ListView;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.data.ItemVodSemiDetail;
 
-public class VodSemiDetail extends Base implements View.OnClickListener{
+public class VodSemiDetail extends Base{
 
 	View layout;
 	
@@ -96,6 +96,8 @@ public class VodSemiDetail extends Base implements View.OnClickListener{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
+            	increaseCurrentDepth();
+            	
             	loadingData(2, "상세보기", false); // 0 : VodList, false : 1 depth가 아님.
             }
 
@@ -116,20 +118,7 @@ public class VodSemiDetail extends Base implements View.OnClickListener{
 		
 	}
 	
-	@Override
-	public void onClick(View v) {
-		
-		switch(v.getId()){
-		case R.id.text:
-			//loadingData(2, "상세보기", false);	// false : 1 depth가 아님.
-			break;
-		}
-	}
 
-//	private void loadingData(int selectedCategory, String title, boolean isSidebar) {
-//		// TODO Auto-generated method stub
-//		
-//	}
 	
 	
 }

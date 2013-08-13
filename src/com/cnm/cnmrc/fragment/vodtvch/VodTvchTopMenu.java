@@ -52,10 +52,6 @@ public class VodTvchTopMenu extends Fragment implements View.OnClickListener{
 		return layout;
 	}
 	
-	public void setTitle(int index, String[] categoryArray) {
-		mTitle.setText(categoryArray[index]);
-	}
-	
 	public void setTitle(String title) {
 		mTitle.setText(title);
 	}

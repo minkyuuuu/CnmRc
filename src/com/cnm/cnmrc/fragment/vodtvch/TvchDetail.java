@@ -16,19 +16,25 @@
 
 package com.cnm.cnmrc.fragment.vodtvch;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.data.ItemTvchDetail;
 
 public class TvchDetail extends Base implements View.OnClickListener{
 
 	View layout;
+	
+	ListView 	mListView;
+	ArrayList<ItemTvchDetail> arrayList = null;
 	
 	public TvchDetail newInstance(String type, boolean isFirstDepth) {
 		TvchDetail f = new TvchDetail();
@@ -43,11 +49,42 @@ public class TvchDetail extends Base implements View.OnClickListener{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		layout = inflater.inflate(R.layout.tvch_detail, container, false);
 		
-		TextView text = (TextView) layout.findViewById(R.id.text);
-		String type = getArguments().getString("type");
-		text.setText(this.getClass().getSimpleName() + type);
-		
 		isFirstDepth = getArguments().getBoolean("isFirstDepth");
+		
+		// listview
+		mListView   = (ListView) layout.findViewById(R.id.tvch_detail_list);
+		
+		// make item data
+		arrayList = new ArrayList<ItemTvchDetail>(20);
+		for (int i = 0; i < 20; i++) {
+			ItemTvchDetail item = new ItemTvchDetail();
+			
+			item.setCurrent_time("13:20");
+			item.setCurrent_title("스마일");
+			
+			item.setHdIconResId(0);
+			if(i==3) item.setHdIconResId(R.drawable.hdicon);
+			if(i==7) item.setHdIconResId(R.drawable.hdicon);
+			if(i==10) item.setHdIconResId(R.drawable.hdicon);
+			if(i==12) item.setHdIconResId(R.drawable.hdicon);
+			
+			arrayList.add(item);
+		}
+		
+		// -------------------
+		// tvch semidetail
+		// -------------------
+        TvchDetailAdapter adapter = new TvchDetailAdapter(getActivity(), R.layout.list_item_tvch_detail, arrayList);
+        mListView.setAdapter(adapter);
+        mListView.setDivider(null);
+        mListView.setDividerHeight(0);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
+            }
+
+        });
 		
 		return layout;
 	}

@@ -17,6 +17,8 @@
 package com.cnm.cnmrc.fragment.vodtvch;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
+import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
 import com.cnm.cnmrc.slidingmenu.SlidingMenu;
@@ -59,6 +62,8 @@ public class VodTvch extends Fragment implements View.OnClickListener, SlidingMe
 	public int mBackStackEntry = 100;
 	
 	public int currentDepth = 1;
+	
+	public HashMap<Integer, String> mMapTitle = null;
 	
 	
 	@Override
@@ -98,10 +103,14 @@ public class VodTvch extends Fragment implements View.OnClickListener, SlidingMe
         	arrayList.add(item);
         }
         
-        // ----------
-    	// set title
-        // ----------
+        // -------------------------
+    	// set title : category
+        // -------------------------
+        // 타이틀을 설정할 때, 나중에 back key 처리때 필요하므로 저장해야 한다. depth와 함께 저장하면 좋다.
+        mMapTitle = new HashMap<Integer, String>();
+        
 		setTitle(0);
+		
         
 		// -------------------
 		// sidebar category
@@ -257,8 +266,8 @@ public class VodTvch extends Fragment implements View.OnClickListener, SlidingMe
         // 하단의 bottom menu 설정
         // -----------------------
         {
-	        Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_rc_bottom_menu);
-			if (f != null) ((RcBottomMenu)f).setRemoconMode();
+        	Fragment f = ((MainActivity)getActivity()).getFragmentRcBottomMenu();
+			if ( f != null) ((RcBottomMenu)f).setRemoconMode();
         }
     }
 	
@@ -281,9 +290,34 @@ public class VodTvch extends Fragment implements View.OnClickListener, SlidingMe
 		return mCategoryArray;
 	}
 	
+	
+	// 기본 타이틀설정은 VodTvch와 Base 두 곳에 있음. (1)
 	private void setTitle(int position) {
 		Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_vod_tvch_top_menu);
-		if (f != null) ((VodTvchTopMenu)f).setTitle(position, mCategoryArray);
+		if (f != null) ((VodTvchTopMenu)f).setTitle(mCategoryArray[position]);
+		
+		saveTitle(currentDepth, mCategoryArray[position]);
+	}
+	
+	public void setTitle(String title) {
+		Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_vod_tvch_top_menu);
+		if (f != null) ((VodTvchTopMenu)f).setTitle(title);
+		
+		saveTitle(currentDepth, title);
+	}
+	
+	public void setTitle() {
+		String title = getTitle(--currentDepth);
+		Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_vod_tvch_top_menu);
+		if (f != null) ((VodTvchTopMenu)f).setTitle(title);
+	}
+	
+	public void saveTitle(int key, String title) {
+		mMapTitle.put(key, title);
+	}
+	
+	public String getTitle(int key) {
+		return mMapTitle.get(key);
 	}
 	
 	
@@ -291,6 +325,7 @@ public class VodTvch extends Fragment implements View.OnClickListener, SlidingMe
 	
 	
 	
+
 	@Override
 	public void onSidebarOpenedStart() {
 		// 현재 선택된 category를 clear...

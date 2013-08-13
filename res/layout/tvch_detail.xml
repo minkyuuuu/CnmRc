@@ -2,17 +2,84 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/repeat_default_bg"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="tvch detail"
-        android:textColor="#ffff0000"
-        android:textSize="30sp"
-        android:textStyle="italic" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px68"
+        android:gravity="center_vertical"
+        android:background="#ffd7cfe1"
+        android:orientation="horizontal" >
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:layout_width="@dimen/px88"
+                android:layout_height="match_parent"
+                >
+
+                <ImageButton
+                    android:id="@+id/date_pre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/tvch_date_pre"
+                    android:contentDescription="@string/accessibility_no_action" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="@dimen/px264"
+                android:layout_height="match_parent"
+                >
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="left|center_vertical"
+                    android:singleLine="true"
+                    android:text="08월"
+                    android:textColor="#ff7a61aa"
+                    android:textSize="@dimen/sp32"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="@dimen/px88"
+                android:layout_height="match_parent"
+                >
+
+                <ImageButton
+                    android:id="@+id/date_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/tvch_date_next"
+                    android:contentDescription="@string/accessibility_no_action" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/tvch_detail_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:listSelector="@drawable/vod_semidetail_background" >
+    </ListView>
 
 </LinearLayout>

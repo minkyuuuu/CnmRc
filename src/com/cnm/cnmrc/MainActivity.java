@@ -482,6 +482,29 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		ft.replace(R.id.rc_panel, fragment, tag);
 		ft.commit();
 	}
+	
+	
+	
+	public Fragment getFragmentRcBottomMenu() {
+		Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_rc_bottom_menu);
+		return f;
+	}
+	
+	public Fragment getFragmentVodTvch() {
+		Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
+		return f;
+	}
+	
+	public Fragment getFragmentVodTvchTopMenu() {
+		Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_vod_tvch_top_menu);
+		return f;
+	}
+	
+	
+	
+	
+	
+	
 
 	/*@Override
 	public void onEventQwertySelected() {

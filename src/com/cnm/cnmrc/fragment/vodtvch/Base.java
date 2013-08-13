@@ -289,11 +289,49 @@ public class Base extends Fragment {
 			FragmentManager fm = getActivity().getSupportFragmentManager();
 			((RcBottomMenu)f).deleteDepthLevel(fm.getBackStackEntryCount());
 		}
+		
+		setTitleBackKey();
 	}
 	
+	// 기본 타이틀설정은 VodTvch와 Base 두 곳에 있음. (2)
 	private void setTitle(String title) {
-		Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_vod_tvch_top_menu);
-		if (f != null) ((VodTvchTopMenu)f).setTitle(title);
+		FragmentManager fm = getActivity().getSupportFragmentManager();
+		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
+		if (f != null) ((VodTvch)f).setTitle(title);
 	}
+	
+	private void setTitleBackKey() {
+		FragmentManager fm = getActivity().getSupportFragmentManager();
+		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
+		if (f != null) ((VodTvch)f).setTitle();
+	}
+	
+	protected void increaseCurrentDepth() {
+		FragmentManager fm = getActivity().getSupportFragmentManager();
+		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
+		if (f != null) ((VodTvch)f).currentDepth++;
+	}
+	
+	protected void decreaseCurrentDepth() {
+		FragmentManager fm = getActivity().getSupportFragmentManager();
+		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
+		if (f != null) ((VodTvch)f).currentDepth--;
+	}
+	
+	protected int getCurrentDepth() {
+		FragmentManager fm = getActivity().getSupportFragmentManager();
+		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
+		if (f != null) return ((VodTvch)f).currentDepth;
+		else return 0;
+	}
+	
+	protected Fragment getVodTvchFragment() {
+		FragmentManager fm = getActivity().getSupportFragmentManager();
+		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
+		
+		return f;
+	}
+	
+	
 
 }

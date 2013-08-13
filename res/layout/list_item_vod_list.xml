@@ -19,7 +19,7 @@
             android:singleLine="true"
             android:text="MD 추천"
             android:textColor="#ff7961aa"
-            android:textSize="@dimen/sp20"
+            android:textSize="@dimen/sp35"
             android:textStyle="bold" />
 
         <ImageView
