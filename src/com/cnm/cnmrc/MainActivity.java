@@ -1,14 +1,13 @@
 package com.cnm.cnmrc;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentManager.BackStackEntry;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -69,6 +68,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	public final String TAG_FRAGMENT_VOD_TVCH = "vod_tvch";
 	public final String TAG_FRAGMENT_BASE = "base";
 	
+	public final String TAG_FRAGMENT_SEARCH = "search";
+	public final String TAG_FRAGMENT_CONFIG = "config";
+	
 	public final String TAG_FRAGMENT_FOURWAY = "fourway";
 	public final String TAG_FRAGMENT_CHANNEL_VOLUME = "channel_volume";
 	
@@ -86,10 +88,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	boolean toggleCircleMenu = true; 	// circle menu가 보이는지 or 안보이는지?
 
 	FrameLayout mVodTvchPanel;			// top menu의 vod, tvch 아이콘의 메인화면의 레이아웃
+	FrameLayout mSearchPanel;			// top menu의 search 아이콘의 메인화면의 레이아웃
+	FrameLayout mConfigPanel;			// circle menu의 config 아이콘의 메인화면의 레이아웃
 	
 	Animation aniRcPanelFadeout;
 	Animation aniRcTopMenuFadein;
 	Animation aniQwertyFadeout;
+	
+	Animation aniCirCleMenuEnter, aniCirCleMenuExit;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -165,6 +171,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		
 		// VOD and TVCh 메인화면
 		mVodTvchPanel = (FrameLayout) findViewById(R.id.vod_tvch_panel);
+		
+		// Search 메인화면
+		mSearchPanel = (FrameLayout) findViewById(R.id.search_panel);
+		
+		// Config 메인화면
+		mConfigPanel = (FrameLayout) findViewById(R.id.config_panel);
 
 		// animation
 		aniRcPanelFadeout= AnimationUtils.loadAnimation(this, R.anim.rc_panel_fadeout);
@@ -172,6 +184,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		
 		aniRcTopMenuFadein= AnimationUtils.loadAnimation(this, R.anim.rc_top_menu_fadein);
 		aniQwertyFadeout = AnimationUtils.loadAnimation(this, R.anim.qwerty_fadeout);
+		
+		aniCirCleMenuEnter = AnimationUtils.loadAnimation(this, R.anim.scale_up);
+		aniCirCleMenuExit = AnimationUtils.loadAnimation(this, R.anim.scale_down);
 	}
 
 	private void setEvent() {
@@ -234,6 +249,36 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			@Override
 			public void onAnimationRepeat(Animation animation) { }
 		});
+		
+		aniCirCleMenuEnter.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) { 
+				mCircleMenu.setVisibility(View.VISIBLE);
+				}
+			
+			@Override
+			public void onAnimationEnd(Animation animation) { }
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				mCircleMenu.clearAnimation();
+			}
+		});
+		
+		aniCirCleMenuExit.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) { 
+			}
+			
+			@Override
+			public void onAnimationEnd(Animation animation) { }
+			
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+				mCircleMenu.setVisibility(View.INVISIBLE);
+				mCircleMenu.clearAnimation();
+			}
+		});
 
 	}
 
@@ -263,7 +308,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			goToVodTvch("tvch");
 			break;
 		case R.id.search:
-			Log.i("hwang", "search");
+			goToSearch("rc");
 			break;
 
 		// bottom menu
@@ -282,8 +327,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			openQwerty();
 			break;
 		case R.id.config:
-			rcIconOn();
-			Log.i("hwang", "config");
+			Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG);
+			if (f == null) {
+				f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
+				if (f != null) goToConfig("vod_tvch");
+				else goToConfig("rc");
+			} else {
+				rcIconOnNoAni();
+			}
 			break;
 
 		}
@@ -303,6 +354,45 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		if(mCircleMenu.getVisibility() == View.VISIBLE) {
 			rcIconOnNoAni();
         	return;
+		}
+		
+		// ---------------------------
+		// search
+		// ---------------------------
+		final ConfigFragment config = (ConfigFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG);
+		if (config != null) {
+			if (config.allowBackPressed().equals("rc")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+				backToRc();
+				mConfigPanel.setVisibility(View.INVISIBLE);
+				
+				super.onBackPressed();	// go to destroyView of vodtvch
+				return;
+			}
+			if (config.allowBackPressed().equals("vod_tvch")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+				mConfigPanel.setVisibility(View.INVISIBLE);
+				
+				super.onBackPressed();	// go to destroyView of vodtvch
+				return;
+			}
+		}
+		
+		// ---------------------------
+		// search
+		// ---------------------------
+		final SearchFragment search = (SearchFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_SEARCH);
+		if (search != null) {
+			if (search.allowBackPressed().equals("rc")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+				backToRc();
+				
+				super.onBackPressed();	// go to destroyView of vodtvch
+				return;
+			}
+			if (search.allowBackPressed().equals("vod_tvch")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+				mSearchPanel.setVisibility(View.INVISIBLE);
+				
+				super.onBackPressed();	// go to destroyView of vodtvch
+				return;
+			}
 		}
 		
 		// -------------------------------
@@ -380,7 +470,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		mRcNumericPad.setVisibility(View.VISIBLE);
 		mVodTvchPanel.setVisibility(View.INVISIBLE);
 	}
-
+	
 	private void goToVodTvch(String type) {
 		FragmentManager fm = getSupportFragmentManager();
 		Log.i("hwang", "before when mainActivity  fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
@@ -389,9 +479,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		
 		//  ft.replace전에 animation을 설정해야 한다.
-		// ft.setCustomAnimations(R.anim.vod_chtv_main_entering, 0, 0, R.anim.vod_chtv_main_exit); // 두 번째 진입때 문제발생...
 		ft.setCustomAnimations(R.anim.vod_tvch_base_entering, 0);
-		//ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 		ft.replace(R.id.vod_tvch_panel, vodTvch, TAG_FRAGMENT_VOD_TVCH);
 		ft.addToBackStack(null);	// fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
 		ft.commit();
@@ -404,7 +492,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		mSearch.startAnimation(aniRcPanelFadeout);
 		mRcPanel.startAnimation(aniRcPanelFadeout);
 		mRcNumericPad.startAnimation(aniRcPanelFadeout);
-		
+
 		mStbPower.setVisibility(View.INVISIBLE);
 		mIntegrationUiMain.setVisibility(View.INVISIBLE);
 		mVod.setVisibility(View.INVISIBLE);
@@ -415,6 +503,92 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		mVodTvchPanel.setVisibility(View.VISIBLE);
 		
 		Log.i("hwang", "after when mainActivity fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
+	}
+	
+	public void goToSearch(String type) {
+		FragmentManager fm = getSupportFragmentManager();
+		Log.i("hwang", "(Search) before when mainActivity  fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
+		
+		SearchFragment search = SearchFragment.newInstance(type);
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		
+		//  ft.replace전에 animation을 설정해야 한다.
+		// ft.setCustomAnimations(R.anim.vod_chtv_main_entering, 0, 0, R.anim.vod_chtv_main_exit); // 두 번째 진입때 문제발생...
+		ft.setCustomAnimations(R.anim.vod_tvch_base_entering, 0);
+		ft.add(R.id.search_panel, search, TAG_FRAGMENT_SEARCH);
+		ft.addToBackStack(null);	// fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
+		ft.commit();
+		fm.executePendingTransactions();
+		
+		if(type.equals("rc")) {
+			mStbPower.startAnimation(aniRcPanelFadeout);
+			mIntegrationUiMain.startAnimation(aniRcPanelFadeout);
+			mVod.startAnimation(aniRcPanelFadeout);
+			mTvch.startAnimation(aniRcPanelFadeout);
+			mSearch.startAnimation(aniRcPanelFadeout);
+			mRcPanel.startAnimation(aniRcPanelFadeout);
+			mRcNumericPad.startAnimation(aniRcPanelFadeout);
+			
+			mStbPower.setVisibility(View.INVISIBLE);
+			mIntegrationUiMain.setVisibility(View.INVISIBLE);
+			mVod.setVisibility(View.INVISIBLE);
+			mTvch.setVisibility(View.INVISIBLE);
+			mSearch.setVisibility(View.INVISIBLE);
+			mRcPanel.setVisibility(View.INVISIBLE);
+			mRcNumericPad.setVisibility(View.INVISIBLE);
+			mVodTvchPanel.setVisibility(View.VISIBLE);
+			
+			mSearchPanel.setVisibility(View.VISIBLE);
+		}
+		
+		if(type.equals("vod_tvch")) {
+			mSearchPanel.setVisibility(View.VISIBLE);
+		}
+		
+		Log.i("hwang", "(Search) after when mainActivity fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
+	}
+	
+	public void goToConfig(String type) {
+		rcIconOn();
+		
+		FragmentManager fm = getSupportFragmentManager();
+		Log.i("hwang", "(Search) before when mainActivity  fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
+		
+		ConfigFragment config = ConfigFragment.newInstance(type);
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		
+		//  ft.replace전에 animation을 설정해야 한다.
+		// ft.setCustomAnimations(R.anim.vod_chtv_main_entering, 0, 0, R.anim.vod_chtv_main_exit); // 두 번째 진입때 문제발생...
+		ft.setCustomAnimations(R.anim.vod_tvch_base_entering, 0);
+		ft.add(R.id.config_panel, config, TAG_FRAGMENT_CONFIG);
+		ft.addToBackStack(null);	// fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
+		ft.commit();
+		fm.executePendingTransactions();
+		
+		if(type.equals("rc")) {
+			mStbPower.startAnimation(aniRcPanelFadeout);
+			mIntegrationUiMain.startAnimation(aniRcPanelFadeout);
+			mVod.startAnimation(aniRcPanelFadeout);
+			mTvch.startAnimation(aniRcPanelFadeout);
+			mSearch.startAnimation(aniRcPanelFadeout);
+			mRcPanel.startAnimation(aniRcPanelFadeout);
+			mRcNumericPad.startAnimation(aniRcPanelFadeout);
+			
+			mStbPower.setVisibility(View.INVISIBLE);
+			mIntegrationUiMain.setVisibility(View.INVISIBLE);
+			mVod.setVisibility(View.INVISIBLE);
+			mTvch.setVisibility(View.INVISIBLE);
+			mSearch.setVisibility(View.INVISIBLE);
+			mRcPanel.setVisibility(View.INVISIBLE);
+			mRcNumericPad.setVisibility(View.INVISIBLE);
+			mConfigPanel.setVisibility(View.VISIBLE);
+		}
+		
+		if(type.equals("vod_tvch")) {
+			mConfigPanel.setVisibility(View.VISIBLE);
+		}
+		
+		Log.i("hwang", "(Search) after when mainActivity fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
 	}
 	
 	private void openChannelVolume() {
@@ -466,6 +640,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	private void rcIconOnNoAni() {
 		mCircleMenuBg.setVisibility(View.INVISIBLE);
 		mCircleMenu.setVisibility(View.INVISIBLE);
+		
+		mCircleMenu.clearAnimation();
+		aniCirCleMenuExit.setFillAfter(true);
+		//mCircleMenu.startAnimation(aniCirCleMenuExit);
+		
 		toggleCircleMenu = true;
 		mRcIcon.setBackgroundResource(R.drawable.rc_icon); // 리모컨아이콘 이미지가 바뀌어야 한다.
 	}
@@ -473,6 +652,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	private void rcIconOffNoAni() {
 		mCircleMenuBg.setVisibility(View.VISIBLE);
 		mCircleMenu.setVisibility(View.VISIBLE);
+		
+		mCircleMenu.clearAnimation();
+		aniCirCleMenuEnter.setFillAfter(true);
+		//mCircleMenu.startAnimation(aniCirCleMenuEnter);
+		
 		toggleCircleMenu = false;
 		mRcIcon.setBackgroundResource(R.drawable.main_remocon_icon_off); // 리모컨아이콘 이미지가 바뀌어야 한다.
 	}
@@ -483,8 +667,23 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		ft.commit();
 	}
 	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		// TODO Auto-generated method stub
+		super.onConfigurationChanged(newConfig);
+	}
 	
-	
+	@Override
+	protected void onResume() {
+		Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_SEARCH);
+		if (f != null) {
+			boolean b = f.isVisible();
+			boolean h = f.isHidden();
+		}
+		super.onResume();
+	}
+
+
 	public Fragment getFragmentRcBottomMenu() {
 		Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_rc_bottom_menu);
 		return f;

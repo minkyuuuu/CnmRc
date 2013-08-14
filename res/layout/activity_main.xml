@@ -22,6 +22,22 @@
         android:layout_height="match_parent"
         android:visibility="invisible" >
     </FrameLayout>
+    
+    <!-- search를위한 영역 -->
+    <FrameLayout
+        android:id="@+id/search_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" >
+    </FrameLayout>
+    
+    <!-- config를위한 영역 -->
+    <FrameLayout
+        android:id="@+id/config_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" >
+    </FrameLayout>
 
     
     

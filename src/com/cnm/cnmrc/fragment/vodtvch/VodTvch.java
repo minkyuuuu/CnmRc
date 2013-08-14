@@ -283,7 +283,6 @@ public class VodTvch extends Fragment implements View.OnClickListener, SlidingMe
 		for (int i = 0; i < mCategoryArray.length; i++) {
 			mCategory.getChildAt(i).setSelected(false);
 		}
-		
 	}
 	
 	public String[] getCategoryArray() {
@@ -337,8 +336,6 @@ public class VodTvch extends Fragment implements View.OnClickListener, SlidingMe
 		if(selectedItem != null) selectedItem.setSelected(true);
 		
 		//mCategory.performItemClick(mCategory.getChildAt(selectedCategory), selectedCategory, mCategory.getAdapter().getItemId(selectedCategory));
-		
-		Log.i("hwang", "onSidebarOpened Start");
 	}
 	@Override
 	public void onSidebarOpenedEnd() {

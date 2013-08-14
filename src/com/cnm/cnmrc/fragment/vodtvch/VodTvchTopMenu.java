@@ -20,7 +20,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,28 +29,31 @@ import android.widget.TextView;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 
-public class VodTvchTopMenu extends Fragment implements View.OnClickListener{
+public class VodTvchTopMenu extends Fragment implements View.OnClickListener {
 
 	View layout;
-	
+
 	TextView mTitle;
-	
+
 	ImageButton mVodTopCategory;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		//layout = inflater.inflate(R.layout.fragment_main_top_menu, null);
+		// layout = inflater.inflate(R.layout.fragment_main_top_menu, null);
 		layout = inflater.inflate(R.layout.vod_tvch_top_menu, container, false);
-		
+
 		mTitle = (TextView) layout.findViewById(R.id.vod_tvch_top_title);
+
+		ImageButton search = (ImageButton) layout.findViewById(R.id.vod_tvch_top_search);
+		search.setOnClickListener(this);
 		
 		mVodTopCategory = (ImageButton) layout.findViewById(R.id.vod_tvch_top_category);
 		mVodTopCategory.setOnClickListener(this);
 
 		return layout;
 	}
-	
+
 	public void setTitle(String title) {
 		mTitle.setText(title);
 	}
@@ -59,33 +61,35 @@ public class VodTvchTopMenu extends Fragment implements View.OnClickListener{
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		
+
 	}
-	
+
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		
+
 	}
-	
+
 	@Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-	
+	public void onDestroyView() {
+		super.onDestroyView();
+	}
+
 	@Override
 	public void onClick(View v) {
-		
-		switch(v.getId()){
+
+		switch (v.getId()) {
+		case R.id.vod_tvch_top_search:
+			((MainActivity) getActivity()).goToSearch("vod_tvch");
+			break;
 		case R.id.vod_tvch_top_category:
 			Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
 			if (f != null) {
-				((VodTvch)f).mSlidingMenu.toggleSidebar();
+				((VodTvch) f).mSlidingMenu.toggleSidebar();
 				Log.i("hwang", "sliding menu");
 			}
-			//((MainActivity) getActivity()).mLayout.toggleSidebar();
+			// ((MainActivity) getActivity()).mLayout.toggleSidebar();
 			break;
 		}
 	}
-	
 }

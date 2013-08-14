@@ -94,6 +94,11 @@
 2013년 여름
 대한민국 꿈의 영화</string>
 
+    <!-- search -->
+    <string name="search_hint">검색어를 입력해 주세요.</string>
+    <string name="search_vod">VOD</string>
+    <string name="search_tvch">프로그램</string>
+    
     <!-- popup -->
     <string name="popup_yes">예</string>
     <string name="popup_no">아니오</string>

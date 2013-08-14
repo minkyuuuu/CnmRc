@@ -13,6 +13,9 @@
     <color name="vod_main_category_list_pressed">#ffffffff</color>
     <color name="vod_main_category_list_normal">#ffa4a3a3</color>
     <color name="vod_main_category_list_selected">#ff7961aa</color>
+    
+    <color name="search_menu_text_normal">#ff333333</color>
+    <color name="search_menu_text_press">#ffffffff</color>
 
     <drawable name="aaa">#009d84bd</drawable>
 

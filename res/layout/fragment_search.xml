@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/repeat_default_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px110"
+        android:background="#ff7961aa" >
+
+        <TextView
+            android:id="@+id/search_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="left|center"
+            android:singleLine="true"
+            android:text="검색"
+            android:textColor="#ffffffff"
+            android:textSize="@dimen/sp45"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px96"
+        android:orientation="horizontal" >
+
+        <View
+            android:layout_width="@dimen/px7"
+            android:layout_height="match_parent" />
+
+        <EditText
+            android:id="@+id/search_edit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/px96"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/px4"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:hint="@string/search_hint"
+            android:textColor="#ff797979"
+            android:textSize="@dimen/sp32" />
+
+        <View
+            android:layout_width="@dimen/px7"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/search_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px98"
+        android:checkedButton="@+id/search_vod"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/search_vod"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:checked="true"
+            android:background="@drawable/search_menu_base"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/search_vod"
+            android:textColor="@drawable/search_menu_text"
+            android:textSize="@dimen/sp32" />
+
+        <View
+            android:layout_width="@dimen/px2"
+            android:layout_height="@dimen/px98"
+            android:background="@drawable/search_menu_delimiter" />
+
+        <RadioButton
+            android:id="@+id/search_tvch"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/search_menu_base"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/search_tvch"
+            android:textColor="@drawable/search_menu_text"
+            android:textSize="@dimen/sp32" />
+
+        <View
+            android:layout_width="@dimen/px2"
+            android:layout_height="@dimen/px98"
+            android:background="@drawable/search_menu_delimiter" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <RadioButton
+                android:id="@+id/search_naver"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/search_menu_base"
+                android:button="@null"
+                android:gravity="center"
+                />
+
+            <View
+                android:layout_width="@dimen/px169"
+                android:layout_height="@dimen/px39"
+                android:layout_centerInParent="true"
+                android:background="@drawable/naverlogo" />
+        </RelativeLayout>
+    </RadioGroup>
+
+
+</LinearLayout>
