@@ -49,7 +49,7 @@
                             android:layout_width="@dimen/px228"
                             android:layout_height="@dimen/px167"
                             android:layout_gravity="center"
-                            android:background="@drawable/panel_volplus"
+                            android:background="@drawable/xml_panel_volplus"
                             android:contentDescription="@string/accessibility_general_button" />
 
                         <ImageView
@@ -72,7 +72,7 @@
                             android:id="@+id/panel_mute"
                             android:layout_width="@dimen/px146"
                             android:layout_height="@dimen/px146"
-                            android:background="@drawable/panel_mute_off"
+                            android:background="@drawable/xml_panel_mute_off"
                             android:contentDescription="@string/accessibility_general_button" />
 
                         <ImageView
@@ -95,7 +95,7 @@
                             android:id="@+id/panel_volminus"
                             android:layout_width="@dimen/px228"
                             android:layout_height="@dimen/px167"
-                            android:background="@drawable/panel_volminus"
+                            android:background="@drawable/xml_panel_volminus"
                             android:contentDescription="@string/accessibility_general_button" />
 
                         <ImageView
@@ -130,7 +130,7 @@
                             android:id="@+id/panel_chup"
                             android:layout_width="@dimen/px228"
                             android:layout_height="@dimen/px167"
-                            android:background="@drawable/panel_chup"
+                            android:background="@drawable/xml_panel_chup"
                             android:contentDescription="@string/accessibility_general_button" />
 
                         <ImageView
@@ -161,7 +161,7 @@
                             android:id="@+id/panel_chdown"
                             android:layout_width="@dimen/px228"
                             android:layout_height="@dimen/px167"
-                            android:background="@drawable/panel_chdown"
+                            android:background="@drawable/xml_panel_chdown"
                             android:contentDescription="@string/accessibility_general_button" />
 
                         <ImageView
@@ -188,7 +188,7 @@
                     android:layout_width="@dimen/px110"
                     android:layout_height="@dimen/px110"
                     android:layout_gravity="center"
-                    android:background="@drawable/panel_ok"
+                    android:background="@drawable/xml_panel_ok"
                     android:contentDescription="@string/accessibility_general_button" />
             </FrameLayout>
         </FrameLayout>

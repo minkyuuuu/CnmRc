@@ -29,7 +29,7 @@
             android:layout_width="@dimen/px98"
             android:layout_height="@dimen/px94"
             android:layout_marginRight="@dimen/px10"
-            android:background="@drawable/main_base_top_icon"
+            android:background="@drawable/xml_rc_base_top"
             android:contentDescription="@string/accessibility_search"
             android:src="@drawable/top_icon_search" />
 
@@ -37,7 +37,7 @@
             android:id="@+id/vod_tvch_top_category"
             android:layout_width="@dimen/px98"
             android:layout_height="@dimen/px94"
-            android:background="@drawable/main_base_top_icon"
+            android:background="@drawable/xml_rc_base_top"
             android:contentDescription="@string/accessibility_vod_big_list"
             android:src="@drawable/top_icon_list" />
     </LinearLayout>

@@ -22,6 +22,8 @@ import com.cnm.cnmrc.fragment.popup.PopupMirroringEnter;
 import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
 import com.cnm.cnmrc.fragment.rc.RcChannelVolume;
 import com.cnm.cnmrc.fragment.rc.RcFourWay;
+import com.cnm.cnmrc.fragment.search.SearchFragment;
+import com.cnm.cnmrc.fragment.search.SearchVodDetail;
 import com.cnm.cnmrc.fragment.vodtvch.Base;
 import com.cnm.cnmrc.fragment.vodtvch.VodTvch;
 
@@ -243,7 +245,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			public void onAnimationEnd(Animation animation) {
 				mCircleMenuBg.setVisibility(View.INVISIBLE);
 				mCircleMenu.setVisibility(View.INVISIBLE);
-				mRcIcon.setBackgroundResource(R.drawable.rc_icon); // 리모컨아이콘 이미지가 바뀌어야 한다.
+				mRcIcon.setBackgroundResource(R.drawable.xml_rc_icon); // 리모컨아이콘 이미지가 바뀌어야 한다.
 			}
 			
 			@Override
@@ -356,8 +358,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         	return;
 		}
 		
+		
 		// ---------------------------
-		// search
+		// config와 search간의 순서를 생각해보자. 근본적으로 순서와 관계없이 처리하는 방법을 고려해보자....
+		// config
 		// ---------------------------
 		final ConfigFragment config = (ConfigFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG);
 		if (config != null) {
@@ -371,6 +375,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			if (config.allowBackPressed().equals("vod_tvch")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
 				mConfigPanel.setVisibility(View.INVISIBLE);
 				
+				super.onBackPressed();	// go to destroyView of vodtvch
+				return;
+			}
+		}
+		
+		// ---------------------------
+		// search vod detail
+		// ---------------------------
+		final SearchVodDetail searchVodDetail = (SearchVodDetail) getSupportFragmentManager().findFragmentByTag("search_vod_detail");
+		if (searchVodDetail != null) {
+			if (searchVodDetail.allowBackPressed()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
 				super.onBackPressed();	// go to destroyView of vodtvch
 				return;
 			}
@@ -646,7 +661,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		//mCircleMenu.startAnimation(aniCirCleMenuExit);
 		
 		toggleCircleMenu = true;
-		mRcIcon.setBackgroundResource(R.drawable.rc_icon); // 리모컨아이콘 이미지가 바뀌어야 한다.
+		mRcIcon.setBackgroundResource(R.drawable.xml_rc_icon); // 리모컨아이콘 이미지가 바뀌어야 한다.
 	}
 
 	private void rcIconOffNoAni() {
@@ -658,7 +673,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		//mCircleMenu.startAnimation(aniCirCleMenuEnter);
 		
 		toggleCircleMenu = false;
-		mRcIcon.setBackgroundResource(R.drawable.main_remocon_icon_off); // 리모컨아이콘 이미지가 바뀌어야 한다.
+		mRcIcon.setBackgroundResource(R.drawable.xml_rc_icon_off); // 리모컨아이콘 이미지가 바뀌어야 한다.
 	}
 	
 	private void chagneFragment(Fragment fragment, String tag) {

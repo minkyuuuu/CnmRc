@@ -35,7 +35,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/px90"
-            android:background="@drawable/repeat_default_bg" >
+            android:background="@drawable/xml_repeat_default_bg" >
         </FrameLayout>
     </LinearLayout>
 
@@ -46,7 +46,7 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/repeat_default_bg"
+        android:background="@drawable/xml_repeat_default_bg"
         android:orientation="vertical" >
 
         <fragment

@@ -2,13 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/repeat_default_bg" >
+    android:background="@drawable/xml_repeat_default_bg" >
 
     <ListView
         android:id="@+id/tvch_list_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:drawSelectorOnTop="true"
-        android:listSelector="@drawable/vod_list_background" />
+        android:listSelector="@drawable/xml_vod_list_bg" />
 
 </FrameLayout>

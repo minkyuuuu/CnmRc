@@ -51,8 +51,74 @@
         <item>TvchSemiDetail</item>
         <item>TvchSemiDetail</item>
     </string-array>
+    
+    <!-- search -->
+    <string name="search_title">검색</string>
+    <string name="search_subtitle">최근 검색어</string>
+    <string name="search_recently_delete">최근 검색어 삭제</string>
+    <string name="search_hint">검색어를 입력해 주세요.</string>
+    <string name="search_vod">VOD</string>
+    <string name="search_tvch">프로그램</string>
+    
+    <!-- popup -->
+    <string name="popup_yes">예</string>
+    <string name="popup_no">아니오</string>
+    <string name="mirroring_enter_title">미러TV</string>
+    <string name="mirroring_enter_line_1">미러TV로 이동하시겠습니까?</string>
+    <string name="mirroring_enter_line_2">스트리밍시간이 몇 초 소요됩니다.</string>
+    <string name="mirroring_exit">미러TV를 종료하시겠습니까?</string>
+
+    <!-- mobile Accessibility -->
+    <string name="accessibility_no_action"></string>
+    <string name="accessibility_general_button">Button Pressed</string>
+    <string name="accessibility_rc_icon">Remocon Icon</string>
+    <string name="accessibility_stb_power">SetTopBox Power Button</string>
+    <string name="accessibility_integration_ui_main">Integration UI main on SetTopBox</string>
+    <string name="accessibility_vod">VOD main menu</string>
+    <string name="accessibility_ch">TV channel main menu</string>
+    <string name="accessibility_search">Search menu</string>
+    <string name="accessibility_rcmenu_mirror">Mirroring TV</string>
+    <string name="accessibility_rcmenu_4way">Directional Pad</string>
+    <string name="accessibility_rcmenu_qwerty">Qwerty</string>
+    <string name="accessibility_rcmenu_chvol">Channel and Volume</string>
+    <string name="accessibility_rcmenu_config">Application Configuration</string>
+    <string name="accessibility_vod_big_list">VOD Big List</string>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+        
+    
+    
 
     <!-- 나중에 지울것... -->
+    <string-array name="search_recently_word">
+        <item>설국 열차</item>
+        <item>미스트고</item>
+        <item>올버린</item>
+        <item>오로라공주</item>
+        <item>애니메이션</item>
+        <item>교육</item>
+        <item>검색어</item>
+        <item>검색어</item>
+        <item>검색어</item>
+        <item>검색어</item>
+        <item>검색어</item>
+        <item>검색어</item>
+        <item>검색어</item>
+        <item>검색어</item>
+        <item>검색어</item>
+        <item>검색어</item>
+        <item>검색어</item>
+        <item>검색어</item>
+        <item>검색어</item>
+    </string-array>
     <string-array name="vod_genre">
         <item>오늘의 추천</item>
         <item>영화VOD</item>
@@ -94,33 +160,7 @@
 2013년 여름
 대한민국 꿈의 영화</string>
 
-    <!-- search -->
-    <string name="search_hint">검색어를 입력해 주세요.</string>
-    <string name="search_vod">VOD</string>
-    <string name="search_tvch">프로그램</string>
     
-    <!-- popup -->
-    <string name="popup_yes">예</string>
-    <string name="popup_no">아니오</string>
-    <string name="mirroring_enter_title">미러TV</string>
-    <string name="mirroring_enter_line_1">미러TV로 이동하시겠습니까?</string>
-    <string name="mirroring_enter_line_2">스트리밍시간이 몇 초 소요됩니다.</string>
-    <string name="mirroring_exit">미러TV를 종료하시겠습니까?</string>
-
-    <!-- mobile Accessibility -->
-    <string name="accessibility_no_action"></string>
-    <string name="accessibility_general_button">Button Pressed</string>
-    <string name="accessibility_rc_icon">Remocon Icon</string>
-    <string name="accessibility_stb_power">SetTopBox Power Button</string>
-    <string name="accessibility_integration_ui_main">Integration UI main on SetTopBox</string>
-    <string name="accessibility_vod">VOD main menu</string>
-    <string name="accessibility_ch">TV channel main menu</string>
-    <string name="accessibility_search">Search menu</string>
-    <string name="accessibility_rcmenu_mirror">Mirroring TV</string>
-    <string name="accessibility_rcmenu_4way">Directional Pad</string>
-    <string name="accessibility_rcmenu_qwerty">Qwerty</string>
-    <string name="accessibility_rcmenu_chvol">Channel and Volume</string>
-    <string name="accessibility_rcmenu_config">Application Configuration</string>
-    <string name="accessibility_vod_big_list">VOD Big List</string>
-
+    
+    
 </resources>

@@ -28,7 +28,7 @@
         android:layout_width="@dimen/px126"
         android:layout_height="@dimen/px103"
         android:layout_gravity="bottom|center_horizontal"
-        android:background="@drawable/rc_icon"
+        android:background="@drawable/xml_rc_icon"
         android:contentDescription="@string/accessibility_rc_icon" />
 
 </FrameLayout>

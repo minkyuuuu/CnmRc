@@ -11,7 +11,7 @@
         android:layout_width="@dimen/px98"
         android:layout_height="@dimen/px94"
         android:layout_marginLeft="@dimen/px27"
-        android:background="@drawable/main_top_stb_power"
+        android:background="@drawable/xml_rc_stb_power"
         android:contentDescription="@string/accessibility_stb_power" />
 
     <ImageButton
@@ -19,7 +19,7 @@
         android:layout_width="@dimen/px98"
         android:layout_height="@dimen/px94"
         android:layout_marginLeft="@dimen/px16"
-        android:background="@drawable/main_top_integration_ui_main"
+        android:background="@drawable/xml_rc_integration_ui"
         android:contentDescription="@string/accessibility_integration_ui_main" />
 
     <LinearLayout
@@ -33,7 +33,7 @@
             android:layout_width="@dimen/px98"
             android:layout_height="@dimen/px94"
             android:layout_marginRight="@dimen/px10"
-            android:background="@drawable/main_base_top_icon"
+            android:background="@drawable/xml_rc_base_top"
             android:contentDescription="@string/accessibility_vod"
             android:src="@drawable/top_icon_vod" />
 
@@ -42,7 +42,7 @@
             android:layout_width="@dimen/px98"
             android:layout_height="@dimen/px94"
             android:layout_marginRight="@dimen/px10"
-            android:background="@drawable/main_base_top_icon"
+            android:background="@drawable/xml_rc_base_top"
             android:contentDescription="@string/accessibility_ch"
             android:src="@drawable/top_icon_ch" />
 
@@ -50,7 +50,7 @@
             android:id="@+id/search"
             android:layout_width="@dimen/px98"
             android:layout_height="@dimen/px94"
-            android:background="@drawable/main_base_top_icon"
+            android:background="@drawable/xml_rc_base_top"
             android:contentDescription="@string/accessibility_search"
             android:src="@drawable/top_icon_search" />
     </LinearLayout>

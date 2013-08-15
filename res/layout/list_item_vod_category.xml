@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/px98"
         android:orientation="horizontal"
-        android:background="@drawable/vod_category_background"
+        android:background="@drawable/xml_vod_category_bg"
          >
 
         <TextView
@@ -20,7 +20,7 @@
             android:singleLine="true"
             android:text="@string/vod_main_title_1"
             android:textStyle="bold"
-            android:textColor="@drawable/vod_category_textcolor"
+            android:textColor="@drawable/xml_vod_category_textcolor"
             android:textSize="@dimen/sp35" />
     </LinearLayout>
     

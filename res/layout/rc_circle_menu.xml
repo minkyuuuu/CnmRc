@@ -15,7 +15,7 @@
             android:layout_width="@dimen/px126"
             android:layout_height="@dimen/px90"
             android:layout_centerInParent="true"
-            android:background="@drawable/main_base_rcmenu_icon"
+            android:background="@drawable/xml_rc_base_circle"
             android:contentDescription="@string/accessibility_rcmenu_mirror"
             android:src="@drawable/rcmenu_icon_mirror" />
     </RelativeLayout>
@@ -33,7 +33,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/px100"
-            android:background="@drawable/main_base_rcmenu_icon"
+            android:background="@drawable/xml_rc_base_circle"
             android:contentDescription="@string/accessibility_rcmenu_4way"
             android:src="@drawable/rcmenu_icon_4way" />
 
@@ -44,7 +44,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/px100"
-            android:background="@drawable/main_base_rcmenu_icon"
+            android:background="@drawable/xml_rc_base_circle"
             android:contentDescription="@string/accessibility_rcmenu_qwerty"
             android:src="@drawable/rcmenu_icon_qwerty" />
     </RelativeLayout>
@@ -62,7 +62,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/px50"
-            android:background="@drawable/main_base_rcmenu_icon"
+            android:background="@drawable/xml_rc_base_circle"
             android:contentDescription="@string/accessibility_rcmenu_chvol"
             android:src="@drawable/rcmenu_icon_chvol" />
 
@@ -73,7 +73,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/px50"
-            android:background="@drawable/main_base_rcmenu_icon"
+            android:background="@drawable/xml_rc_base_circle"
             android:contentDescription="@string/accessibility_rcmenu_config"
             android:src="@drawable/rcmenu_icon_setting" />
     </RelativeLayout>

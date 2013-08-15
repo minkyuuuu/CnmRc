@@ -70,7 +70,7 @@ public class RcChannelVolume extends Fragment implements View.OnClickListener {
 
 		mMute = (ImageButton) layout.findViewById(R.id.panel_mute);
 		mAnimMute = (ImageView) layout.findViewById(R.id.anim_mute);
-		mMute.setBackgroundResource(R.drawable.panel_mute_off); // mute off
+		mMute.setBackgroundResource(R.drawable.xml_panel_mute_off); // mute off
 		mToogleMuteOff = true;
 		mMute.setOnClickListener(this);
 
@@ -130,10 +130,10 @@ public class RcChannelVolume extends Fragment implements View.OnClickListener {
 			
 			startLoadingAni((ImageButton) v, mAnimMute);
 			if (mToogleMuteOff) {
-				mMute.setBackgroundResource(R.drawable.panel_mute_on); // mute 배경이미지가 바뀌어야 한다.
+				mMute.setBackgroundResource(R.drawable.xml_panel_mute_on); // mute 배경이미지가 바뀌어야 한다.
 				mToogleMuteOff = false;
 			} else {
-				mMute.setBackgroundResource(R.drawable.panel_mute_off); // mute 배경이미지가 바뀌어야 한다.
+				mMute.setBackgroundResource(R.drawable.xml_panel_mute_off); // mute 배경이미지가 바뀌어야 한다.
 				mToogleMuteOff = true;
 			}
 			break;

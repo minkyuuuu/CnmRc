@@ -54,7 +54,7 @@ public class VodList extends Base implements View.OnClickListener {
 		isFirstDepth = getArguments().getBoolean("isFirstDepth");
 		
 		// listview
-		mListView   = (ListView) layout.findViewById(R.id.vod_list);
+		mListView   = (ListView) layout.findViewById(R.id.vod_listview);
 		
 		// 현재의 depth 체크
 		if( getCurrentDepth() == 1 )  {

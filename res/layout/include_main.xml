@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/repeat_fourwary_bg" />
+        android:background="@drawable/xml_repeat_fourwary_bg" />
     
     <FrameLayout
         android:id="@+id/rc_numeric_pad"
@@ -39,6 +39,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/px90"
         android:layout_gravity="bottom"
-        android:background="@drawable/repeat_default_bg" />
+        android:background="@drawable/xml_repeat_default_bg" />
 
 </LinearLayout>

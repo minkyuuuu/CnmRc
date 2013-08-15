@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/repeat_default_bg"
+    android:background="@drawable/xml_repeat_default_bg"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/tvch_date_pre"
+                    android:background="@drawable/xml_tvch_date_pre"
                     android:contentDescription="@string/accessibility_no_action" />
             </RelativeLayout>
 
@@ -64,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/tvch_date_next"
+                    android:background="@drawable/xml_tvch_date_next"
                     android:contentDescription="@string/accessibility_no_action" />
             </RelativeLayout>
         </LinearLayout>
@@ -79,7 +79,7 @@
         android:id="@+id/tvch_detail_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:listSelector="@drawable/vod_semidetail_background" >
+        android:listSelector="@drawable/xml_vod_semidetail_bg" >
     </ListView>
 
 </LinearLayout>

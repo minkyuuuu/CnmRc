@@ -6,7 +6,7 @@
     <color name="vod_category_background_pressed">#ff9d84bd</color>
     <color name="vod_category_background_normal">#ff484748</color>
     
-    <color name="vod_list_background_pressed">#4c7a61aa</color>
+    <color name="vod_list_background_pressed">#4c7a61aa</color>   <!-- 높이가 98인 일반적인 리스트형태의 공통 listSelector -->
     <color name="vod_semidetail_background_pressed">#4c9d84bd</color>
     <color name="tvch_semidetail_background_pressed">#4c7a61aa</color>
     

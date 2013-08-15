@@ -18,7 +18,6 @@ package com.cnm.cnmrc.fragment.vodtvch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import android.app.Activity;
 import android.os.Bundle;

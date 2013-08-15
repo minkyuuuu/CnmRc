@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/repeat_default_bg" >
+    android:background="@drawable/xml_repeat_default_bg" >
 
     <!-- 처음에 시작되는 기본화면 (상단메뉴, 중간의 볼륨/채널 및 사방향키 영역, 숫자패드 영) -->
     <!-- 기본화면 상단메뉴는 rc_top_menu -->

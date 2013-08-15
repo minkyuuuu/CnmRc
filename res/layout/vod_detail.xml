@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/repeat_default_bg"
+    android:background="@drawable/xml_repeat_default_bg"
     android:orientation="vertical" >
 
     <!-- 1st of 4th -->
@@ -216,14 +216,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/px66"
                         android:layout_marginBottom="@dimen/px20"
-                        android:background="@drawable/vod_zzim"
+                        android:background="@drawable/xml_vod_zzim"
                         android:contentDescription="@string/accessibility_no_action" />
 
                     <ImageButton
                         android:id="@+id/vod_tv_watching"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/px66"
-                        android:background="@drawable/vod_tv_watching"
+                        android:background="@drawable/xml_vod_tv_watching"
                         android:contentDescription="@string/accessibility_no_action" />
                 </LinearLayout>
             </RelativeLayout>
