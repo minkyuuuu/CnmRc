@@ -175,7 +175,6 @@
                             android:layout_height="@dimen/px82"
                             android:layout_weight="1"
                             android:background="@drawable/xml_search_recently_delete"
-                            android:contentDescription="@string/accessibility_no_action"
                             android:text="@string/search_recently_delete"
                             android:textColor="@drawable/xml_search_recently_delete_textcolor"
                             android:textSize="@dimen/sp30" />

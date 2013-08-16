@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
@@ -25,6 +26,8 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.fragment.popup.PopupMirroringEnter;
+import com.cnm.cnmrc.fragment.popup.PopupSearchRecentlyDelete;
 import com.cnm.cnmrc.util.Util;
 
 public class SearchFragment extends Fragment implements View.OnClickListener {
@@ -51,6 +54,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 	
 	FrameLayout mResultPanelFrameLlayout;
 	public FrameLayout mDetilPanelFrameLlayout;
+	
+	Button mSearchRecentlyDelete;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +68,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 		mDetilPanelFrameLlayout.setVisibility(View.INVISIBLE);
 		
 		mSearchTitle = (TextView) layout.findViewById(R.id.search_title);
+		
+		mSearchRecentlyDelete = (Button) layout.findViewById(R.id.search_recently_delete);
+		mSearchRecentlyDelete.setOnClickListener(this);
 		
 		// android:windowSoftInputMode="adjustPan"
 		// getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); // not work
@@ -264,19 +272,13 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 	
 	@Override
 	public void onClick(View v) {
-//		clearSelectedAll();
-//		
-//		switch (v.getId()) {
-//		case R.id.search_vod:
-//			v.setSelected(true);
-//			break;
-//		case R.id.search_tvch:
-//			v.setSelected(true);
-//			break;
-//		case R.id.search_naver:
-//			v.setSelected(true);
-//			break;
-//		}
+		switch (v.getId()) {
+		case R.id.search_recently_delete:
+			FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+			PopupSearchRecentlyDelete searchRecentlyDelete = new PopupSearchRecentlyDelete();
+			searchRecentlyDelete.show(ft, PopupSearchRecentlyDelete.class.getSimpleName());
+			break;
+		}
 
 	}
 	

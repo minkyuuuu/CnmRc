@@ -196,6 +196,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		mCircleMenuBg.setOnTouchListener(new View.OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
+				hideCircleMenu();
 				return true; // 아래에 있는 위젯으로 터치이벤트가 흘러가지 못하도록 한다.
 			}
 		});
@@ -277,8 +278,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			
 			@Override
 			public void onAnimationRepeat(Animation animation) {
-				mCircleMenu.setVisibility(View.INVISIBLE);
-				mCircleMenu.clearAnimation();
+				mCircleMenu.setVisibility(View.GONE);
+				//mCircleMenu.clearAnimation();
 			}
 		});
 
@@ -290,9 +291,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// remocon icon
 		case R.id.rc_icon:
 			if (toggleCircleMenu) {
-				rcIconOffNoAni();
+				showCircleMenu();
 			} else {
-				rcIconOnNoAni();
+				hideCircleMenu();
 			}
 			break;
 
@@ -335,7 +336,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 				if (f != null) goToConfig("vod_tvch");
 				else goToConfig("rc");
 			} else {
-				rcIconOnNoAni();
+				hideCircleMenu();
 			}
 			break;
 
@@ -354,7 +355,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// circle menu
 		// ---------------------
 		if(mCircleMenu.getVisibility() == View.VISIBLE) {
-			rcIconOnNoAni();
+			hideCircleMenu();
         	return;
 		}
 		
@@ -607,13 +608,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	}
 	
 	private void openChannelVolume() {
-		rcIconOnNoAni();
+		hideCircleMenu();
 		RcChannelVolume channelVolume = RcChannelVolume.newInstance(1);
 		chagneFragment(channelVolume, TAG_FRAGMENT_CHANNEL_VOLUME);
 	}
 
 	private void openFourWay() {
-		rcIconOnNoAni();
+		hideCircleMenu();
 		RcFourWay fourWay = RcFourWay.newInstance(2);
 		chagneFragment(fourWay, TAG_FRAGMENT_FOURWAY);
 	}
@@ -651,20 +652,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			mCircleMenu.startAnimation(aniQwertyFadeout);
 		toggleCircleMenu = true;
 	}
-
-	private void rcIconOnNoAni() {
-		mCircleMenuBg.setVisibility(View.INVISIBLE);
-		mCircleMenu.setVisibility(View.INVISIBLE);
-		
-		mCircleMenu.clearAnimation();
-		aniCirCleMenuExit.setFillAfter(true);
-		//mCircleMenu.startAnimation(aniCirCleMenuExit);
-		
-		toggleCircleMenu = true;
-		mRcIcon.setBackgroundResource(R.drawable.xml_rc_icon); // 리모컨아이콘 이미지가 바뀌어야 한다.
-	}
-
-	private void rcIconOffNoAni() {
+	
+	private void showCircleMenu() {
 		mCircleMenuBg.setVisibility(View.VISIBLE);
 		mCircleMenu.setVisibility(View.VISIBLE);
 		
@@ -673,8 +662,22 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		//mCircleMenu.startAnimation(aniCirCleMenuEnter);
 		
 		toggleCircleMenu = false;
-		mRcIcon.setBackgroundResource(R.drawable.xml_rc_icon_off); // 리모컨아이콘 이미지가 바뀌어야 한다.
+		mRcIcon.setBackgroundResource(R.drawable.xml_rc_icon_off); // 리모컨아이콘 이미지(-)가 바뀌어야 한다.
 	}
+	
+	private void hideCircleMenu() {
+		mCircleMenuBg.setVisibility(View.INVISIBLE);
+		mCircleMenu.setVisibility(View.INVISIBLE);
+		
+		mCircleMenu.clearAnimation();
+		aniCirCleMenuExit.setFillAfter(true);
+		//mCircleMenu.startAnimation(aniCirCleMenuExit);
+		
+		toggleCircleMenu = true;
+		mRcIcon.setBackgroundResource(R.drawable.xml_rc_icon); // 리모컨아이콘 이미지(+)가 바뀌어야 한다.
+	}
+
+
 	
 	private void chagneFragment(Fragment fragment, String tag) {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
