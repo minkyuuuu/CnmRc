@@ -216,6 +216,7 @@
     <dimen name="px210">93.33dp</dimen>
     <dimen name="px216">96dp</dimen>
     <dimen name="px217">96.44dp</dimen>
+    <dimen name="px220">97.78dp</dimen>
     <dimen name="px223">99.11dp</dimen>
     <dimen name="px227">100.89dp</dimen>
     <dimen name="px228">101.33dp</dimen>

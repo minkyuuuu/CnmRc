@@ -6,11 +6,64 @@
     android:orientation="vertical" >
 
     <com.cnm.cnmrc.custom.ExtendedEditText
-        android:id="@+id/qwerty"
+        android:id="@+id/qwerty_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/px120"
-        android:singleLine="true"
-        android:hint="@string/qwerty_hint" />
+        android:hint="@string/qwerty_hint"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:singleLine="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px78"
+        android:background="@drawable/qwerty_bg"
+        android:orientation="horizontal" >
+
+        <View
+            android:layout_width="@dimen/px9"
+            android:layout_height="match_parent" >
+        </View>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <Button
+                android:id="@+id/qwerty_cancel"
+                android:layout_width="@dimen/px100"
+                android:layout_height="@dimen/px60"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/xml_qwerty_cancel"
+                android:text="@string/qwerty_cancel"
+                android:textColor="@drawable/xml_search_recently_delete_textcolor"
+                android:textSize="@dimen/sp28" />
+
+            <Button
+                android:id="@+id/qwerty_textclear"
+                android:layout_width="@dimen/px220"
+                android:layout_height="@dimen/px60"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/xml_qwerty_textclear"
+                android:text="@string/qwerty_textclear"
+                android:textColor="@drawable/xml_search_recently_delete_textcolor"
+                android:textSize="@dimen/sp28" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="@dimen/px9"
+            android:layout_height="match_parent" >
+        </View>
+    </LinearLayout>
 
 </LinearLayout>

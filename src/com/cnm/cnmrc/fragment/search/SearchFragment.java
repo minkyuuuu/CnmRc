@@ -223,13 +223,15 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 		
 		// test
 		// 최근검색어 라인이 필요없는것 같다. 하단의 "최근 검색어 삭제" 버튼이 현재 리스트의 내용을 가리키고있다.
-		if (checkedId == R.id.search_tvch || checkedId == R.id.search_tvch) { 
+		TextView word = (TextView) layout.findViewById(R.id.search_recently_word);
+		word.setVisibility(View.GONE);
+		/*if (checkedId == R.id.search_tvch || checkedId == R.id.search_naver) { 
 			TextView word = (TextView) layout.findViewById(R.id.search_recently_word);
 			word.setVisibility(View.GONE);
 		} else {
 			TextView word = (TextView) layout.findViewById(R.id.search_recently_word);
 			word.setVisibility(View.VISIBLE);
-		}
+		}*/
 		
 		
 //		/**

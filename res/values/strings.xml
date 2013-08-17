@@ -9,6 +9,12 @@
     <string name="app_exit">뒤로 버튼을 한번 더 누르시면 종료됩니다.</string>
     <string name="app_exit1">뒤로가기 을 한번 더 누르시면 종료됩니다.</string>
     <string name="qwerty_hint">입력해주세요.</string>
+    
+    
+    
+    <!-- qwerty -->
+	<string name="qwerty_cancel">취소</string>
+	<string name="qwerty_textclear">TV글자지우기</string>
 
     <!-- vod -->
     <string name="vod_main_title">VOD</string>
