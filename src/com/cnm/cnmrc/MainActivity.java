@@ -19,6 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.cnm.cnmrc.config.ConfigFragment;
+import com.cnm.cnmrc.config.ConfigProduct;
+import com.cnm.cnmrc.config.ConfigRegion;
 import com.cnm.cnmrc.fragment.popup.PopupMirroringEnter;
 import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
 import com.cnm.cnmrc.fragment.rc.RcChannelVolume;
@@ -360,6 +362,24 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         	return;
 		}
 		
+		
+		// ---------------------------
+		// config product
+		// ---------------------------
+		final ConfigProduct configProduct = (ConfigProduct) getSupportFragmentManager().findFragmentByTag("config_product");
+		if (configProduct != null) {
+			super.onBackPressed();	// go to config main
+			return;
+		}
+		
+		// ---------------------------
+		// config region
+		// ---------------------------
+		final ConfigRegion configRegion = (ConfigRegion) getSupportFragmentManager().findFragmentByTag("config_region");
+		if (configRegion != null) {
+			super.onBackPressed();	// go to config main
+			return;
+		}
 		
 		// ---------------------------
 		// config와 search간의 순서를 생각해보자. 근본적으로 순서와 관계없이 처리하는 방법을 고려해보자....

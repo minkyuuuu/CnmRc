@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/config_product"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/xml_repeat_default_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px110"
+        android:background="#ff7961aa" >
+
+        <TextView
+            android:id="@+id/config_product_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:singleLine="true"
+            android:text="@string/config_region_title"
+            android:textColor="#ffffffff"
+            android:textSize="@dimen/sp45"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/config_product_complete"
+            android:layout_width="@dimen/px98"
+            android:layout_height="@dimen/px58"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/px10"
+            android:background="@drawable/xml_config_complete"
+            android:text="@string/complete"
+            android:textColor="#ffeeeeee"
+            android:textSize="@dimen/sp32"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/config_product_listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:choiceMode="singleChoice"
+        android:descendantFocusability="beforeDescendants"
+        android:listSelector="@drawable/xml_list_transparent_bg" />
+
+    <!-- 하단메뉴공간을 보상하는 영역 -->
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px90"
+        android:layout_gravity="bottom"
+        android:background="@drawable/xml_repeat_default_bg" />
+
+</LinearLayout>

@@ -1,105 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/config"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/xml_repeat_default_bg"
-    android:orientation="vertical" >
+    android:background="@drawable/xml_repeat_default_bg" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px110"
-        android:background="#ff7961aa" >
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/config_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:singleLine="true"
-            android:text="@string/config_title"
-            android:textColor="#ffffffff"
-            android:textSize="@dimen/sp45"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/config_complete"
-            android:layout_width="@dimen/px98"
-            android:layout_height="@dimen/px58"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/px10"
-            android:background="@drawable/xml_config_complete"
-            android:text="@string/complete"
-            android:textColor="#ffeeeeee"
-            android:textSize="@dimen/sp32"
-            android:textStyle="bold" />
-    </RelativeLayout>
-
-    <ScrollView
-        android:id="@+id/scroller"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fillViewport="true" >
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <!-- remocon -->
+            android:layout_height="@dimen/px110"
+            android:background="#ff7961aa" >
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px98"
-                android:gravity="left|center_vertical"
-                android:paddingLeft="@dimen/px20"
-                android:text="@string/config_remocon"
-                android:textColor="#ff7961aa"
-                android:textSize="@dimen/sp32"
-                android:textStyle="bold" />
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px302"
-                layout="@layout/include_config_remocon" />
-
-            <!-- alarm -->
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px98"
-                android:gravity="left|center_vertical"
-                android:paddingLeft="@dimen/px20"
-                android:text="@string/config_alarm"
-                android:textColor="#ff7961aa"
-                android:textSize="@dimen/sp32"
-                android:textStyle="bold" />
-
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px202"
-                layout="@layout/include_config_alarm" />
-
-            <!-- adult certification -->
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px98"
-                android:gravity="left|center_vertical"
-                android:paddingLeft="@dimen/px20"
-                android:text="@string/config_adult_cert"
-                android:textColor="#ff7961aa"
-                android:textSize="@dimen/sp32"
-                android:textStyle="bold" />
-
-            <include
-                android:layout_width="match_parent"
+                android:id="@+id/config_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                layout="@layout/include_config_adult" />
+                android:layout_centerInParent="true"
+                android:singleLine="true"
+                android:text="@string/config_title"
+                android:textColor="#ffffffff"
+                android:textSize="@dimen/sp45"
+                android:textStyle="bold" />
 
-<!--             
+            <Button
+                android:id="@+id/config_complete"
+                android:layout_width="@dimen/px98"
+                android:layout_height="@dimen/px58"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/px10"
+                android:background="@drawable/xml_config_complete"
+                android:text="@string/complete"
+                android:textColor="#ffeeeeee"
+                android:textSize="@dimen/sp32"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <ScrollView
+            android:id="@+id/scroller"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <!-- remocon -->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px98"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="@dimen/px20"
+                    android:text="@string/config_remocon"
+                    android:textColor="#ff7961aa"
+                    android:textSize="@dimen/sp32"
+                    android:textStyle="bold" />
+
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px302"
+                    layout="@layout/include_config_remocon" />
+
+                <!-- alarm -->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px98"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="@dimen/px20"
+                    android:text="@string/config_alarm"
+                    android:textColor="#ff7961aa"
+                    android:textSize="@dimen/sp32"
+                    android:textStyle="bold" />
+
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px202"
+                    layout="@layout/include_config_alarm" />
+
+                <!-- adult certification -->
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px98"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="@dimen/px20"
+                    android:text="@string/config_adult_cert"
+                    android:textColor="#ff7961aa"
+                    android:textSize="@dimen/sp32"
+                    android:textStyle="bold" />
+
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    layout="@layout/include_config_adult" />
+
+                <!--
             warning statement when auto adult certification is off
 
             <RelativeLayout
@@ -126,33 +130,44 @@
                     android:text="@string/config_adult_cert_line_2"
                     android:textColor="#ff7961aa"
                     android:textSize="@dimen/sp30" />
-            </RelativeLayout> -->
+            </RelativeLayout>
+                -->
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px50" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px50" />
 
-            <!-- etc -->
+                <!-- etc -->
 
-            <include
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px202"
-                layout="@layout/include_config_etc" />
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px202"
+                    layout="@layout/include_config_etc" />
 
-            <!-- vertical blank of scrollview -->
+                <!-- vertical blank of scrollview -->
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px50" />
-        </LinearLayout>
-    </ScrollView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px50" />
+            </LinearLayout>
+        </ScrollView>
 
-    <!-- 하단메뉴공간을 보상하는 영역 -->
+        <!-- 하단메뉴공간을 보상하는 영역 -->
 
-    <View
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px90"
+            android:layout_gravity="bottom"
+            android:background="@drawable/xml_repeat_default_bg" />
+    </LinearLayout>
+
+    <!-- region 영역 -->
+
+    <FrameLayout
+        android:id="@+id/config_region_product_panel"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px90"
-        android:layout_gravity="bottom"
-        android:background="@drawable/xml_repeat_default_bg" />
+        android:layout_height="match_parent"
+        android:visibility="invisible" >
+    </FrameLayout>
 
-</LinearLayout>
+</FrameLayout>

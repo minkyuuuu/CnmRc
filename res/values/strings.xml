@@ -69,26 +69,23 @@
 
     <!-- config -->
     <string name="config_title">설정</string>
-    
+    <string name="config_region_title">지역 설정</string>
+    <string name="config_product_title">상품 설정</string>
     <string name="config_remocon">리모컨 설정</string>
     <string name="config_vibrate_effect">진동효과</string>
     <string name="config_sound_effect">소리효과</string>
     <string name="config_touch_speed">터치속도</string>
-    
     <string name="config_alarm">알림 설정</string>
     <string name="config_vod_update_alarm">VOD업데이트 알림</string>
     <string name="config_watch_res_alarm">시청예약알림</string>
-    
     <string name="config_adult_cert">성인인증</string>
     <string name="config_auto_adult_cert">자동성인인증하기</string>
     <string name="config_adult_cert_on">인증 상태입니다</string>
     <string name="config_adult_cert_off">미인증 상태입니다</string>
     <string name="config_adult_cert_line_1">자동성인인증으로 설정하시면</string>
     <string name="config_adult_cert_line_2">인증절차없이 컨텐츠를 감상하실 수 있습니다.</string>
-    
     <string name="config_region_product">지역/상품 설정</string>
     <string name="config_all_clear">모든 설정 초기화</string>
-    
     <string name="config_initial">초기화</string>
 
     <!-- popup -->
@@ -119,6 +116,16 @@
     <string name="accessibility_vod_big_list">VOD Big List</string>
 
     <!-- 나중에 지울것... -->
+    <string-array name="strarray_languages">
+        <item> 영어 </item>
+        <item> 일본어 </item>
+        <item> 중국어 </item>
+        <item> 독일어 </item>
+        <item> 프랑스어 </item>
+        <item> 스페인어 </item>
+        <item> 러시아어 </item>
+    </string-array>
+    
     <string-array name="search_recently_word">
         <item>설국 열차</item>
         <item>미스트고</item>

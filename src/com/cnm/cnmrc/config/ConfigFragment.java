@@ -3,16 +3,17 @@ package com.cnm.cnmrc.config;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-import android.widget.SlidingDrawer;
-import android.widget.SlidingDrawer.OnDrawerScrollListener;
+import android.widget.TextView;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
@@ -29,14 +30,18 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 		return f;
 	}
 
-	LinearLayout mConfig; // 현재화면 밑에있는 화면으로 클릭이벤트가 전달되는것을 막기위함.
+	FrameLayout mConfig; 			// 현재화면 밑에있는 화면으로 클릭이벤트가 전달되는것을 막기위함.
+	FrameLayout mConfigRegionPanel; 
+	
 	Button mConfigComplete;
 
 	SlideToogleButton mVibrate, mSound, mVodUpdate, mWatchingRes, mAutoAdultCert;
 	SeekBar seekbar;
 	
 	RelativeLayout mConfigAdultWarning;
-	View mConfigDefaultBlank;;
+	View mConfigDefaultBlank;
+	
+	TextView mConfigRegion;
 	
 	Button mConfigAllClear;
 
@@ -44,8 +49,11 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View layout = (View) inflater.inflate(R.layout.fragment_config, container, false);
 
-		mConfig = (LinearLayout) layout.findViewById(R.id.config);
+		mConfig = (FrameLayout) layout.findViewById(R.id.config);
 		mConfig.setOnClickListener(this);
+		
+		mConfigRegionPanel = (FrameLayout) layout.findViewById(R.id.config_region_product_panel);
+		mConfigRegionPanel.setVisibility(View.INVISIBLE);
 
 		mConfigComplete = (Button) layout.findViewById(R.id.config_complete);
 		mConfigComplete.setOnClickListener(this);
@@ -53,6 +61,9 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 		mConfigAdultWarning = (RelativeLayout) layout.findViewById(R.id.config_adult_warning);
 		mConfigDefaultBlank = (View) layout.findViewById(R.id.config_default_blank_line);
 
+		mConfigRegion = (TextView) layout.findViewById(R.id.config_region_product);
+		mConfigRegion.setOnClickListener(this);
+		
 		mConfigAllClear = (Button) layout.findViewById(R.id.config_all_clear);
 		mConfigAllClear.setOnClickListener(this);
 		
@@ -151,11 +162,32 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 		case R.id.config_complete:
 			getActivity().onBackPressed();
 			break;
+		case R.id.config_region_product:
+			showRegion();
+			break;
 		case R.id.config_all_clear:
 			clearAll();
 			break;
 		}
 
+	}
+
+	private void showRegion() {
+		Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity)getActivity()).TAG_FRAGMENT_CONFIG);
+		if (f != null) {
+			mConfigRegionPanel.setVisibility(View.VISIBLE);
+			
+			ConfigRegion configRegion = ConfigRegion.newInstance("강남");
+			FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+			
+			//  ft.replace전에 animation을 설정해야 한다.
+			ft.setCustomAnimations(R.anim.vod_tvch_base_entering, 0);
+			ft.add(R.id.config_region_product_panel, configRegion, "config_region");
+			ft.addToBackStack(null);	// fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
+			ft.commit();
+			getActivity().getSupportFragmentManager().executePendingTransactions();
+		}
+		
 	}
 
 	private void clearAll() {
