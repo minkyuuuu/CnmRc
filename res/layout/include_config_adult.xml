@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <View
+        android:layout_width="@dimen/px20"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/set_bg"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px100" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/px20"
+                android:text="@string/config_adult_cert"
+                android:textColor="#ff797979"
+                android:textSize="@dimen/sp30" />
+
+            <TextView
+                android:id="@+id/config_adult_cert_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/px10"
+                android:layout_toLeftOf="@+id/config_indicator_adult"
+                android:paddingBottom="@dimen/px4"
+                android:text="@string/config_adult_cert_off"
+                android:textColor="#ff7961aa"
+                android:textSize="@dimen/sp30" />
+
+            <ImageView
+                android:id="@id/config_indicator_adult"
+                android:layout_width="@dimen/px16"
+                android:layout_height="@dimen/px29"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/px15"
+                android:background="@drawable/indicator_normal"
+                android:contentDescription="@string/accessibility_no_action" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px2"
+            android:background="@drawable/list_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px100" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/px20"
+                android:text="@string/config_auto_adult_cert"
+                android:textColor="#ff797979"
+                android:textSize="@dimen/sp30" />
+
+            <com.cnm.cnmrc.custom.SlideToogleButton
+                android:id="@+id/slide_auto_adult_cert"
+                android:layout_width="@dimen/px160"
+                android:layout_height="@dimen/px48"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/px15"
+                android:background="#ff464646"
+                android:content="@+id/content_auto_adult_cert"
+                android:handle="@+id/handle_auto_adult_cert"
+                android:orientation="horizontal"
+                android:tag="slide_auto_adult_cert" >
+
+                <Button
+                    android:id="@+id/handle_auto_adult_cert"
+                    android:layout_width="@dimen/px80"
+                    android:layout_height="@dimen/px48"
+                    android:background="@drawable/switch_on" />
+
+                <View
+                    android:id="@+id/content_auto_adult_cert"
+                    android:layout_width="@dimen/px160"
+                    android:layout_height="@dimen/px48"
+                    android:src="#00000000" />
+            </com.cnm.cnmrc.custom.SlideToogleButton>
+        </RelativeLayout>
+
+        <!-- warning statement when auto adult certification is off -->
+
+        <View
+            android:id="@+id/config_default_blank_line"
+            android:layout_width="@dimen/px446"
+            android:layout_height="@dimen/px2"
+            android:background="@drawable/list_line" 
+            android:layout_gravity="center_horizontal"
+            />
+
+        <RelativeLayout
+            android:id="@+id/config_adult_warning"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px150"
+            android:layout_marginTop="@dimen/px_20"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true" >
+
+                <TextView
+                    android:id="@+id/config_adult_warning_line_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/config_adult_cert_line_1"
+                    android:textColor="#ff7961aa"
+                    android:textSize="@dimen/sp30" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/config_adult_warning_line_1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/px2"
+                    android:text="@string/config_adult_cert_line_2"
+                    android:textColor="#ff7961aa"
+                    android:textSize="@dimen/sp30" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="@dimen/px20"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

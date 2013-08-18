@@ -22,17 +22,24 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.cnm.cnmrc.R;
 
 public class RcCircleMenu extends Fragment implements View.OnClickListener{
 
 	View layout;
+	
+	FrameLayout mConfig; // 현재화면 밑에있는 화면으로 클릭이벤트가 전달되는것을 막기위함.
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		layout = inflater.inflate(R.layout.rc_circle_menu, container, false);
 
+		mConfig = (FrameLayout) layout.findViewById(R.id.circle_menu);
+		mConfig.setOnClickListener(this);
+		
 		return layout;
 	}
 	

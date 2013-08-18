@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+<!--     <item android:id="@android:id/background">
+        <clip android:drawable="@color/transparent" />
+    </item> -->
+    <item android:id="@android:id/secondaryProgress">
+        <clip android:drawable="@drawable/touchbar_bg" />
+    </item>
+    <item android:id="@android:id/progress">
+        <clip android:drawable="@drawable/touchbarprogress" />
+    </item>
+</layer-list>
+<!--
+          <item
+        android:id="@android:id/background"
+        android:drawable="@drawable/touchbar_bg"/>
+    <item android:id="@android:id/secondaryProgress">
+        <clip>
+            <shape>
+                <gradient
+                    android:centerColor="#ffff0000"
+                    android:endColor="#ffff0000"
+                    android:startColor="#ffff0000" />
+            </shape>
+        </clip>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape>
+                <gradient
+                    android:centerColor="#ff7a61aa"
+                    android:endColor="#ff7a61aa"
+                    android:startColor="#ff7a61aa" />
+            </shape>
+        </clip>
+    </item>
+-->

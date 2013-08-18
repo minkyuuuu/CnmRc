@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <View
+        android:layout_width="@dimen/px20"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/set_bg"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px100" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/px20"
+                android:text="@string/config_vibrate_effect"
+                android:textColor="#ff797979"
+                android:textSize="@dimen/sp30" />
+
+            <com.cnm.cnmrc.custom.SlideToogleButton
+                android:id="@+id/slide_vibrate"
+                android:layout_width="@dimen/px160"
+                android:layout_height="@dimen/px48"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/px15"
+                android:background="#ff464646"
+                android:content="@+id/content_vibrate"
+                android:handle="@+id/handle_vibrate"
+                android:orientation="horizontal"
+                android:tag="slide_vibrate" >
+
+                <Button
+                    android:id="@+id/handle_vibrate"
+                    android:layout_width="@dimen/px80"
+                    android:layout_height="@dimen/px48"
+                    android:background="@drawable/switch_on" />
+
+                <View
+                    android:id="@+id/content_vibrate"
+                    android:layout_width="@dimen/px160"
+                    android:layout_height="@dimen/px48"
+                    android:src="#00000000" />
+            </com.cnm.cnmrc.custom.SlideToogleButton>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px2"
+            android:background="@drawable/list_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px100" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/px20"
+                android:text="@string/config_sound_effect"
+                android:textColor="#ff797979"
+                android:textSize="@dimen/sp30" />
+
+            <com.cnm.cnmrc.custom.SlideToogleButton
+                android:id="@+id/slide_sound"
+                android:layout_width="@dimen/px160"
+                android:layout_height="@dimen/px48"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/px15"
+                android:background="#ff464646"
+                android:content="@+id/content_sound"
+                android:handle="@+id/handle_sound"
+                android:orientation="horizontal"
+                android:tag="slide_sound" >
+
+                <Button
+                    android:id="@+id/handle_sound"
+                    android:layout_width="@dimen/px80"
+                    android:layout_height="@dimen/px48"
+                    android:background="@drawable/switch_on" />
+
+                <View
+                    android:id="@+id/content_sound"
+                    android:layout_width="@dimen/px160"
+                    android:layout_height="@dimen/px48"
+                    android:src="#00000000" />
+            </com.cnm.cnmrc.custom.SlideToogleButton>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px2"
+            android:background="@drawable/list_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px100"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="@dimen/px160"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/px20"
+                android:gravity="left|center_vertical"
+                android:text="@string/config_touch_speed"
+                android:textColor="#ff797979"
+                android:textSize="@dimen/sp30" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <SeekBar
+                    android:id="@+id/seekbar"
+                    android:layout_width="@dimen/px500"
+                    android:layout_height="@dimen/px48"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/px15"
+                    android:max="100"
+                    android:maxHeight="@dimen/px16"
+                    android:minHeight="@dimen/px16"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/seekbar_image"
+                    android:secondaryProgress="100"
+                    android:thumb="@drawable/touchbtn"
+                    android:thumbOffset="0dp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="@dimen/px20"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

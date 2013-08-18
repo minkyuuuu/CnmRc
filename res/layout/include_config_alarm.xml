@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <View
+        android:layout_width="@dimen/px20"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/set_bg"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px100" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/px20"
+                android:text="@string/config_vod_update_alarm"
+                android:textColor="#ff797979"
+                android:textSize="@dimen/sp30" />
+
+            <com.cnm.cnmrc.custom.SlideToogleButton
+                android:id="@+id/slide_vod_update"
+                android:layout_width="@dimen/px160"
+                android:layout_height="@dimen/px48"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/px15"
+                android:background="#ff464646"
+                android:content="@+id/content_vod_update"
+                android:handle="@+id/handle_vod_update"
+                android:orientation="horizontal"
+                android:tag="slide_vod_update" >
+
+                <Button
+                    android:id="@+id/handle_vod_update"
+                    android:layout_width="@dimen/px80"
+                    android:layout_height="@dimen/px48"
+                    android:background="@drawable/switch_on" />
+
+                <View
+                    android:id="@+id/content_vod_update"
+                    android:layout_width="@dimen/px160"
+                    android:layout_height="@dimen/px48"
+                    android:src="#00000000" />
+            </com.cnm.cnmrc.custom.SlideToogleButton>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px2"
+            android:background="@drawable/list_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px100" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/px20"
+                android:text="@string/config_watch_res_alarm"
+                android:textColor="#ff797979"
+                android:textSize="@dimen/sp30" />
+
+            <com.cnm.cnmrc.custom.SlideToogleButton
+                android:id="@+id/slide_watching_res"
+                android:layout_width="@dimen/px160"
+                android:layout_height="@dimen/px48"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/px15"
+                android:background="#ff464646"
+                android:content="@+id/content_watching_res"
+                android:handle="@+id/handle_watching_res"
+                android:orientation="horizontal"
+                android:tag="slide_watching_res" >
+
+                <Button
+                    android:id="@+id/handle_watching_res"
+                    android:layout_width="@dimen/px80"
+                    android:layout_height="@dimen/px48"
+                    android:background="@drawable/switch_on" />
+
+                <View
+                    android:id="@+id/content_watching_res"
+                    android:layout_width="@dimen/px160"
+                    android:layout_height="@dimen/px48"
+                    android:src="#00000000" />
+            </com.cnm.cnmrc.custom.SlideToogleButton>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="@dimen/px20"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
