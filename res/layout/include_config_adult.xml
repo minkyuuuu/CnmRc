@@ -71,7 +71,7 @@
                 android:textColor="#ff797979"
                 android:textSize="@dimen/sp30" />
 
-            <com.cnm.cnmrc.custom.SlideToogleButton
+            <com.cnm.cnmrc.custom.SlideToggleButton
                 android:id="@+id/slide_auto_adult_cert"
                 android:layout_width="@dimen/px160"
                 android:layout_height="@dimen/px48"
@@ -95,7 +95,7 @@
                     android:layout_width="@dimen/px160"
                     android:layout_height="@dimen/px48"
                     android:src="#00000000" />
-            </com.cnm.cnmrc.custom.SlideToogleButton>
+            </com.cnm.cnmrc.custom.SlideToggleButton>
         </RelativeLayout>
 
         <!-- warning statement when auto adult certification is off -->
@@ -109,7 +109,7 @@
             />
 
         <RelativeLayout
-            android:id="@+id/config_adult_warning"
+            android:id="@+id/config_adult_warning_msg"
             android:layout_width="match_parent"
             android:layout_height="@dimen/px150"
             android:layout_marginTop="@dimen/px_20"

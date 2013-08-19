@@ -90,7 +90,7 @@ public class ConfigRegion extends Fragment implements View.OnClickListener {
 
 			// ft.replace전에 animation을 설정해야 한다.
 			ft.setCustomAnimations(R.anim.vod_tvch_base_entering, 0);
-			ft.add(R.id.config_region_product_panel, configRegion, "config_product");
+			ft.add(R.id.config_panel, configRegion, "config_product");
 			ft.addToBackStack(null); // fragment stack에 넣지 않으면 백키가 activity
 										// stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
 			ft.commit();

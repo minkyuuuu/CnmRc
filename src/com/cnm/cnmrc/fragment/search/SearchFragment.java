@@ -59,7 +59,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		layout = (View) inflater.inflate(R.layout.fragment_search, container, false);
+		layout = (View) inflater.inflate(R.layout.search_fragment, container, false);
 
 		mResultPanelFrameLlayout = (FrameLayout) layout.findViewById(R.id.result_panel);
 		mResultPanelFrameLlayout.setVisibility(View.INVISIBLE);

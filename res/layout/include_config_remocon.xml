@@ -29,7 +29,7 @@
                 android:textColor="#ff797979"
                 android:textSize="@dimen/sp30" />
 
-            <com.cnm.cnmrc.custom.SlideToogleButton
+            <com.cnm.cnmrc.custom.SlideToggleButton
                 android:id="@+id/slide_vibrate"
                 android:layout_width="@dimen/px160"
                 android:layout_height="@dimen/px48"
@@ -53,7 +53,7 @@
                     android:layout_width="@dimen/px160"
                     android:layout_height="@dimen/px48"
                     android:src="#00000000" />
-            </com.cnm.cnmrc.custom.SlideToogleButton>
+            </com.cnm.cnmrc.custom.SlideToggleButton>
         </RelativeLayout>
 
         <View
@@ -75,7 +75,7 @@
                 android:textColor="#ff797979"
                 android:textSize="@dimen/sp30" />
 
-            <com.cnm.cnmrc.custom.SlideToogleButton
+            <com.cnm.cnmrc.custom.SlideToggleButton
                 android:id="@+id/slide_sound"
                 android:layout_width="@dimen/px160"
                 android:layout_height="@dimen/px48"
@@ -99,7 +99,7 @@
                     android:layout_width="@dimen/px160"
                     android:layout_height="@dimen/px48"
                     android:src="#00000000" />
-            </com.cnm.cnmrc.custom.SlideToogleButton>
+            </com.cnm.cnmrc.custom.SlideToggleButton>
         </RelativeLayout>
 
         <View

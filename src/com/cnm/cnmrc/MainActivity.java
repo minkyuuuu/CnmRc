@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.cnm.cnmrc.config.ConfigAdultCert;
 import com.cnm.cnmrc.config.ConfigFragment;
 import com.cnm.cnmrc.config.ConfigProduct;
 import com.cnm.cnmrc.config.ConfigRegion;
@@ -339,6 +340,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 				if (f != null) goToConfig("vod_tvch");
 				else goToConfig("rc");
 			} else {
+				Log.i("hwang", "No entering config !!!");
 				hideCircleMenu();
 			}
 			break;
@@ -346,7 +348,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		}
 
 	}
-
+	
 	@Override
 	public void onBackPressed() {
 		{
@@ -362,6 +364,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         	return;
 		}
 		
+		
+		// ---------------------------
+		// adult certification
+		// ---------------------------
+		final ConfigAdultCert adultCert = (ConfigAdultCert) getSupportFragmentManager().findFragmentByTag("adult_cert");
+		if (adultCert != null) {
+			super.onBackPressed();	// go to config main
+			return;
+		}
 		
 		// ---------------------------
 		// config product

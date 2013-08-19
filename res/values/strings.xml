@@ -71,6 +71,7 @@
     <string name="config_title">설정</string>
     <string name="config_region_title">지역 설정</string>
     <string name="config_product_title">상품 설정</string>
+    
     <string name="config_remocon">리모컨 설정</string>
     <string name="config_vibrate_effect">진동효과</string>
     <string name="config_sound_effect">소리효과</string>
@@ -87,6 +88,19 @@
     <string name="config_region_product">지역/상품 설정</string>
     <string name="config_all_clear">모든 설정 초기화</string>
     <string name="config_initial">초기화</string>
+    
+    <string name="adult_cert_not_19">해당 VOD는 19세 이상 시청등급입니다.</string>
+    <string name="adult_cert_name">이름(실명)</string>
+    <string name="adult_cert_name_input">이름입력</string>
+    <string name="adult_cert_social_security_number">주민번호</string>
+    <string name="adult_cert_social_security_number_except">\'-\' 제외한 주민번호 입력</string>
+    <string name="adult_cert_warning_msg">귀하가 입력하시는 주민등록번호는 성인확인 목적으로만 
+        사용되며 별도로 저장하지 않습니다.
+        
+        \n개정된 \'주민등록법\'에 의해 타인의 주민등록번호를 도용하여 부정사용하는 경우 3년 이하의 징역 또는
+        1천만원의 벌금이 부과됩니다.
+        
+        </string>
 
     <!-- popup -->
     <string name="popup_yes">확인</string>

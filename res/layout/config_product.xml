@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:singleLine="true"
-            android:text="@string/config_region_title"
+            android:text="@string/config_product_title"
             android:textColor="#ffffffff"
             android:textSize="@dimen/sp45"
             android:textStyle="bold" />
