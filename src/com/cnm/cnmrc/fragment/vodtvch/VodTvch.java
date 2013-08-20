@@ -225,6 +225,8 @@ public class VodTvch extends Fragment implements View.OnClickListener, SlidingMe
     public void onDestroyView() {
         super.onDestroyView();
         
+        if(((MainActivity)getActivity()).noVodTvchDestroy) return;
+        
         // ----------------------------------------------------------------------------------------------
         // vod에 일부인 vodtopmenu fragment는 vod가 destory될 때 자식인 vodtopmenu도 같이 destory해주진 않는다.
         // 이유는 아마 자식이래도 같은 fragment 레벨이므로 vod의 생명주기와 함께 하는것이 아니라 Activity의 관리를 받는것 같다.

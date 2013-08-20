@@ -86,6 +86,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	
 	boolean doubleBackKeyPressedToExitApp;
 	
+	public boolean noVodTvchDestroy = false;
+	
 	FrameLayout mRcPanel;				// rc_panel(채널/볼륨, 사방향) 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
 	FrameLayout mRcNumericPad;			// rc_numeric_pad 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
 	
@@ -373,12 +375,23 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			Log.i("hwang", "mainActivity onBackpressed fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
 		}
 		
+		
+		
+		// ---------------------
+		// mirringTV on VodTvch
+		// ---------------------
+		if(noVodTvchDestroy) {
+			noVodTvchDestroy = false;
+        	return;
+		}
+		
+		
 		// ---------------------
 		// circle menu
 		// ---------------------
 		if(mCircleMenu.getVisibility() == View.VISIBLE) {
 			hideCircleMenu();
-        	return;
+			return;
 		}
 		
 		
@@ -537,6 +550,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	}
 	
 	private void goToVodTvch(String type) {
+		clearVodTvchTopMeny();
+		
+		
 		FragmentManager fm = getSupportFragmentManager();
 		Log.i("hwang", "before when mainActivity  fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
 		
@@ -660,20 +676,145 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		hideCircleMenu();
 		RcChannelVolume channelVolume = RcChannelVolume.newInstance(TAG_FRAGMENT_CHANNEL_VOLUME);
 		chagneFragment(channelVolume, TAG_FRAGMENT_CHANNEL_VOLUME);
+		
+		clearAllFragment();
 	}
 
 	private void showFourWay() {
 		hideCircleMenu();
 		RcFourWay fourWay = RcFourWay.newInstance(TAG_FRAGMENT_FOURWAY);
 		chagneFragment(fourWay, TAG_FRAGMENT_FOURWAY);
+		
+		clearAllFragment();
 	}
 	
 	private void showTrickPlay() {
 		hideCircleMenu();
 		RcTrickPlay trickPlay = RcTrickPlay.newInstance(TAG_FRAGMENT_TRICK_PLAY);
 		chagneFragment(trickPlay, TAG_FRAGMENT_TRICK_PLAY);
+		
+		clearAllFragment();
 	}
 	
+	private void clearAllFragment() {
+		
+		// ---------------------------
+		// adult certification
+		// ---------------------------
+		final ConfigAdultCert adultCert = (ConfigAdultCert) getSupportFragmentManager().findFragmentByTag("adult_cert");
+		if (adultCert != null) {
+			super.onBackPressed();	// go to config main
+		}
+		
+		// ---------------------------
+		// config product
+		// ---------------------------
+		final ConfigProduct configProduct = (ConfigProduct) getSupportFragmentManager().findFragmentByTag("config_product");
+		if (configProduct != null) {
+			super.onBackPressed();	// go to config main
+		}
+		
+		// ---------------------------
+		// config region
+		// ---------------------------
+		final ConfigRegion configRegion = (ConfigRegion) getSupportFragmentManager().findFragmentByTag("config_region");
+		if (configRegion != null) {
+			super.onBackPressed();	// go to config main
+		}
+		
+		// ---------------------------
+		// config와 search간의 순서를 생각해보자. 근본적으로 순서와 관계없이 처리하는 방법을 고려해보자....
+		// config
+		// ---------------------------
+		final ConfigFragment config = (ConfigFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG);
+		if (config != null) {
+			if (config.allowBackPressed().equals("rc")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+				backToRc();
+				mConfigPanel.setVisibility(View.INVISIBLE);
+				
+				super.onBackPressed();	// go to destroyView of vodtvch
+			}
+			if (config.allowBackPressed().equals("vod_tvch")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+				mConfigPanel.setVisibility(View.INVISIBLE);
+				
+				super.onBackPressed();	// go to destroyView of vodtvch
+			}
+		}
+		
+		// ---------------------------
+		// search vod detail
+		// ---------------------------
+		final SearchVodDetail searchVodDetail = (SearchVodDetail) getSupportFragmentManager().findFragmentByTag("search_vod_detail");
+		if (searchVodDetail != null) {
+			if (searchVodDetail.allowBackPressed()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+				super.onBackPressed();	// go to destroyView of vodtvch
+				return;
+			}
+		}
+		
+		// ---------------------------
+		// search
+		// ---------------------------
+		final SearchFragment search = (SearchFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_SEARCH);
+		if (search != null) {
+			if (search.allowBackPressed().equals("rc")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+				backToRc();
+				
+				super.onBackPressed();	// go to destroyView of vodtvch
+			}
+			if (search.allowBackPressed().equals("vod_tvch")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+				mSearchPanel.setVisibility(View.INVISIBLE);
+				
+				super.onBackPressed();	// go to destroyView of vodtvch
+			}
+		}
+		
+		// -------------------------------
+		// vod, tvch (loading_data_panel)
+		// -------------------------------
+		Base base = (Base) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_BASE);
+		if (base != null) {
+			FragmentManager fm = getSupportFragmentManager();
+			Log.i("hwang", "mainActivity TAG_FRAGMENT_BASE != null fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
+			
+			super.onBackPressed();
+		} else {
+			FragmentManager fm = getSupportFragmentManager();
+			Log.i("hwang", "mainActivity TAG_FRAGMENT_BASE = null fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
+		}
+		
+		// ---------------------------
+		// vod, tvch (vod_tvch_panel)
+		// ---------------------------
+		final VodTvch vodTVch = (VodTvch) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
+		if (vodTVch != null) {
+			if (vodTVch.allowBackPressed() == 0) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+				backToRc();
+				
+				super.onBackPressed();	// go to destroyView of vodtvch
+			}
+			if (vodTVch.allowBackPressed() == 1) {	// sidebar가 열려있는경우...
+				Fragment f = getSupportFragmentManager().findFragmentByTag(this.TAG_FRAGMENT_VOD_TVCH);
+				if (f != null) {
+					((VodTvch)f).mSlidingMenu.toggleSidebar();
+					Log.i("hwang", "closing sidebar!!!");
+					
+					backToRc();
+					super.onBackPressed();	// go to destroyView of vodtvch
+				}
+			}
+		}
+		
+		clearVodTvchTopMeny();
+	}
+	
+	public void clearVodTvchTopMeny() {
+        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_vod_tvch_top_menu);
+        if (f != null) {
+        	getSupportFragmentManager().beginTransaction().remove(f).commit();
+        }
+	}
+
 	private void openPopupMirroring() {
 		rcIconOn();
 
@@ -683,6 +824,18 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	}
 	
 	public void openMirroring() {
+		noVodTvchDestroy = false;
+		
+		// vod_tvch화면에서 진입하면 down된다...
+		final VodTvch vodTVch = (VodTvch) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
+		if (vodTVch != null) {
+			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			ft.addToBackStack(null);
+			ft.commit();
+			
+			noVodTvchDestroy = true;
+		}
+		
 		Intent intent = new Intent(this, MirroringActivity.class);
 		startActivity(intent);
 	}
@@ -756,6 +909,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		super.onResume();
 	}
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+	    //outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
+	    //super.onSaveInstanceState(outState); // vod_tvch --> mirrorTV --> popup exit --> error
+	}
 
 	public Fragment getFragmentRcBottomMenu() {
 		Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_rc_bottom_menu);

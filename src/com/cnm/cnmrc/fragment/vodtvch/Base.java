@@ -206,6 +206,7 @@ public class Base extends Fragment {
 	 * ft.replace(R.id.loading_data_panel, base)
 	 */
 	protected void loadingData(int selectedCategory, String title, boolean isFirstDepth) {
+        
 		// 시작 기준으로 보면 ft.replace(R.id.loading_data_panel, base)의 base이므로
 		// 만들어질 base에 isSldebar의 값을 적용해야하므로, 여기서 값을 설정하면 안되고, newInstance()로 값을 넘겨주어야한다.
 		// this.isFirstDepth = isFirstDepth;

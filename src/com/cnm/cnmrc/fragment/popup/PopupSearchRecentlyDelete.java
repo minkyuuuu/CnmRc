@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.cnm.cnmrc.R;
 
-public class PopupSearchRecentlyDelete extends PopBase {
+public class PopupSearchRecentlyDelete extends PopupBase {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
