@@ -108,10 +108,10 @@
     <string name="popup_search_title">최근 검색어 삭제</string>
     <string name="popup_search_line_1">최근 검색어를</string>
     <string name="popup_search_line_2">모두 삭제하시겠습니까?</string>
-    <string name="mirroring_enter_title">미러TV</string>
-    <string name="mirroring_enter_line_1">미러TV로 이동하시겠습니까?</string>
-    <string name="mirroring_enter_line_2">스트리밍시간이 몇 초 소요됩니다.</string>
-    <string name="mirroring_exit">미러TV를 종료하시겠습니까?</string>
+    <string name="popup_mirroring_title">미러TV</string>
+    <string name="popup_mirroring_enter_line_1">미러TV로 이동하시겠습니까?</string>
+    <string name="popup_mirroring_enter_line_2">스트리밍시간이 몇 초 소요됩니다.</string>
+    <string name="popup_mirroring_exit_line_1">미러TV를 종료하시겠습니까?</string>
 
     <!-- mobile Accessibility -->
     <string name="accessibility_no_action"></string>

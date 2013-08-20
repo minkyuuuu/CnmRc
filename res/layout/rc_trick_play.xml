@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1" >
 
-            <!-- 1) up -->
+            <!-- 1) play -->
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -32,24 +32,26 @@
                 android:layout_centerHorizontal="true" >
 
                 <ImageButton
-                    android:id="@+id/fourway_up"
+                    android:id="@+id/trick_play"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@drawable/fourwayup"
+                    android:background="@drawable/trick_play"
                     android:contentDescription="@string/accessibility_general_button" />
 
                 <ImageView
-                    android:id="@+id/anim_fourway_up"
+                    android:id="@+id/anim_trick_play"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/px_4"
+                    android:layout_marginLeft="@dimen/px_4"
                     android:layout_gravity="top|center_horizontal"
                     android:background="@drawable/anim_tappress"
                     android:contentDescription="@string/accessibility_general_button"
                     android:visibility="invisible" />
             </FrameLayout>
 
-            <!-- 2) right -->
+            <!-- 2) ff -->
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -58,24 +60,25 @@
                 android:layout_centerVertical="true" >
 
                 <ImageButton
-                    android:id="@+id/fourway_right"
+                    android:id="@+id/trick_ff"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@drawable/fourwayright"
+                    android:background="@drawable/trick_ff"
                     android:contentDescription="@string/accessibility_general_button" />
 
                 <ImageView
-                    android:id="@+id/anim_fourway_right"
+                    android:id="@+id/anim_trick_ff"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/px7"
                     android:layout_gravity="right|center_vertical"
                     android:background="@drawable/anim_tappress"
                     android:contentDescription="@string/accessibility_general_button"
                     android:visibility="invisible" />
             </FrameLayout>
 
-            <!-- 3) down -->
+            <!-- 3) stop -->
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -84,15 +87,15 @@
                 android:layout_centerHorizontal="true" >
 
                 <ImageButton
-                    android:id="@+id/fourway_down"
+                    android:id="@+id/trick_stop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@drawable/fourwaydown"
+                    android:background="@drawable/trick_stop"
                     android:contentDescription="@string/accessibility_general_button" />
 
                 <ImageView
-                    android:id="@+id/anim_fourway_down"
+                    android:id="@+id/anim_trick_stop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|center_horizontal"
@@ -101,7 +104,7 @@
                     android:visibility="invisible" />
             </FrameLayout>
 
-            <!-- 4) left -->
+            <!-- 4) rew -->
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -110,32 +113,48 @@
                 android:layout_centerVertical="true" >
 
                 <ImageButton
-                    android:id="@+id/fourway_left"
+                    android:id="@+id/trick_rew"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@drawable/fourwayleft"
+                    android:background="@drawable/trick_rew"
                     android:contentDescription="@string/accessibility_general_button" />
 
                 <ImageView
-                    android:id="@+id/anim_fourway_left"
+                    android:id="@+id/anim_trick_rew"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/px8"
                     android:layout_gravity="left|center_vertical"
                     android:background="@drawable/anim_tappress"
                     android:contentDescription="@string/accessibility_general_button"
                     android:visibility="invisible" />
             </FrameLayout>
 
-            <!-- ok button -->
+            <!-- pause -->
 
-            <ImageButton
-                android:id="@+id/fourway_ok"
-                android:layout_width="@dimen/px110"
-                android:layout_height="@dimen/px110"
-                android:layout_centerInParent="true"
-                android:background="@drawable/xml_control_ok"
-                android:contentDescription="@string/accessibility_general_button" />
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" >
+
+                <ImageButton
+                    android:id="@+id/trick_pause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/trick_pause"
+                    android:contentDescription="@string/accessibility_general_button" />
+
+                <ImageView
+                    android:id="@+id/anim_trick_pause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/anim_tappress"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
+            </FrameLayout>
         </RelativeLayout>
 
         <View

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- xhdpi -->
 <resources>
+    
+    <item name="sp30sp" type="dimen">1740%</item>
 
     <!-- font size ; original * 58%-->
     <dimen name="sp22">12.76sp</dimen>	

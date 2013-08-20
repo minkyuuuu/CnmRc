@@ -18,21 +18,25 @@ package com.cnm.cnmrc.fragment.rc;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.cnm.cnmrc.R;
 
-public class RcFourWay extends Fragment implements View.OnClickListener{
+public class RcFourWay extends RcBase implements View.OnClickListener{
 
 	View layout;
 	
-	public static RcFourWay newInstance(long num) {
+	ImageButton up, down, left, right;
+	ImageView aniUp, aniDown, aniLeft, aniRight;
+	
+	public static RcFourWay newInstance(String type) {
 		RcFourWay f = new RcFourWay();
 		Bundle args = new Bundle();
-		args.putLong("num", num);
+		args.putString("type", type);
 		f.setArguments(args);
 		return f;
 	}
@@ -40,6 +44,22 @@ public class RcFourWay extends Fragment implements View.OnClickListener{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		layout = inflater.inflate(R.layout.rc_four_way, container, false);
+		
+		up = (ImageButton) layout.findViewById(R.id.fourway_up);
+		aniUp = (ImageView) layout.findViewById(R.id.anim_fourway_up);
+		up.setOnClickListener(this);
+		
+		right = (ImageButton) layout.findViewById(R.id.fourway_right);
+		aniRight = (ImageView) layout.findViewById(R.id.anim_fourway_right);
+		right.setOnClickListener(this);
+		
+		down = (ImageButton) layout.findViewById(R.id.fourway_down);
+		aniDown = (ImageView) layout.findViewById(R.id.anim_fourway_down);
+		down.setOnClickListener(this);
+		
+		left = (ImageButton) layout.findViewById(R.id.fourway_left);
+		aniLeft = (ImageView) layout.findViewById(R.id.anim_fourway_left);
+		left.setOnClickListener(this);
 
 		return layout;
 	}
@@ -60,6 +80,26 @@ public class RcFourWay extends Fragment implements View.OnClickListener{
 	public void onClick(View v) {
 		
 		switch(v.getId()){
+		case R.id.fourway_up:
+			if (!oneClickTapPress) return;
+			oneClickTapPress = false;
+			startLoadingAni((ImageButton) v, aniUp);
+			break;
+		case R.id.fourway_right:
+			if (!oneClickTapPress) return;
+			oneClickTapPress = false;
+			startLoadingAni((ImageButton) v, aniRight);
+			break;
+		case R.id.fourway_down:
+			if (!oneClickTapPress) return;
+			oneClickTapPress = false;
+			startLoadingAni((ImageButton) v, aniDown);
+			break;
+		case R.id.fourway_left:
+			if (!oneClickTapPress) return;
+			oneClickTapPress = false;
+			startLoadingAni((ImageButton) v, aniLeft);
+			break;
 		}
 	}
 	

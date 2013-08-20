@@ -3,6 +3,8 @@
 <!-- 여기서의 dpi는 2/3를 곱하고 다시 2/3를 곱한갑. -->
 <!-- 이유는 디자인이 720기준으로 작성되어 480으로 변환후 다시 dp를 계산하기 때문 -->
 <resources>
+    
+    <item name="sp30sp" type="dimen">1392%</item>
 
     <!-- font size -->
     <!-- hdpi = xhdpi x 80% -->

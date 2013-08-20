@@ -26,6 +26,7 @@ import com.cnm.cnmrc.fragment.popup.PopupMirroringEnter;
 import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
 import com.cnm.cnmrc.fragment.rc.RcChannelVolume;
 import com.cnm.cnmrc.fragment.rc.RcFourWay;
+import com.cnm.cnmrc.fragment.rc.RcTrickPlay;
 import com.cnm.cnmrc.fragment.search.SearchFragment;
 import com.cnm.cnmrc.fragment.search.SearchVodDetail;
 import com.cnm.cnmrc.fragment.vodtvch.Base;
@@ -78,7 +79,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	public final String TAG_FRAGMENT_CONFIG = "config";
 	
 	public final String TAG_FRAGMENT_FOURWAY = "fourway";
+	public final String TAG_FRAGMENT_TRICK_PLAY = "trick_play";
 	public final String TAG_FRAGMENT_CHANNEL_VOLUME = "channel_volume";
+	
+	boolean isFourWay = true; // for test, which fourway or trickplay
 	
 	boolean doubleBackKeyPressedToExitApp;
 	
@@ -120,7 +124,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// remocon 화면 전환 (채널/볼륨 & 사방향키)
 		// 첫화면이 채널/볼륨화면이다.
 		// ----------------------------------
-		RcChannelVolume channelVolume = RcChannelVolume.newInstance(1);
+		RcChannelVolume channelVolume = RcChannelVolume.newInstance(TAG_FRAGMENT_CHANNEL_VOLUME);
 		chagneFragment(channelVolume, TAG_FRAGMENT_CHANNEL_VOLUME);
 		
 		// ----------------------
@@ -321,11 +325,18 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// bottom menu
 
 		// circle menu
-		case R.id.channel_volume:	// start of main display, Fragment at rc_panel framelayout
-			openChannelVolume();
+		case R.id.channel_volume:	// replace하므로 존재체크필요없음. 시작화면, replace개념이므로 show(), Fragment at rc_panel framelayout
+			showChannelVolume();
 			break;
-		case R.id.four_way:		// Fragment at rc_panel framelayout
-			openFourWay();
+		case R.id.four_way:			// replace하므로 존재체크필요없음. replace개념이므로 show(), Fragment at rc_panel framelayout
+			if(isFourWay) {
+				isFourWay = false;
+				showFourWay();
+			}
+			else {
+				isFourWay = true;
+				showTrickPlay();
+			}
 			break;
 		case R.id.mirroring:	// DialogFragment (popup with entire display)
 			openPopupMirroring();
@@ -334,14 +345,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			openQwerty();
 			break;
 		case R.id.config:
-			Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG);
-			if (f == null) {
-				f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
-				if (f != null) goToConfig("vod_tvch");
-				else goToConfig("rc");
-			} else {
+			if(isExistFragment(TAG_FRAGMENT_CONFIG)) {
 				Log.i("hwang", "No entering config !!!");
 				hideCircleMenu();
+			} else {
+				Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
+				if (f != null) goToConfig("vod_tvch");
+				else goToConfig("rc");
 			}
 			break;
 
@@ -349,6 +359,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 	}
 	
+	private boolean isExistFragment(String tag) {
+		Fragment f = getSupportFragmentManager().findFragmentByTag(tag);
+		if (f != null) return true;	// yes, exist!!!
+		else return false;
+	}
+
+
 	@Override
 	public void onBackPressed() {
 		{
@@ -639,16 +656,22 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		Log.i("hwang", "(Search) after when mainActivity fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
 	}
 	
-	private void openChannelVolume() {
+	private void showChannelVolume() {
 		hideCircleMenu();
-		RcChannelVolume channelVolume = RcChannelVolume.newInstance(1);
+		RcChannelVolume channelVolume = RcChannelVolume.newInstance(TAG_FRAGMENT_CHANNEL_VOLUME);
 		chagneFragment(channelVolume, TAG_FRAGMENT_CHANNEL_VOLUME);
 	}
 
-	private void openFourWay() {
+	private void showFourWay() {
 		hideCircleMenu();
-		RcFourWay fourWay = RcFourWay.newInstance(2);
+		RcFourWay fourWay = RcFourWay.newInstance(TAG_FRAGMENT_FOURWAY);
 		chagneFragment(fourWay, TAG_FRAGMENT_FOURWAY);
+	}
+	
+	private void showTrickPlay() {
+		hideCircleMenu();
+		RcTrickPlay trickPlay = RcTrickPlay.newInstance(TAG_FRAGMENT_TRICK_PLAY);
+		chagneFragment(trickPlay, TAG_FRAGMENT_TRICK_PLAY);
 	}
 	
 	private void openPopupMirroring() {

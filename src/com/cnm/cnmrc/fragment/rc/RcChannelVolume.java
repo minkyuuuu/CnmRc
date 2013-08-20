@@ -31,7 +31,17 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.R;
 
-public class RcChannelVolume extends Fragment implements View.OnClickListener {
+public class RcChannelVolume extends RcBase implements View.OnClickListener {
+	
+	public static RcChannelVolume newInstance(String type) {
+		RcChannelVolume f = new RcChannelVolume();
+		Bundle args = new Bundle();
+		args.putString("type", type);
+		f.setArguments(args);
+		return f;
+	}
+	
+	
 
 	View layout;
 
@@ -42,17 +52,7 @@ public class RcChannelVolume extends Fragment implements View.OnClickListener {
 	ImageButton mChUp, mChDown, mChname; // channel
 	ImageView mAnimChUp, mAnimChDown;
 
-
-
 	boolean mToogleMuteOff = true;
-
-	public static RcChannelVolume newInstance(long num) {
-		RcChannelVolume f = new RcChannelVolume();
-		Bundle args = new Bundle();
-		args.putLong("num", num);
-		f.setArguments(args);
-		return f;
-	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -64,25 +64,25 @@ public class RcChannelVolume extends Fragment implements View.OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		layout = inflater.inflate(R.layout.rc_channel_volume, container, false);
 
-		mVolPlus = (ImageButton) layout.findViewById(R.id.panel_volplus);
+		mVolPlus = (ImageButton) layout.findViewById(R.id.control_volplus);
 		mAnimVolPlus = (ImageView) layout.findViewById(R.id.anim_volplus);
 		mVolPlus.setOnClickListener(this);
 
-		mMute = (ImageButton) layout.findViewById(R.id.panel_mute);
+		mMute = (ImageButton) layout.findViewById(R.id.control_mute);
 		mAnimMute = (ImageView) layout.findViewById(R.id.anim_mute);
-		mMute.setBackgroundResource(R.drawable.xml_panel_mute_off); // mute off
+		mMute.setBackgroundResource(R.drawable.xml_control_mute_off); // mute off
 		mToogleMuteOff = true;
 		mMute.setOnClickListener(this);
 
-		mVolMinus = (ImageButton) layout.findViewById(R.id.panel_volminus);
+		mVolMinus = (ImageButton) layout.findViewById(R.id.control_volminus);
 		mAnimVolMinus = (ImageView) layout.findViewById(R.id.anim_volminus);
 		mVolMinus.setOnClickListener(this);
 
-		mChUp = (ImageButton) layout.findViewById(R.id.panel_chup);
+		mChUp = (ImageButton) layout.findViewById(R.id.control_chup);
 		mAnimChUp = (ImageView) layout.findViewById(R.id.anim_chup);
 		mChUp.setOnClickListener(this);
 
-		mChDown = (ImageButton) layout.findViewById(R.id.panel_chdown);
+		mChDown = (ImageButton) layout.findViewById(R.id.control_chdown);
 		mAnimChDown = (ImageView) layout.findViewById(R.id.anim_chdown);
 		mChDown.setOnClickListener(this);
 
@@ -111,43 +111,40 @@ public class RcChannelVolume extends Fragment implements View.OnClickListener {
 
 	}
 
-	Handler mHandler = new Handler();
-	int mTapPressDuration = 0;
-	boolean oneClickTapPress = true;
-
 	@Override
 	public void onClick(View v) {
 
 		switch (v.getId()) {
-		case R.id.panel_volplus:
-			if (!oneClickTapPress) return;
+		case R.id.control_volplus:
+			if (!oneClickTapPress)
+				return;
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, mAnimVolPlus);
 			break;
-		case R.id.panel_mute:
+		case R.id.control_mute:
 			if (!oneClickTapPress) return;
 			oneClickTapPress = false;
 			
 			startLoadingAni((ImageButton) v, mAnimMute);
 			if (mToogleMuteOff) {
-				mMute.setBackgroundResource(R.drawable.xml_panel_mute_on); // mute 배경이미지가 바뀌어야 한다.
+				mMute.setBackgroundResource(R.drawable.xml_control_mute_on); // mute 배경이미지가 바뀌어야 한다.
 				mToogleMuteOff = false;
 			} else {
-				mMute.setBackgroundResource(R.drawable.xml_panel_mute_off); // mute 배경이미지가 바뀌어야 한다.
+				mMute.setBackgroundResource(R.drawable.xml_control_mute_off); // mute 배경이미지가 바뀌어야 한다.
 				mToogleMuteOff = true;
 			}
 			break;
-		case R.id.panel_volminus:
+		case R.id.control_volminus:
 			if (!oneClickTapPress) return;
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, mAnimVolMinus);
 			break;
-		case R.id.panel_chup:
+		case R.id.control_chup:
 			if (!oneClickTapPress) return;
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, mAnimChUp);
 			break;
-		case R.id.panel_chdown:
+		case R.id.control_chdown:
 			if (!oneClickTapPress) return;
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, mAnimChDown);
@@ -155,63 +152,5 @@ public class RcChannelVolume extends Fragment implements View.OnClickListener {
 		}
 	}
 
-	/**
-	 * Loading TapPressAnimation 시작<br>
-	 */
-	private void startLoadingAni(ImageButton view, final ImageView animView) {
-		if (view != null) {
-			view.post(new Runnable() {
-				@Override
-				public void run() {
-					try {
-						mTapPressAnimation = new AnimationDrawable();
-						mTapPressAnimation.addFrame(getResources().getDrawable(R.drawable.tappress01), 60);
-						mTapPressAnimation.addFrame(getResources().getDrawable(R.drawable.tappress02), 60);
-						mTapPressAnimation.addFrame(getResources().getDrawable(R.drawable.tappress03), 60);
-						mTapPressAnimation.addFrame(getResources().getDrawable(R.drawable.tappress04), 60);
-						mTapPressAnimation.setOneShot(true);
-						animView.setImageDrawable(mTapPressAnimation);
-
-						// API 2.3.4에서는 잘 안된다... 왜지???
-						// animView.setBackgroundResource(R.drawable.anim_tappress);
-						// mTapPressAnimation = (AnimationDrawable)
-						// animView.getBackground();
-
-						mTapPressDuration = 0;
-						for (int i = 0; i < mTapPressAnimation.getNumberOfFrames(); i++) {
-							mTapPressDuration += mTapPressAnimation.getDuration(i);
-						}
-
-						animView.setVisibility(View.VISIBLE);
-
-						// Start the animation (looped playback by default).
-						mTapPressAnimation.start();
-
-						mHandler.postDelayed(new Runnable() {
-							public void run() {
-								mTapPressAnimation.stop();
-								mTapPressAnimation = null;
-								animView.setBackgroundResource(0);
-								animView.setVisibility(View.INVISIBLE);
-								oneClickTapPress = true;
-							}
-						}, mTapPressDuration);
-					} catch (Exception e) {
-						e.getStackTrace();
-					}
-
-				}
-			});
-		}
-		
-		//view.post(new Starter());
-	}
-	
-	class Starter implements Runnable {
-		@Override
-		public void run() {
-			mTapPressAnimation.start();
-		}
-	}
 
 }
