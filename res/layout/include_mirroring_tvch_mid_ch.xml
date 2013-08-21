@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mirroring_tvch_mid_ch"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/m_ch_bg"
+    android:orientation="vertical" >
+
+    <ImageButton
+        android:layout_width="@dimen/px48"
+        android:layout_height="@dimen/px40"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/px4"
+        android:background="@drawable/m_ch_point_btn"
+        android:contentDescription="@string/accessibility_no_action" >
+    </ImageButton>
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_chup"
+        android:layout_width="@dimen/px86"
+        android:layout_height="@dimen/px66"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/px83"
+        android:background="@drawable/xml_mirroring_tvch_chup"
+        android:contentDescription="@string/accessibility_no_action" >
+    </ImageButton>
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_chdown"
+        android:layout_width="@dimen/px86"
+        android:layout_height="@dimen/px66"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/px83"
+        android:background="@drawable/xml_mirroring_tvch_chdown"
+        android:contentDescription="@string/accessibility_no_action" >
+    </ImageButton>
+
+    <TextView
+        android:id="@+id/mirroring_tvch_chnum_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/px24"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:singleLine="true"
+        android:text="109"
+        android:textColor="#4cffffff"
+        android:textSize="@dimen/sp24"
+        />
+
+    <TextView
+        android:id="@+id/mirroring_tvch_chnum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:singleLine="true"
+        android:text="110"
+        android:textColor="#ffffffff"
+        android:textSize="@dimen/sp35"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/mirroring_tvch_chnum_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/px24"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:singleLine="true"
+        android:text="111"
+        android:textColor="#4cffffff"
+        android:textSize="@dimen/sp24"
+        />
+</RelativeLayout>

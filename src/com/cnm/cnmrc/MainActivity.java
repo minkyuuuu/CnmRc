@@ -86,7 +86,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	
 	boolean doubleBackKeyPressedToExitApp;
 	
-	public boolean noVodTvchDestroy = false;
+	boolean isMirroringTV = true; 				// for test, which MirroringTV or MirroringVOD
+	boolean isChaeWon1 = true; 					// for test, which MirroringTV or MirroringVOD
+	public boolean noVodTvchDestroy = false;	// vod_tvch화면에서 mirroingTV을 진입할 때 VodTvch의 onDestroyView()에서 destory를 막기위해...
 	
 	FrameLayout mRcPanel;				// rc_panel(채널/볼륨, 사방향) 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
 	FrameLayout mRcNumericPad;			// rc_numeric_pad 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
@@ -114,6 +116,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
+		
+		if (savedInstanceState != null) {
+			Bundle bundle = savedInstanceState.getBundle("save_data");
+			isMirroringTV = bundle.getBoolean("isMirroringTV");
+			isChaeWon1 = bundle.getBoolean("isChaeWon1");
+		}
 
 		// -------------------------
 		// initialize UI
@@ -818,9 +826,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	private void openPopupMirroring() {
 		rcIconOn();
 
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		PopupMirroringEnter mirroringEnter = new PopupMirroringEnter();
-		mirroringEnter.show(ft, PopupMirroringEnter.class.getSimpleName());
+		openMirroring();
+//		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//		PopupMirroringEnter mirroringEnter = new PopupMirroringEnter();
+//		mirroringEnter.show(ft, PopupMirroringEnter.class.getSimpleName());
 	}
 	
 	public void openMirroring() {
@@ -833,11 +842,20 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			ft.addToBackStack(null);
 			ft.commit();
 			
-			noVodTvchDestroy = true;
+			noVodTvchDestroy = true;	// vod_tvch화면에서 mirroingTV을 진입할 때 VodTvch의 onDestroyView()에서 destory를 막기위해...
 		}
 		
-		Intent intent = new Intent(this, MirroringActivity.class);
-		startActivity(intent);
+		if(isMirroringTV) {
+			Intent intent = new Intent(this, MirroringTvchActivity.class);
+			startActivity(intent);
+			isMirroringTV = false;
+		} else {
+			Intent intent = new Intent(this, MirroringVodActivity.class);
+			intent.putExtra("isChaeWon1", isChaeWon1);
+			startActivity(intent);
+			isMirroringTV = true;	
+		}
+		
 	}
 	
 	private void openQwerty() {
@@ -911,9 +929,27 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
-	    //outState.putString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
-	    //super.onSaveInstanceState(outState); // vod_tvch --> mirrorTV --> popup exit --> error
+		Bundle bundle = new Bundle();
+		
+		bundle.putBoolean("isMirroringTV", isMirroringTV);
+		
+		if(isMirroringTV) isChaeWon1 ^= isChaeWon1;
+		bundle.putBoolean("isChaeWon1", isChaeWon1);
+
+		outState.putBundle("save_data", bundle);
+
+		//super.onSaveInstanceState(outState); // vod_tvch --> mirrorTV -->  popup exit --> error
 	}
+	
+	protected void onRestroreInstanceState(Bundle outState) {
+		isMirroringTV = outState.getBoolean("isMirroringTV");
+	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+	    super.onNewIntent(intent);
+	}
+	
 
 	public Fragment getFragmentRcBottomMenu() {
 		Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_rc_bottom_menu);

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mirroring_tvch_bottom"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_delete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/px25"
+        android:layout_marginRight="@dimen/px10"
+        android:layout_weight="130"
+        android:background="@drawable/xml_mirroring_tvch_delete"
+        android:contentDescription="@string/accessibility_no_action" />
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/px10"
+        android:layout_weight="86"
+        android:background="@drawable/xml_mirroring_tvch_n1"
+        android:contentDescription="@string/accessibility_no_action" />
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/px10"
+        android:layout_weight="86"
+        android:background="@drawable/xml_mirroring_tvch_n2"
+        android:contentDescription="@string/accessibility_no_action" />
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/px10"
+        android:layout_weight="86"
+        android:background="@drawable/xml_mirroring_tvch_n3"
+        android:contentDescription="@string/accessibility_no_action" />
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/px10"
+        android:layout_weight="86"
+        android:background="@drawable/xml_mirroring_tvch_n4"
+        android:contentDescription="@string/accessibility_no_action" />
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/px10"
+        android:layout_weight="86"
+        android:background="@drawable/xml_mirroring_tvch_n5"
+        android:contentDescription="@string/accessibility_no_action" />
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/px10"
+        android:layout_weight="86"
+        android:background="@drawable/xml_mirroring_tvch_n6"
+        android:contentDescription="@string/accessibility_no_action" />
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_7"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/px10"
+        android:layout_weight="86"
+        android:background="@drawable/xml_mirroring_tvch_n7"
+        android:contentDescription="@string/accessibility_no_action" />
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/px10"
+        android:layout_weight="86"
+        android:background="@drawable/xml_mirroring_tvch_n8"
+        android:contentDescription="@string/accessibility_no_action" />
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_9"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/px10"
+        android:layout_weight="86"
+        android:background="@drawable/xml_mirroring_tvch_n9"
+        android:contentDescription="@string/accessibility_no_action" />
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_0"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/px10"
+        android:layout_weight="86"
+        android:background="@drawable/xml_mirroring_tvch_n0"
+        android:contentDescription="@string/accessibility_no_action" />
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/px10"
+        android:layout_weight="86"
+        android:background="@drawable/xml_mirroring_tvch_n1"
+        android:contentDescription="@string/accessibility_no_action" />
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_ok"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/px25"
+        android:layout_weight="130"
+        android:background="@drawable/xml_mirroring_tvch_ok"
+        android:contentDescription="@string/accessibility_no_action" />
+
+</LinearLayout>

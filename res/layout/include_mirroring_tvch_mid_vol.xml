@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mirroring_tvch_mid_vol"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/m_vol_bg"
+    android:orientation="vertical" >
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_volup"
+        android:layout_width="@dimen/px122"
+        android:layout_height="@dimen/px122"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/px24"
+        android:background="@drawable/xml_mirroring_tvch_volup"
+        android:contentDescription="@string/accessibility_no_action" >
+    </ImageButton>
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_volmute"
+        android:layout_width="@dimen/px122"
+        android:layout_height="@dimen/px100"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/px25"
+        android:background="@drawable/xml_mirroring_tvch_volmute_on"
+        android:contentDescription="@string/accessibility_no_action" >
+    </ImageButton>
+
+    <ImageButton
+        android:id="@+id/mirroring_tvch_voldown"
+        android:layout_width="@dimen/px122"
+        android:layout_height="@dimen/px122"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/px25"
+        android:background="@drawable/xml_mirroring_tvch_voldown"
+        android:contentDescription="@string/accessibility_no_action" >
+    </ImageButton>
+
+</LinearLayout>

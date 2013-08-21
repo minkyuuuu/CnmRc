@@ -33,7 +33,13 @@
             android:windowSoftInputMode="adjustResize"
             />
         <activity
-            android:name=".MirroringActivity"
+            android:name=".MirroringTvchActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|keyboardHidden"
+            />
+        <activity
+            android:name=".MirroringVodActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
             android:screenOrientation="landscape"
             android:configChanges="orientation|keyboardHidden"

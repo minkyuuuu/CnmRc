@@ -5,7 +5,8 @@ import android.support.v4.app.DialogFragment;
 import android.util.TypedValue;
 import android.view.View;
 
-import com.cnm.cnmrc.MirroringActivity;
+import com.cnm.cnmrc.MirroringTvchActivity;
+import com.cnm.cnmrc.MirroringVodActivity;
 import com.cnm.cnmrc.R;
 
 public class PopupMirroringExit extends PopupBase {
@@ -36,9 +37,13 @@ public class PopupMirroringExit extends PopupBase {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.popup_yes:
-			if(getActivity() instanceof MirroringActivity) {
+			if(getActivity() instanceof MirroringTvchActivity) {
 				getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-			    ((MirroringActivity) getActivity()).finish();
+			    ((MirroringTvchActivity) getActivity()).finish();
+			}
+			if(getActivity() instanceof MirroringVodActivity) {
+				getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+				((MirroringVodActivity) getActivity()).finish();
 			}
 			break;
 		case R.id.popup_no:

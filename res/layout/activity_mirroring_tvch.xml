@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mirroring_tvch"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/good_doctor"
+    android:orientation="vertical" >
+
+    <!-- top : title -->
+
+    <RelativeLayout
+        android:id="@+id/mirroring_tvch_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px100"
+        android:background="#cc000000" >
+
+        <TextView
+            android:id="@+id/mirroring_tvch_content_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/px25"
+            android:singleLine="true"
+            android:text="굿 닥터"
+            android:textColor="#ffffffff"
+            android:textSize="@dimen/sp35"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/px15"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/mirroring_tvch_icon"
+                android:layout_width="@dimen/px66"
+                android:layout_height="@dimen/px66"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/px20"
+                android:background="@drawable/xml_mirroring_tvch_icon"
+                android:contentDescription="@string/accessibility_no_action" />
+
+            <Button
+                android:id="@+id/mirroring_exit"
+                android:layout_width="@dimen/px156"
+                android:layout_height="@dimen/px66"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/xml_mirroring_exit"
+                android:contentDescription="@string/accessibility_no_action"
+                android:text="@string/mirroring_exit"
+                android:textColor="@drawable/xml_mirroring_exit_textcolor"
+                android:textSize="@dimen/sp22" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- mid : volume & channel -->
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        layout="@layout/include_mirroring_tvch_mid" />
+
+    <!-- bottom : number -->
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px98"
+        layout="@layout/include_mirroring_tvch_bottom" />
+
+</LinearLayout>

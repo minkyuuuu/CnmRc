@@ -6,6 +6,7 @@
 
     <!-- font size ; original * 58%-->
     <dimen name="sp22">12.76sp</dimen>	
+    <dimen name="sp24">13.92sp</dimen>	
     <dimen name="sp26">15.08sp</dimen>	
     <dimen name="sp28">16.24sp</dimen>	
     <dimen name="sp29">16.82sp</dimen>	
@@ -196,6 +197,7 @@
     <dimen name="px152">76dp</dimen>
     <dimen name="px154">77dp</dimen>
     <dimen name="px155">77.5dp</dimen>
+    <dimen name="px156">78dp</dimen>
     <dimen name="px158">79dp</dimen>
     
     <dimen name="px160">80dp</dimen>
@@ -224,6 +226,7 @@
     <dimen name="px217">108.5dp</dimen>
     <dimen name="px220">110dp</dimen>
     <dimen name="px223">111.5dp</dimen>
+    <dimen name="px226">113dp</dimen>
     <dimen name="px227">113.5dp</dimen>
     <dimen name="px228">114dp</dimen>
     <dimen name="px229">114.5dp</dimen>
@@ -265,6 +268,7 @@
     
     <dimen name="px408">204dp</dimen>
     <dimen name="px418">209dp</dimen>
+    <dimen name="px442">221dp</dimen>
     <dimen name="px446">223dp</dimen>
     <dimen name="px464">232dp</dimen>
     <dimen name="px470">235dp</dimen>

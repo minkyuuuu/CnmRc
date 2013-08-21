@@ -16,6 +16,18 @@
     <!-- qwerty -->
     <string name="qwerty_cancel">취소</string>
     <string name="qwerty_textclear">TV글자지우기</string>
+    
+    
+    
+    
+    <!-- mirroringTV -->
+    <string name="mirroring_exit">미러TV종료</string>
+    
+    
+    
+    
+    
+    
 
     <!-- vod -->
     <string name="vod_main_title">VOD</string>

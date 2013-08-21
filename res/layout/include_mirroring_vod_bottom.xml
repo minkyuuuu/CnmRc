@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mirroring_vod_bottom"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px46"
+        android:layout_alignParentTop="true"
+        layout="@layout/include_mirroring_vod_bottom_indicator" />
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px108"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        layout="@layout/include_mirroring_vod_bottom_controller" />
+
+</RelativeLayout>

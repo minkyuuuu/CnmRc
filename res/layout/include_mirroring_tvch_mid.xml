@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        android:layout_width="@dimen/px226"
+        android:layout_height="@dimen/px442"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/px25"
+        layout="@layout/include_mirroring_tvch_mid_vol" />
+
+    <include
+        android:layout_width="@dimen/px226"
+        android:layout_height="@dimen/px442"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/px5"
+        layout="@layout/include_mirroring_tvch_mid_ch" />
+
+</RelativeLayout>

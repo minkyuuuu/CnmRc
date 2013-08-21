@@ -9,6 +9,7 @@
     <!-- font size -->
     <!-- hdpi = xhdpi x 80% -->
     <dimen name="sp22">10.21sp</dimen>	
+    <dimen name="sp24">11.14sp</dimen>	
     <dimen name="sp26">12.06sp</dimen>		
     <dimen name="sp28">12.99sp</dimen>	
     <dimen name="sp29">13.45sp</dimen>	
@@ -199,6 +200,7 @@
     <dimen name="px152">67.56dp</dimen>
     <dimen name="px154">68.44dp</dimen>
     <dimen name="px155">68.89dp</dimen>
+    <dimen name="px156">69.33dp</dimen>
     <dimen name="px158">70.22dp</dimen>
 
     <dimen name="px160">71.11dp</dimen>
@@ -227,6 +229,7 @@
     <dimen name="px217">96.44dp</dimen>
     <dimen name="px220">97.78dp</dimen>
     <dimen name="px223">99.11dp</dimen>
+    <dimen name="px226">100.44dp</dimen>
     <dimen name="px227">100.89dp</dimen>
     <dimen name="px228">101.33dp</dimen>
     <dimen name="px229">101.78dp</dimen>
@@ -268,6 +271,7 @@
     
     <dimen name="px408">181.33dp</dimen>
     <dimen name="px418">185.78dp</dimen>
+    <dimen name="px442">196.44dp</dimen>
     <dimen name="px446">198.22dp</dimen>
     <dimen name="px464">206.22dp</dimen>
     <dimen name="px470">208.29dp</dimen>

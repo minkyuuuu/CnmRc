@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true" android:state_selected="true" android:drawable="@drawable/m_volmuteoff_press"/>
+    <item android:state_pressed="false" android:state_selected="true" android:drawable="@drawable/m_volmuteoff_normal"/>
+    <item android:state_pressed="true"  android:drawable="@drawable/m_volmuteon_press"/>
+    <item 								android:drawable="@drawable/m_volmuteon_normal" />
+
+</selector>
