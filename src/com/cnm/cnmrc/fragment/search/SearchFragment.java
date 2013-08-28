@@ -8,25 +8,29 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.Selection;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.fragment.popup.PopupMirroringEnter;
 import com.cnm.cnmrc.fragment.popup.PopupSearchRecentlyDelete;
 import com.cnm.cnmrc.util.Util;
 
@@ -41,8 +45,11 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 	}
 
 	View layout;
+	LinearLayout mNoClickBelowLayout;
+	
+	RelativeLayout mTitleLayout;
 
-	public TextView mSearchTitle;
+	TextView mSearchTitle;
 
 	EditText edit;
 	RadioGroup radioGroup;
@@ -52,32 +59,60 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 	String[] mArray = null;
 	ArrayList<String> arrayList = null;
 
-	FrameLayout mResultPanelFrameLlayout;
-	public FrameLayout mDetilPanelFrameLlayout;
+	FrameLayout mResultPanelFrameLayout;
+	FrameLayout mDetilPanelFrameLayout;
 
 	Button mSearchRecentlyDelete;
+	Button mSearchInput;
+	Button mSearchInputDelete;
+	ImageButton mSearchSearch;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		layout = (View) inflater.inflate(R.layout.search_fragment, container, false);
 
-		mResultPanelFrameLlayout = (FrameLayout) layout.findViewById(R.id.result_panel);
-		mResultPanelFrameLlayout.setVisibility(View.INVISIBLE);
-
-		mDetilPanelFrameLlayout = (FrameLayout) layout.findViewById(R.id.detail_panel);
-		mDetilPanelFrameLlayout.setVisibility(View.INVISIBLE);
-
+		mNoClickBelowLayout = (LinearLayout) layout.findViewById(R.id.no_click_below_layout);
+		mNoClickBelowLayout.setOnClickListener(this);
+		
+		mTitleLayout = (RelativeLayout) layout.findViewById(R.id.search_title_layout);
+		mTitleLayout.setVisibility(View.GONE);
 		mSearchTitle = (TextView) layout.findViewById(R.id.search_title);
+		mSearchSearch = (ImageButton) layout.findViewById(R.id.search_search);
+		mSearchSearch.setOnClickListener(this);
+		
+		mResultPanelFrameLayout = (FrameLayout) layout.findViewById(R.id.result_panel);
+		mResultPanelFrameLayout.setVisibility(View.INVISIBLE);
+
+		mDetilPanelFrameLayout = (FrameLayout) layout.findViewById(R.id.detail_panel);
+		mDetilPanelFrameLayout.setVisibility(View.INVISIBLE);
+
 
 		mSearchRecentlyDelete = (Button) layout.findViewById(R.id.search_recently_delete);
 		mSearchRecentlyDelete.setOnClickListener(this);
+
+		mSearchInput = (Button) layout.findViewById(R.id.search_input_icon);
+		mSearchInput.setOnClickListener(this);
+
+		mSearchInputDelete = (Button) layout.findViewById(R.id.search_input_delete);
+		mSearchInputDelete.setOnClickListener(this);
+		mSearchInputDelete.setVisibility(View.GONE);
+
 
 		// android:windowSoftInputMode="adjustPan"
 		// getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 		// // not work
 
 		edit = (EditText) layout.findViewById(R.id.search_edit);
-		edit.requestFocus();
+		//edit.requestFocus();
+		
+		edit.setOnFocusChangeListener(new OnFocusChangeListener() {
+			public void onFocusChange(View v, boolean hasFocus) {
+				Log.i("hwang", "edit focus changed!!!");
+				if (hasFocus) {
+					Util.showSoftKeyboard(getActivity(), edit);
+				}
+			}
+		});
 
 		edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
@@ -118,6 +153,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 				changeViewList(checkedId);
 			}
 		});
+		radioGroup.setVisibility(View.GONE);
 
 		// listview
 		mListView = (ListView) layout.findViewById(R.id.search_recently_listview);
@@ -156,7 +192,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 	private void performSearch() {
 		int checkedId = radioGroup.getCheckedRadioButtonId();
 		Util.hideSoftKeyboard(getActivity());
-		mResultPanelFrameLlayout.setVisibility(View.VISIBLE);
+		mResultPanelFrameLayout.setVisibility(View.VISIBLE);
+		radioGroup.setVisibility(View.VISIBLE);
 		// Toast.makeText(getActivity(), "검색" + checkedId,
 		// Toast.LENGTH_SHORT).show();
 
@@ -188,8 +225,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 	}
 
 	public void showDetailVod() {
+		mTitleLayout.setVisibility(View.VISIBLE);
 		mSearchTitle.setText("상세보기");
-		mDetilPanelFrameLlayout.setVisibility(View.VISIBLE);
+		mDetilPanelFrameLayout.setVisibility(View.VISIBLE);
+		Util.hideSoftKeyboard(getActivity());
 
 		SearchVodDetail searchVod = new SearchVodDetail();
 		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -267,8 +306,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 	}
 
 	private void clearSelectedAll() {
-		mResultPanelFrameLlayout.setVisibility(View.INVISIBLE);
-		mDetilPanelFrameLlayout.setVisibility(View.INVISIBLE);
+		mResultPanelFrameLayout.setVisibility(View.INVISIBLE);
+		mDetilPanelFrameLayout.setVisibility(View.INVISIBLE);
 		vod.setSelected(false);
 		tvch.setSelected(false);
 		naver.setSelected(false);
@@ -281,6 +320,19 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 			FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 			PopupSearchRecentlyDelete searchRecentlyDelete = new PopupSearchRecentlyDelete();
 			searchRecentlyDelete.show(ft, PopupSearchRecentlyDelete.class.getSimpleName());
+			break;
+		case R.id.search_input_icon:
+			Log.i("hwang", "clicked search input icon");
+			if (edit.getText().toString().equals("")) {
+				Toast.makeText(getActivity(), "검색어를 입력해 주세요", Toast.LENGTH_SHORT).show();
+			} else {
+				performSearch();
+			}
+			break;
+		case R.id.search_input_delete:
+			break;
+		case R.id.search_search:
+			resetAll();
 			break;
 		}
 
@@ -321,7 +373,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
 	@Override
 	public void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
 
 	}
@@ -335,6 +386,22 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 	public void onDetach() {
 		super.onDetach();
 
+	}
+
+	public void resetAll() {
+		Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag("search_vod_detail");
+		if (f != null) {
+			getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
+		}
+
+		radioGroup.setVisibility(View.GONE);
+		mTitleLayout.setVisibility(View.GONE);
+		edit.setText("");
+		mResultPanelFrameLayout.setVisibility(View.INVISIBLE);
+	}
+
+	public void resetTitle() {
+		mTitleLayout.setVisibility(View.INVISIBLE);
 	}
 
 }

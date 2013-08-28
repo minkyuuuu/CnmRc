@@ -30,8 +30,8 @@ import android.widget.ListView;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.data.ItemVodSemiDetail;
 import com.cnm.cnmrc.fragment.vodtvch.VodSemiDetailAdapter;
+import com.cnm.cnmrc.item.ItemVodSemiDetail;
 
 public class SearchVod extends Fragment {
 

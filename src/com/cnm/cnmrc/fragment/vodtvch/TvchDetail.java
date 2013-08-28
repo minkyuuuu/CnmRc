@@ -27,7 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.data.ItemTvchDetail;
+import com.cnm.cnmrc.item.ItemTvchDetail;
 
 public class TvchDetail extends Base implements View.OnClickListener{
 

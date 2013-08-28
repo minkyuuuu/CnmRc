@@ -33,10 +33,11 @@ public class PopupSearchRecentlyDelete extends PopupBase {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.popup_yes:
+			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
 			Log.i("hwang", "(search)yes button pressed");
 			break;
 		case R.id.popup_no:
-			Log.i("hwang", "(search)no button pressed");
+			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
 			break;
 		}
 

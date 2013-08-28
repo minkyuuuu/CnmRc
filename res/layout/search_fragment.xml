@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/no_click_below_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/xml_repeat_default_bg"
@@ -8,21 +9,86 @@
     <!-- 상단 타이틀 -->
 
     <RelativeLayout
+        android:id="@+id/search_top_layout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px110"
-        android:background="#ff7961aa" >
+        android:layout_height="@dimen/px110" >
 
-        <TextView
-            android:id="@+id/search_title"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px110"
+            android:background="#ff7961aa"
+            android:orientation="horizontal" >
+
+            <View
+                android:layout_width="@dimen/px7"
+                android:layout_height="match_parent" />
+
+            <EditText
+                android:id="@+id/search_edit"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/px92"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/px4"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:hint="@string/search_hint"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:textColor="#ff797979"
+                android:textSize="@dimen/sp32" />
+
+            <View
+                android:layout_width="@dimen/px7"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/search_input_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="left|center"
-            android:singleLine="true"
-            android:text="@string/search_title"
-            android:textColor="#ffffffff"
-            android:textSize="@dimen/sp45"
-            android:textStyle="bold" />
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/px30"
+            android:background="@drawable/inputicon"
+            android:focusable="true" />
+
+        <Button
+            android:id="@+id/search_input_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/px30"
+            android:background="@drawable/inputclose" />
+
+        <RelativeLayout
+            android:id="@+id/search_title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px110"
+            android:background="#ff7961aa" >
+
+            <TextView
+                android:id="@+id/search_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="left|center"
+                android:singleLine="true"
+                android:text="@string/search_title"
+                android:textColor="#ffffffff"
+                android:textSize="@dimen/sp45"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/search_search"
+                android:layout_width="@dimen/px98"
+                android:layout_height="@dimen/px94"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/xml_rc_base_top"
+                android:contentDescription="@string/accessibility_search"
+                android:src="@drawable/top_icon_search" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <!-- (1) 검색어입력, 3개 탭, 최근검색 -->
@@ -39,34 +105,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px96"
-                android:orientation="horizontal" >
-
-                <View
-                    android:layout_width="@dimen/px7"
-                    android:layout_height="match_parent" />
-
-                <EditText
-                    android:id="@+id/search_edit"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/px96"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="@dimen/px4"
-                    android:layout_weight="1"
-                    android:focusable="true"
-                    android:imeOptions="actionSearch"
-                    android:inputType="text"
-                    android:hint="@string/search_hint"
-                    android:textColor="#ff797979"
-                    android:textSize="@dimen/sp32" />
-
-                <View
-                    android:layout_width="@dimen/px7"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
 
             <RadioGroup
                 android:id="@+id/search_radio_group"

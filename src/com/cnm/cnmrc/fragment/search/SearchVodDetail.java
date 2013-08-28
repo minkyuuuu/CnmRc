@@ -22,8 +22,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 
 public class SearchVodDetail extends Fragment implements View.OnClickListener{
@@ -55,6 +55,15 @@ public class SearchVodDetail extends Fragment implements View.OnClickListener{
 	        	getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
 	        }
         }
+        
+        {
+        	Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity)getActivity()).TAG_FRAGMENT_SEARCH);
+        	if (f != null) {
+        		((SearchFragment)f).resetTitle();
+        	}
+        }
+        
+        
 	}
 	
 	@Override

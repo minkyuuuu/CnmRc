@@ -18,10 +18,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.cnm.cnmrc.config.ConfigAdultCert;
-import com.cnm.cnmrc.config.ConfigFragment;
-import com.cnm.cnmrc.config.ConfigProduct;
-import com.cnm.cnmrc.config.ConfigRegion;
+import com.cnm.cnmrc.fragment.config.ConfigAdultCert;
+import com.cnm.cnmrc.fragment.config.ConfigFragment;
+import com.cnm.cnmrc.fragment.config.ConfigChannelProduct;
+import com.cnm.cnmrc.fragment.config.ConfigChannelArea;
 import com.cnm.cnmrc.fragment.popup.PopupMirroringEnter;
 import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
 import com.cnm.cnmrc.fragment.rc.RcChannelVolume;
@@ -329,6 +329,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			goToVodTvch("tvch");
 			break;
 		case R.id.search:
+			Log.i("hwang", "main search clicked!!!!");
 			goToSearch("rc");
 			break;
 
@@ -415,16 +416,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// ---------------------------
 		// config product
 		// ---------------------------
-		final ConfigProduct configProduct = (ConfigProduct) getSupportFragmentManager().findFragmentByTag("config_product");
+		final ConfigChannelProduct configProduct = (ConfigChannelProduct) getSupportFragmentManager().findFragmentByTag("config_product");
 		if (configProduct != null) {
 			super.onBackPressed();	// go to config main
 			return;
 		}
 		
 		// ---------------------------
-		// config region
+		// config area
 		// ---------------------------
-		final ConfigRegion configRegion = (ConfigRegion) getSupportFragmentManager().findFragmentByTag("config_region");
+		final ConfigChannelArea configRegion = (ConfigChannelArea) getSupportFragmentManager().findFragmentByTag("config_area");
 		if (configRegion != null) {
 			super.onBackPressed();	// go to config main
 			return;
@@ -568,7 +569,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		
 		//  ft.replace전에 animation을 설정해야 한다.
-		ft.setCustomAnimations(R.anim.vod_tvch_base_entering, 0);
+		ft.setCustomAnimations(R.anim.fragment_entering, 0);
 		ft.replace(R.id.vod_tvch_panel, vodTvch, TAG_FRAGMENT_VOD_TVCH);
 		ft.addToBackStack(null);	// fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
 		ft.commit();
@@ -603,7 +604,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		
 		//  ft.replace전에 animation을 설정해야 한다.
 		// ft.setCustomAnimations(R.anim.vod_chtv_main_entering, 0, 0, R.anim.vod_chtv_main_exit); // 두 번째 진입때 문제발생...
-		ft.setCustomAnimations(R.anim.vod_tvch_base_entering, 0);
+		ft.setCustomAnimations(R.anim.fragment_entering, 0);
 		ft.add(R.id.search_panel, search, TAG_FRAGMENT_SEARCH);
 		ft.addToBackStack(null);	// fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
 		ft.commit();
@@ -648,7 +649,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		
 		//  ft.replace전에 animation을 설정해야 한다.
 		// ft.setCustomAnimations(R.anim.vod_chtv_main_entering, 0, 0, R.anim.vod_chtv_main_exit); // 두 번째 진입때 문제발생...
-		ft.setCustomAnimations(R.anim.vod_tvch_base_entering, 0);
+		ft.setCustomAnimations(R.anim.fragment_entering, 0);
 		ft.add(R.id.config_panel, config, TAG_FRAGMENT_CONFIG);
 		ft.addToBackStack(null);	// fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
 		ft.commit();
@@ -717,15 +718,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// ---------------------------
 		// config product
 		// ---------------------------
-		final ConfigProduct configProduct = (ConfigProduct) getSupportFragmentManager().findFragmentByTag("config_product");
+		final ConfigChannelProduct configProduct = (ConfigChannelProduct) getSupportFragmentManager().findFragmentByTag("config_product");
 		if (configProduct != null) {
 			super.onBackPressed();	// go to config main
 		}
 		
 		// ---------------------------
-		// config region
+		// config area
 		// ---------------------------
-		final ConfigRegion configRegion = (ConfigRegion) getSupportFragmentManager().findFragmentByTag("config_region");
+		final ConfigChannelArea configRegion = (ConfigChannelArea) getSupportFragmentManager().findFragmentByTag("config_area");
 		if (configRegion != null) {
 			super.onBackPressed();	// go to config main
 		}

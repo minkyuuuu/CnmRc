@@ -13,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.data.ItemTvchSemiDetail;
-import com.cnm.cnmrc.data.ItemVodSemiDetail;
+import com.cnm.cnmrc.item.ItemTvchSemiDetail;
+import com.cnm.cnmrc.item.ItemVodSemiDetail;
 
 // Custom Adapter
 public class VodSemiDetailAdapter extends ArrayAdapter<ItemVodSemiDetail> {

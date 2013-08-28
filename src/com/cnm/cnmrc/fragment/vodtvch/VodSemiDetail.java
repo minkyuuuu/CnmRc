@@ -27,7 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.data.ItemVodSemiDetail;
+import com.cnm.cnmrc.item.ItemVodSemiDetail;
 
 public class VodSemiDetail extends Base{
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/product_no_click_below_layout"
+    android:id="@+id/area_no_click_below_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/xml_repeat_default_bg"
@@ -12,18 +12,19 @@
         android:background="#ff7961aa" >
 
         <TextView
-            android:id="@+id/config_product_title"
+            android:id="@+id/config_region_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:singleLine="true"
-            android:text="@string/config_product_title"
+            android:text="@string/config_region_title"
             android:textColor="#ffffffff"
             android:textSize="@dimen/sp45"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/config_product_done"
+        <!--
+             <Button
+            android:id="@+id/config_complete"
             android:layout_width="@dimen/px98"
             android:layout_height="@dimen/px58"
             android:layout_alignParentRight="true"
@@ -34,10 +35,11 @@
             android:textColor="#ffeeeeee"
             android:textSize="@dimen/sp32"
             android:textStyle="bold" />
+        -->
     </RelativeLayout>
 
     <ListView
-        android:id="@+id/config_product_listview"
+        android:id="@+id/config_area_listview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

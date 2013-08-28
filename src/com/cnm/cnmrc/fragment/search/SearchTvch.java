@@ -28,8 +28,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.data.ItemTvchSemiDetail;
 import com.cnm.cnmrc.fragment.vodtvch.TvchSemiDetailAdapter;
+import com.cnm.cnmrc.item.ItemTvchSemiDetail;
 
 public class SearchTvch extends Fragment {
 

@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.data.ItemTvchDetail;
+import com.cnm.cnmrc.item.ItemTvchDetail;
 
 // Custom Adapter
 public class TvchDetailAdapter extends ArrayAdapter<ItemTvchDetail> {

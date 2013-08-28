@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.data.ItemTvchSemiDetail;
+import com.cnm.cnmrc.item.ItemTvchSemiDetail;
 
 // Custom Adapter
 public class TvchSemiDetailAdapter extends ArrayAdapter<ItemTvchSemiDetail> {
