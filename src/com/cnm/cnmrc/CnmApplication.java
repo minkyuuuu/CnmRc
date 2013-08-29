@@ -1,10 +1,13 @@
 package com.cnm.cnmrc;
 
 import android.app.Application;
+import android.app.Dialog;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.ProgressBar;
 
 import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.Sound;
@@ -36,6 +39,7 @@ import com.cnm.cnmrc.util.Sound;
 public class CnmApplication extends Application {
 
 	CnmPreferences pref;
+	
 	Sound mSoundPool;
 
 	@Override
@@ -55,6 +59,7 @@ public class CnmApplication extends Application {
 		// -----------------------------------------------------------------------------------
 		
 		pref = CnmPreferences.getInstance();
+		
 		mSoundPool = new Sound(getApplicationContext());
 		
 		// App 설치후 처음 진입인지?
@@ -72,8 +77,6 @@ public class CnmApplication extends Application {
 
 	}
 
-
-
 	public void setMobileIMIE(Context context) {
 		TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		String UDID = telephonyManager.getDeviceId();
@@ -87,5 +90,6 @@ public class CnmApplication extends Application {
 			pref.saveUdid(getApplicationContext(), UDID);
 		}
 	}
+	
 
 }

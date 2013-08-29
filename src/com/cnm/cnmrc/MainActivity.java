@@ -1,5 +1,6 @@
 package com.cnm.cnmrc;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -11,17 +12,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cnm.cnmrc.fragment.config.ConfigAdultCert;
 import com.cnm.cnmrc.fragment.config.ConfigFragment;
-import com.cnm.cnmrc.fragment.config.ConfigChannelProduct;
-import com.cnm.cnmrc.fragment.config.ConfigChannelArea;
+import com.cnm.cnmrc.fragment.config.ConfigProduct;
+import com.cnm.cnmrc.fragment.config.ConfigArea;
 import com.cnm.cnmrc.fragment.popup.PopupMirroringEnter;
 import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
 import com.cnm.cnmrc.fragment.rc.RcChannelVolume;
@@ -77,6 +80,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	
 	public final String TAG_FRAGMENT_SEARCH = "search";
 	public final String TAG_FRAGMENT_CONFIG = "config";
+	public final String TAG_FRAGMENT_CONFIG_AREA = "config_area";
 	
 	public final String TAG_FRAGMENT_FOURWAY = "fourway";
 	public final String TAG_FRAGMENT_TRICK_PLAY = "trick_play";
@@ -110,6 +114,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	Animation aniQwertyFadeout;
 	
 	Animation aniCirCleMenuEnter, aniCirCleMenuExit;
+	
+	Dialog myProgressDialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -187,7 +193,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		mFourWay = (ImageButton) findViewById(R.id.four_way);
 		mQwerty = (ImageButton) findViewById(R.id.qwerty);
 		mChannelVolume = (ImageButton) findViewById(R.id.channel_volume);
-		mConfig = (ImageButton) findViewById(R.id.config);
+		mConfig = (ImageButton) findViewById(R.id.config_prevent_click_dispatching);
 		
 		// VOD and TVCh 메인화면
 		mVodTvchPanel = (FrameLayout) findViewById(R.id.vod_tvch_panel);
@@ -207,6 +213,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		
 		aniCirCleMenuEnter = AnimationUtils.loadAnimation(this, R.anim.scale_up);
 		aniCirCleMenuExit = AnimationUtils.loadAnimation(this, R.anim.scale_down);
+		
+		// progress bar
+		myProgressDialog = new Dialog(this, R.style.NewProgressDialog);
+		ProgressBar progressBar = new ProgressBar(this);
+		progressBar.setIndeterminateDrawable(this.getResources().getDrawable(R.drawable.anim_progressbar));
+		myProgressDialog.addContentView(
+				progressBar, 
+				new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 	}
 
 	private void setEvent() {
@@ -355,7 +369,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		case R.id.qwerty:		// Activity
 			openQwerty();
 			break;
-		case R.id.config:
+		case R.id.config_prevent_click_dispatching:
 			if(isExistFragment(TAG_FRAGMENT_CONFIG)) {
 				Log.i("hwang", "No entering config !!!");
 				hideCircleMenu();
@@ -416,7 +430,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// ---------------------------
 		// config product
 		// ---------------------------
-		final ConfigChannelProduct configProduct = (ConfigChannelProduct) getSupportFragmentManager().findFragmentByTag("config_product");
+		final ConfigProduct configProduct = (ConfigProduct) getSupportFragmentManager().findFragmentByTag("config_product");
 		if (configProduct != null) {
 			super.onBackPressed();	// go to config main
 			return;
@@ -425,8 +439,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// ---------------------------
 		// config area
 		// ---------------------------
-		final ConfigChannelArea configRegion = (ConfigChannelArea) getSupportFragmentManager().findFragmentByTag("config_area");
-		if (configRegion != null) {
+		final ConfigArea configArea = (ConfigArea) getSupportFragmentManager().findFragmentByTag("config_area");
+		if (configArea != null) {
 			super.onBackPressed();	// go to config main
 			return;
 		}
@@ -718,7 +732,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// ---------------------------
 		// config product
 		// ---------------------------
-		final ConfigChannelProduct configProduct = (ConfigChannelProduct) getSupportFragmentManager().findFragmentByTag("config_product");
+		final ConfigProduct configProduct = (ConfigProduct) getSupportFragmentManager().findFragmentByTag("config_product");
 		if (configProduct != null) {
 			super.onBackPressed();	// go to config main
 		}
@@ -726,8 +740,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// ---------------------------
 		// config area
 		// ---------------------------
-		final ConfigChannelArea configRegion = (ConfigChannelArea) getSupportFragmentManager().findFragmentByTag("config_area");
-		if (configRegion != null) {
+		final ConfigArea configArea = (ConfigArea) getSupportFragmentManager().findFragmentByTag("config_area");
+		if (configArea != null) {
 			super.onBackPressed();	// go to config main
 		}
 		
@@ -951,6 +965,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	    super.onNewIntent(intent);
 	}
 	
+	public Dialog getMyProgressBar() {
+		return myProgressDialog;
+	}
 
 	public Fragment getFragmentRcBottomMenu() {
 		Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_rc_bottom_menu);
@@ -967,6 +984,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		return f;
 	}
 	
+	public Fragment getFragmentConfig() {
+		Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG);
+		return f;
+	}
+	
+	public Fragment getFragmentConfigArea() {
+		Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG_AREA);
+		return f;
+	}
 	
 	
 	

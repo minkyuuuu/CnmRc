@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.cnm.cnmrc.custom.CheckableLinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cnmrc="http://schemas.android.com/apk/res/com.cnm.cnmrc"
     android:layout_width="match_parent"
     android:layout_height="@dimen/px100"
+    cnmrc:checkable="@+id/config_area_radio"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -17,7 +20,7 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/config_region"
+                android:id="@+id/config_area"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -26,7 +29,7 @@
                 android:textSize="@dimen/sp32" />
 
             <TextView
-                android:id="@+id/config_region_gu"
+                android:id="@+id/config_area_gu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
@@ -57,4 +60,4 @@
         android:layout_height="@dimen/px2"
         android:background="@drawable/list_line" />
 
-</LinearLayout>
+</com.cnm.cnmrc.custom.CheckableLinearLayout>

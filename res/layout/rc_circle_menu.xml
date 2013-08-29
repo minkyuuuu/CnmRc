@@ -68,7 +68,7 @@
             android:src="@drawable/rcmenu_icon_chvol" />
 
         <ImageButton
-            android:id="@+id/config"
+            android:id="@+id/config_prevent_click_dispatching"
             android:layout_width="@dimen/px126"
             android:layout_height="@dimen/px90"
             android:layout_alignParentRight="true"

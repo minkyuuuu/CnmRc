@@ -81,7 +81,7 @@
 
     <!-- config -->
     <string name="config_title">설정</string>
-    <string name="config_region_title">지역 설정</string>
+    <string name="config_area_title">지역 설정</string>
     <string name="config_product_title">상품 설정</string>
     
     <string name="config_remocon">리모컨 설정</string>
@@ -97,7 +97,7 @@
     <string name="config_adult_cert_off">미인증 상태입니다</string>
     <string name="config_adult_cert_line_1">자동성인인증으로 설정하시면</string>
     <string name="config_adult_cert_line_2">인증절차없이 컨텐츠를 감상하실 수 있습니다.</string>
-    <string name="config_region_product">지역/상품 설정</string>
+    <string name="config_area_product">지역/상품 설정</string>
     <string name="config_all_clear">모든 설정 초기화</string>
     <string name="config_initial">초기화</string>
     

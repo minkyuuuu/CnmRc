@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/area_no_click_below_layout"
+    android:id="@+id/area_prevent_click_dispatching"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/xml_repeat_default_bg"
@@ -17,25 +17,10 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:singleLine="true"
-            android:text="@string/config_region_title"
+            android:text="@string/config_area_title"
             android:textColor="#ffffffff"
             android:textSize="@dimen/sp45"
             android:textStyle="bold" />
-
-        <!--
-             <Button
-            android:id="@+id/config_complete"
-            android:layout_width="@dimen/px98"
-            android:layout_height="@dimen/px58"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/px10"
-            android:background="@drawable/xml_config_complete"
-            android:text="@string/complete"
-            android:textColor="#ffeeeeee"
-            android:textSize="@dimen/sp32"
-            android:textStyle="bold" />
-        -->
     </RelativeLayout>
 
     <ListView

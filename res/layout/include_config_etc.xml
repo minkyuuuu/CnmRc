@@ -25,7 +25,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/px20"
-                android:text="@string/config_region_product"
+                android:text="@string/config_area_product"
                 android:textColor="#ff797979"
                 android:textSize="@dimen/sp30" />
 
@@ -35,14 +35,14 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/px10"
-                android:layout_toLeftOf="@+id/config_indicator_region"
+                android:layout_toLeftOf="@+id/config_indicator_area"
                 android:paddingBottom="@dimen/px4"
                 android:text="강남/HD실속형"
                 android:textColor="#ff7961aa"
                 android:textSize="@dimen/sp30" />
 
             <ImageView
-                android:id="@id/config_indicator_region"
+                android:id="@id/config_indicator_area"
                 android:layout_width="@dimen/px16"
                 android:layout_height="@dimen/px29"
                 android:layout_alignParentRight="true"

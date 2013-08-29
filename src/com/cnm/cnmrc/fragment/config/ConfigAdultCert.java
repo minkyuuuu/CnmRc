@@ -57,7 +57,7 @@ public class ConfigAdultCert extends Fragment implements View.OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.config: // 현재화면 밑에있는 화면으로 클릭이벤트가 전달되는것을 막기위함.
+		case R.id.config_prevent_click_dispatching: // 현재화면 밑에있는 화면으로 클릭이벤트가 전달되는것을 막기위함.
 			break;
 		case R.id.adult_cert_done:
 			getActivity().onBackPressed();

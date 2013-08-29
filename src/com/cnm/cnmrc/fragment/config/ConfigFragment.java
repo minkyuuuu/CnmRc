@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -33,20 +32,20 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 	
 	CnmPreferences pref;
 	
-	LinearLayout mConfigLayout; // 현재화면 밑에있는 화면으로 클릭이벤트가 전달되는것을 막기위함.
+	LinearLayout preventClickDispatching; 	// 현재화면 밑에있는 화면으로 클릭이벤트가 전달되는것을 막기위함.
 	
-	Button mDone;				// 상단 타이틀영역 왼쪽에 위치한 "완료"버튼, 이전 화면으로 이동.
+	Button mDone;							// 상단 타이틀영역 왼쪽에 위치한 "완료"버튼, 이전 화면으로 이동.
 
 	SlideToggleButton mVibrate, mSound, mVodUpdate, mWatchingRes, mAutoAdultCert;
 	SeekBar seekbar;
 	
-	TextView mAdultCertStatus;	// 성인인증상태 문구, 성인인증화면으로 이동함.
+	TextView mAdultCertStatus;		// 성인인증상태 문구, 성인인증화면으로 이동함.
 	RelativeLayout mAdultWarningMsg;
 	View mDefaultBlankLine;
 	
-	TextView mAreaProduct;	// 지역/상품 문구, 지역/상품화면으로 이동함.
+	TextView mAreaProduct;			// 지역/상품 문구, 지역/상품화면으로 이동함.
 	
-	Button mAllClear;			// 초기화
+	Button mAllClear;				// 초기화
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,8 +54,8 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 		pref = CnmPreferences.getInstance();
 
 		// 현재화면 밑에있는 화면으로 클릭이벤트가 전달되는것을 막기위함.
-		mConfigLayout = (LinearLayout) layout.findViewById(R.id.config);
-		mConfigLayout.setOnClickListener(this);
+		preventClickDispatching = (LinearLayout) layout.findViewById(R.id.config_prevent_click_dispatching);
+		preventClickDispatching.setOnClickListener(this);
 		
 		// 상단 타이틀영역 왼쪽에 위치한 "완료"버튼, 이전 화면으로 이동.
 		mDone = (Button) layout.findViewById(R.id.config_done);
@@ -70,8 +69,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 
 		// 지역/상품 문구, 지역/상품화면으로 이동함.
 		mAreaProduct = (TextView) layout.findViewById(R.id.config_area_product);
-		String str = pref.loadChannelAreaName(getActivity()) + "/" + pref.loadChannelProductName(getActivity());
-		mAreaProduct.setText(str);
+		refreshAreaProduct();
 		mAreaProduct.setOnClickListener(this);
 		
 		// 초기화
@@ -170,8 +168,6 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.config: // 현재화면 밑에있는 화면으로 클릭이벤트가 전달되는것을 막기위함.
-			break;
 		case R.id.config_done:
 			getActivity().onBackPressed();
 			break;
@@ -179,7 +175,7 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 			goToAdultCert();
 			break;
 		case R.id.config_area_product:
-			showRegion();
+			showArea();
 			break;
 		case R.id.config_all_clear:
 			clearAll();
@@ -214,15 +210,15 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 		else return false;
 	}
 
-	private void showRegion() {
+	private void showArea() {
 		Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity)getActivity()).TAG_FRAGMENT_CONFIG);
 		if (f != null) {
-			ConfigChannelArea configRegion = ConfigChannelArea.newInstance("강남");
+			ConfigArea configArea = ConfigArea.newInstance("강남");
 			FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 			
 			//  ft.replace전에 animation을 설정해야 한다.
 			ft.setCustomAnimations(R.anim.fragment_entering, 0, 0, R.anim.fragment_exit);
-			ft.add(R.id.config_panel, configRegion, "config_area");	// config_panel은 main에 있는것으로 현재 설정화면의 fragment에서 사용한 뷰 그룹이다.
+			ft.add(R.id.config_panel, configArea, "config_area");	// config_panel은 main에 있는것으로 현재 설정화면의 fragment에서 사용한 뷰 그룹이다.
 			ft.addToBackStack(null);									// backstack이란 본인 fragment가 소속된 activity stack을 의미한다.
 			ft.commit();
 			getActivity().getSupportFragmentManager().executePendingTransactions();
@@ -236,7 +232,11 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 		mVodUpdate.setChecked(true);		// drawer is opened!!!, "png is on image"
 		mWatchingRes.setChecked(true);		// drawer is opened!!!, "png is on image"
 		mAutoAdultCert.setChecked(false);	// drawer is closed!!!, "png is off image"
-		
+	}
+	
+	public void refreshAreaProduct() {
+		String str = pref.loadChannelAreaName(getActivity()) + "/" + pref.loadChannelProductName(getActivity());
+		mAreaProduct.setText(str);
 	}
 
 	@Override
@@ -251,20 +251,22 @@ public class ConfigFragment extends Fragment implements View.OnClickListener {
 
 	@Override
 	public void onActivityCreated(Bundle arg0) {
-
 		super.onActivityCreated(arg0);
 	}
 
 	@Override
 	public void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
-
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
 	}
 
 	@Override

@@ -12,12 +12,12 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.parser.ChannelArea;
-import com.cnm.cnmrc.parser.ChannelAreaList;
+import com.cnm.cnmrc.parser.Area;
+import com.cnm.cnmrc.parser.AreaList;
 import com.cnm.cnmrc.util.Util;
 
 // Custom Adapter
-public class ConfigAreaAdapter extends ArrayAdapter<ChannelArea> {
+public class ConfigAreaAdapter extends ArrayAdapter<Area> {
 	private String TAG = ConfigAreaAdapter.class.getSimpleName();
 	
     private Activity context;
@@ -25,9 +25,9 @@ public class ConfigAreaAdapter extends ArrayAdapter<ChannelArea> {
     
     int selectedIndex = 0;
 
-    private ArrayList<ChannelArea> itemList;
+    private ArrayList<Area> itemList;
 
-    public ConfigAreaAdapter(Context context, int layoutResId, ArrayList<ChannelArea> arrayList) {
+    public ConfigAreaAdapter(Context context, int layoutResId, ArrayList<Area> arrayList) {
         super(context, layoutResId, arrayList);
         this.layoutResId = layoutResId;
         this.context = (Activity) context;
@@ -38,27 +38,29 @@ public class ConfigAreaAdapter extends ArrayAdapter<ChannelArea> {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View row = convertView;
         
-        //if (row == null) {
+        if (row == null) {
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
             row = inflater.inflate(layoutResId, null);
-        //} 
+        } 
         
-        // region
-        TextView region = (TextView)row.findViewById(R.id.config_region);
-        String regionText = itemList.get(position).getAreaName();
-        region.setText(regionText);
+        // area
+        TextView area = (TextView)row.findViewById(R.id.config_area);
+        String areaText = itemList.get(position).getAreaName();
+        area.setText(areaText);
         
         // gu
-        TextView gu = (TextView)row.findViewById(R.id.config_region_gu);
+        TextView gu = (TextView)row.findViewById(R.id.config_area_gu);
         gu.setText(itemList.get(position).getAreaNameDetail());
         if(gu.getText().equals("") || gu.getText().equals(null)) gu.setVisibility(View.GONE);
         
         // radio button
         RadioButton radio = (RadioButton)row.findViewById(R.id.config_area_radio);
-        
-        if(Util.getChannelAreaName(context).equals(regionText)) {
+       
+        // 결국 Adapter안에서 원하는 특정(기본 송파) 아이템을 setChecked하면 안된다. 
+		// adapter가 만들어지는 시점에서 즉 통신이 끝난후에 checked해야한다.
+        /*if(Util.getChannelAreaName(context).equals(regionText)) {
         	radio.setChecked(true);
-        }
+        }*/
         
 //		if (selectedIndex == position) {
 //			radio.setChecked(true);
