@@ -19,8 +19,8 @@ import android.widget.ListView;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.parser.Product;
-import com.cnm.cnmrc.parser.ProductParser;
+import com.cnm.cnmrc.http.ChannelProduct;
+import com.cnm.cnmrc.http.ChannelProductParser;
 import com.cnm.cnmrc.util.UrlAddress;
 import com.cnm.cnmrc.util.Util;
 
@@ -113,15 +113,15 @@ public class ConfigProduct extends Fragment implements View.OnClickListener {
 		}
 	}
 
-	private class ProductAsyncTask extends AsyncTask<String, Void, ArrayList<Product>> {
+	private class ProductAsyncTask extends AsyncTask<String, Void, ArrayList<ChannelProduct>> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 		}
 
 		@Override
-		protected ArrayList<Product> doInBackground(String... params) {
-			ProductParser parser = new ProductParser(params[0]);
+		protected ArrayList<ChannelProduct> doInBackground(String... params) {
+			ChannelProductParser parser = new ChannelProductParser(params[0]);
 			parser.start();
 
 			return parser.getList().getList();
@@ -129,7 +129,7 @@ public class ConfigProduct extends Fragment implements View.OnClickListener {
 
 		// onPostExecute displays the results of the AsyncTask.
 		@Override
-		protected void onPostExecute(ArrayList<Product> result) {
+		protected void onPostExecute(ArrayList<ChannelProduct> result) {
 			adapter = new ConfigProductAdapter(getActivity(), R.layout.list_item_config_product, result);
 			listView.setAdapter(adapter);
 			setItemChecked();

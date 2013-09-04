@@ -25,8 +25,8 @@ import android.widget.ProgressBar;
 import com.cnm.cnmrc.CnmApplication;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.parser.Area;
-import com.cnm.cnmrc.parser.AreaParser;
+import com.cnm.cnmrc.http.ChannelArea;
+import com.cnm.cnmrc.http.ChannelAreaParser;
 import com.cnm.cnmrc.util.Util;
 
 public class ConfigArea extends Fragment implements View.OnClickListener {
@@ -40,10 +40,19 @@ public class ConfigArea extends Fragment implements View.OnClickListener {
 	}
 
 	LinearLayout preventClickDispatching; // 현재화면 밑에있는 화면으로 클릭이벤트가 전달되는것을 막기위함.
+	
 	ListView listView;
 	ConfigAreaAdapter adapter = null;
-
-	ArrayList<Area> mResult;
+	ArrayList<ChannelArea> mResult;
+	
+	/**
+	 * 통신 모듈의 명명 규칙
+	 * 1) 파서관련 클래스 이름은 프로토콜문서의 Api이름을 기준으로 만든다.
+	 * 2) 통신모듈을 사용하는 Activity나 Fragment의 클래스이름은 이미 화면구성과 기능에 따라 이름이 정해져있다. (통신모듈과 이름이 같을 수 있는데...)
+	 * 3) 파서관련 클래스의 내부 필드명은 프로토콜문서의 elements 이름을 기준으로 한다. 어차피 해당프로토콜를 의미하는 단어는 생략한다. (예, VOD_ID --> ID)
+	 *    : 이름은 첫글자는 소문자로 하고 다음 단어는 시작 글자만 대문자로 한다. "_"은 사용하지 않는다. (예, areaCode)
+	 *    : element이름과 연관된 string 상수는 모두 대문자로 하고 단어와 단어사이는 "_"을 사용한다. (예, AREA_CODE)
+	 */
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,20 +75,12 @@ public class ConfigArea extends Fragment implements View.OnClickListener {
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				//((ListView) parent).setItemChecked(position, true); // not OK, cannot change checked when i want to change item
-				//adapter.setSelectedIndex(position);	// not OK, cannot change checked when i want to change item
-				//RadioButton radio = (RadioButton) view.findViewById(R.id.config_area_radio);
-				//radio.setChecked(true);
-				//adapter.notifyDataSetChanged();	// Adapter을 수행한다. 
-													// 결국 Adapter안에서 원하는 특정(기본 송파) 아이템을 setChecked하면 안된다. 
-													// adapter가 만들어지는 시점에서 즉 통신이 끝난후에 checked해야한다.
 
 				// 아직은 지역정보를 저장할 때가 아니구, 상품화면에서 결정된다.
 				gotoProduct(mResult.get(position).getAreaCode(), mResult.get(position).getAreaName());
 			}
 
 		});
-		// if(adapter != null) adapter.notifyDataSetChanged();
 
 		return layout;
 	}
@@ -112,23 +113,23 @@ public class ConfigArea extends Fragment implements View.OnClickListener {
 		}
 	}
 
-	private class AreaAsyncTask extends AsyncTask<Void, Void, ArrayList<Area>> {
+	private class AreaAsyncTask extends AsyncTask<Void, Void, ArrayList<ChannelArea>> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 		}
 
 		@Override
-		protected ArrayList<Area> doInBackground(Void... params) {
-			AreaParser areaParser = new AreaParser();
-			areaParser.start();
+		protected ArrayList<ChannelArea> doInBackground(Void... params) {
+			ChannelAreaParser parser = new ChannelAreaParser();
+			parser.start();
 
-			return areaParser.getList().getList();
+			return parser.getList().getList();
 		}
 
 		// onPostExecute displays the results of the AsyncTask.
 		@Override
-		protected void onPostExecute(ArrayList<Area> result) {
+		protected void onPostExecute(ArrayList<ChannelArea> result) {
 			mResult = result;
 			adapter = new ConfigAreaAdapter(getActivity(), R.layout.list_item_config_area, result);
 			listView.setAdapter(adapter);

@@ -13,23 +13,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.item.ItemTvchSemiDetail;
-import com.cnm.cnmrc.item.ItemVodSemiDetail;
+import com.cnm.cnmrc.http.SearchVod;
+import com.cnm.cnmrc.item.ItemVodSemiDetailxxx;
 
 // Custom Adapter
-public class VodSemiDetailAdapter extends ArrayAdapter<ItemVodSemiDetail> {
+public class VodSemiDetailAdapter extends ArrayAdapter<SearchVod> {
 	private String TAG = VodSemiDetailAdapter.class.getSimpleName();
 	
     private Activity context;
     private int layoutResId;
 
-    private ArrayList<ItemVodSemiDetail> itemist;
+    private ArrayList<SearchVod> itemList;
 
-    public VodSemiDetailAdapter(Context context, int layoutResId, ArrayList<ItemVodSemiDetail> arrayList) {
+    public VodSemiDetailAdapter(Context context, int layoutResId, ArrayList<SearchVod> arrayList) {
         super(context, layoutResId, arrayList);
         this.layoutResId = layoutResId;
         this.context = (Activity) context;
-        this.itemist = arrayList;
+        this.itemList = arrayList;
     }
 
     @Override
@@ -51,39 +51,38 @@ public class VodSemiDetailAdapter extends ArrayAdapter<ItemVodSemiDetail> {
         
         // 좌측의 큰 이미지 포스터
         ImageView titleResId = (ImageView)row.findViewById(R.id.title_res_id);
-        titleResId.setBackgroundResource(itemist.get(position).getTitleResId());
-        
+        titleResId.setBackgroundResource(R.drawable.mister_go);
         
         // title
         TextView title = (TextView)row.findViewById(R.id.title);
-        title.setText(itemist.get(position).getTitle());
+        title.setText(itemList.get(position).getTitle());
         
         // hdicon
         ImageView hdiconResId = (ImageView)row.findViewById(R.id.hdicon_res_id);
-        hdiconResId.setBackgroundResource(itemist.get(position).getHdIconResId());
-        if(itemist.get(position).getHdIconResId() == 0) {
-        	hdiconResId.setVisibility(View.GONE);
-        }
+        hdiconResId.setBackgroundResource(R.drawable.hdicon);
+//        if(itemist.get(position).getHdIconResId() == 0) {
+//        	hdiconResId.setVisibility(View.GONE);
+//        }
         
         // age icon
         ImageView ageResId = (ImageView)row.findViewById(R.id.age_res_id);
-        ageResId.setBackgroundResource(itemist.get(position).getAgeResId());
+        ageResId.setBackgroundResource(R.drawable.age15);
         
         // diretor name
         TextView director = (TextView)row.findViewById(R.id.director);
-        director.setText(itemist.get(position).getDirector());
+        director.setText("감독 : ");
         TextView directorName = (TextView)row.findViewById(R.id.director_name);
-        directorName.setText(itemist.get(position).getDirector_name());
+        directorName.setText(itemList.get(position).getDirector());
         
         // cast name
         TextView cast = (TextView)row.findViewById(R.id.cast);
-        cast.setText(itemist.get(position).getCast());
+        cast.setText("출연 : ");
         TextView castName = (TextView)row.findViewById(R.id.cast_name);
-        castName.setText(itemist.get(position).getCast_name());
+        castName.setText(itemList.get(position).getActor());
         
         
         try {
-        	title.setText(itemist.get(position).getTitle());
+        	title.setText(itemList.get(position).getTitle());
         } catch (Exception e) {
             Log.e(TAG, "sever throw null point error <----");
         }
@@ -97,7 +96,7 @@ public class VodSemiDetailAdapter extends ArrayAdapter<ItemVodSemiDetail> {
 
     @Override
     public int getCount() {
-        return itemist.size();
+        return itemList.size();
     }
     
 }

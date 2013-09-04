@@ -27,14 +27,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.item.ItemVodSemiDetail;
+import com.cnm.cnmrc.http.SearchVod;
 
-public class VodSemiDetail extends Base{
+public class VodSemiDetail extends Base {
 
 	View layout;
 	
 	ListView 	mListView;
-	ArrayList<ItemVodSemiDetail> arrayList = null;
+	ArrayList<SearchVod> arrayList = null;
 	
 	public VodSemiDetail newInstance(String type, boolean isFirstDepth) {
 		VodSemiDetail f = new VodSemiDetail();
@@ -55,35 +55,7 @@ public class VodSemiDetail extends Base{
 		mListView   = (ListView) layout.findViewById(R.id.vod_semidetail);
 		
 		// make item data
-		arrayList = new ArrayList<ItemVodSemiDetail>(10);
-		for (int i = 0; i < 10; i++) {
-			ItemVodSemiDetail item = new ItemVodSemiDetail();
-			item.setTitleResId(R.drawable.mister_go);
-			
-			item.setTitle("미스터고");
-			item.setHdIconResId(R.drawable.hdicon);
-			item.setAgeResId(R.drawable.age12);
-			
-			item.setDirector("감독 : ");
-			item.setDirector_name("김용화");
-			item.setCast("출연 : ");
-			item.setCast_name("성동일, 서교");
-			
-			if(i==2) {
-				item.setHdIconResId(0);
-				item.setAgeResId(R.drawable.age15);
-			}
-			
-			if(i==1) item.setAgeResId(R.drawable.age19);
-			if(i==3) item.setAgeResId(R.drawable.age19);
-			if(i==4) item.setAgeResId(R.drawable.ageall);
-			if(i==5) item.setHdIconResId(0);
-			if(i==6) item.setAgeResId(R.drawable.age19);
-			if(i==8) item.setAgeResId(R.drawable.age15);
-			if(i==8) item.setAgeResId(R.drawable.age19);
-			
-			arrayList.add(item);
-		}
+		arrayList = new ArrayList<SearchVod>(10);
 		
 		// -------------------
 		// vod semidetail

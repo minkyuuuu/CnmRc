@@ -9,8 +9,6 @@ public class UrlAddress {
 	public static final int XML_CONNETION_TIME_OUT					= 30000;		// 파서 타임 아웃 시간 설정 값 (30초)
 	//----------------XML URL---------------------------
 	//Server Address
-	//private static final String Server_URL	= "http://kgt.app.chtvn.com/";								// 기본 서버 주소
-	//private static final String Server_URL	= "http://121.88.252.2/SMApplicationServer/";				// 임시 개발 서버 주소
 	private static final String Server_URL		= "http://58.143.243.91/SMApplicationServer/";
 	private static final String OldServer_URL	= "http://58.143.243.91/mobile/";
 
@@ -57,8 +55,6 @@ public class UrlAddress {
 		public static String getAuthenticateAdult(String userNumber, String userName) {
 			return String.format(AuthenticateAdult, userNumber, getURLEncoder(userName));
 		}
-
-
 	}
 
 	public static class Channel{
@@ -194,34 +190,39 @@ public class UrlAddress {
 		}
 	}
 
-	public static class Search{
+	public static class Search {
 		//Search
-		private static final String SearchChannel			= Server_URL + "SearchChannel.asp?Search_String=%s&pageSize=%s&pageIndex=%s&areaCode=%s&productCode=%s";	// 채널정보를 검색합니다
-		private static final String SearchProgram			= Server_URL + "SearchProgram.asp?Search_String=%s&pageSize=%s&pageIndex=%s&areaCode=%s&productCode=%s";	// 프로그램 정보를 검색합니다.
-		private static final String SearchVod				= Server_URL + "SearchVod.asp?search_string=%s&pageSize=%s&pageIndex=%s&sortType=%s";	// VOD정보를 검색합니다.
-		/////////////////////////////
-		/*		정렬방식 (기본 : ChannelName Asc)
-		최신등록순 : ChannelNoAsc
-		최신수정순 : ChannelNoDesc
-		이름순 : ChannelNameAsc
-		이름순 역순 : ChannelNameDesc			*/
-		public static final String ChannelNoAsc 	=	"ChannelNoAsc";
-		public static final String ChannelNoDesc 	=	"ChannelNoAsc";
-		public static final String ChannelNameAsc 	=	"ChannelNoAsc";
-		public static final String ChannelNameDesc 	=	"ChannelNoAsc";
+		private static final String SearchProgram	= Server_URL + "SearchProgram.asp?Search_String=%s&pageSize=%s&pageIndex=%s&areaCode=%s&productCode=%s";	// 프로그램 정보를 검색합니다.
+		private static final String SearchVod		= Server_URL + "SearchVod.asp?search_string=%s&pageSize=%s&pageIndex=%s&sortType=%s";						// VOD정보를 검색합니다.
+		private static final String SearchChannel	= Server_URL + "SearchChannel.asp?Search_String=%s&pageSize=%s&pageIndex=%s&areaCode=%s&productCode=%s";	// 채널정보를 검색합니다. (not used!!! in this App)
+		
+		/*	Vod 정렬방식 (잘못된 문자가 들어가면 기본으로 처리한다.)
+			기본 : 		TitleAsc 
+			이름순 : 		TitleAsc
+			이름순 역순 : 	TitleDesc			
+			퀄러티순 :		QualityAsc
+			퀄러티 역순 :	QualityDesc
+		*/
+		public static final String TitleAsc 	=	"TitleAsc";
+		public static final String TitleDesc 	=	"TitleDesc";
+		public static final String QualityAsc 	=	"QualityAsc";
+		public static final String QualityDesc 	=	"QualityDesc";
 
-		//-------------------------------------------------------------
-		public static String getSearchchannel(String aSerch_Str, String aPageSize, String aPageIndex, String aAreaCode, String aProductCode) {
-			return String.format(SearchChannel, getURLEncoder(aSerch_Str), aPageSize, aPageIndex, aAreaCode, aProductCode);
+		public static String getSearchProgram(String searchStr, String pageSize, String pageIndex, String areaCode, String productCode) {
+			return String.format(SearchProgram, getURLEncoder(searchStr), pageSize, pageIndex, areaCode, productCode);
 		}
-		public static String getSearchprogram(String aSerch_Str, String aPageSize, String aPageIndex, String aAreaCode, String aProductCode) {
-			return String.format(SearchProgram, getURLEncoder(aSerch_Str), aPageSize, aPageIndex, aAreaCode, aProductCode);
+		public static String getSearchVod(String searchStr, String pageSize, String pageIndex, String sortType) {
+			return String.format(SearchVod, getURLEncoder(searchStr), pageSize, pageIndex, sortType);
 		}
-		public static String getSearchvod(String aSerch_Str, String aPageSize, String aPageIndex, String aSortType) {
-			return String.format(SearchVod, getURLEncoder(aSerch_Str), aPageSize, aPageIndex, aSortType);
+		public static String getSearchChannel(String searchStr, String pageSize, String pageIndex, String areaCode, String productCode) {
+			return String.format(SearchChannel, getURLEncoder(searchStr), pageSize, pageIndex, areaCode, productCode);
 		}
 	}
 
+	
+	
+	
+	
 	public static class ErrorCode{
 		//8.1 공통
 		public static final String ERROR_100	= "100";		//성공(Success)

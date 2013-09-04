@@ -212,7 +212,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 	}
 
 	private void searchVod() {
-		SearchVod searchVod = new SearchVod();
+		String search = edit.getText().toString();
+		SearchVodFragment searchVod = SearchVodFragment.newInstance(search);
 		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 
 		// ft.replace전에 animation을 설정해야 한다.
