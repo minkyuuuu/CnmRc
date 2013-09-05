@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +16,8 @@ import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.http.SearchVod;
-import com.cnm.cnmrc.item.ItemVodSemiDetailxxx;
+import com.cnm.cnmrc.util.ImageDownloader;
+import com.cnm.cnmrc.util.Util;
 
 // Custom Adapter
 public class VodSemiDetailAdapter extends ArrayAdapter<SearchVod> {
@@ -24,22 +27,27 @@ public class VodSemiDetailAdapter extends ArrayAdapter<SearchVod> {
     private int layoutResId;
 
     private ArrayList<SearchVod> itemList;
+    
+    private ImageDownloader imageDownloader;
 
     public VodSemiDetailAdapter(Context context, int layoutResId, ArrayList<SearchVod> arrayList) {
         super(context, layoutResId, arrayList);
         this.layoutResId = layoutResId;
         this.context = (Activity) context;
         this.itemList = arrayList;
+        
+        imageDownloader = new ImageDownloader();
+        imageDownloader.setContext(context);
     }
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View row = convertView;
         
-        if (row == null) {
+        //if (row == null) {
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
             row = inflater.inflate(layoutResId, null);
-        } 
+        //} 
         
         // 상단의 delimiter는 최초 한번만 보여준다.
         ImageView topDelimiter = (ImageView)row.findViewById(R.id.top_delimiter);
@@ -51,7 +59,9 @@ public class VodSemiDetailAdapter extends ArrayAdapter<SearchVod> {
         
         // 좌측의 큰 이미지 포스터
         ImageView titleResId = (ImageView)row.findViewById(R.id.title_res_id);
-        titleResId.setBackgroundResource(R.drawable.mister_go);
+        String grade = itemList.get(position).getGrade();
+        if(Util.isAdultGrade(grade)) titleResId.setImageBitmap(Util.getAdultBitmap(context));
+        else imageDownloader.download(itemList.get(position).getImg().trim(), titleResId, Util.getNoBitmap(context));
         
         // title
         TextView title = (TextView)row.findViewById(R.id.title);
@@ -60,13 +70,13 @@ public class VodSemiDetailAdapter extends ArrayAdapter<SearchVod> {
         // hdicon
         ImageView hdiconResId = (ImageView)row.findViewById(R.id.hdicon_res_id);
         hdiconResId.setBackgroundResource(R.drawable.hdicon);
-//        if(itemist.get(position).getHdIconResId() == 0) {
-//        	hdiconResId.setVisibility(View.GONE);
-//        }
+        if(!itemList.get(position).getHd().equalsIgnoreCase("yes")) {
+        	hdiconResId.setVisibility(View.GONE);
+        }
         
         // age icon
         ImageView ageResId = (ImageView)row.findViewById(R.id.age_res_id);
-        ageResId.setBackgroundResource(R.drawable.age15);
+        ageResId.setBackgroundResource(Util.getGrade(itemList.get(position).getGrade()));
         
         // diretor name
         TextView director = (TextView)row.findViewById(R.id.director);

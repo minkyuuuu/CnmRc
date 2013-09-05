@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,12 +32,15 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.fragment.vodtvch.VodSemiDetailAdapter;
 import com.cnm.cnmrc.http.SearchVod;
+import com.cnm.cnmrc.http.SearchVodList;
 import com.cnm.cnmrc.http.SearchVodParser;
+import com.cnm.cnmrc.util.ErrorCode;
 import com.cnm.cnmrc.util.UrlAddress;
 import com.cnm.cnmrc.util.Util;
 
@@ -65,6 +69,7 @@ public class SearchVodFragment extends Fragment implements View.OnClickListener 
 	 * 3) 파서관련 클래스의 내부 필드명은 프로토콜문서의 elements 이름을 기준으로 한다. 어차피 해당프로토콜를 의미하는 단어는 생략한다. (예, VOD_ID --> ID)
 	 *    : 이름은 첫글자는 소문자로 하고 다음 단어는 시작 글자만 대문자로 한다. "_"은 사용하지 않는다. (예, areaCode)
 	 *    : element이름과 연관된 string 상수는 모두 대문자로 하고 단어와 단어사이는 "_"을 사용한다. (예, AREA_CODE)
+	 * 4) 요청 url은 요청하는 클래스에서 만들어 파서로 전달하는걸 원칙으로 하자.
 	 */
 	
 	@Override
@@ -123,6 +128,11 @@ public class SearchVodFragment extends Fragment implements View.OnClickListener 
 		}
 	}
 
+	long elapsedTime;
+	SearchVodList list;
+	private String urls[];
+	private String imagesName[];
+	
 	private class SearchVodAsyncTask extends AsyncTask<String, Void, ArrayList<SearchVod>> {
 		@Override
 		protected void onPreExecute() {
@@ -131,9 +141,13 @@ public class SearchVodFragment extends Fragment implements View.OnClickListener 
 
 		protected ArrayList<SearchVod> doInBackground(String... params) {
 			String requestURL = UrlAddress.Search.getSearchVod(params[0], "0", "0", "TitleAsc");
-			SearchVodParser parser = new SearchVodParser(requestURL);
+			SearchVodParser parser = new SearchVodParser(requestURL, getActivity());
+			
+			elapsedTime = System.currentTimeMillis();
 			parser.start();
+			Log.i("hwang", "elapsedTime of search vod : " + (System.currentTimeMillis() - elapsedTime));
 
+			list = parser.getList();
 			return parser.getList().getList();
 		}
 
@@ -141,13 +155,43 @@ public class SearchVodFragment extends Fragment implements View.OnClickListener 
 		@Override
 		protected void onPostExecute(ArrayList<SearchVod> result) {
 			mResult = result;
-			adapter = new VodSemiDetailAdapter(getActivity(), R.layout.list_item_vod_semidetail, mResult);
-			listView.setAdapter(adapter);
-			((MainActivity)getActivity()).getMyProgressBar().dismiss();
+
+			if (mResult == null)
+				onCancelled();
+			else {
+				Log.i("hwang", "search result count : " + list.getTotalCount());
+				
+				if (!list.getResultCode().equals("100")) {
+					String desc = Util.getErrorCodeDesc(list.getResultCode());
+					Toast.makeText(getActivity(), desc, Toast.LENGTH_LONG).show();
+				} else {
+					adapter = new VodSemiDetailAdapter(getActivity(), R.layout.list_item_vod_semidetail, mResult);
+					
+					urls = new String[mResult.size()];
+					imagesName = new String[mResult.size()];
+					
+					for(int i=0; i< mResult.size(); i++)
+					{
+						urls[i] = mResult.get(i).getImg();
+						int lastPos = urls[i].lastIndexOf("/");
+						imagesName[i] = urls[i].substring(lastPos);
+					}
+					
+					listView.setAdapter(adapter);
+				}
+				
+				((MainActivity) getActivity()).getMyProgressBar().dismiss();
+			}
 		}
 
 		@Override
 		protected void onCancelled() {
+			Log.i("hwang", "cancelled!!!");
+			String desc = Util.getErrorCodeDesc("999");
+			Toast.makeText(getActivity(), desc, Toast.LENGTH_LONG).show();
+			
+			((MainActivity)getActivity()).getMyProgressBar().dismiss();
+			
 			super.onCancelled();
 		}
 	}

@@ -3,6 +3,8 @@
 
     <color name="transparent">#00000000</color>
     
+    <color name="progressbar_transparent">#80000000</color>
+    
     <color name="vod_category_background_pressed">#ff9d84bd</color>
     <color name="vod_category_background_normal">#ff484748</color>
     

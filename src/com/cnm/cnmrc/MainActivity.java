@@ -3,6 +3,7 @@ package com.cnm.cnmrc;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
@@ -22,10 +24,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cnm.cnmrc.fragment.config.ConfigAdultCert;
+import com.cnm.cnmrc.fragment.config.ConfigArea;
 import com.cnm.cnmrc.fragment.config.ConfigFragment;
 import com.cnm.cnmrc.fragment.config.ConfigProduct;
-import com.cnm.cnmrc.fragment.config.ConfigArea;
-import com.cnm.cnmrc.fragment.popup.PopupMirroringEnter;
 import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
 import com.cnm.cnmrc.fragment.rc.RcChannelVolume;
 import com.cnm.cnmrc.fragment.rc.RcFourWay;
@@ -218,9 +219,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		myProgressDialog = new Dialog(this, R.style.NewProgressDialog);
 		ProgressBar progressBar = new ProgressBar(this);
 		progressBar.setIndeterminateDrawable(this.getResources().getDrawable(R.drawable.anim_progressbar));
+		//progressBar.setInterpolator(new DecelerateInterpolator());
+		progressBar.setIndeterminate(true);
 		myProgressDialog.addContentView(
 				progressBar, 
 				new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		ColorDrawable colorDrawable = new ColorDrawable();
+		colorDrawable.setColor(0xFFFF0000);
+		//myProgressDialog.getWindow().setBackgroundDrawable(colorDrawable);
 	}
 
 	private void setEvent() {

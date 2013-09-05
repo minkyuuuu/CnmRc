@@ -1,8 +1,6 @@
 package com.cnm.cnmrc.http;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -15,9 +13,13 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.cnm.cnmrc.util.UrlAddress;
+import com.cnm.cnmrc.util.Util;
 
 public class SearchVodParser {
 
@@ -50,12 +52,13 @@ public class SearchVodParser {
 	private final static String MORE 		= "VOD_More";
 
 	private SearchVodList list;
-
+	private	Activity context;
 	
 	
-	public SearchVodParser(String url) {
+	public SearchVodParser(String url, Context context) {
 		list = new SearchVodList();
 		URL = url;
+		this.context = (Activity)context;
 	}
 
 	public Boolean start() {
@@ -78,6 +81,8 @@ public class SearchVodParser {
 			HttpEntity httpEntity = httpResponse.getEntity();
 
 			if (httpEntity != null) {
+				// parser.setInput( new StringReader ( "<foo>Hello World!</foo>" ) );
+				// parser.setInput( new StringReader ( "<foo>Hello World!</foo>" ), "UTF-8" );
 				parser.setInput(httpEntity.getContent(), null);
 			} else {
 				return false;
@@ -86,28 +91,27 @@ public class SearchVodParser {
 			int eventType = parser.getEventType();
 			while (eventType != XmlPullParser.END_DOCUMENT) {
 				if (eventType == XmlPullParser.START_DOCUMENT) {
-					// System.out.println("Start document");
-				} else if (eventType == XmlPullParser.END_DOCUMENT) {
-					// System.out.println("End document");
+					Log.i("hwang", "start document : " + parser.getText());
+					
 				} else if (eventType == XmlPullParser.START_TAG) {
 					// System.out.println("Start tag "+xpp.getName());
 
 					if (parser.getName().equals(RESULT_CODE)) {
 						eventType = parser.next();
 						list.setResultCode(parser.getText());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(ERROR_STRING)) {
 						eventType = parser.next();
 						list.setErrorString(parser.getText());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(TOTAL_COUNT)) {
 						eventType = parser.next();
 						list.setTotalCount(parser.getText());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(TOTAL_PAGE)) {
 						eventType = parser.next();
 						list.setTotalPage(parser.getText());
-						eventType = parser.next();
+						parser.next();
 						
 					} else if (parser.getName().equals(VOD_SEARCH_ITEM)) {
 						list.getList().add(new SearchVod()); 			// 리스트 추가
@@ -116,68 +120,70 @@ public class SearchVodParser {
 					} else if (parser.getName().equals(ID)) {
 						eventType = parser.next();
 						if (parser.getText() != null) list.getList().get(mCurrentCount).setId(parser.getText());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(CATEGORY)) {
 						eventType = parser.next();
 						if (parser.getText() != null) list.getList().get(mCurrentCount).setCategory(parser.getText().trim());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(TAG)) {
 						eventType = parser.next();
 						if (parser.getText() != null) list.getList().get(mCurrentCount).setTag(parser.getText().trim());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(TITLE)) {
 						eventType = parser.next();
 						if (parser.getText() != null) list.getList().get(mCurrentCount).setTitle(parser.getText());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(IMG)) {
 						eventType = parser.next();
 						if (parser.getText() != null) list.getList().get(mCurrentCount).setImg(parser.getText());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(VIDEO_PATH_ANDROID)) {
 						eventType = parser.next();
 						if (parser.getText() != null) list.getList().get(mCurrentCount).setVideoPathAndroid(parser.getText());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(DIRECTOR)) {
 						eventType = parser.next();
 						if (parser.getText() != null) list.getList().get(mCurrentCount).setDirector(parser.getText());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(ACTOR)) {
 						eventType = parser.next();
 						if (parser.getText() != null) list.getList().get(mCurrentCount).setActor(parser.getText());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(GRADE)) {
 						eventType = parser.next();
 						if (parser.getText() != null) list.getList().get(mCurrentCount).setGrade(parser.getText().trim());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(HD)) {
 						eventType = parser.next();
 						if (parser.getText() != null) list.getList().get(mCurrentCount).setHd(parser.getText().trim());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(PRICE)) {
 						eventType = parser.next();
 						if (parser.getText() != null) list.getList().get(mCurrentCount).setPrice(parser.getText().trim());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(DURATION)) {
 						eventType = parser.next();
 						if(parser.getText() != null) list.getList().get(mCurrentCount).setDuration(parser.getText().trim());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(CONTENTS)) {
 						eventType = parser.next();
 						if (!parser.getText().equals(null)) list.getList().get(mCurrentCount).setContents(parser.getText());
-						eventType = parser.next();
+						parser.next();
 					} else if (parser.getName().equals(MORE)) {
 						eventType = parser.next();
 						if (parser.getText() != null) list.getList().get(mCurrentCount).setMore(parser.getText().trim());
-						eventType = parser.next();
+						parser.next();
 					}
 
 				}
 				eventType = parser.next();
 			}
-		} catch (XmlPullParserException e) { // 파싱 중 발생하는 예외 상황을 받다.
+		} catch (XmlPullParserException e) { 	// 파싱 중 발생하는 예외 상황을 받다.
 			e.printStackTrace();
-		} catch (IOException e) { // 통신과 관련된 에외 상황을 받는다.
+			Log.i("hwang", "파싱 중 발생하는 예외 상황");
+		} catch (IOException e) { 				// 통신과 관련된 에외 상황을 받는다.
 			e.printStackTrace();
+			Log.i("hwang", "통신과 관련된 에외 상황");
 		}
 
 		return true;

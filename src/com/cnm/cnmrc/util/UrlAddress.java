@@ -218,64 +218,7 @@ public class UrlAddress {
 			return String.format(SearchChannel, getURLEncoder(searchStr), pageSize, pageIndex, areaCode, productCode);
 		}
 	}
+	
 
-	
-	
-	
-	
-	public static class ErrorCode{
-		//8.1 공통
-		public static final String ERROR_100	= "100";		//성공(Success)
-		public static final String ERROR_200	= "200";		//알수없는 에러(General Error)
-		public static final String ERROR_201	= "201";		//지원하지 않는 프로토콜(Unsupported Protocol)
-		public static final String ERROR_202	= "202";		//인증실패(Authentication Failure)
-		public static final String ERROR_203	= "203";		//지원하지 않는 프로파일(Unsupported Profile)
-		public static final String ERROR_204	= "204";		//잘못된 파라미터값(Invalid Parameter)
-		public static final String ERROR_205	= "205";		//해당아이템 없음(Not Found)
-		public static final String ERROR_206	= "206";		//내부서버에러(Internal Server Error)
-		public static final String ERROR_207	= "207";		//내부프로세싱 에러(Internal Processing Error)
-		public static final String ERROR_211	= "211";		//일반 DB에러(DB General Error)
-		public static final String ERROR_221	= "221";		//이미처리되었음(Already Done)
-		public static final String ERROR_223	= "223";		//이미추가된 항목(Duplicated Insertion)
-		public static final String ERROR_231	= "231";		//인증코드발급실패(AuthCode Issue Failure)
-		public static final String ERROR_232	= "232";		//만료된인증코드(AuthCode Expired)
-
-		public class RecordResponCode{
-			//8.2 녹화요청
-			public static final String	ERROR_001	= "001";			//Mac불일치(Invalid MacAddress)
-			public static final String	ERROR_002	= "002";			//중복 녹화 예약요청 (Duplicated Recording Reserve Request)
-			public static final String	ERROR_003	= "003";			//디스크 용량부족(Disk Capacity Not Enough)
-			public static final String	ERROR_004	= "004";			//튜너를 모두사용하고 있어 녹화/튜닝불가 (Authentication Failure)
-			public static final String	ERROR_005	= "005";			//녹화 불가 채널(Unsupported Recording Channel)
-			public static final String	ERROR_006	= "006";			//이미 녹화 예약됨(Already Recording Reserve Done)
-			public static final String	ERROR_007	= "007";			//프로그램 정보가 없음(Program Not Found)
-			public static final String	ERROR_008	= "008";			//재생중인 녹화물 삭제불가( Recording Delete Error)
-			public static final String	ERROR_009	= "009";			//채널 없음(Channel Not Found)
-			public static final String	ERROR_010	= "010";			//PIP사용중(Using PIP Service)
-			public static final String	ERROR_011	= "011";			//다른채널 녹화중(Already Other Channel Recording)
-			public static final String	ERROR_012	= "012";			//시청제한 채널(LimitedView Channel)
-			public static final String	ERROR_013	= "013";			//제한 채널(Limited Channel)
-			public static final String	ERROR_014	= "014";			//대기 모드(Hold Mode)
-			public static final String	ERROR_015	= "015";			//이미 녹화중 (Already Recording)
-			public static final String	ERROR_016	= "016";			//삭제 오류 (Delete Processing Error)
-			public static final String	ERROR_017	= "017";			//이름 변경 오류 (Name Replace Error)
-			public static final String	ERROR_018	= "018";			//VOD상세 화면 띄우기 오류 (VOD DetailView Error)
-			public static final String	ERROR_019	= "019";			//개인미디어 재생중 (Private Media Playing)
-			public static final String	ERROR_020	= "020";			//독립형(데이터 서비스) 실행중 (Already Playing DataService )
-			public static final String	ERROR_021	= "021";			//VOD재생중 (VOD Playing)
-			public static final String	ERROR_028	= "028";			//전원 꺼짐 STB Status Power Off
-		}
-
-		//8.3. 녹화/ 튜닝불가 상세코드
-		public class RecordRejectCode{
-			public static final String	ERROR_005_1	= "005_1";			//PIP가 실행중이고 공통 전문의 시청채널과 다른 채널을 즉시녹화할 경우							|즉시 녹화불가
-			public static final String	ERROR_005_2	= "005_2";			//VOD나 데이터 방송(JOY&LIFE)시청중 PIP가 실행중일경우									|즉시 녹화불가
-			public static final String	ERROR_005_3	= "005_3";			//VOD나 데이터 방송(JOY&LIFE)을 시청중이고 다른채널이 녹화중일경우 또 다른 채널을 녹화 요청시		|즉시 녹화불가
-			public static final String	ERROR_005_4	= "005_4";			//각기 다른 두채널이 녹화중이고 이때 또 다른채널을 녹화요청 할 경우							|즉시 녹화불가
-			public static final String	ERROR_003	= "003";			//디스크 용량이 부족할 경우															|즉시 녹화불가
-			public static final String	ERROR_002	= "002";			//중복된 녹화예약일 경우																|녹화 예약불가
-			public static final String	ERROR_020	= "020";			//JOY&LIFE, VOD, 미디어 앨범 실행 중일 경우											|채널 튜닝불가
-		}
-	}
 
 }
