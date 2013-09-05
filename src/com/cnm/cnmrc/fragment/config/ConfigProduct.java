@@ -42,7 +42,11 @@ public class ConfigProduct extends Fragment implements View.OnClickListener {
 	Button done;						// 상단 타이틀영역 왼쪽에 위치한 "완료"버튼, 이전 화면으로 이동.
 	String selectedAreaCode = null;
 	String selectedAreaName = null;
+	String selectedProductCode = null;
 	String selectedProductName = null;
+	
+	boolean isNoSelect = true;			// 새로운 지역코드를 선택하고 상품선택화면에 진입하면 무조건 첫번째 아이템이 선택된다.
+										// 이후 아무런 선택없이 완료버튼을 클릭하면 첫번째 아이템을 저장해야한다.
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,6 +79,8 @@ public class ConfigProduct extends Fragment implements View.OnClickListener {
 //				RadioButton radio = (RadioButton) view.findViewById(R.id.config_product_radio);
 //				radio.setChecked(true);
 				
+				isNoSelect = false;
+				selectedProductCode = adapter.getItem(position).getProductCode();
 				selectedProductName = adapter.getItem(position).getProductName();
 				((ListView) parent).setItemChecked(position, true);  // OK
 			}
@@ -195,6 +201,13 @@ public class ConfigProduct extends Fragment implements View.OnClickListener {
 		case R.id.config_product_done:
 			Util.setChannelAreaCode(getActivity(), selectedAreaCode);
 			Util.setChannelAreaName(getActivity(), selectedAreaName);
+			
+			if(isNoSelect) {
+				selectedProductCode = adapter.getItem(0).getProductCode();
+				selectedProductName = adapter.getItem(0).getProductName();
+			}
+			
+			Util.setChannelProductCode(getActivity(), selectedProductCode);
 			Util.setChannelProductName(getActivity(), selectedProductName);
 			
 			// 지역, 상품정보를 refresh

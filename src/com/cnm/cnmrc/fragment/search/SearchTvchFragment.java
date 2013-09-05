@@ -36,18 +36,17 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.fragment.vodtvch.VodSemiDetailAdapter;
-import com.cnm.cnmrc.http.SearchVod;
-import com.cnm.cnmrc.http.SearchVodList;
-import com.cnm.cnmrc.http.SearchVodParser;
-import com.cnm.cnmrc.util.ErrorCode;
+import com.cnm.cnmrc.fragment.vodtvch.TvchSemiDetailAdapter;
+import com.cnm.cnmrc.http.SearchProgram;
+import com.cnm.cnmrc.http.SearchProgramList;
+import com.cnm.cnmrc.http.SearchProgramParser;
 import com.cnm.cnmrc.util.UrlAddress;
 import com.cnm.cnmrc.util.Util;
 
-public class SearchVodFragment extends Fragment implements View.OnClickListener {
+public class SearchTvchFragment extends Fragment implements View.OnClickListener  {
 	
-	public static SearchVodFragment newInstance(String search) {
-		SearchVodFragment f = new SearchVodFragment();
+	public static SearchTvchFragment newInstance(String search) {
+		SearchTvchFragment f = new SearchTvchFragment();
 		Bundle args = new Bundle();
 		args.putString("search", search); // vod or tvch
 		f.setArguments(args);
@@ -57,47 +56,32 @@ public class SearchVodFragment extends Fragment implements View.OnClickListener 
 	FrameLayout preventClickDispatching; // 현재화면 밑에있는 화면으로 클릭이벤트가 전달되는것을 막기위함.
 
 	ListView 	listView;
-	VodSemiDetailAdapter adapter;
-	ArrayList<SearchVod> mResult = null;
+	
 	
 	String search;
 	
-	/**
-	 * 통신 모듈의 명명 규칙
-	 * 1) 파서관련 클래스 이름은 프로토콜문서의 Api이름을 기준으로 만든다.
-	 * 2) 통신모듈을 사용하는 Activity나 Fragment의 클래스이름은 이미 화면구성과 기능에 따라 이름이 정해져있다. (통신모듈과 이름이 같을 수 있는데...)
-	 * 3) 파서관련 클래스의 내부 필드명은 프로토콜문서의 elements 이름을 기준으로 한다. 어차피 해당프로토콜를 의미하는 단어는 생략한다. (예, VOD_ID --> ID)
-	 *    : 이름은 첫글자는 소문자로 하고 다음 단어는 시작 글자만 대문자로 한다. "_"은 사용하지 않는다. (예, areaCode)
-	 *    : element이름과 연관된 string 상수는 모두 대문자로 하고 단어와 단어사이는 "_"을 사용한다. (예, AREA_CODE)
-	 * 4) 요청 url은 요청하는 클래스에서 만들어 파서로 전달하는걸 원칙으로 하자.
-	 */
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View layout = inflater.inflate(R.layout.vod_semidetail, container, false);
+		View layout = inflater.inflate(R.layout.tvch_semidetail, container, false);
 		
-		preventClickDispatching = (FrameLayout) layout.findViewById(R.id.search_vod_prevent_click_dispatching);
+		preventClickDispatching = (FrameLayout) layout.findViewById(R.id.search_tvch_prevent_click_dispatching);
 		preventClickDispatching.setOnClickListener(this);
 		
 		// listview
-		listView   = (ListView) layout.findViewById(R.id.vod_semidetail);
+		listView   = (ListView) layout.findViewById(R.id.tvch_semidetail);
         listView.setDivider(null);
         listView.setDividerHeight(0);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
-        		Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity)getActivity()).TAG_FRAGMENT_SEARCH);
-        		if (f != null) {
-        			((SearchFragment) f).showDetailVod();
-        		}
             }
 
         });
-
+		
 		return layout;
 	}
-
+	
 	@Override
 	public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
 		Animation anim;
@@ -109,7 +93,7 @@ public class SearchVodFragment extends Fragment implements View.OnClickListener 
 			public void onAnimationStart(Animation animation) { }
 			public void onAnimationEnd(Animation animation) { 
 				((MainActivity)getActivity()).getMyProgressBar().show();
-				showSearchVod(); 
+				showSearchProgram(); 
 			}
 			public void onAnimationRepeat(Animation animation) { }
 		});
@@ -117,28 +101,33 @@ public class SearchVodFragment extends Fragment implements View.OnClickListener 
 		return anim;
 	}
 
-	private void showSearchVod() {
+	private void showSearchProgram() {
 		// check network and data loading
 		if (Util.GetNetworkInfo(getActivity()) == 99) {
 			Util.AlertShow(getActivity(), "Wifi 혹은 3G망이 연결되지 않았거나 원활하지 않습니다.네트워크 확인후 다시 접속해 주세요!");
 		} else {
 			search = getArguments().getString("search");
-			new SearchVodAsyncTask().execute(search);
+			new SearchProgramAsyncTask().execute(search);
 		}
 	}
+	
 
 	long elapsedTime;
-	SearchVodList list;
+	SearchProgramList list;
+	SearchTvchSemiDetailAdapter adapter;
+	ArrayList<SearchProgram> mResult = null;
 	
-	private class SearchVodAsyncTask extends AsyncTask<String, Void, ArrayList<SearchVod>> {
+	private class SearchProgramAsyncTask extends AsyncTask<String, Void, ArrayList<SearchProgram>> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 		}
 
-		protected ArrayList<SearchVod> doInBackground(String... params) {
-			String requestURL = UrlAddress.Search.getSearchVod(params[0], "0", "0", "TitleAsc");
-			SearchVodParser parser = new SearchVodParser(requestURL, getActivity());
+		protected ArrayList<SearchProgram> doInBackground(String... params) {
+			String areaCode = Util.getChannelAreaCode(getActivity());
+			String productCode = Util.getChannelProductCode(getActivity());
+			String requestURL = UrlAddress.Search.getSearchProgram(params[0], "0", "0", areaCode, productCode);
+			SearchProgramParser parser = new SearchProgramParser(requestURL);
 			
 			elapsedTime = System.currentTimeMillis();
 			parser.start();
@@ -150,19 +139,19 @@ public class SearchVodFragment extends Fragment implements View.OnClickListener 
 
 		// onPostExecute displays the results of the AsyncTask.
 		@Override
-		protected void onPostExecute(ArrayList<SearchVod> result) {
+		protected void onPostExecute(ArrayList<SearchProgram> result) {
 			mResult = result;
 
 			if (mResult == null)
 				onCancelled();
 			else {
-				Log.i("hwang", "search vod result count : " + list.getTotalCount());
+				Log.i("hwang", "search program result count : " + list.getTotalCount());
 				
 				if (!list.getResultCode().equals("100")) {
 					String desc = Util.getErrorCodeDesc(list.getResultCode());
 					Toast.makeText(getActivity(), desc, Toast.LENGTH_LONG).show();
 				} else {
-					adapter = new VodSemiDetailAdapter(getActivity(), R.layout.list_item_vod_semidetail, mResult);
+					adapter = new SearchTvchSemiDetailAdapter(getActivity(), R.layout.list_item_search_tvch_semidetail, mResult);
 					listView.setAdapter(adapter);
 				}
 				
@@ -178,20 +167,10 @@ public class SearchVodFragment extends Fragment implements View.OnClickListener 
 		}
 	}
 	
+	
 	@Override
     public void onDestroyView() {
         super.onDestroyView();
-        
-        // ----------------------------------------------------------------------------------------------
-        // vod에 일부인 vodtopmenu fragment는 vod가 destory될 때 자식인 vodtopmenu도 같이 destory해주진 않는다.
-        // 이유는 아마 자식이래도 같은 fragment 레벨이므로 vod의 생명주기와 함께 하는것이 아니라 Activity의 관리를 받는것 같다.
-        // ----------------------------------------------------------------------------------------------
-        {
-	        Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag("search_vod_detail");
-	        if (f != null) {
-	        	getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
-	        }
-        }
 	}
 	
 	@Override
@@ -211,8 +190,6 @@ public class SearchVodFragment extends Fragment implements View.OnClickListener 
 		// TODO Auto-generated method stub
 		
 	}
-	
-
 	
 	
 }

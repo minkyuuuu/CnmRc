@@ -15,6 +15,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import android.util.Log;
+
 import com.cnm.cnmrc.util.UrlAddress;
 
 public class SearchProgramParser {
@@ -50,18 +52,18 @@ public class SearchProgramParser {
 	private SearchProgramList list;
 	
 	
-
-	public SearchProgramParser(String area, String product, String search) {
-		list = new SearchProgramList();
-		String query;
-
-		try {
-			query = URLEncoder.encode(search, "utf-8");
-			URL = "http://58.143.243.91/SMApplicationServer/searchprogram.asp?AreaCode=" + area + "&ProductCode=" + product + "&Search_String=" + query;
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-	}
+//
+//	public SearchProgramParser(String area, String product, String search) {
+//		list = new SearchProgramList();
+//		String query;
+//
+//		try {
+//			query = URLEncoder.encode(search, "utf-8");
+//			URL = "http://58.143.243.91/SMApplicationServer/searchprogram.asp?AreaCode=" + area + "&ProductCode=" + product + "&Search_String=" + query;
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	public SearchProgramParser(String url) {
 		list = new SearchProgramList();
@@ -97,72 +99,88 @@ public class SearchProgramParser {
 			while (eventType != XmlPullParser.END_DOCUMENT) {
 				if (eventType == XmlPullParser.START_DOCUMENT) {
 					// System.out.println("Start document");
-				} else if (eventType == XmlPullParser.END_DOCUMENT) {
-					// System.out.println("End document");
+
 				} else if (eventType == XmlPullParser.START_TAG) {
 					// System.out.println("Start tag "+xpp.getName());
 
 					if (parser.getName().equals(RESULT_CODE)) {
 						eventType = parser.next();
 						list.setResultCode(parser.getText());
+						parser.next();
 					} else if (parser.getName().equals(ERROR_STRING)) {
 						eventType = parser.next();
 						list.setErrorString(parser.getText());
 					} else if (parser.getName().equals(TOTAL_COUNT)) {
 						eventType = parser.next();
+						parser.next();
 						list.setTotalCount(parser.getText());
 					} else if (parser.getName().equals(TOTAL_PAGE)) {
 						eventType = parser.next();
 						list.setTotalPage(parser.getText());
+						parser.next();
 						
 					} else if (parser.getName().equals(PROGRAM_SEARCH_ITEM)) {
 						list.getList().add(new SearchProgram()); 		// 리스트 추가
-						mCurrentCount = list.getList().size() - 1; 	// 현재 추가된 리스트의 위치 반환
+						mCurrentCount = list.getList().size() - 1; 		// 현재 추가된 리스트의 위치 반환
 						
 					} else if (parser.getName().equals(ID)) {
 						eventType = parser.next();
 						list.getList().get(mCurrentCount).setId(parser.getText());
+						parser.next();
 					} else if (parser.getName().equals(NUMBER)) {
 						eventType = parser.next();
 						list.getList().get(mCurrentCount).setNumber(parser.getText());
+						parser.next();
 					} else if (parser.getName().equals(NAME)) {
 						eventType = parser.next();
 						list.getList().get(mCurrentCount).setName(parser.getText());
+						parser.next();
 					} else if (parser.getName().equals(INFO)) {
 						eventType = parser.next();
 						list.getList().get(mCurrentCount).setInfo(parser.getText());
+						parser.next();
 					} else if (parser.getName().equals(LOGO_IMG)) {
 						eventType = parser.next();
 						list.getList().get(mCurrentCount).setLogoImg(parser.getText());
+						parser.next();
 					} else if (parser.getName().equals(PROGRAM_ID)) {
 						eventType = parser.next();
 						list.getList().get(mCurrentCount).setProgramId(parser.getText());
+						parser.next();
 					} else if (parser.getName().equals(PROGRAM_TIME)) {
 						eventType = parser.next();
 						list.getList().get(mCurrentCount).setProgramTime(parser.getText());
+						parser.next();
 					} else if (parser.getName().equals(PROGRAM_NEXT_TIME)) {
 						eventType = parser.next();
 						list.getList().get(mCurrentCount).setProgramNextTime(parser.getText());
+						parser.next();
 					} else if (parser.getName().equals(PROGRAM_TITLE)) {
 						eventType = parser.next();
 						list.getList().get(mCurrentCount).setProgramTitle(parser.getText());
+						parser.next();
 					} else if (parser.getName().equals(PROGRAM_SEQ)) {
 						eventType = parser.next();
 						list.getList().get(mCurrentCount).setProgramSeq(parser.getText());
+						parser.next();
 					} else if (parser.getName().equals(PROGRAM_GRADE)) {
 						eventType = parser.next();
 						list.getList().get(mCurrentCount).setProgramGrade(parser.getText());
+						parser.next();
 					} else if (parser.getName().equals(PROGRAM_HD)) {
 						eventType = parser.next();
 						list.getList().get(mCurrentCount).setProgramHD(parser.getText());
+						parser.next();
 					}
 				}
 				eventType = parser.next();
 			}
 		} catch (XmlPullParserException e) { 	// 파싱 중 발생하는 예외 상황을 받다.
 			e.printStackTrace();
+			Log.i("hwang", "파싱 중 발생하는 예외 상황");
 		} catch (IOException e) { 				// 통신과 관련된 에외 상황을 받는다.
 			e.printStackTrace();
+			Log.i("hwang", "통신과 관련된 에외 상황");
 		}
 
 		return true;

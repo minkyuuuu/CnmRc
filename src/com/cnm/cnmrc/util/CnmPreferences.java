@@ -22,6 +22,7 @@ public class CnmPreferences {
 	
 	public final String CHANNEL_AREA_CODE = "channel_area_code";		// Channel Area Code
 	public final String CHANNEL_AREA_NAME = "channel_area_name";		// Channel Area Name
+	public final String CHANNEL_PRODUCT_CODE = "channel_product_code";	// Channel Product Code
 	public final String CHANNEL_PRODUCT_NAME = "channel_product_name";	// Channel Product Name
 	
 	public final String AUTHENTICATE_ADULT = "authenticate_adult";		// 성인인증
@@ -107,7 +108,7 @@ public class CnmPreferences {
 	}
 	
 	// channel area code ----------------------------------------------------------------------
-	public void saveChannelAreaCode(Context context, String value) {
+	public void saveChannelAreaCode(Context context, String value) {	// 송파 : 12
 		SharedPreferences pref = context.getSharedPreferences(CNM_PREFERENCE, mode);
 		SharedPreferences.Editor editor = pref.edit();
 		
@@ -116,7 +117,7 @@ public class CnmPreferences {
 	}
 	public String loadChannelAreaCode(Context context) {
 		SharedPreferences pref = context.getSharedPreferences(CNM_PREFERENCE, mode);
-		return pref.getString(CHANNEL_AREA_CODE, "12");	// 송파 : 12
+		return pref.getString(CHANNEL_AREA_CODE, "12");	
 	}
 	
 	// channel area name ----------------------------------------------------------------------
@@ -131,6 +132,20 @@ public class CnmPreferences {
 		SharedPreferences pref = context.getSharedPreferences(CNM_PREFERENCE, mode);
 		return pref.getString(CHANNEL_AREA_NAME, "송파");
 	}
+	
+	// channel product code -------------------------------------------------------------------
+	public void saveChannelProductCode(Context context, String value) {	// 송파 디지털기본형 : 12
+		SharedPreferences pref = context.getSharedPreferences(CNM_PREFERENCE, mode);
+		SharedPreferences.Editor editor = pref.edit();
+		
+		editor.putString(CHANNEL_PRODUCT_CODE, value);
+		editor.commit();
+	}
+	public String loadChannelProductCode(Context context) {
+		SharedPreferences pref = context.getSharedPreferences(CNM_PREFERENCE, mode);
+		return pref.getString(CHANNEL_PRODUCT_CODE, "12");
+	}
+	
 	// channel product name -------------------------------------------------------------------
 	public void saveChannelProductName(Context context, String value) {
 		SharedPreferences pref = context.getSharedPreferences(CNM_PREFERENCE, mode);

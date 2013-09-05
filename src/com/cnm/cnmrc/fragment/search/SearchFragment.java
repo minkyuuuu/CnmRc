@@ -244,7 +244,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 	}
 
 	private void searchTvch() {
-		SearchTvch searchTvch = new SearchTvch();
+		String search = edit.getText().toString();
+		SearchTvchFragment searchTvch = SearchTvchFragment.newInstance(search);
 		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 
 		// ft.replace전에 animation을 설정해야 한다.

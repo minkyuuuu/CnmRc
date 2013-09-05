@@ -13,9 +13,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 
 public class Util {
@@ -49,6 +52,17 @@ public class Util {
 	public static String getYYYYMMDDwithPeriod(Date date){
 		if(date==null) return "";
 		return new SimpleDateFormat("yyyy.MM.dd",Locale.getDefault()).format(date);
+	}
+	
+	// ------------------------
+	// AsyncTask onCancelled()
+	// ------------------------
+	public static void onCancelled(Activity activity){
+		Log.i("hwang", "cancelled!!!");
+		String desc = Util.getErrorCodeDesc("999");
+		Toast.makeText(activity, desc, Toast.LENGTH_LONG).show();
+		
+		((MainActivity)activity).getMyProgressBar().dismiss();
 	}
 	
 	// ------------------------
@@ -122,6 +136,14 @@ public class Util {
 	public static void setChannelAreaName(Context context, String value) {
 		CnmPreferences pref = CnmPreferences.getInstance();
 		pref.saveChannelAreaName(context, value);
+	}
+	public static String getChannelProductCode(Context context) {
+		CnmPreferences pref = CnmPreferences.getInstance();
+		return pref.loadChannelProductCode(context);
+	}
+	public static void setChannelProductCode(Context context, String value) {
+		CnmPreferences pref = CnmPreferences.getInstance();
+		pref.saveChannelProductCode(context, value);
 	}
 	public static String getChannelProductName(Context context) {
 		CnmPreferences pref = CnmPreferences.getInstance();
