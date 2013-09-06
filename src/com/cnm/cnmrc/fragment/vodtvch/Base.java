@@ -155,7 +155,7 @@ public class Base extends Fragment {
 	        	// sidebar 메뉴에 해당하면...
 	        	Fragment f1 = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
 	    		if (f1 != null) {
-	    			if( ((VodTvch)f1).mSlidingMenu.isOpening() )  {
+	    			if( ((VodTvchMain)f1).mSlidingMenu.isOpening() )  {
 	    				getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
 	    				//fm.getBackStackEntryAt(0);
 	    				//fm.popBackStack(((MainActivity) getActivity()).TAG_FRAGMENT_BASE, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -298,31 +298,31 @@ public class Base extends Fragment {
 	private void setTitle(String title) {
 		FragmentManager fm = getActivity().getSupportFragmentManager();
 		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
-		if (f != null) ((VodTvch)f).setTitle(title);
+		if (f != null) ((VodTvchMain)f).setTitle(title);
 	}
 	
 	private void setTitleBackKey() {
 		FragmentManager fm = getActivity().getSupportFragmentManager();
 		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
-		if (f != null) ((VodTvch)f).setTitle();
+		if (f != null) ((VodTvchMain)f).setTitle();
 	}
 	
 	protected void increaseCurrentDepth() {
 		FragmentManager fm = getActivity().getSupportFragmentManager();
 		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
-		if (f != null) ((VodTvch)f).currentDepth++;
+		if (f != null) ((VodTvchMain)f).currentDepth++;
 	}
 	
 	protected void decreaseCurrentDepth() {
 		FragmentManager fm = getActivity().getSupportFragmentManager();
 		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
-		if (f != null) ((VodTvch)f).currentDepth--;
+		if (f != null) ((VodTvchMain)f).currentDepth--;
 	}
 	
 	protected int getCurrentDepth() {
 		FragmentManager fm = getActivity().getSupportFragmentManager();
 		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
-		if (f != null) return ((VodTvch)f).currentDepth;
+		if (f != null) return ((VodTvchMain)f).currentDepth;
 		else return 0;
 	}
 	

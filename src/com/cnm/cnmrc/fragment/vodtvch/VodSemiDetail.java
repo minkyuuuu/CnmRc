@@ -27,7 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.http.SearchVod;
+import com.cnm.cnmrc.parser.SearchVod;
 
 public class VodSemiDetail extends Base {
 

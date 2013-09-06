@@ -3,7 +3,7 @@ package com.cnm.cnmrc.parser;
 public class ChannelProduct {
 	private String productCode;
 	private String productName;
-	private String productInfo;		// yes or no
+	private String productInfo;		// yes or no, is not used!!!
 
 	public String getProductCode() {
 		return productCode;

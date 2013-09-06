@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.http.ChannelProduct;
+import com.cnm.cnmrc.parser.ChannelProduct;
 
 // Custom Adapter
 public class ConfigProductAdapter extends ArrayAdapter<ChannelProduct> {

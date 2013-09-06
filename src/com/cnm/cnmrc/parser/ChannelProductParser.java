@@ -21,15 +21,15 @@ public class ChannelProductParser {
 	
 	// XML Depth
 	// deth 1
-	private final static String RESULT_CODE			=	"resultCode";
-	private final static String PRODUCT_ITEM		=	"product_item";
+	private final String RESULT_CODE			=	"resultCode";
+	private final String PRODUCT_ITEM		=	"product_item";
 	
 	// deth 2
-	private final static String PRODUCT_CODE		=	"productCode";	
-	private final static String PRODUCT_NAME		=	"productName";	
-	private final static String PRODUCT_INFO		=	"productInfo";
+	private final String PRODUCT_CODE		=	"productCode";	
+	private final String PRODUCT_NAME		=	"productName";	
+	private final String PRODUCT_INFO		=	"productInfo";
 	
-	private static ChannelProductList list;
+	private ChannelProductList list;
 
 	public ChannelProductParser(String url) {
 		list	=	new ChannelProductList();

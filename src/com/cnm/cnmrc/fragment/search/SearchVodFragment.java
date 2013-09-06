@@ -37,9 +37,9 @@ import android.widget.Toast;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.fragment.vodtvch.VodSemiDetailAdapter;
-import com.cnm.cnmrc.http.SearchVod;
-import com.cnm.cnmrc.http.SearchVodList;
-import com.cnm.cnmrc.http.SearchVodParser;
+import com.cnm.cnmrc.parser.SearchVod;
+import com.cnm.cnmrc.parser.SearchVodList;
+import com.cnm.cnmrc.parser.SearchVodParser;
 import com.cnm.cnmrc.util.ErrorCode;
 import com.cnm.cnmrc.util.UrlAddress;
 import com.cnm.cnmrc.util.Util;
@@ -89,7 +89,7 @@ public class SearchVodFragment extends Fragment implements View.OnClickListener 
             {
         		Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity)getActivity()).TAG_FRAGMENT_SEARCH);
         		if (f != null) {
-        			((SearchFragment) f).showDetailVod();
+        			((SearchMain) f).showDetailVod();
         		}
             }
 
@@ -120,7 +120,7 @@ public class SearchVodFragment extends Fragment implements View.OnClickListener 
 	private void showSearchVod() {
 		// check network and data loading
 		if (Util.GetNetworkInfo(getActivity()) == 99) {
-			Util.AlertShow(getActivity(), "Wifi 혹은 3G망이 연결되지 않았거나 원활하지 않습니다.네트워크 확인후 다시 접속해 주세요!");
+			Util.AlertShow(getActivity());
 		} else {
 			search = getArguments().getString("search");
 			new SearchVodAsyncTask().execute(search);

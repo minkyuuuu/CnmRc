@@ -12,6 +12,7 @@
 
     <!-- common -->
     <string name="complete">완료</string>
+    <string name="network_warning">Wifi 혹은 3G망이 연결되지 않았거나 원활하지 않습니다.네트워크 확인후 다시 접속해 주세요!</string>
 
     <!-- qwerty -->
     <string name="qwerty_cancel">취소</string>
@@ -141,6 +142,11 @@
     <string name="accessibility_rcmenu_config">Application Configuration</string>
     <string name="accessibility_vod_big_list">VOD Big List</string>
 
+    
+    
+    
+    
+    
     <!-- 나중에 지울것... -->
     <string-array name="strarray_languages">
         <item> 영어 </item>

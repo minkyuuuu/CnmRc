@@ -39,7 +39,7 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/hdicon_res_id"
+            android:id="@+id/hd_icon"
             android:layout_width="@dimen/px66"
             android:layout_height="@dimen/px40"
             android:layout_centerVertical="true"

@@ -48,7 +48,7 @@ public class TvchDetailAdapter extends ArrayAdapter<ItemTvchDetail> {
         currentTitle.setText(" " + itemist.get(position).getCurrent_title());
         
         // hdicon
-        ImageView hdiconResId = (ImageView)row.findViewById(R.id.hdicon_res_id);
+        ImageView hdiconResId = (ImageView)row.findViewById(R.id.hd_icon);
         hdiconResId.setBackgroundResource(itemist.get(position).getHdIconResId());
 //        if(itemist.get(position).getHdIconResId() == 0) {
 //        	hdiconResId.setVisibility(View.GONE);

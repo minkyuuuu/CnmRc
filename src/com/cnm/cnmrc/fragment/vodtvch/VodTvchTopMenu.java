@@ -86,7 +86,7 @@ public class VodTvchTopMenu extends Fragment implements View.OnClickListener {
 		case R.id.vod_tvch_top_category:
 			Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
 			if (f != null) {
-				((VodTvch) f).mSlidingMenu.toggleSidebar();
+				((VodTvchMain) f).mSlidingMenu.toggleSidebar();
 				Log.i("hwang", "open sliding menu");
 			}
 			// ((MainActivity) getActivity()).mLayout.toggleSidebar();

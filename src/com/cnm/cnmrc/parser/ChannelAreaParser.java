@@ -22,13 +22,14 @@ public class ChannelAreaParser {
 
 	// XML Depth
 	// deth 1
-	private final static String RESULT_CODE = "resultCode";
-	private final static String AREA_ITEM = "area_item";
+	private final String RESULT_CODE 		= "resultCode";
+	
+	private final String AREA_ITEM 			= "area_item";
 	
 	// deth 2
-	private final static String AREA_CODE = "areaCode";
-	private final static String AREA_NAME = "areaName";
-	private final static String AREA_NAME_DETAIL = "areaNameDetail";
+	private final String AREA_CODE 			= "areaCode";
+	private final String AREA_NAME 			= "areaName";
+	private final String AREA_NAME_DETAIL 	= "areaNameDetail";
 
 	private static ChannelAreaList list;
 
@@ -69,9 +70,11 @@ public class ChannelAreaParser {
 					if (parser.getName().equals(RESULT_CODE)) {
 						eventType = parser.next();
 						list.setResultCode(parser.getText());
+						
 					} else if (parser.getName().equals(AREA_ITEM)) {
 						list.getList().add(new ChannelArea()); 			// 리스트 추가
 						mCurrentCount = list.getList().size() - 1; 		// 현재 추가된 리스트의 위치 반환
+						
 					} else if (parser.getName().equals(AREA_CODE)) {
 						eventType = parser.next();
 						list.getList().get(mCurrentCount).setAreaCode(parser.getText());

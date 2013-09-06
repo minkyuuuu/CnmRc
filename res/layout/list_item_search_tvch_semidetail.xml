@@ -25,7 +25,7 @@
                 android:singleLine="true"
                 android:text="9"
                 android:textColor="#ff333333"
-                android:textSize="@dimen/sp35"
+                android:textSize="@dimen/sp32"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -60,6 +60,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/px44"
+                    android:layout_marginRight="@dimen/px10"
                     android:gravity="center_vertical"
                     android:orientation="horizontal" >
 
@@ -88,6 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/px36"
                     android:layout_marginLeft="@dimen/px3"
+                    android:layout_marginRight="@dimen/px10"
                     android:gravity="center_vertical"
                     android:orientation="horizontal" >
 
@@ -104,13 +106,13 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <ImageView
+<!--             <ImageView
                 android:layout_width="@dimen/px16"
                 android:layout_height="@dimen/px29"
                 android:layout_gravity="right|center_vertical"
                 android:layout_marginRight="@dimen/px36"
                 android:background="@drawable/indicator_normal"
-                android:contentDescription="@string/accessibility_no_action" />
+                android:contentDescription="@string/accessibility_no_action" /> -->
         </FrameLayout>
         <!-- horizontal delimiter (2 pixel) -->
     </LinearLayout>

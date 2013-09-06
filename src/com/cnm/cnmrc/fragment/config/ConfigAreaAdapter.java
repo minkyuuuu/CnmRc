@@ -12,8 +12,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.http.ChannelArea;
-import com.cnm.cnmrc.http.ChannelAreaList;
+import com.cnm.cnmrc.parser.ChannelArea;
+import com.cnm.cnmrc.parser.ChannelAreaList;
 import com.cnm.cnmrc.util.Util;
 
 // Custom Adapter

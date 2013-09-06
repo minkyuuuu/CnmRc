@@ -25,16 +25,16 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.fragment.config.ConfigAdultCert;
 import com.cnm.cnmrc.fragment.config.ConfigArea;
-import com.cnm.cnmrc.fragment.config.ConfigFragment;
+import com.cnm.cnmrc.fragment.config.ConfigMain;
 import com.cnm.cnmrc.fragment.config.ConfigProduct;
 import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
 import com.cnm.cnmrc.fragment.rc.RcChannelVolume;
 import com.cnm.cnmrc.fragment.rc.RcFourWay;
 import com.cnm.cnmrc.fragment.rc.RcTrickPlay;
-import com.cnm.cnmrc.fragment.search.SearchFragment;
+import com.cnm.cnmrc.fragment.search.SearchMain;
 import com.cnm.cnmrc.fragment.search.SearchVodDetail;
 import com.cnm.cnmrc.fragment.vodtvch.Base;
-import com.cnm.cnmrc.fragment.vodtvch.VodTvch;
+import com.cnm.cnmrc.fragment.vodtvch.VodTvchMain;
 
 /**
  * 
@@ -225,7 +225,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 				progressBar, 
 				new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		ColorDrawable colorDrawable = new ColorDrawable();
-		colorDrawable.setColor(0xFFFF0000);
+		//colorDrawable.setColor(0xFFFF0000); // not 진저브레
 		//myProgressDialog.getWindow().setBackgroundDrawable(colorDrawable);
 	}
 
@@ -455,7 +455,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// config와 search간의 순서를 생각해보자. 근본적으로 순서와 관계없이 처리하는 방법을 고려해보자....
 		// config
 		// ---------------------------
-		final ConfigFragment config = (ConfigFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG);
+		final ConfigMain config = (ConfigMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG);
 		if (config != null) {
 			if (config.allowBackPressed().equals("rc")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
 				backToRc();
@@ -486,7 +486,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// ---------------------------
 		// search
 		// ---------------------------
-		final SearchFragment search = (SearchFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_SEARCH);
+		final SearchMain search = (SearchMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_SEARCH);
 		if (search != null) {
 			if (search.allowBackPressed().equals("rc")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
 				backToRc();
@@ -520,7 +520,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// ---------------------------
 		// vod, tvch (vod_tvch_panel)
 		// ---------------------------
-		final VodTvch vodTVch = (VodTvch) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
+		final VodTvchMain vodTVch = (VodTvchMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
 		if (vodTVch != null) {
 			if (vodTVch.allowBackPressed() == 0) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
 				backToRc();
@@ -531,7 +531,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			if (vodTVch.allowBackPressed() == 1) {	// sidebar가 열려있는경우...
 				Fragment f = getSupportFragmentManager().findFragmentByTag(this.TAG_FRAGMENT_VOD_TVCH);
 				if (f != null) {
-					((VodTvch)f).mSlidingMenu.toggleSidebar();
+					((VodTvchMain)f).mSlidingMenu.toggleSidebar();
 					Log.i("hwang", "closing sidebar!!!");
 				}
 				return;
@@ -585,7 +585,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		FragmentManager fm = getSupportFragmentManager();
 		Log.i("hwang", "before when mainActivity  fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
 		
-		VodTvch vodTvch = VodTvch.newInstance(type);
+		VodTvchMain vodTvch = VodTvchMain.newInstance(type);
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		
 		//  ft.replace전에 animation을 설정해야 한다.
@@ -619,7 +619,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		FragmentManager fm = getSupportFragmentManager();
 		Log.i("hwang", "(Search) before when mainActivity  fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
 		
-		SearchFragment search = SearchFragment.newInstance(type);
+		SearchMain search = SearchMain.newInstance(type);
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		
 		//  ft.replace전에 animation을 설정해야 한다.
@@ -664,7 +664,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		FragmentManager fm = getSupportFragmentManager();
 		Log.i("hwang", "(Search) before when mainActivity  fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
 		
-		ConfigFragment config = ConfigFragment.newInstance(type);
+		ConfigMain config = ConfigMain.newInstance(type);
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		
 		//  ft.replace전에 animation을 설정해야 한다.
@@ -755,7 +755,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// config와 search간의 순서를 생각해보자. 근본적으로 순서와 관계없이 처리하는 방법을 고려해보자....
 		// config
 		// ---------------------------
-		final ConfigFragment config = (ConfigFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG);
+		final ConfigMain config = (ConfigMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG);
 		if (config != null) {
 			if (config.allowBackPressed().equals("rc")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
 				backToRc();
@@ -784,7 +784,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// ---------------------------
 		// search
 		// ---------------------------
-		final SearchFragment search = (SearchFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_SEARCH);
+		final SearchMain search = (SearchMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_SEARCH);
 		if (search != null) {
 			if (search.allowBackPressed().equals("rc")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
 				backToRc();
@@ -815,7 +815,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// ---------------------------
 		// vod, tvch (vod_tvch_panel)
 		// ---------------------------
-		final VodTvch vodTVch = (VodTvch) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
+		final VodTvchMain vodTVch = (VodTvchMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
 		if (vodTVch != null) {
 			if (vodTVch.allowBackPressed() == 0) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
 				backToRc();
@@ -825,7 +825,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			if (vodTVch.allowBackPressed() == 1) {	// sidebar가 열려있는경우...
 				Fragment f = getSupportFragmentManager().findFragmentByTag(this.TAG_FRAGMENT_VOD_TVCH);
 				if (f != null) {
-					((VodTvch)f).mSlidingMenu.toggleSidebar();
+					((VodTvchMain)f).mSlidingMenu.toggleSidebar();
 					Log.i("hwang", "closing sidebar!!!");
 					
 					backToRc();
@@ -857,7 +857,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		noVodTvchDestroy = false;
 		
 		// vod_tvch화면에서 진입하면 down된다...
-		final VodTvch vodTVch = (VodTvch) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
+		final VodTvchMain vodTVch = (VodTvchMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
 		if (vodTVch != null) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			ft.addToBackStack(null);

@@ -6,12 +6,17 @@ import java.util.ArrayList;
 public class ChannelAreaList {
 
 	private String resultCode;
+	
 	private ArrayList<ChannelArea> list;
+	
+	
 	
 	// construct
 	public ChannelAreaList() {
 		list = new ArrayList<ChannelArea>();
 	}
+	
+	
 	
 	public String getResultCode() {
 		return resultCode;

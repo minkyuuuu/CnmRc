@@ -19,8 +19,8 @@ import android.widget.ListView;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.http.ChannelProduct;
-import com.cnm.cnmrc.http.ChannelProductParser;
+import com.cnm.cnmrc.parser.ChannelProduct;
+import com.cnm.cnmrc.parser.ChannelProductParser;
 import com.cnm.cnmrc.util.UrlAddress;
 import com.cnm.cnmrc.util.Util;
 
@@ -112,7 +112,7 @@ public class ConfigProduct extends Fragment implements View.OnClickListener {
 	private void showProduct() {
 		//check network and data loading
 		if (Util.GetNetworkInfo(getActivity()) == 99) {
-			Util.AlertShow(getActivity(), "Wifi 혹은 3G망이 연결되지 않았거나 원활하지 않습니다.네트워크 확인후 다시 접속해 주세요!");
+			Util.AlertShow(getActivity());
 		} else {
 			String url = UrlAddress.Channel.getGetChannelProduct(selectedAreaCode);
 			new ProductAsyncTask().execute(url);
@@ -213,7 +213,7 @@ public class ConfigProduct extends Fragment implements View.OnClickListener {
 			// 지역, 상품정보를 refresh
 			Fragment fg = ((MainActivity)getActivity()).getFragmentConfig();
 			if(fg != null) {
-				((ConfigFragment)fg).refreshAreaProduct();
+				((ConfigMain)fg).refreshAreaProduct();
 			}
 			
 			getActivity().onBackPressed();

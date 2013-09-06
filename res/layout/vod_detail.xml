@@ -31,7 +31,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/hdicon_res_id"
+                android:id="@+id/hd_icon"
                 android:layout_width="@dimen/px66"
                 android:layout_height="@dimen/px40"
                 android:layout_gravity="center_vertical"
@@ -40,7 +40,7 @@
                 android:contentDescription="@string/accessibility_no_action" />
 
             <ImageView
-                android:id="@+id/age_res_id"
+                android:id="@+id/grade_icon"
                 android:layout_width="@dimen/px40"
                 android:layout_height="@dimen/px40"
                 android:layout_gravity="center_vertical"

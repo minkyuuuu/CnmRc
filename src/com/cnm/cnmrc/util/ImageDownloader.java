@@ -40,7 +40,6 @@ public class ImageDownloader {
 	private static Bitmap mLoadingImage;
 	
 	private static int ThreadCounter=0;
-	private static final String PACKGE_NAME = "hdlnc.dev2.sangtae.cnm/cache";
 	private static final String DEBUG_TAG = "ImageDownloader";
 	private static Context mContext = null;
 	
@@ -123,7 +122,7 @@ public class ImageDownloader {
 				mkDir = mContext.getExternalCacheDir();
 			}			
 			if (mkDir == null) {
-				mkDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), PACKGE_NAME);
+				mkDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), Util.PACKGE_NAME);
 			}
 
 			if (!mkDir.exists())
@@ -406,7 +405,7 @@ public class ImageDownloader {
 			mkDir = mContext.getExternalCacheDir();
 		}			
 		if (mkDir == null) {
-			mkDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), PACKGE_NAME);
+			mkDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), Util.PACKGE_NAME);
 		}
 
 		if(!mkDir.exists())

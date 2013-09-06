@@ -37,9 +37,9 @@ import android.widget.Toast;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.fragment.vodtvch.TvchSemiDetailAdapter;
-import com.cnm.cnmrc.http.SearchProgram;
-import com.cnm.cnmrc.http.SearchProgramList;
-import com.cnm.cnmrc.http.SearchProgramParser;
+import com.cnm.cnmrc.parser.SearchProgram;
+import com.cnm.cnmrc.parser.SearchProgramList;
+import com.cnm.cnmrc.parser.SearchProgramParser;
 import com.cnm.cnmrc.util.UrlAddress;
 import com.cnm.cnmrc.util.Util;
 
@@ -104,7 +104,7 @@ public class SearchTvchFragment extends Fragment implements View.OnClickListener
 	private void showSearchProgram() {
 		// check network and data loading
 		if (Util.GetNetworkInfo(getActivity()) == 99) {
-			Util.AlertShow(getActivity(), "Wifi 혹은 3G망이 연결되지 않았거나 원활하지 않습니다.네트워크 확인후 다시 접속해 주세요!");
+			Util.AlertShow(getActivity());
 		} else {
 			search = getArguments().getString("search");
 			new SearchProgramAsyncTask().execute(search);
@@ -114,7 +114,7 @@ public class SearchTvchFragment extends Fragment implements View.OnClickListener
 
 	long elapsedTime;
 	SearchProgramList list;
-	SearchTvchSemiDetailAdapter adapter;
+	SearchTvchSemiAdapter adapter;
 	ArrayList<SearchProgram> mResult = null;
 	
 	private class SearchProgramAsyncTask extends AsyncTask<String, Void, ArrayList<SearchProgram>> {
@@ -151,7 +151,7 @@ public class SearchTvchFragment extends Fragment implements View.OnClickListener
 					String desc = Util.getErrorCodeDesc(list.getResultCode());
 					Toast.makeText(getActivity(), desc, Toast.LENGTH_LONG).show();
 				} else {
-					adapter = new SearchTvchSemiDetailAdapter(getActivity(), R.layout.list_item_search_tvch_semidetail, mResult);
+					adapter = new SearchTvchSemiAdapter(getActivity(), R.layout.list_item_search_tvch_semidetail, mResult);
 					listView.setAdapter(adapter);
 				}
 				

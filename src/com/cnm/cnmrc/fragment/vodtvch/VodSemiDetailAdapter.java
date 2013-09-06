@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.http.SearchVod;
+import com.cnm.cnmrc.parser.SearchVod;
 import com.cnm.cnmrc.util.ImageDownloader;
 import com.cnm.cnmrc.util.Util;
 
@@ -42,72 +40,105 @@ public class VodSemiDetailAdapter extends ArrayAdapter<SearchVod> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        View row = convertView;
+    	
+    	final ViewHolder holder;
         
-        //if (row == null) {
+        if (convertView == null) {
             LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-            row = inflater.inflate(layoutResId, null);
-        //} 
+            convertView = inflater.inflate(layoutResId, null);
+            
+            holder = new ViewHolder();
+            holder.topDelimiter = (ImageView)convertView.findViewById(R.id.top_delimiter);
+            holder.logoImg = (ImageView)convertView.findViewById(R.id.logo_img);
+            holder.title = (TextView)convertView.findViewById(R.id.title);
+            holder.hdIcon = (ImageView)convertView.findViewById(R.id.hd_icon);
+            holder.gradeIcon = (ImageView)convertView.findViewById(R.id.grade_icon);
+            holder.director = (TextView)convertView.findViewById(R.id.director);
+            holder.directorName = (TextView)convertView.findViewById(R.id.director_name);
+            holder.actor = (TextView)convertView.findViewById(R.id.actor);
+            holder.actorName = (TextView)convertView.findViewById(R.id.actor_name);
+            
+            convertView.setTag(holder);
+        } else {
+        	holder = (ViewHolder) convertView.getTag();
+        }
         
         // 상단의 delimiter는 최초 한번만 보여준다.
-        ImageView topDelimiter = (ImageView)row.findViewById(R.id.top_delimiter);
+        
         if (position == 0) {
-        	topDelimiter.setVisibility(View.VISIBLE);
+        	holder.topDelimiter.setVisibility(View.VISIBLE);
         } else {
-        	topDelimiter.setVisibility(View.GONE);
+        	holder.topDelimiter.setVisibility(View.GONE);
         }
         
         // 좌측의 큰 이미지 포스터
-        ImageView titleResId = (ImageView)row.findViewById(R.id.title_res_id);
-        String grade = itemList.get(position).getGrade();
-        if(Util.isAdultGrade(grade)) titleResId.setImageBitmap(Util.getAdultBitmap(context));
-        else imageDownloader.download(itemList.get(position).getImg().trim(), titleResId, Util.getNoBitmap(context));
+        //titleResId.setImageBitmap(Util.getNoBitmap(context));
+        if(itemList.get(position).getImg() != null) {
+        	Bitmap loadBitmap = Util.BitmapLoadFromFile(context, itemList.get(position).getImg());
+        	if(loadBitmap == null) {
+	        	String grade = itemList.get(position).getGrade();
+	        	if(grade != null) {
+	        		if(Util.isAdultGrade(grade)) holder.logoImg.setImageBitmap(Util.getAdultBitmap(context));
+	        		else imageDownloader.download(itemList.get(position).getImg().trim(), holder.logoImg, Util.getNoBitmap(context));
+	        	}
+        	} else 
+        		holder.logoImg.setImageBitmap(loadBitmap);
+        }
         
         // title
-        TextView title = (TextView)row.findViewById(R.id.title);
-        title.setText(itemList.get(position).getTitle());
         
-        // hdicon
-        ImageView hdiconResId = (ImageView)row.findViewById(R.id.hdicon_res_id);
-        hdiconResId.setBackgroundResource(R.drawable.hdicon);
-        if(!itemList.get(position).getHd().equalsIgnoreCase("yes")) {
-        	hdiconResId.setVisibility(View.GONE);
+        if(itemList.get(position).getTitle() != null)
+        	holder.title.setText(itemList.get(position).getTitle());
+        
+        // hd icon
+        
+        holder.hdIcon.setBackgroundResource(R.drawable.hdicon);
+        //hdiconResId.setVisibility(View.GONE);
+        if(itemList.get(position).getHd() != null) {
+	        if(itemList.get(position).getHd().equalsIgnoreCase("yes")) {
+	        	holder.hdIcon.setVisibility(View.VISIBLE);
+	        }
         }
         
-        // age icon
-        ImageView ageResId = (ImageView)row.findViewById(R.id.age_res_id);
-        ageResId.setBackgroundResource(Util.getGrade(itemList.get(position).getGrade()));
+        // grade icon
+        
+        if(itemList.get(position).getGrade() != null)
+        	holder.gradeIcon.setBackgroundResource(Util.getGrade(itemList.get(position).getGrade()));
         
         // diretor name
-        TextView director = (TextView)row.findViewById(R.id.director);
-        director.setText("감독 : ");
-        TextView directorName = (TextView)row.findViewById(R.id.director_name);
-        directorName.setText(itemList.get(position).getDirector());
         
-        // cast name
-        TextView cast = (TextView)row.findViewById(R.id.cast);
-        cast.setText("출연 : ");
-        TextView castName = (TextView)row.findViewById(R.id.cast_name);
-        castName.setText(itemList.get(position).getActor());
+        holder.director.setText("감독 : ");
         
+        if(itemList.get(position).getDirector() != null)
+        	holder.directorName.setText(itemList.get(position).getDirector());
         
-        try {
-        	title.setText(itemList.get(position).getTitle());
-        } catch (Exception e) {
-            Log.e(TAG, "sever throw null point error <----");
-        }
+        // actor name
         
-        /*if(position == 0) {
-        	((ListView)parent).performItemClick(row, 0, getItemId(0));
-        }*/
-
-        return row;
+        holder.actor.setText("출연 : ");
+        
+        if(itemList.get(position).getActor() != null)
+        	holder.actorName.setText(itemList.get(position).getActor());
+        
+        return convertView;
     }
 
     @Override
     public int getCount() {
         return itemList.size();
     }
+    
+	class ViewHolder {
+		ImageView topDelimiter;
+		ImageView logoImg;
+		TextView title;
+		ImageView hdIcon;
+		ImageView gradeIcon;
+		TextView director;
+		TextView directorName;
+		TextView actor;
+		TextView actorName;
+	}
+
     
 }
 

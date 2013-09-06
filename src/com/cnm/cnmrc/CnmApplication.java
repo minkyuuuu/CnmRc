@@ -1,16 +1,21 @@
 package com.cnm.cnmrc;
 
+import java.io.File;
+
 import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Environment;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ProgressBar;
 
 import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.Sound;
+import com.cnm.cnmrc.util.Util;
 
 
 /**
@@ -61,6 +66,21 @@ public class CnmApplication extends Application {
 		pref = CnmPreferences.getInstance();
 		
 		mSoundPool = new Sound(getApplicationContext());
+		
+		// 앱 진입시 마다 cache folder 삭제
+		Log.e("hwang", "starting remove files on cache");
+		File mkDir = null;
+		if (getApplicationContext() != null) {
+			mkDir = getApplicationContext().getExternalCacheDir();
+		} 		
+		if (mkDir == null) {
+			mkDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), Util.PACKGE_NAME);
+		} 
+		
+		if(mkDir.exists()) {
+			Util.removeDIR(mkDir.toString());
+			Log.e("hwang", "remove files on cache");
+		}
 		
 		// App 설치후 처음 진입인지?
 		if(pref.loadFirstLoadingCnmApp(getApplicationContext())) {

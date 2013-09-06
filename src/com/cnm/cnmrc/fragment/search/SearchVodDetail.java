@@ -59,7 +59,7 @@ public class SearchVodDetail extends Fragment implements View.OnClickListener{
         {
         	Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity)getActivity()).TAG_FRAGMENT_SEARCH);
         	if (f != null) {
-        		((SearchFragment)f).resetTitle();
+        		((SearchMain)f).resetTitle();
         	}
         }
         

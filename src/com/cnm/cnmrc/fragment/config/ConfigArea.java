@@ -25,8 +25,8 @@ import android.widget.ProgressBar;
 import com.cnm.cnmrc.CnmApplication;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.http.ChannelArea;
-import com.cnm.cnmrc.http.ChannelAreaParser;
+import com.cnm.cnmrc.parser.ChannelArea;
+import com.cnm.cnmrc.parser.ChannelAreaParser;
 import com.cnm.cnmrc.util.Util;
 
 public class ConfigArea extends Fragment implements View.OnClickListener {
@@ -107,7 +107,7 @@ public class ConfigArea extends Fragment implements View.OnClickListener {
 	private void showArea() {
 		// check network and data loading
 		if (Util.GetNetworkInfo(getActivity()) == 99) {
-			Util.AlertShow(getActivity(), "Wifi 혹은 3G망이 연결되지 않았거나 원활하지 않습니다.네트워크 확인후 다시 접속해 주세요!");
+			Util.AlertShow(getActivity());
 		} else {
 			new AreaAsyncTask().execute();
 		}
