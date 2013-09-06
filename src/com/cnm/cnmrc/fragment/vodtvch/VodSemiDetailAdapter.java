@@ -64,7 +64,6 @@ public class VodSemiDetailAdapter extends ArrayAdapter<SearchVod> {
         }
         
         // 상단의 delimiter는 최초 한번만 보여준다.
-        
         if (position == 0) {
         	holder.topDelimiter.setVisibility(View.VISIBLE);
         } else {
@@ -86,12 +85,10 @@ public class VodSemiDetailAdapter extends ArrayAdapter<SearchVod> {
         }
         
         // title
-        
         if(itemList.get(position).getTitle() != null)
         	holder.title.setText(itemList.get(position).getTitle());
         
         // hd icon
-        
         holder.hdIcon.setBackgroundResource(R.drawable.hdicon);
         //hdiconResId.setVisibility(View.GONE);
         if(itemList.get(position).getHd() != null) {
@@ -101,21 +98,16 @@ public class VodSemiDetailAdapter extends ArrayAdapter<SearchVod> {
         }
         
         // grade icon
-        
         if(itemList.get(position).getGrade() != null)
         	holder.gradeIcon.setBackgroundResource(Util.getGrade(itemList.get(position).getGrade()));
         
         // diretor name
-        
         holder.director.setText("감독 : ");
-        
         if(itemList.get(position).getDirector() != null)
         	holder.directorName.setText(itemList.get(position).getDirector());
         
         // actor name
-        
         holder.actor.setText("출연 : ");
-        
         if(itemList.get(position).getActor() != null)
         	holder.actorName.setText(itemList.get(position).getActor());
         

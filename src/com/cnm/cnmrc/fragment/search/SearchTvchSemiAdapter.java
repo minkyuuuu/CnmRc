@@ -1,6 +1,7 @@
 package com.cnm.cnmrc.fragment.search;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
@@ -66,8 +67,14 @@ public class SearchTvchSemiAdapter extends ArrayAdapter<SearchProgram> {
             
             // program time
             TextView programTime = (TextView)row.findViewById(R.id.program_time);
-            if(itemList.get(position).getProgramTime() != null) 
-            	programTime.setText(itemList.get(position).getProgramTime());
+            if(itemList.get(position).getProgramTime() != null) {
+            	Date date = Util.getFromStringToDate(itemList.get(position).getProgramTime());
+            	if(date == null) {
+            		programTime.setText(itemList.get(position).getProgramTime());
+            	} else {
+            		programTime.setText(Util.getSearchProgramDate(date));
+            	}
+            }
         //} 
         
         return row;

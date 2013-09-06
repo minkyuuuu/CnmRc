@@ -4,8 +4,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 
+@SuppressLint("SimpleDateFormat")
 public class Util {
 
 	// 네트워크 접속상태 확인 상수
@@ -30,6 +31,8 @@ public class Util {
 	public final static int WIFI_CONNECTED = 1;
 	public final static int WIMAX_CONNECTED = 6;
 	public final static int DISCONNECTED = 99; // network is not available!!!
+	
+	static String[] dayOfWeek = { "", "일", "월", "화", "수", "목", "금", "토" };
 
 	// --------------
 	// Date
@@ -48,18 +51,39 @@ public class Util {
 		return calendar;
 	}
 
-	public static String getYYYYMMDD(Date date) {
-		if (date == null)
-			return "";
-		return new SimpleDateFormat("yyyyMMdd").format(date);
+	public static Date getFromStringToDate(String string){
+		try {
+			java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			java.util.Date date = format.parse(string);
+			return date;
+		} catch (Exception e) {
+			Log.e("hwang", "getSearchProgramDate : " + e.toString());
+		}
+		return null;
 	}
-
-	public static String getYYYYMMDDwithPeriod(Date date) {
-		if (date == null)
-			return "";
-		return new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault()).format(date);
+	public static String getSearchProgramDate(Date date){
+		String str;
+		str = getMMDD(date);
+		str += "(" + getDayOfWeek(date) + ") ";
+		str += getHHmm(date);
+		return str;
 	}
+	public static String getMMDD(Date date){
+		return new SimpleDateFormat("MM.dd").format(date);
+	}
+	public static String getHHmm(Date date){
+		return new SimpleDateFormat("HH:mm").format(date);
+	}
+	public static String getDayOfWeek(Date date){
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		int index = c.get(Calendar.DAY_OF_WEEK);
+		return dayOfWeek[index];
+	}
+	
+	
 
+	
 	// ------------------------
 	// AsyncTask onCancelled()
 	// ------------------------
@@ -95,7 +119,6 @@ public class Util {
 	}
 
 	public final static String PACKGE_NAME = "com.cnm.cnmrc.cache";
-
 	public static Bitmap BitmapLoadFromFile(Context context, String fileName) {
 
 		int lastPos = fileName.lastIndexOf("/");
