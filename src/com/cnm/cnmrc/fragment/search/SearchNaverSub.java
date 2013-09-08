@@ -18,12 +18,12 @@ package com.cnm.cnmrc.fragment.search;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +76,7 @@ public class SearchNaverSub extends Fragment implements View.OnClickListener {
 		listView.setDivider(null);
 		listView.setDividerHeight(0);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@SuppressLint("SetJavaScriptEnabled")
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				//Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -86,10 +87,14 @@ public class SearchNaverSub extends Fragment implements View.OnClickListener {
 				//webview use to call own site
 				webview.setWebViewClient(new WebViewClient());
 				WebSettings set = webview.getSettings();
-				//set.setJavaScriptEnabled(true);
+				set.setJavaScriptEnabled(true);
 				set.setBuiltInZoomControls(true);
 				webview.loadUrl(mResult.get(position).getLink());
 				webview.setVisibility(View.VISIBLE);
+				
+				// zoom all
+				webview.getSettings().setLoadWithOverviewMode(true);
+				webview.getSettings().setUseWideViewPort(true);
 				
 				//webview.setVerticalScrollBarEnabled(false);
 				//webview.setHorizontalScrollBarEnabled(false);
@@ -103,7 +108,7 @@ public class SearchNaverSub extends Fragment implements View.OnClickListener {
 	class WebClient extends WebViewClient {
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
 			view.loadUrl(url);
-			return false;
+			return true;
 		}
 	}
 	
