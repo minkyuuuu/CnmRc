@@ -1,6 +1,8 @@
 package com.cnm.cnmrc.util;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,7 +33,7 @@ public class Util {
 	public final static int WIFI_CONNECTED = 1;
 	public final static int WIMAX_CONNECTED = 6;
 	public final static int DISCONNECTED = 99; // network is not available!!!
-	
+
 	static String[] dayOfWeek = { "", "일", "월", "화", "수", "목", "금", "토" };
 
 	// --------------
@@ -51,7 +53,7 @@ public class Util {
 		return calendar;
 	}
 
-	public static Date getFromStringToDate(String string){
+	public static Date getFromStringToDate(String string) {
 		try {
 			java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			java.util.Date date = format.parse(string);
@@ -61,29 +63,30 @@ public class Util {
 		}
 		return null;
 	}
-	public static String getSearchProgramDate(Date date){
+
+	public static String getSearchProgramDate(Date date) {
 		String str;
 		str = getMMDD(date);
 		str += "(" + getDayOfWeek(date) + ") ";
 		str += getHHmm(date);
 		return str;
 	}
-	public static String getMMDD(Date date){
+
+	public static String getMMDD(Date date) {
 		return new SimpleDateFormat("MM.dd").format(date);
 	}
-	public static String getHHmm(Date date){
+
+	public static String getHHmm(Date date) {
 		return new SimpleDateFormat("HH:mm").format(date);
 	}
-	public static String getDayOfWeek(Date date){
+
+	public static String getDayOfWeek(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		int index = c.get(Calendar.DAY_OF_WEEK);
 		return dayOfWeek[index];
 	}
-	
-	
 
-	
 	// ------------------------
 	// AsyncTask onCancelled()
 	// ------------------------
@@ -119,6 +122,7 @@ public class Util {
 	}
 
 	public final static String PACKGE_NAME = "com.cnm.cnmrc.cache";
+
 	public static Bitmap BitmapLoadFromFile(Context context, String fileName) {
 
 		int lastPos = fileName.lastIndexOf("/");
@@ -278,5 +282,14 @@ public class Util {
 			}
 		}
 		return DISCONNECTED;
+	}
+
+	public static String getURLEncoder(String search) {
+		try {
+			return URLEncoder.encode(search, "UTF8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 }

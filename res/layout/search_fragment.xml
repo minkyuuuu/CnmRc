@@ -229,7 +229,7 @@
                 <!-- (1-1) 검색결과 리스트 -->
 
                 <FrameLayout
-                    android:id="@+id/result_panel"
+                    android:id="@+id/search_result_panel"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:focusable="false" >

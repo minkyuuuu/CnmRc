@@ -191,10 +191,8 @@ public class UrlAddress {
 	}
 
 	public static class Search {
-		//Search
 		private static final String SearchProgram	= Server_URL + "SearchProgram.asp?Search_String=%s&pageSize=%s&pageIndex=%s&areaCode=%s&productCode=%s";	// 프로그램 정보를 검색합니다.
 		private static final String SearchVod		= Server_URL + "SearchVod.asp?search_string=%s&pageSize=%s&pageIndex=%s&sortType=%s";						// VOD정보를 검색합니다.
-		private static final String SearchChannel	= Server_URL + "SearchChannel.asp?Search_String=%s&pageSize=%s&pageIndex=%s&areaCode=%s&productCode=%s";	// 채널정보를 검색합니다. (not used!!! in this App)
 		
 		/*	Vod 정렬방식 (잘못된 문자가 들어가면 기본으로 처리한다.)
 			기본 : 		TitleAsc 
@@ -214,9 +212,7 @@ public class UrlAddress {
 		public static String getSearchVod(String searchStr, String pageSize, String pageIndex, String sortType) {
 			return String.format(SearchVod, getURLEncoder(searchStr), pageSize, pageIndex, sortType);
 		}
-		public static String getSearchChannel(String searchStr, String pageSize, String pageIndex, String areaCode, String productCode) {
-			return String.format(SearchChannel, getURLEncoder(searchStr), pageSize, pageIndex, areaCode, productCode);
-		}
+		
 	}
 	
 

@@ -46,7 +46,7 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 
 	View layout;
 	LinearLayout mNoClickBelowLayout;
-	
+
 	RelativeLayout mTitleLayout;
 
 	TextView mSearchTitle;
@@ -73,19 +73,18 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 
 		mNoClickBelowLayout = (LinearLayout) layout.findViewById(R.id.no_click_below_layout);
 		mNoClickBelowLayout.setOnClickListener(this);
-		
+
 		mTitleLayout = (RelativeLayout) layout.findViewById(R.id.search_title_layout);
 		mTitleLayout.setVisibility(View.GONE);
 		mSearchTitle = (TextView) layout.findViewById(R.id.search_title);
 		mSearchSearch = (ImageButton) layout.findViewById(R.id.search_search);
 		mSearchSearch.setOnClickListener(this);
-		
-		mResultPanelFrameLayout = (FrameLayout) layout.findViewById(R.id.result_panel);
+
+		mResultPanelFrameLayout = (FrameLayout) layout.findViewById(R.id.search_result_panel);
 		mResultPanelFrameLayout.setVisibility(View.INVISIBLE);
 
 		mDetilPanelFrameLayout = (FrameLayout) layout.findViewById(R.id.detail_panel);
 		mDetilPanelFrameLayout.setVisibility(View.INVISIBLE);
-
 
 		mSearchRecentlyDelete = (Button) layout.findViewById(R.id.search_recently_delete);
 		mSearchRecentlyDelete.setOnClickListener(this);
@@ -97,14 +96,13 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		mSearchInputDelete.setOnClickListener(this);
 		mSearchInputDelete.setVisibility(View.GONE);
 
-
 		// android:windowSoftInputMode="adjustPan"
 		// getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 		// // not work
 
 		edit = (EditText) layout.findViewById(R.id.search_edit);
 		//edit.requestFocus();
-		
+
 		edit.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				Log.i("hwang", "edit focus changed!!!");
@@ -163,9 +161,9 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 			arrayList.add(item);
 		}
 
-		// -------------------
-		// Search Result List
-		// -------------------
+		// ----------------------
+		// Search Recently List
+		// ----------------------
 		SearchRecentlyAdapter adapter = new SearchRecentlyAdapter(getActivity(), R.layout.list_item_search_recently, arrayList);
 		mListView.setAdapter(adapter);
 		mListView.setDivider(null);
@@ -205,7 +203,7 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 			searchTvch();
 			break;
 		case R.id.search_naver:
-			// naver.setSelected(true);
+			searchNaver();
 			break;
 		}
 
@@ -213,14 +211,13 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 
 	private void searchVod() {
 		String search = edit.getText().toString();
-		SearchVodFragment searchVod = SearchVodFragment.newInstance(search);
+		SearchVodSub searchVod = SearchVodSub.newInstance(search);
 		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 
 		// ft.replace전에 animation을 설정해야 한다.
 		ft.setCustomAnimations(R.anim.fragment_entering, 0);
-		// ft.addToBackStack(null); // fragment stack에 넣지 않으면 백키가 activity
-		// stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
-		ft.replace(R.id.result_panel, searchVod, "search_vod");
+		// ft.addToBackStack(null); // fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
+		ft.replace(R.id.search_result_panel, searchVod, "search_vod");
 		ft.commit();
 		getActivity().getSupportFragmentManager().executePendingTransactions();
 	}
@@ -236,8 +233,7 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 
 		// ft.replace전에 animation을 설정해야 한다.
 		// ft.setCustomAnimations(R.anim.vod_tvch_base_entering, 0);
-		ft.addToBackStack(null); // fragment stack에 넣지 않으면 백키가 activity stack에
-									// 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
+		// ft.addToBackStack(null); // fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
 		ft.replace(R.id.detail_panel, searchVod, "search_vod_detail");
 		ft.commit();
 		getActivity().getSupportFragmentManager().executePendingTransactions();
@@ -245,14 +241,22 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 
 	private void searchTvch() {
 		String search = edit.getText().toString();
-		SearchTvchFragment searchTvch = SearchTvchFragment.newInstance(search);
+		SearchTvchSub searchTvch = SearchTvchSub.newInstance(search);
 		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 
 		// ft.replace전에 animation을 설정해야 한다.
-		// ft.setCustomAnimations(R.anim.vod_tvch_base_entering, 0);
-		// ft.addToBackStack(null); // fragment stack에 넣지 않으면 백키가 activity
-		// stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
-		ft.replace(R.id.result_panel, searchTvch, "search_tvch");
+		ft.replace(R.id.search_result_panel, searchTvch, "search_tvch");
+		ft.commit();
+		getActivity().getSupportFragmentManager().executePendingTransactions();
+	}
+
+	private void searchNaver() {
+		String search = edit.getText().toString();
+		SearchNaverSub searchTvch = SearchNaverSub.newInstance(search);
+		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+
+		// ft.replace전에 animation을 설정해야 한다.
+		ft.replace(R.id.search_result_panel, searchTvch, "search_naver");
 		ft.commit();
 		getActivity().getSupportFragmentManager().executePendingTransactions();
 	}

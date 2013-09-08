@@ -19,13 +19,10 @@ import com.cnm.cnmrc.util.Util;
 
 // Custom Adapter
 public class SearchTvchSemiAdapter extends ArrayAdapter<SearchProgram> {
-	private String TAG = SearchTvchSemiAdapter.class.getSimpleName();
 	
     private Activity context;
     private int layoutResId;
-
     private ArrayList<SearchProgram> itemList;
-    
     private ImageDownloader imageDownloader;
 
     public SearchTvchSemiAdapter(Context context, int layoutResId, ArrayList<SearchProgram> arrayList) {
