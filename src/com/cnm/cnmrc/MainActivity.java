@@ -31,9 +31,10 @@ import com.cnm.cnmrc.fragment.rc.RcChannelVolume;
 import com.cnm.cnmrc.fragment.rc.RcFourWay;
 import com.cnm.cnmrc.fragment.rc.RcTrickPlay;
 import com.cnm.cnmrc.fragment.search.SearchMain;
-import com.cnm.cnmrc.fragment.search.SearchNaverSub;
+import com.cnm.cnmrc.fragment.search.SearchNaver;
 import com.cnm.cnmrc.fragment.search.SearchVodDetail;
 import com.cnm.cnmrc.fragment.vodtvch.Base;
+import com.cnm.cnmrc.fragment.vodtvch.VodDetail;
 import com.cnm.cnmrc.fragment.vodtvch.VodTvchMain;
 
 /**
@@ -481,7 +482,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// ---------------------------
 		final SearchMain search = (SearchMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_SEARCH);
 		if (search != null) {
-			final SearchNaverSub searchNaverSub = (SearchNaverSub) getSupportFragmentManager().findFragmentByTag("search_naver");
+			final SearchNaver searchNaverSub = (SearchNaver) getSupportFragmentManager().findFragmentByTag("search_naver");
 			if (searchNaverSub != null && searchNaverSub.getWebView().getVisibility() == View.VISIBLE) {
 				searchNaverSub.getWebView().setVisibility(View.INVISIBLE);
 				return;
@@ -768,7 +769,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		// ---------------------------
 		// search vod detail
 		// ---------------------------
-		final SearchVodDetail searchVodDetail = (SearchVodDetail) getSupportFragmentManager().findFragmentByTag("search_vod_detail");
+		final VodDetail searchVodDetail = (VodDetail) getSupportFragmentManager().findFragmentByTag("search_vod_detail");
 		if (searchVodDetail != null) {
 			if (searchVodDetail.allowBackPressed()) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
 				super.onBackPressed(); // go to destroyView of vodtvch

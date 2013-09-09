@@ -12,12 +12,12 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.parser.ChannelArea;
-import com.cnm.cnmrc.parser.ChannelAreaList;
+import com.cnm.cnmrc.item.ItemChannelArea;
+import com.cnm.cnmrc.item.ItemChannelAreaList;
 import com.cnm.cnmrc.util.Util;
 
 // Custom Adapter
-public class ConfigAreaAdapter extends ArrayAdapter<ChannelArea> {
+public class ConfigAreaAdapter extends ArrayAdapter<ItemChannelArea> {
 	private String TAG = ConfigAreaAdapter.class.getSimpleName();
 	
     private Activity context;
@@ -25,9 +25,9 @@ public class ConfigAreaAdapter extends ArrayAdapter<ChannelArea> {
     
     int selectedIndex = 0;
 
-    private ArrayList<ChannelArea> itemList;
+    private ArrayList<ItemChannelArea> itemList;
 
-    public ConfigAreaAdapter(Context context, int layoutResId, ArrayList<ChannelArea> arrayList) {
+    public ConfigAreaAdapter(Context context, int layoutResId, ArrayList<ItemChannelArea> arrayList) {
         super(context, layoutResId, arrayList);
         this.layoutResId = layoutResId;
         this.context = (Activity) context;

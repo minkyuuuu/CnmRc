@@ -13,19 +13,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.parser.SearchProgram;
+import com.cnm.cnmrc.item.ItemSearchProgram;
 import com.cnm.cnmrc.util.ImageDownloader;
 import com.cnm.cnmrc.util.Util;
 
 // Custom Adapter
-public class SearchTvchSemiAdapter extends ArrayAdapter<SearchProgram> {
+public class SearchTvchSemiAdapter extends ArrayAdapter<ItemSearchProgram> {
 	
     private Activity context;
     private int layoutResId;
-    private ArrayList<SearchProgram> itemList;
+    private ArrayList<ItemSearchProgram> itemList;
     private ImageDownloader imageDownloader;
 
-    public SearchTvchSemiAdapter(Context context, int layoutResId, ArrayList<SearchProgram> arrayList) {
+    public SearchTvchSemiAdapter(Context context, int layoutResId, ArrayList<ItemSearchProgram> arrayList) {
         super(context, layoutResId, arrayList);
         this.layoutResId = layoutResId;
         this.context = (Activity) context;

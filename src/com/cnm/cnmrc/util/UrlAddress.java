@@ -112,81 +112,26 @@ public class UrlAddress {
 	}
 
 	public static class Vod{
-		//Sponsor
-		private static final String GetVodGenre				= Server_URL + "GetVodGenre.asp?genreId=%s";								// VOD장르 정보를 제공합니다
-		private static final String GetVodGenreInfo			= Server_URL + "GetVodGenreInfo.asp?genreId=%s";							// VOD장르 상세 정보를 제공합니다. ( Genre_More가 NO일경우 장르?의 VOD정보제공)
-		private static final String GetVodMovie				= Server_URL + "GetVodMovie.asp";											// VOD 최신영화 리스트를 제공합니다.
-		private static final String GetVodTv				= Server_URL + "GetVodTv.asp";												// TV다시보기 리스트를 제공합니다.
-		private static final String GetVodTag				= Server_URL + "GetVodTag.asp?vod_tag=%s";									// VOD 중 예고편내의 검색을 통한 tag정보를 제공합니다.
-		private static final String GetVodTrailer			= Server_URL + "GetVodTrailer.asp";											// VOD중 예고편 리스트 정보를 리턴합니다.
-		// VOD - 찜 관련
-		// 찜목록
-		// http://58.143.243.91/SMApplicationServer/GetVodMyList.asp?deviceId=FE0873D5-D937-5110-8EFF-F192A13B4529
-		private static final String GetVodMyList			= Server_URL + "GetVodMyList.asp?deviceId=%s";								// 사용자 디바이스에서 MyVod에 담은 리스트를 제공합니다.
-		private static final String SetMyVod				= Server_URL + "SetMyVod.asp?deviceId=%s&assetId=%s&genreId=%s&mode=%s";	// 사용자가 MyVod로 저장할 때 사용됩니다. (현재 서비스중이므로 테스트시 주의할 것) ( Vod 서버와 연동을 통하여 인터페이스가 구현됨)
-		// 1차 인터페이스
-		// 찜하기
-		// http://58.143.243.91/mobile/MyVod_insert.asp?MemberID=FE0873D5-D937-5110-8EFF-F192A13B4529&AssetID=www.hchoice.co.kr%7CM0121727LSG117227301&Genre_ID=304547
-		private static final String InsertMyVod				= OldServer_URL + "MyVod_insert.asp?MemberID=%s&AssetID=%s&Genre_ID=%s";	// 찜 관련은 예전 인터페이스 사용함.
-		// 찜해제
-		// http://58.143.243.91/mobile/MyVod_DELETE.asp?MemberID=FE0873D5-D937-5110-8EFF-F192A13B4529&AssetID=www.hchoice.co.kr%7CM0121727LSG117227301&Genre_ID=304547
-		private static final String DeleteMyVod				= OldServer_URL + "MyVod_DELETE.asp?MemberID=%s&AssetID=%s&Genre_ID=%s";	// 찜 관련은 예전 인터페이스 사용함.
-		// 찜목록 초기화
-		// http://58.143.243.91/Mobile/myvod_delete.asp?MemberID=FE0873D5-D937-5110-8EFF-F192A13B4529
-		private static final String DeleteAllMyVod			= OldServer_URL + "MyVod_DELETE.asp?MemberID=%s";							// 찜 관련은 예전 인터페이스 사용함.		
+		private static final String GetVodTrailer			= Server_URL + "GetVodTrailer.asp";					// VOD중 예고편 리스트 정보를 리턴합니다.
+		private static final String GetVodMovie				= Server_URL + "GetVodMovie.asp";					// VOD 최신영화 리스트를 제공합니다.
+		private static final String GetVodTv				= Server_URL + "GetVodTv.asp";						// TV다시보기 리스트를 제공합니다.
+		private static final String GetVodGenre				= Server_URL + "GetVodGenre.asp?genreId=%s";		// VOD장르 정보를 제공합니다
+		private static final String GetVodGenreInfo			= Server_URL + "GetVodGenreInfo.asp?genreId=%s";	// VOD장르 상세 정보를 제공합니다. ( Genre_More가 NO일경우 장르?의 VOD정보제공)
 		
-		// VOD 상세정보
-		private static final String SetVodSetTopDisplayInfo	= Server_URL + "SetVodSetTopDisplayInfo.asp?deviceId=%s&assetId=%s";		// 셋탑에 VOD상세 정보를 Display 합니다. (STB서버와 연동을 통하여 인터페이스 구현됨)
-		private static final String Notification			= Server_URL + "Notification.asp?userId=%s&assetId=%s&type=%s";				// 셋탑박스에서 MyVOD를 삭제할경우 사용됩니다. (VOD서버와 연동을 통하여 인터페이스 구현됨)
-		///////////////////////////////////////////////////////////////////
-		public static final String NOTIFICATION_WISHITEM_TYPE	= "wishItemRemoved"; 					// userRemoved : device의 모든asset 삭제, deviceId 삭제
-		public static final String NOTIFICATION_USER_TYPE		= "userRemoved"; 
-		public static final String VOD_MY_MODE_INPUT						= "0"; 						// 0:입력, 1:특정컨텐츠삭제,2:해당유저의 모든커텐츠삭젝 3: 유저 및 모든데이터삭제
-		public static final String VOD_MY_MODE_SPECIFIC_CONTENT_DELETE		= "1"; 						
-		public static final String VOD_MY_MODE_USER_ALL_CONTENT_DELETE		= "2"; 						
-		public static final String VOD_MY_MODE_USER_AND_CONTENT_ALL_DELETE	= "3";
-		//----------------------------------------------------------
-		public static String getGetvodgenre(String aGenreId) {
-			return String.format(GetVodGenre, aGenreId);
-		}
-		public static String getGetvodgenreinfo(String aGenreId) {
-			return String.format(GetVodGenreInfo, aGenreId);
-		}
-		public static String getGetvodmovie() {
-			return GetVodMovie;
-		}
-		public static String getGetvodtv() {
-			return GetVodTv;
-		}
-		public static String getGetvodtag(String aVod_Tag) {
-			return String.format(GetVodTag, getURLEncoder(aVod_Tag));
-		}
-		public static String getGetvodtrailer() {
+		public static String getGetVodTrailer() {
 			return GetVodTrailer;
 		}
-		public static String getGetvodmylist(String aDeviceId) {
-			return String.format(GetVodMyList, aDeviceId);
+		public static String getGetVodMovie() {
+			return GetVodMovie;
 		}
-		public static String getSetmyvod(String aDeviceId, String aAssetId, String aGenreId, String aMode) {
-			return String.format(SetMyVod, aDeviceId, aAssetId, aGenreId, aMode);
+		public static String getGetVodTv() {
+			return GetVodTv;
 		}
-		// 찜하기
-		public static String getInsertmyvod(String aDeviceId, String aAssetId, String aGenreId) {
-			return String.format(InsertMyVod, aDeviceId, aAssetId, aGenreId);
+		public static String getGetVodGenre(String aGenreId) {
+			return String.format(GetVodGenre, aGenreId);
 		}
-		// 찜해제
-		public static String getDeletemyvod(String aDeviceId, String aAssetId, String aGenreId) {
-			return String.format(DeleteMyVod, aDeviceId, aAssetId, aGenreId);
-		}
-		// 찜목록 초기화
-		public static String getDeleteallmyvod(String aDeviceId) {
-			return String.format(DeleteAllMyVod, aDeviceId);
-		}
-		public static String getSetvodsettopdisplayinfo(String aDeviceId, String aAssetId) {
-			return String.format(SetVodSetTopDisplayInfo, aDeviceId, aAssetId);
-		}
-		public static String getNotification(String aUserId, String aAssetId, String aType) {
-			return String.format(Notification, aUserId, aAssetId, aType);
+		public static String getGetVodGenreInfo(String aGenreId) {
+			return String.format(GetVodGenreInfo, aGenreId);
 		}
 	}
 

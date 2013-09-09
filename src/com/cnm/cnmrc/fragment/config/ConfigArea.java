@@ -25,7 +25,7 @@ import android.widget.ProgressBar;
 import com.cnm.cnmrc.CnmApplication;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.parser.ChannelArea;
+import com.cnm.cnmrc.item.ItemChannelArea;
 import com.cnm.cnmrc.parser.ChannelAreaParser;
 import com.cnm.cnmrc.util.Util;
 
@@ -43,7 +43,7 @@ public class ConfigArea extends Fragment implements View.OnClickListener {
 	
 	ListView listView;
 	ConfigAreaAdapter adapter = null;
-	ArrayList<ChannelArea> mResult;
+	ArrayList<ItemChannelArea> mResult;
 	
 	/**
 	 * 통신 모듈의 명명 규칙
@@ -113,14 +113,14 @@ public class ConfigArea extends Fragment implements View.OnClickListener {
 		}
 	}
 
-	private class AreaAsyncTask extends AsyncTask<Void, Void, ArrayList<ChannelArea>> {
+	private class AreaAsyncTask extends AsyncTask<Void, Void, ArrayList<ItemChannelArea>> {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
 		}
 
 		@Override
-		protected ArrayList<ChannelArea> doInBackground(Void... params) {
+		protected ArrayList<ItemChannelArea> doInBackground(Void... params) {
 			ChannelAreaParser parser = new ChannelAreaParser();
 			parser.start();
 
@@ -129,7 +129,7 @@ public class ConfigArea extends Fragment implements View.OnClickListener {
 
 		// onPostExecute displays the results of the AsyncTask.
 		@Override
-		protected void onPostExecute(ArrayList<ChannelArea> result) {
+		protected void onPostExecute(ArrayList<ItemChannelArea> result) {
 			mResult = result;
 			adapter = new ConfigAreaAdapter(getActivity(), R.layout.list_item_config_area, result);
 			listView.setAdapter(adapter);

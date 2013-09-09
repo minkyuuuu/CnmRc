@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.fragment.search.SearchMain;
 import com.cnm.cnmrc.util.Util;
 
 public class SearchVodDetail extends Fragment implements View.OnClickListener{

@@ -13,6 +13,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.cnm.cnmrc.item.ItemChannelArea;
+import com.cnm.cnmrc.item.ItemChannelAreaList;
 import com.cnm.cnmrc.util.UrlAddress;
 
 public class ChannelAreaParser {
@@ -31,10 +33,10 @@ public class ChannelAreaParser {
 	private final String AREA_NAME 			= "areaName";
 	private final String AREA_NAME_DETAIL 	= "areaNameDetail";
 
-	private static ChannelAreaList list;
+	private static ItemChannelAreaList list;
 
 	public ChannelAreaParser() {
-		list = new ChannelAreaList();
+		list = new ItemChannelAreaList();
 	}
 
 	public Boolean start() {
@@ -72,7 +74,7 @@ public class ChannelAreaParser {
 						list.setResultCode(parser.getText());
 						
 					} else if (parser.getName().equals(AREA_ITEM)) {
-						list.getList().add(new ChannelArea()); 			// 리스트 추가
+						list.getList().add(new ItemChannelArea()); 			// 리스트 추가
 						mCurrentCount = list.getList().size() - 1; 		// 현재 추가된 리스트의 위치 반환
 						
 					} else if (parser.getName().equals(AREA_CODE)) {
@@ -98,7 +100,7 @@ public class ChannelAreaParser {
 		return true;
 	}
 
-	public ChannelAreaList getList() {
+	public ItemChannelAreaList getList() {
 		return list;
 	}
 

@@ -1,10 +1,8 @@
 package com.cnm.cnmrc.fragment.search;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -33,7 +31,7 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.fragment.popup.PopupSearchRecentlyDelete;
+import com.cnm.cnmrc.popup.PopupSearchRecentlyDelete;
 import com.cnm.cnmrc.util.Util;
 
 public class SearchMain extends Fragment implements View.OnClickListener {
@@ -213,18 +211,18 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 
 	private void searchVod() {
 		String search = edit.getText().toString();
-		SearchVodSub searchVod = SearchVodSub.newInstance(search);
+		SearchVodSemi searchVod = SearchVodSemi.newInstance(search);
 		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 
 		// ft.replace전에 animation을 설정해야 한다.
 		ft.setCustomAnimations(R.anim.fragment_entering, 0);
 		// ft.addToBackStack(null); // fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
-		ft.replace(R.id.search_result_panel, searchVod, "search_vod");
+		ft.replace(R.id.search_result_panel, searchVod, "search_vod_semi");
 		ft.commit();
 		getActivity().getSupportFragmentManager().executePendingTransactions();
 	}
 
-	public void showDetailVod(Bundle bundle) {
+	public void showSearchVodDetail(Bundle bundle) {
 		mTitleLayout.setVisibility(View.VISIBLE);
 		mSearchTitle.setText("상세보기");
 		mDetilPanelFrameLayout.setVisibility(View.VISIBLE);
@@ -243,18 +241,18 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 
 	private void searchTvch() {
 		String search = edit.getText().toString();
-		SearchTvchSub searchTvch = SearchTvchSub.newInstance(search);
+		SearchTvchSemi searchTvch = SearchTvchSemi.newInstance(search);
 		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 
 		// ft.replace전에 animation을 설정해야 한다.
-		ft.replace(R.id.search_result_panel, searchTvch, "search_tvch");
+		ft.replace(R.id.search_result_panel, searchTvch, "search_tvch_semi");
 		ft.commit();
 		getActivity().getSupportFragmentManager().executePendingTransactions();
 	}
 
 	private void searchNaver() {
 		String search = edit.getText().toString();
-		SearchNaverSub searchTvch = SearchNaverSub.newInstance(search);
+		SearchNaver searchTvch = SearchNaver.newInstance(search);
 		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 
 		// ft.replace전에 animation을 설정해야 한다.

@@ -75,8 +75,8 @@ public class TvchList extends Base {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
             	increaseCurrentDepth();
-        		
-            	loadingData(4, arrayList.get(position), false); // 4 : TvchSemiDetail, 		false : 1 depth가 아님.
+        		Bundle bundle = new Bundle();
+            	loadingData(4, arrayList.get(position), false, bundle); // 4 : TvchSemiDetail, 		false : 1 depth가 아님.
             }
 
         });

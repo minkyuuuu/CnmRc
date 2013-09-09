@@ -1,6 +1,6 @@
 package com.cnm.cnmrc;
 
-import com.cnm.cnmrc.fragment.popup.PopupSearchRecentlyDelete;
+import com.cnm.cnmrc.popup.PopupSearchRecentlyDelete;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

@@ -17,6 +17,8 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.util.Log;
 
+import com.cnm.cnmrc.item.ItemSearchProgram;
+import com.cnm.cnmrc.item.ItemSearchProgramList;
 import com.cnm.cnmrc.util.UrlAddress;
 
 public class SearchProgramParser {
@@ -49,7 +51,7 @@ public class SearchProgramParser {
 	private final static String PROGRAM_GRADE = "Channel_Program_Grade";
 	private final static String PROGRAM_HD = "Channel_Program_HD";
 
-	private SearchProgramList list;
+	private ItemSearchProgramList list;
 	
 	
 //
@@ -66,7 +68,7 @@ public class SearchProgramParser {
 //	}
 
 	public SearchProgramParser(String url) {
-		list = new SearchProgramList();
+		list = new ItemSearchProgramList();
 		URL = url;
 	}
 
@@ -120,7 +122,7 @@ public class SearchProgramParser {
 						parser.next();
 						
 					} else if (parser.getName().equals(PROGRAM_SEARCH_ITEM)) {
-						list.getList().add(new SearchProgram()); 		// 리스트 추가
+						list.getList().add(new ItemSearchProgram()); 		// 리스트 추가
 						mCurrentCount = list.getList().size() - 1; 		// 현재 추가된 리스트의 위치 반환
 						
 					} else if (parser.getName().equals(ID)) {
@@ -186,7 +188,7 @@ public class SearchProgramParser {
 		return true;
 	}
 
-	public SearchProgramList getList() {
+	public ItemSearchProgramList getList() {
 		return list;
 	}
 

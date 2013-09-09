@@ -18,15 +18,15 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.parser.SearchNaver;
+import com.cnm.cnmrc.item.ItemSearchNaver;
 
-public class SearchNaverAdapter extends ArrayAdapter<SearchNaver> {
+public class SearchNaverAdapter extends ArrayAdapter<ItemSearchNaver> {
 
 	private Activity context;
     private int layoutResId;
-    private ArrayList<SearchNaver> itemList;
+    private ArrayList<ItemSearchNaver> itemList;
 
-	public SearchNaverAdapter(Context context, int layoutResId, ArrayList<SearchNaver> arrayList) {
+	public SearchNaverAdapter(Context context, int layoutResId, ArrayList<ItemSearchNaver> arrayList) {
 		super(context, layoutResId, arrayList);
         this.layoutResId = layoutResId;
         this.context = (Activity) context;

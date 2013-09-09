@@ -16,6 +16,7 @@
 
 package com.cnm.cnmrc.fragment.vodtvch;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -27,14 +28,14 @@ import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
 
 public class Base extends Fragment {
 
-	public Base newInstance(String type, boolean isFirstDepth) {
+	public Base newInstance(int selectedCategory, String title, boolean isFirstDepth, Bundle bundle) {
 		Base f = new Base();
 		return f;
 	}
     
 	boolean isFirstDepth = true;	// 기본값은 true이다. 즉, findFragmentById(R.id.loading_data_panel)에 의해 생성된것이다.
-								// false : findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_BASE)에 생성된 추가된 depth 화면에 해당한다.
-	String[] mClassTypeArray = {"VodList", "VodSemiDetail", "VodDetail", "TvchList", "TvchSemiDetail", "TvchDetail"};
+									// false : findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_BASE)에 생성된 추가된 depth 화면에 해당한다.
+	String[] mClassTypeArray = {"VodList", "VodSemi", "VodDetail", "TvchList", "TvchSemi", "TvchDetail"};
 	
 	@Override
 	public void onDestroyView() {
@@ -205,7 +206,7 @@ public class Base extends Fragment {
 	 * ft.addToBackStack(null)
 	 * ft.replace(R.id.loading_data_panel, base)
 	 */
-	protected void loadingData(int selectedCategory, String title, boolean isFirstDepth) {
+	protected void loadingData(int selectedCategory, String title, boolean isFirstDepth, Bundle bundle) {
         
 		// 시작 기준으로 보면 ft.replace(R.id.loading_data_panel, base)의 base이므로
 		// 만들어질 base에 isSldebar의 값을 적용해야하므로, 여기서 값을 설정하면 안되고, newInstance()로 값을 넘겨주어야한다.
@@ -241,7 +242,7 @@ public class Base extends Fragment {
 			classObject = Class.forName(packageName + mClassTypeArray[selectedCategory]);
 			Object obj = classObject.newInstance();
 
-			Base base = ((Base) obj).newInstance(title, isFirstDepth);
+			Base base = ((Base) obj).newInstance(selectedCategory, title, isFirstDepth, bundle);
 
 	        Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.vod_tvch_panel);
 	    	if (f != null) {

@@ -17,39 +17,93 @@
 package com.cnm.cnmrc.fragment.vodtvch;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.fragment.search.SearchMain;
+import com.cnm.cnmrc.util.Util;
 
 public class VodDetail extends Base implements View.OnClickListener{
-
-	View layout;
 	
-	public VodDetail newInstance(String type, boolean isFirstDepth) {
+	public VodDetail newInstance(int selectedCategory, String title, boolean isFirstDepth, Bundle bundle) {
 		VodDetail f = new VodDetail();
 		Bundle args = new Bundle();
-		args.putString("type", type);
 		args.putBoolean("isFirstDepth", isFirstDepth);
+		args.putBundle("bundle", bundle); 
 		f.setArguments(args);
 		return f;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		layout = inflater.inflate(R.layout.vod_detail, container, false);
-		
-//		TextView text = (TextView) layout.findViewById(R.id.text);
-//		String type = getArguments().getString("type");
-//		text.setText("상세보기");
+		View layout = inflater.inflate(R.layout.search_vod_detail, container, false);
 		
 		isFirstDepth = getArguments().getBoolean("isFirstDepth");
+		Bundle bundle = getArguments().getBundle("bundle");
+		
+		byte[] logoImage = bundle.getByteArray("logoImg");
+		String title = bundle.getString("title");
+		String hd = bundle.getString("hd");
+		String grade = bundle.getString("grade");
+		String director = bundle.getString("director");
+		String actor = bundle.getString("actor");
+		String price = bundle.getString("price");
+		String contents = bundle.getString("contents");
 
+		Bitmap bmp = BitmapFactory.decodeByteArray(logoImage, 0, logoImage.length);
+		ImageView logoImg = (ImageView) layout.findViewById(R.id.logo_img);
+		logoImg.setImageBitmap(bmp);
+		
+		if(title != null) ((TextView)layout.findViewById(R.id.title)).setText(title);
+		if(hd != null) {
+			if(hd.equalsIgnoreCase("yes")) ((ImageView)layout.findViewById(R.id.hd_icon)).setVisibility(View.VISIBLE);
+		}
+		if(grade != null ) ((ImageView)layout.findViewById(R.id.grade_icon)).setBackgroundResource(Util.getGrade(grade));
+		if(director != null) ((TextView)layout.findViewById(R.id.director_name)).setText(" " + director);
+		if(actor != null) ((TextView)layout.findViewById(R.id.actor_name)).setText(" " + actor);
+		if(grade != null) ((TextView)layout.findViewById(R.id.grade_text)).setText(" " + grade);
+		if(price != null) ((TextView)layout.findViewById(R.id.price_amount)).setText(" " + price);
+		if(contents != null) ((TextView)layout.findViewById(R.id.contents)).setText(contents);
+		
 		return layout;
+	}
+	
+	public boolean allowBackPressed() {
+		return true;
+	}
+	
+	@Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        
+        // ----------------------------------------------------------------------------------------------
+        // vod에 일부인 vodtopmenu fragment는 vod가 destory될 때 자식인 vodtopmenu도 같이 destory해주진 않는다.
+        // 이유는 아마 자식이래도 같은 fragment 레벨이므로 vod의 생명주기와 함께 하는것이 아니라 Activity의 관리를 받는것 같다.
+        // ----------------------------------------------------------------------------------------------
+        {
+	        Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag("search_vod_detail");
+	        if (f != null) {
+	        	getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
+	        }
+        }
+        
+        {
+        	Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity)getActivity()).TAG_FRAGMENT_SEARCH);
+        	if (f != null) {
+        		((SearchMain)f).resetTitle();
+        	}
+        }
+        
+        
 	}
 	
 	@Override

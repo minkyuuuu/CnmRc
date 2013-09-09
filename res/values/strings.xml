@@ -41,9 +41,9 @@
         <item>장르별</item>
     </string-array>
     <string-array name="vod_class_type">
-        <item>VodSemiDetail</item>
-        <item>VodSemiDetail</item>
-        <item>VodSemiDetail</item>
+        <item>VodSemi</item>
+        <item>VodSemi</item>
+        <item>VodSemi</item>
         <item>VodList</item>
     </string-array>
 
@@ -66,10 +66,10 @@
         <item>홈쇼핑</item>
     </string-array>
     <string-array name="tvch_class_type">
-        <item>TvchSemiDetail</item>
+        <item>TvchSemi</item>
         <item>TvchList</item>
-        <item>TvchSemiDetail</item>
-        <item>TvchSemiDetail</item>
+        <item>TvchSemi</item>
+        <item>TvchSemi</item>
     </string-array>
 
     <!-- search -->

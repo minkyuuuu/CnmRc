@@ -27,56 +27,55 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.item.ItemTvchSemiDetail;
 
-public class VodList extends Base implements View.OnClickListener {
+public class TvchSemi extends Base {
 
 	View layout;
-
-	boolean isSemi = false;	// 다음 depth가 semiDetail인가?
 	
 	ListView 	mListView;
-	String[] mArray = null;
-	ArrayList<String> arrayList = null;
-
-	public VodList newInstance(String type, boolean isFirstDepth) {
-		VodList f = new VodList();
+	ArrayList<ItemTvchSemiDetail> arrayList = null;
+	
+	public TvchSemi newInstance(String type, boolean isFirstDepth) {
+		TvchSemi f = new TvchSemi();
 		Bundle args = new Bundle();
 		args.putString("type", type);
-		args.putBoolean("isFirstDepth", isFirstDepth);	
+		args.putBoolean("isFirstDepth", isFirstDepth);
 		f.setArguments(args);
 		return f;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		layout = inflater.inflate(R.layout.vod_list, container, false);
-
+		layout = inflater.inflate(R.layout.tvch_semidetail, container, false);
+		
 		isFirstDepth = getArguments().getBoolean("isFirstDepth");
+
 		
 		// listview
-		mListView   = (ListView) layout.findViewById(R.id.vod_listview);
+		mListView   = (ListView) layout.findViewById(R.id.tvch_semidetail);
 		
-		// 현재의 depth 체크
-		if( getCurrentDepth() == 1 )  {
-			mArray= getActivity().getResources().getStringArray(R.array.vod_genre);
-		}
-		if( getCurrentDepth() == 2 )  {
-			mArray= getActivity().getResources().getStringArray(R.array.vod_today_recommendation);
+		// make item data
+		arrayList = new ArrayList<ItemTvchSemiDetail>(20);
+		for (int i = 0; i < 20; i++) {
+			ItemTvchSemiDetail item = new ItemTvchSemiDetail();
+			
+			item.setChannel_no(i+1);
+			item.setTvchIcon(R.drawable.sbs_icon);
+			
+			item.setCurrent_time("13:20");
+			item.setCurrent_title("스마일");
+			
+			item.setNext_time("13:40");
+			item.setNext_title("(자막)우리동네이모저모");
+			
+			arrayList.add(item);
 		}
 		
-        arrayList = new ArrayList<String>(mArray.length);
-        for(String item: mArray) {
-        	arrayList.add(item);
-        }
-        
-        // check isSemiDetail
-        if(arrayList.get(0).equals("오늘의 추천")) isSemi = false;
-        if(arrayList.get(0).equals("MD추천")) isSemi = true;
-        
 		// -------------------
-		// vod list type
+		// tvch semidetail
 		// -------------------
-        VodListAdapter adapter = new VodListAdapter(getActivity(), R.layout.list_item_vod_list, arrayList);
+        TvchSemiAdapter adapter = new TvchSemiAdapter(getActivity(), R.layout.list_item_tvch_semidetail, arrayList);
         mListView.setAdapter(adapter);
         mListView.setDivider(null);
         mListView.setDividerHeight(0);
@@ -85,35 +84,28 @@ public class VodList extends Base implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
             	increaseCurrentDepth();
+            	
+            	String title = "ch" + (position + 1) + ".SBS";
             	Bundle bundle = new Bundle();
-    			if (isSemi)
-    				loadingData(1, arrayList.get(position), false, bundle); // 1 : VodSemi, false : 1 depth가 아님.
-    			else 
-    				loadingData(0, arrayList.get(position), false, bundle); // 0 : VodList, false : 1 depth가 아님.
+            	loadingData(5, title, false, bundle); // 5 : TvchDetail, 		false : 1 depth가 아님.
             }
 
         });
-
+		
 		return layout;
 	}
-
+	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
+		
 	}
-
+	
 	@Override
 	public void onDetach() {
 		super.onDetach();
-
+		
 	}
-
-	@Override
-	public void onClick(View v) {
-
-		switch (v.getId()) {
-		}
-	}
-
+	
+	
 }

@@ -42,21 +42,13 @@ public class VodTvchMainAdapter extends ArrayAdapter<String> {
 
             holder = new MyCourseHolder();
             holder.subject = (TextView)row.findViewById(R.id.category);
+            
+            holder.subject.setText(categoryList.get(position));
 
             row.setTag(holder);
         } else {
             holder = (MyCourseHolder)row.getTag();
         }
-
-        try {
-            holder.subject.setText(categoryList.get(position));
-        } catch (Exception e) {
-            Log.e(TAG, "sever throw null point error <----");
-        }
-        
-        /*if(position == 0) {
-        	((ListView)parent).performItemClick(row, 0, getItemId(0));
-        }*/
 
         return row;
     }

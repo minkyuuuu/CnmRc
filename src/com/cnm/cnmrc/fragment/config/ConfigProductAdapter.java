@@ -11,17 +11,17 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.parser.ChannelProduct;
+import com.cnm.cnmrc.item.ItemChannelProduct;
 
 // Custom Adapter
-public class ConfigProductAdapter extends ArrayAdapter<ChannelProduct> {
+public class ConfigProductAdapter extends ArrayAdapter<ItemChannelProduct> {
 	
     private Activity context;
     private int layoutResId;
     
-    private ArrayList<ChannelProduct> itemList;
+    private ArrayList<ItemChannelProduct> itemList;
     
-    public ConfigProductAdapter(Context context, int layoutResId, ArrayList<ChannelProduct> arrayList) {
+    public ConfigProductAdapter(Context context, int layoutResId, ArrayList<ItemChannelProduct> arrayList) {
         super(context, layoutResId, arrayList);
         this.layoutResId = layoutResId;
         this.context = (Activity) context;

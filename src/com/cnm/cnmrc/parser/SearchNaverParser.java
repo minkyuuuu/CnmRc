@@ -16,16 +16,18 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.util.Log;
 
+import com.cnm.cnmrc.item.ItemSearchNaver;
+import com.cnm.cnmrc.item.ItemSearchNaverList;
 import com.cnm.cnmrc.util.UrlAddress;
 import com.cnm.cnmrc.util.Util;
 
 public class SearchNaverParser {
 
 	private String URL = "";
-	private SearchNaverList list;
+	private ItemSearchNaverList list;
 
 	public SearchNaverParser(String search, String count, String start) {
-		list = new SearchNaverList();
+		list = new ItemSearchNaverList();
 
 		String searchEncoder = Util.getURLEncoder(search);
 		URL = "http://openapi.naver.com/search?key=33f760bc1e0e514c338dbf7d6690795f" 
@@ -78,7 +80,7 @@ public class SearchNaverParser {
 					}
 
 					if (tag.compareTo("item") == 0) {
-						list.getList().add(new SearchNaver()); 			// 리스트 추가
+						list.getList().add(new ItemSearchNaver()); 			// 리스트 추가
 						currentCount = list.getList().size() - 1; 		// 현재 추가된 리스트의 위치 반환
 					}
 
@@ -116,7 +118,7 @@ public class SearchNaverParser {
 		return true;
 	}
 
-	public SearchNaverList getList() {
+	public ItemSearchNaverList getList() {
 		return list;
 	}
 

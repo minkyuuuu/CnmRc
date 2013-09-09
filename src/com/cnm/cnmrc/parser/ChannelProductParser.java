@@ -13,6 +13,8 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.cnm.cnmrc.item.ItemChannelProduct;
+import com.cnm.cnmrc.item.ItemChannelProductList;
 import com.cnm.cnmrc.util.UrlAddress;
 
 public class ChannelProductParser {
@@ -29,10 +31,10 @@ public class ChannelProductParser {
 	private final String PRODUCT_NAME		=	"productName";	
 	private final String PRODUCT_INFO		=	"productInfo";
 	
-	private ChannelProductList list;
+	private ItemChannelProductList list;
 
 	public ChannelProductParser(String url) {
-		list	=	new ChannelProductList();
+		list	=	new ItemChannelProductList();
 		URL = url;
 	}
 
@@ -68,7 +70,7 @@ public class ChannelProductParser {
 						eventType = parser.next();
 						list.setResultCode(parser.getText());
 					} else if (parser.getName().equals(PRODUCT_ITEM)) {
-						list.getList().add(new ChannelProduct());			// 리스트 추가
+						list.getList().add(new ItemChannelProduct());			// 리스트 추가
 						mCurrentCount = list.getList().size()-1;			// 현재 추가된 리스트의 위치 반환
 					} else if (parser.getName().equals(PRODUCT_CODE)) {
 						eventType = parser.next();
@@ -93,7 +95,7 @@ public class ChannelProductParser {
 		return true;
 	}
 
-	public ChannelProductList getList() {
+	public ItemChannelProductList getList() {
 		return list;
 	}
 }
