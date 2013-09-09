@@ -49,18 +49,20 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 		return f;
 	}
 
-	public SlidingMenu mSlidingMenu;
+	SlidingMenu mSlidingMenu;
 
 	FrameLayout mCategoryCover, mLoadingData;
 	ListView mCategory;
 
 	String[] mCategoryArray = null;
 	String[] mClassTypeArray = null;
-	int selectedCategory = 0;
+	
+	int selectedCategory = 0;	// 처음 시작하는 vod 화면 (예고편:0, 최신영화:1, TV다시보기:2)
 
 	public int mBackStackEntry = 100;
 
 	public int currentDepth = 1;
+	boolean isSkipTitle = false;
 
 	public HashMap<Integer, String> mMapTitle = null;
 
@@ -107,7 +109,7 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 		// 타이틀을 설정할 때, 나중에 back key 처리때 필요하므로 저장해야 한다. depth와 함께 저장하면 좋다.
 		mMapTitle = new HashMap<Integer, String>();
 
-		setTitle(0);
+		setTitle(selectedCategory);
 
 		// -------------------
 		// sidebar category
@@ -131,6 +133,8 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 				selectedCategory = position;
 
 				// change title
+				clearCurrentDepth();
+				isSkipTitle = true;
 				setTitle(position);
 
 				// close sidebar
@@ -162,12 +166,12 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 	}
 
 	/**
-	 * 처음 로딩되는 대분류에 해당하는 fragment는 VodTvch 클래스의 loadingDataForSidrebar()에서 no
-	 * addToBackStack으로 생성된다. 이유는 MainActivity onBackPressed()에서 back key처리를
-	 * 하지않기위해서이다. 이미 VodTvch fragment가 addToBackStack으로 생성되었기 때문에, 여기서 생성되는
-	 * Base는 back key처리가 필요없다. 그렇지만 back key에 대한 처리가 필요없다뿐이지... Base의
-	 * destoryView()에 대한 콜백은 처리된다. no addToBackStack(null)
-	 * ft.replace(R.id.loading_data_panel, base)
+	 * 처음 로딩되는 대분류에 해당하는 fragment는 VodTvch 클래스의 loadingDataForSidrebar()에서 addToBackStack에 넣지 않구 생성한다.
+	 * 이유는 MainActivity onBackPressed()에서 back key처리를 하지않기위해서이다. 
+	 * 이미 VodTvch fragment가 addToBackStack으로 생성되었기 때문에, 여기서 생성되는 Base는 back key처리가 필요없다. 
+	 * 그렇지만 back key에 대한 처리가 필요없다뿐이지... Base의 destoryView()에 대한 콜백은 처리된다. 중요!!!!!!!
+	 * 여기서 만들어지는 화면은 isFirstDepth를 true로 해야한다. 즉 4개의 메인화면(예고편,최신영화,TV다시보기,장르별)이다.
+	 * vod (1st selectedCategory arg : 2nd title arg) : (0:예고편) / (1:최신영화) / (2:TV다시보기) / (3:장르별)
 	 */
 	private void loadingDataForSidrebar() {
 		FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -185,6 +189,7 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 			// true : 1 depth (vod: VodSemi, VodSemi, VodSemi, VodList)
 			// true : 1 depth (tvch: TvchSemi, TvchList, TvchSemi, TvchSemi)
 			Bundle bundle = new Bundle();
+			bundle.putString("genreId", "");	// 장르별 첫 화면에서 사용할 대분류 장르별 정보를 위해서...
 			Base base = ((Base) obj).newInstance(selectedCategory, mCategoryArray[selectedCategory], true, bundle); 	
 																												
 
@@ -318,10 +323,14 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 	}
 
 	public void setTitle() {
-		String title = getTitle(--currentDepth);
-		Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_vod_tvch_top_menu);
-		if (f != null)
-			((VodTvchTopMenu) f).setTitle(title);
+		if(isSkipTitle) {
+			String title = getTitle(--currentDepth);
+			Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_vod_tvch_top_menu);
+			if (f != null)
+				((VodTvchTopMenu) f).setTitle(title);
+		} else {
+			isSkipTitle = false;
+		}
 	}
 
 	public void saveTitle(int key, String title) {
@@ -330,6 +339,15 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 
 	public String getTitle(int key) {
 		return mMapTitle.get(key);
+	}
+	
+	public void clearCurrentDepth() {
+		currentDepth = 1;
+		mMapTitle.clear();
+	}
+	
+	public SlidingMenu getSlidingMenu() {
+		return mSlidingMenu;
 	}
 
 	@Override

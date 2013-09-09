@@ -201,10 +201,10 @@ public class Base extends Fragment {
 	}
 	
 	/**
-	 * 추가되는 depth에 해당하는 fragment는 Base 클래스의 loadingData()에서 addToBackStack으로 생성된다.
+	 * 추가되는 depth에 해당하는 fragment는 Base 클래스의 loadingData()에서 addToBackStack에 넣 생성한다.
 	 * 이유는 MainActivity onBackPressed()에서 back key처리를 위해서이다.
-	 * ft.addToBackStack(null)
-	 * ft.replace(R.id.loading_data_panel, base)
+	 * 여기서 만들어지는 화면은 isFirstDepth를 false로 해야한다. 즉 4개의 메인화면(예고편,최신영화,TV다시보기,장르별)이 아니다.
+	 * vod (1st selectedCategory arg : 2nd title arg) : (0:예고편) / (1:최신영화) / (2:TV다시보기) / (3:장르별)
 	 */
 	protected void loadingData(int selectedCategory, String title, boolean isFirstDepth, Bundle bundle) {
         
@@ -296,7 +296,7 @@ public class Base extends Fragment {
 	}
 	
 	// 기본 타이틀설정은 VodTvch와 Base 두 곳에 있음. (2)
-	private void setTitle(String title) {
+	void setTitle(String title) {
 		FragmentManager fm = getActivity().getSupportFragmentManager();
 		Fragment f = fm.findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_VOD_TVCH);
 		if (f != null) ((VodTvchMain)f).setTitle(title);

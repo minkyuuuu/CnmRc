@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.item.ItemVodSemi;
 import com.cnm.cnmrc.item.ItemVodSemiList;
 import com.cnm.cnmrc.parser.VodSemiParser;
+import com.cnm.cnmrc.slidingmenu.SlidingMenu;
 import com.cnm.cnmrc.util.UiUtil;
 import com.cnm.cnmrc.util.UrlAddress;
 import com.cnm.cnmrc.util.Util;
@@ -50,17 +52,20 @@ public class VodSemi extends Base implements View.OnClickListener {
 		args.putInt("selectedCategory", selectedCategory);
 		args.putString("title", title);
 		args.putBoolean("isFirstDepth", isFirstDepth);
+		args.putBundle("bundle", bundle);
 		f.setArguments(args);
 		return f;
 	}
 
 	FrameLayout preventClickDispatching; // 현재화면 밑에있는 화면으로 클릭이벤트가 전달되는것을 막기위함.
-	
-	int selectedCategory;	// where to declare? Base or here
 
 	ListView listView;
 	VodSemiAdapter adapter;
 	ArrayList<ItemVodSemi> mResult = null;
+	
+	int selectedCategory;	// where to declare? Base or here / vodtvch메인화면에서 vod의 메인화면을 가르킨다. (0:예고편) / (1:최신영화) / (2:TV다시보기)
+	String title;
+	String genreId = "";	// vodtvch메인화면에서는 ""이 전달되고, VodList화면에서는 genreId가 전달되어진다.
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,7 +75,10 @@ public class VodSemi extends Base implements View.OnClickListener {
 		preventClickDispatching.setOnClickListener(this);
 
 		selectedCategory = getArguments().getInt("selectedCategory");
+		title = getArguments().getString("title");
 		isFirstDepth = getArguments().getBoolean("isFirstDepth");
+		Bundle bundle = getArguments().getBundle("bundle");
+		genreId = bundle.getString("genreId");
 
 		// listview
 		listView = (ListView) layout.findViewById(R.id.vod_semi_listview);
@@ -79,6 +87,13 @@ public class VodSemi extends Base implements View.OnClickListener {
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				// sidebar가 열려있으면 return한다.
+				Fragment f = ((MainActivity)getActivity()).getFragmentVodTvch();
+				if (f != null) {
+					SlidingMenu slidingMenu = ((VodTvchMain)f).getSlidingMenu();
+					if (slidingMenu.isOpening()) return;
+				}
+				
 				increaseCurrentDepth();
 				Bundle bundle = UiUtil.makeVodDetailBundle(getActivity(), adapter, view, position); 
 				loadingData(2, "상세보기", false, bundle); // go to VodDetail (2 : VodDetail, false : 1 depth가 아님)
@@ -86,6 +101,7 @@ public class VodSemi extends Base implements View.OnClickListener {
 
 		});
 
+		setTitle(title);
 		showVodSemi();
 
 		return layout;
@@ -102,7 +118,6 @@ public class VodSemi extends Base implements View.OnClickListener {
 
 	long elapsedTime;
 	ItemVodSemiList list;
-
 	private class VodSemiAsyncTask extends AsyncTask<Void, Void, ArrayList<ItemVodSemi>> {
 		@Override
 		protected void onPreExecute() {
@@ -160,9 +175,14 @@ public class VodSemi extends Base implements View.OnClickListener {
 	
 	private String determineUrl() {
 		String url = "";
-		if(selectedCategory == 1) url = UrlAddress.Vod.getGetVodTrailer();
-		if(selectedCategory == 0) url = UrlAddress.Vod.getGetVodMovie();
-		if(selectedCategory == 2) url = UrlAddress.Vod.getGetVodTv();
+		
+		if(genreId.equals("")) {	// vodtvch 메인화면에서 VodSemi를 호출함.
+			if(selectedCategory == 0) url = UrlAddress.Vod.getGetVodTrailer();
+			if(selectedCategory == 1) url = UrlAddress.Vod.getGetVodMovie();
+			if(selectedCategory == 2) url = UrlAddress.Vod.getGetVodTv();
+		} else {	// VodList 화면에서 장르별 vod정보를 요구하는 VodSemi를 호출함.
+			url = UrlAddress.Vod.getGetVodGenreInfo(genreId);	// http://58.143.243.91/SMApplicationServer/GetVodGenreInfo.asp?genreId=725828
+		}
 		
 		return url;
 	}
@@ -196,3 +216,4 @@ public class VodSemi extends Base implements View.OnClickListener {
 	}
 
 }
+

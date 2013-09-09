@@ -270,15 +270,12 @@ public class Util {
 
 		if (ni != null) {
 			switch (ni.getType()) {
-			case ConnectivityManager.TYPE_MOBILE: { // 3G (0)
+			case ConnectivityManager.TYPE_MOBILE:  // 3G (0)
 				return MOBILE_CONNECTED;
-			}
-			case ConnectivityManager.TYPE_WIFI: { // Wi-Fi (1)
+			case ConnectivityManager.TYPE_WIFI:  // Wi-Fi (1)
 				return WIFI_CONNECTED;
-			}
-			case ConnectivityManager.TYPE_WIMAX: { // 4G (6)
+			case ConnectivityManager.TYPE_WIMAX:  // 4G (6)
 				return WIMAX_CONNECTED;
-			}
 			}
 		}
 		return DISCONNECTED;

@@ -68,19 +68,19 @@ public class CnmApplication extends Application {
 		mSoundPool = new Sound(getApplicationContext());
 		
 		// 앱 진입시 마다 cache folder 삭제
-		Log.e("hwang", "starting remove files on cache");
-		File mkDir = null;
-		if (getApplicationContext() != null) {
-			mkDir = getApplicationContext().getExternalCacheDir();
-		} 		
-		if (mkDir == null) {
-			mkDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), Util.PACKGE_NAME);
-		} 
-		
-		if(mkDir.exists()) {
-			Util.removeDIR(mkDir.toString());
-			Log.e("hwang", "remove files on cache");
-		}
+//		Log.e("hwang", "starting remove files on cache");
+//		File mkDir = null;
+//		if (getApplicationContext() != null) {
+//			mkDir = getApplicationContext().getExternalCacheDir();
+//		} 		
+//		if (mkDir == null) {
+//			mkDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), Util.PACKGE_NAME);
+//		} 
+//		
+//		if(mkDir.exists()) {
+//			Util.removeDIR(mkDir.toString());
+//			Log.e("hwang", "remove files on cache");
+//		}
 		
 		// App 설치후 처음 진입인지?
 		if(pref.loadFirstLoadingCnmApp(getApplicationContext())) {

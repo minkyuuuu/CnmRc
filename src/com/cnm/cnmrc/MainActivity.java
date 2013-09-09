@@ -528,7 +528,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			if (vodTVch.allowBackPressed() == 1) { // sidebar가 열려있는경우...
 				Fragment f = getSupportFragmentManager().findFragmentByTag(this.TAG_FRAGMENT_VOD_TVCH);
 				if (f != null) {
-					((VodTvchMain) f).mSlidingMenu.toggleSidebar();
+					((VodTvchMain) f).getSlidingMenu().toggleSidebar();
 					Log.i("hwang", "closing sidebar!!!");
 				}
 				return;
@@ -821,7 +821,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 			if (vodTVch.allowBackPressed() == 1) { // sidebar가 열려있는경우...
 				Fragment f = getSupportFragmentManager().findFragmentByTag(this.TAG_FRAGMENT_VOD_TVCH);
 				if (f != null) {
-					((VodTvchMain) f).mSlidingMenu.toggleSidebar();
+					((VodTvchMain) f).getSlidingMenu().toggleSidebar();
 					Log.i("hwang", "closing sidebar!!!");
 
 					backToRc();

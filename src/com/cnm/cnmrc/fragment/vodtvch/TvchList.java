@@ -66,7 +66,8 @@ public class TvchList extends Base {
 		// -------------------
 		// vod list type
 		// -------------------
-        VodListAdapter adapter = new VodListAdapter(getActivity(), R.layout.list_item_vod_list, arrayList);
+        //VodListAdapter adapter = new VodListAdapter(getActivity(), R.layout.list_item_vod_list, arrayList);
+        VodListAdapter adapter = null;
         mListView.setAdapter(adapter);
         mListView.setDivider(null);
         mListView.setDividerHeight(0);

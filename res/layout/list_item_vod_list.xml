@@ -10,14 +10,14 @@
         >
 
         <TextView
-            android:id="@+id/vod"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/px36"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:singleLine="true"
-            android:text="MD 추천"
+            android:text=""
             android:textColor="#ff7961aa"
             android:textSize="@dimen/sp35"
             android:textStyle="bold" />
