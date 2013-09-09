@@ -1,8 +1,10 @@
 package com.cnm.cnmrc.fragment.search;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -63,13 +65,13 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 	FrameLayout mDetilPanelFrameLayout;
 
 	Button mSearchRecentlyDelete;
-	Button mSearchInput;
-	Button mSearchInputDelete;
-	ImageButton mSearchSearch;
+	Button mEditSearchIcon;
+	Button mEditDeleteIcon;
+	ImageButton mTopSearchIcon;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		layout = (View) inflater.inflate(R.layout.search_fragment, container, false);
+		layout = (View) inflater.inflate(R.layout.search_main, container, false);
 
 		mNoClickBelowLayout = (LinearLayout) layout.findViewById(R.id.no_click_below_layout);
 		mNoClickBelowLayout.setOnClickListener(this);
@@ -77,8 +79,8 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		mTitleLayout = (RelativeLayout) layout.findViewById(R.id.search_title_layout);
 		mTitleLayout.setVisibility(View.GONE);
 		mSearchTitle = (TextView) layout.findViewById(R.id.search_title);
-		mSearchSearch = (ImageButton) layout.findViewById(R.id.search_search);
-		mSearchSearch.setOnClickListener(this);
+		mTopSearchIcon = (ImageButton) layout.findViewById(R.id.top_search_icon);
+		mTopSearchIcon.setOnClickListener(this);
 
 		mResultPanelFrameLayout = (FrameLayout) layout.findViewById(R.id.search_result_panel);
 		mResultPanelFrameLayout.setVisibility(View.INVISIBLE);
@@ -89,12 +91,12 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		mSearchRecentlyDelete = (Button) layout.findViewById(R.id.search_recently_delete);
 		mSearchRecentlyDelete.setOnClickListener(this);
 
-		mSearchInput = (Button) layout.findViewById(R.id.search_input_icon);
-		mSearchInput.setOnClickListener(this);
+		mEditSearchIcon = (Button) layout.findViewById(R.id.edit_search_icon);
+		mEditSearchIcon.setOnClickListener(this);
 
-		mSearchInputDelete = (Button) layout.findViewById(R.id.search_input_delete);
-		mSearchInputDelete.setOnClickListener(this);
-		mSearchInputDelete.setVisibility(View.GONE);
+		mEditDeleteIcon = (Button) layout.findViewById(R.id.edit_delete_icon);
+		mEditDeleteIcon.setOnClickListener(this);
+		mEditDeleteIcon.setVisibility(View.GONE);
 
 		// android:windowSoftInputMode="adjustPan"
 		// getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -222,19 +224,19 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		getActivity().getSupportFragmentManager().executePendingTransactions();
 	}
 
-	public void showDetailVod() {
+	public void showDetailVod(Bundle bundle) {
 		mTitleLayout.setVisibility(View.VISIBLE);
 		mSearchTitle.setText("상세보기");
 		mDetilPanelFrameLayout.setVisibility(View.VISIBLE);
 		Util.hideSoftKeyboard(getActivity());
-
-		SearchVodDetail searchVod = new SearchVodDetail();
+		
+		SearchVodDetail searchVodDetail = SearchVodDetail.newInstance(bundle);
 		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 
 		// ft.replace전에 animation을 설정해야 한다.
 		// ft.setCustomAnimations(R.anim.vod_tvch_base_entering, 0);
-		// ft.addToBackStack(null); // fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
-		ft.replace(R.id.detail_panel, searchVod, "search_vod_detail");
+		ft.addToBackStack(null); // fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
+		ft.replace(R.id.detail_panel, searchVodDetail, "search_vod_detail");
 		ft.commit();
 		getActivity().getSupportFragmentManager().executePendingTransactions();
 	}
@@ -327,7 +329,7 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 			PopupSearchRecentlyDelete searchRecentlyDelete = new PopupSearchRecentlyDelete();
 			searchRecentlyDelete.show(ft, PopupSearchRecentlyDelete.class.getSimpleName());
 			break;
-		case R.id.search_input_icon:
+		case R.id.edit_search_icon:
 			Log.i("hwang", "clicked search input icon");
 			if (edit.getText().toString().equals("")) {
 				Toast.makeText(getActivity(), "검색어를 입력해 주세요", Toast.LENGTH_SHORT).show();
@@ -335,9 +337,9 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 				performSearch();
 			}
 			break;
-		case R.id.search_input_delete:
+		case R.id.edit_delete_icon:
 			break;
-		case R.id.search_search:
+		case R.id.top_search_icon:
 			resetAll();
 			break;
 		}

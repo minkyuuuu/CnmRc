@@ -42,7 +42,7 @@ public class SearchNaverAdapter extends ArrayAdapter<SearchNaver> {
         
         // serial number (일련 번호)
         TextView index = (TextView)row.findViewById(R.id.index);
-        index.setText(Integer.toString(position));
+        index.setText(Integer.toString(position+1));
         
         // serial number (일련 번호)
         TextView title = (TextView)row.findViewById(R.id.title);

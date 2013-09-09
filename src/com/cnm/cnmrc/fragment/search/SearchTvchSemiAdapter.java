@@ -45,7 +45,7 @@ public class SearchTvchSemiAdapter extends ArrayAdapter<SearchProgram> {
             
             // serial number (일련 번호)
             TextView channelNo = (TextView)row.findViewById(R.id.channel_no);
-            channelNo.setText(Integer.toString(position));
+            channelNo.setText(Integer.toString(position+1));
             
             // channel logo
             ImageView channelLogo = (ImageView)row.findViewById(R.id.channel_logo);

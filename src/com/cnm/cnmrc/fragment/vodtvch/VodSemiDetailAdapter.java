@@ -73,15 +73,15 @@ public class VodSemiDetailAdapter extends ArrayAdapter<SearchVod> {
         // 좌측의 큰 이미지 포스터
         //titleResId.setImageBitmap(Util.getNoBitmap(context));
         if(itemList.get(position).getImg() != null) {
-        	Bitmap loadBitmap = Util.BitmapLoadFromFile(context, itemList.get(position).getImg());
+        	Bitmap loadBitmap = Util.BitmapLoadFromFile(context, itemList.get(position).getImg());	
         	if(loadBitmap == null) {
 	        	String grade = itemList.get(position).getGrade();
 	        	if(grade != null) {
 	        		if(Util.isAdultGrade(grade)) holder.logoImg.setImageBitmap(Util.getAdultBitmap(context));
 	        		else imageDownloader.download(itemList.get(position).getImg().trim(), holder.logoImg, Util.getNoBitmap(context));
-	        	}
+	        	}	// 기본적으로 no image 포스터가 적용되어 있다.
         	} else 
-        		holder.logoImg.setImageBitmap(loadBitmap);
+        		holder.logoImg.setImageBitmap(loadBitmap);	// use disk cache
         }
         
         // title
@@ -89,7 +89,7 @@ public class VodSemiDetailAdapter extends ArrayAdapter<SearchVod> {
         	holder.title.setText(itemList.get(position).getTitle());
         
         // hd icon
-        holder.hdIcon.setBackgroundResource(R.drawable.hdicon);
+        holder.hdIcon.setBackgroundResource(R.drawable.hd_icon);
         //hdiconResId.setVisibility(View.GONE);
         if(itemList.get(position).getHd() != null) {
 	        if(itemList.get(position).getHd().equalsIgnoreCase("yes")) {

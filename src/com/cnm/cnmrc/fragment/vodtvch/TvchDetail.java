@@ -63,10 +63,10 @@ public class TvchDetail extends Base implements View.OnClickListener{
 			item.setCurrent_title("스마일");
 			
 			item.setHdIconResId(0);
-			if(i==3) item.setHdIconResId(R.drawable.hdicon);
-			if(i==7) item.setHdIconResId(R.drawable.hdicon);
-			if(i==10) item.setHdIconResId(R.drawable.hdicon);
-			if(i==12) item.setHdIconResId(R.drawable.hdicon);
+			if(i==3) item.setHdIconResId(R.drawable.hd_icon);
+			if(i==7) item.setHdIconResId(R.drawable.hd_icon);
+			if(i==10) item.setHdIconResId(R.drawable.hd_icon);
+			if(i==12) item.setHdIconResId(R.drawable.hd_icon);
 			
 			arrayList.add(item);
 		}

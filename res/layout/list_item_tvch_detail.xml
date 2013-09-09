@@ -45,7 +45,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/linear_current_time"
             android:layout_marginLeft="@dimen/px20"
-            android:background="@drawable/hdicon"
+            android:background="@drawable/hd_icon"
             android:contentDescription="@string/accessibility_no_action" />
 
         <ImageView

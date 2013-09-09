@@ -17,22 +17,59 @@
 package com.cnm.cnmrc.fragment.search;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.util.Util;
 
 public class SearchVodDetail extends Fragment implements View.OnClickListener{
-
-	View layout;
 	
+	public static SearchVodDetail newInstance(Bundle bundle) {
+		SearchVodDetail f = new SearchVodDetail();
+		Bundle args = new Bundle();
+		args.putBundle("bundle", bundle); 
+		f.setArguments(args);
+		return f;
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		layout = inflater.inflate(R.layout.vod_detail, container, false);
+		View layout = inflater.inflate(R.layout.search_vod_detail, container, false);
+		
+		Bundle bundle = getArguments().getBundle("bundle");
+		
+		byte[] logoImage = bundle.getByteArray("logoImg");
+		String title = bundle.getString("title");
+		String hd = bundle.getString("hd");
+		String grade = bundle.getString("grade");
+		String director = bundle.getString("director");
+		String actor = bundle.getString("actor");
+		String price = bundle.getString("price");
+		String contents = bundle.getString("contents");
+
+		Bitmap bmp = BitmapFactory.decodeByteArray(logoImage, 0, logoImage.length);
+		ImageView logoImg = (ImageView) layout.findViewById(R.id.logo_img);
+		logoImg.setImageBitmap(bmp);
+		
+		if(title != null) ((TextView)layout.findViewById(R.id.title)).setText(title);
+		if(hd != null) {
+			if(hd.equalsIgnoreCase("yes")) ((ImageView)layout.findViewById(R.id.hd_icon)).setVisibility(View.VISIBLE);
+		}
+		if(grade != null ) ((ImageView)layout.findViewById(R.id.grade_icon)).setBackgroundResource(Util.getGrade(grade));
+		if(director != null) ((TextView)layout.findViewById(R.id.director_name)).setText(" " + director);
+		if(actor != null) ((TextView)layout.findViewById(R.id.actor_name)).setText(" " + actor);
+		if(grade != null) ((TextView)layout.findViewById(R.id.grade_text)).setText(" " + grade);
+		if(price != null) ((TextView)layout.findViewById(R.id.price_amount)).setText(" " + price);
+		if(contents != null) ((TextView)layout.findViewById(R.id.contents)).setText(contents);
 		
 		return layout;
 	}

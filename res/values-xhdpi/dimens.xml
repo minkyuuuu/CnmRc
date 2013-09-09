@@ -280,6 +280,7 @@
     <dimen name="px520">260dp</dimen>
     <dimen name="px540">270dp</dimen>
     <dimen name="px550">275dp</dimen>
+    <dimen name="px552">276dp</dimen>
     <dimen name="px560">280dp</dimen>
     <dimen name="px566">283dp</dimen>
     <dimen name="px568">284dp</dimen>

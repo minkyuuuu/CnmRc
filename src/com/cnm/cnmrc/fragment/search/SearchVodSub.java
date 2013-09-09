@@ -16,9 +16,13 @@
 
 package com.cnm.cnmrc.fragment.search;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,6 +35,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -40,7 +45,6 @@ import com.cnm.cnmrc.fragment.vodtvch.VodSemiDetailAdapter;
 import com.cnm.cnmrc.parser.SearchVod;
 import com.cnm.cnmrc.parser.SearchVodList;
 import com.cnm.cnmrc.parser.SearchVodParser;
-import com.cnm.cnmrc.util.ErrorCode;
 import com.cnm.cnmrc.util.UrlAddress;
 import com.cnm.cnmrc.util.Util;
 
@@ -89,13 +93,49 @@ public class SearchVodSub extends Fragment implements View.OnClickListener {
             {
         		Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity)getActivity()).TAG_FRAGMENT_SEARCH);
         		if (f != null) {
-        			((SearchMain) f).showDetailVod();
+        			Bundle bundle = makeBundle(view, position); 
+        			((SearchMain) f).showDetailVod(bundle);
         		}
             }
-
         });
 
 		return layout;
+	}
+	
+	private Bundle makeBundle(View view, int position) {
+		String title = adapter.getItem(position).getTitle();
+		String hd = adapter.getItem(position).getHd();
+		String grade = adapter.getItem(position).getGrade();
+		String director = adapter.getItem(position).getDirector();
+		String actor = adapter.getItem(position).getActor();
+		String price = adapter.getItem(position).getPrice();
+		String contents = adapter.getItem(position).getContents();
+		
+		ImageView logo = (ImageView)view.findViewById(R.id.logo_img);
+		Bitmap logoImage = ((BitmapDrawable)logo.getDrawable()).getBitmap();	// 기본적으로 no image 포스터가 적용되어 있다.
+		
+		Bundle bundle = new Bundle();
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		Bitmap bitmap = logoImage;
+		boolean result = bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos); 
+		if (result) {	// 바이트어레이로 변환 실패하면... not all Formats support all bitmap configs directly
+		} else {
+			bitmap = Util.getNoBitmap(getActivity());
+			bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos); 
+		}
+		byte[] logoImg = baos.toByteArray();
+		
+		bundle.putByteArray("logoImg", logoImg);
+		bundle.putString("title", title); 
+		bundle.putString("hd", hd); 
+		bundle.putString("grade", grade); 
+		bundle.putString("director", director); 
+		bundle.putString("actor", actor); 
+		bundle.putString("price", price); 
+		bundle.putString("contents", contents);
+		
+		return bundle;
 	}
 
 	@Override

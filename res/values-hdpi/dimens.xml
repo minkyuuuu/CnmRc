@@ -283,6 +283,7 @@
     <dimen name="px520">231.11dp</dimen>
     <dimen name="px540">240dp</dimen>
     <dimen name="px550">244.44dp</dimen>
+    <dimen name="px552">245.33dp</dimen>
     <dimen name="px560">248.89dp</dimen>
     <dimen name="px566">251.56dp</dimen>
     <dimen name="px568">252.44dp</dimen>
