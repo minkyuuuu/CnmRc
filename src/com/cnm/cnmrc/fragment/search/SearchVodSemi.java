@@ -36,7 +36,7 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.fragment.vodtvch.VodSemiAdapter;
+import com.cnm.cnmrc.adapter.VodSemiAdapter;
 import com.cnm.cnmrc.item.ItemVodSemi;
 import com.cnm.cnmrc.item.ItemVodSemiList;
 import com.cnm.cnmrc.parser.VodSemiParser;

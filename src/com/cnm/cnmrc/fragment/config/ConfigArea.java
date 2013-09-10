@@ -25,6 +25,7 @@ import android.widget.ProgressBar;
 import com.cnm.cnmrc.CnmApplication;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.adapter.ConfigAreaAdapter;
 import com.cnm.cnmrc.item.ItemChannelArea;
 import com.cnm.cnmrc.parser.ChannelAreaParser;
 import com.cnm.cnmrc.util.Util;

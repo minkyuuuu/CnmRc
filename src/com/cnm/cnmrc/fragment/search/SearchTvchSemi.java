@@ -36,7 +36,8 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.fragment.vodtvch.TvchSemiAdapter;
+import com.cnm.cnmrc.adapter.SearchTvchSemiAdapter;
+import com.cnm.cnmrc.adapter.TvchSemiAdapter;
 import com.cnm.cnmrc.item.ItemSearchProgram;
 import com.cnm.cnmrc.item.ItemSearchProgramList;
 import com.cnm.cnmrc.parser.SearchProgramParser;

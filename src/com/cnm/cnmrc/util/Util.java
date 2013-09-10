@@ -53,9 +53,20 @@ public class Util {
 		return calendar;
 	}
 
-	public static Date getFromStringToDate(String string) {
+	public static Date getFromStringToDate1(String string) {
 		try {
 			java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			java.util.Date date = format.parse(string);
+			return date;
+		} catch (Exception e) {
+			Log.e("hwang", "getSearchProgramDate : " + e.toString());
+		}
+		return null;
+	}
+	
+	public static Date getFromStringToDate2(String string) {
+		try {
+			java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd");
 			java.util.Date date = format.parse(string);
 			return date;
 		} catch (Exception e) {
@@ -74,6 +85,23 @@ public class Util {
 
 	public static String getMMDD(Date date) {
 		return new SimpleDateFormat("MM.dd").format(date);
+	}
+	public static String getMM(Date date) {
+		return new SimpleDateFormat("MM").format(date);
+	}
+	public static String getDD(Date date) {
+		return new SimpleDateFormat("dd").format(date);
+	}
+	
+	public static String getMMDDE(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		
+		String month = getMM(date) + "월 ";
+		String dateText = getDD(date) + "일 ";
+		String week = getDayOfWeek(date) + "요일";
+		
+		return month + dateText + week;
 	}
 
 	public static String getHHmm(Date date) {

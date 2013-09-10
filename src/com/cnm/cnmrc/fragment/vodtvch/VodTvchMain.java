@@ -36,6 +36,7 @@ import android.widget.ListView;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.adapter.VodTvchMainAdapter;
 import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
 import com.cnm.cnmrc.slidingmenu.SlidingMenu;
 

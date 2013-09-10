@@ -6,13 +6,28 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.fragment.vodtvch.VodSemiAdapter;
+import com.cnm.cnmrc.adapter.TvchSemiAdapter;
+import com.cnm.cnmrc.adapter.VodSemiAdapter;
+import com.cnm.cnmrc.fragment.vodtvch.VodTvchMain;
+import com.cnm.cnmrc.slidingmenu.SlidingMenu;
 
 public class UiUtil {
+	
+	public static boolean isSlidingMenuOpening(Context context) {
+		Fragment f = ((MainActivity)context).getFragmentVodTvch();
+		if (f != null) {
+			SlidingMenu slidingMenu = ((VodTvchMain)f).getSlidingMenu();
+			if (slidingMenu.isOpening()) return true;
+		}
+		
+		return false;
+	}
 	
 	public static Bundle makeVodDetailBundle(Context context, VodSemiAdapter adapter, View view, int position) {
 		String title = adapter.getItem(position).getTitle();
@@ -46,6 +61,19 @@ public class UiUtil {
 		bundle.putString("actor", actor); 
 		bundle.putString("price", price); 
 		bundle.putString("contents", contents);
+		
+		return bundle;
+	}
+	
+	public static Bundle makeTvchDetailBundle(Context context, TvchSemiAdapter adapter, View view, int position, String dateIndex) {
+		String number = adapter.getItem(position).getNumber();
+		String id = adapter.getItem(position).getId();
+		
+		Bundle bundle = new Bundle();
+		
+		//bundle.putString("number", number); 
+		bundle.putString("id", id);
+		bundle.putString("dateIndex", dateIndex);
 		
 		return bundle;
 	}

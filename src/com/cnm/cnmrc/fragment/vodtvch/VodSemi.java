@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.adapter.VodSemiAdapter;
 import com.cnm.cnmrc.item.ItemVodSemi;
 import com.cnm.cnmrc.item.ItemVodSemiList;
 import com.cnm.cnmrc.parser.VodSemiParser;
@@ -88,11 +89,7 @@ public class VodSemi extends Base implements View.OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// sidebar가 열려있으면 return한다.
-				Fragment f = ((MainActivity)getActivity()).getFragmentVodTvch();
-				if (f != null) {
-					SlidingMenu slidingMenu = ((VodTvchMain)f).getSlidingMenu();
-					if (slidingMenu.isOpening()) return;
-				}
+				if (UiUtil.isSlidingMenuOpening(getActivity())) return;
 				
 				increaseCurrentDepth();
 				Bundle bundle = UiUtil.makeVodDetailBundle(getActivity(), adapter, view, position); 

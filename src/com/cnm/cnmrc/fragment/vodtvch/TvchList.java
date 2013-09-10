@@ -32,9 +32,11 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.adapter.TvchListAdapter;
 import com.cnm.cnmrc.item.ItemTvchList;
 import com.cnm.cnmrc.item.ItemTvchListList;
 import com.cnm.cnmrc.parser.TvchListParser;
+import com.cnm.cnmrc.util.UiUtil;
 import com.cnm.cnmrc.util.UrlAddress;
 import com.cnm.cnmrc.util.Util;
 
@@ -83,6 +85,9 @@ public class TvchList extends Base  implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
+				// sidebar가 열려있으면 return한다.
+            	if (UiUtil.isSlidingMenuOpening(getActivity())) return;
+            	
             	increaseCurrentDepth();
         		
         		String genreName = adapter.getItem(position).getGenreName();

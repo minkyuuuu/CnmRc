@@ -39,6 +39,7 @@ import android.widget.ListView;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.adapter.SearchNaverAdapter;
 import com.cnm.cnmrc.item.ItemSearchNaver;
 import com.cnm.cnmrc.item.ItemSearchNaverList;
 import com.cnm.cnmrc.parser.SearchNaverParser;

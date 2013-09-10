@@ -19,6 +19,7 @@ import android.widget.ListView;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.adapter.ConfigProductAdapter;
 import com.cnm.cnmrc.item.ItemChannelProduct;
 import com.cnm.cnmrc.parser.ChannelProductParser;
 import com.cnm.cnmrc.util.UrlAddress;

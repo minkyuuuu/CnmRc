@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.adapter.SearchRecentlyAdapter;
 import com.cnm.cnmrc.popup.PopupSearchRecentlyDelete;
 import com.cnm.cnmrc.util.Util;
 

@@ -52,6 +52,17 @@ public class ItemTvchSemiList {
 	public void setProductCode(String productCode) {
 		this.productCode = productCode;
 	}
+	
+	public String getGenreCode() {
+		return genreCode;
+	}
+
+	public void setGenreCode(String genreCode) {
+		this.genreCode = genreCode;
+	}
+	
+	
+	
 
 	public ArrayList<ItemTvchSemi> getList() {
 		return list;
@@ -61,13 +72,7 @@ public class ItemTvchSemiList {
 		this.list = list;
 	}
 
-	public String getGenreCode() {
-		return genreCode;
-	}
 
-	public void setGenreCode(String genreCode) {
-		this.genreCode = genreCode;
-	}
 	
 	
 

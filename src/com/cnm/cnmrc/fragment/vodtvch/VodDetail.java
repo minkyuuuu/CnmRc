@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.fragment.search.SearchMain;
+import com.cnm.cnmrc.util.UiUtil;
 import com.cnm.cnmrc.util.Util;
 
 public class VodDetail extends Base implements View.OnClickListener{
@@ -120,7 +121,9 @@ public class VodDetail extends Base implements View.OnClickListener{
 	
 	@Override
 	public void onClick(View v) {
-		
+		// sidebar가 열려있으면 return한다.
+    	if (UiUtil.isSlidingMenuOpening(getActivity())) return;
+    	
 		switch(v.getId()){
 		}
 	}

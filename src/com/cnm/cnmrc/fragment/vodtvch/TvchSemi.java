@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,9 +33,12 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.adapter.TvchSemiAdapter;
 import com.cnm.cnmrc.item.ItemTvchSemi;
 import com.cnm.cnmrc.item.ItemTvchSemiList;
 import com.cnm.cnmrc.parser.TvchSemiParser;
+import com.cnm.cnmrc.slidingmenu.SlidingMenu;
+import com.cnm.cnmrc.util.UiUtil;
 import com.cnm.cnmrc.util.UrlAddress;
 import com.cnm.cnmrc.util.Util;
 
@@ -86,11 +90,16 @@ public class TvchSemi extends Base implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
+				// sidebar가 열려있으면 return한다.
+            	if (UiUtil.isSlidingMenuOpening(getActivity())) return;
+				
             	increaseCurrentDepth();
             	
-//            	String title = "ch" + (position + 1) + ".SBS";
-//            	Bundle bundle = new Bundle();
-//            	loadingData(5, title, false, bundle); // 5 : TvchDetail, 		false : 1 depth가 아님.
+            	// Base :: mClassTypeArray = {"VodList", "VodSemi", "VodDetail", "TvchList", "TvchSemi", "TvchDetail"};
+            	String dateIndex = "1";	// 처음에는 오늘 날짜을 보여준다.
+            	Bundle bundle = UiUtil.makeTvchDetailBundle(getActivity(), adapter, view, position, dateIndex); 
+            	String title = "ch" + adapter.getItem(position).getNumber() + ". " + adapter.getItem(position).getName();
+            	loadingData(5, title, false, bundle);  	// TvchDetail(5:클래스타입), false : 1 depth가 아님.
             }
 
         });
