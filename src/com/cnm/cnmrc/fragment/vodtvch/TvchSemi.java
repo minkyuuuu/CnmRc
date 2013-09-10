@@ -172,9 +172,11 @@ public class TvchSemi extends Base implements View.OnClickListener {
 		String productCode = Util.getChannelProductCode(getActivity());
 		String mode = "";	// default 전체채널임.
 
-		if(selectedCategory == 0) mode = UrlAddress.Channel.Mode.ALL;	// 전체채널
-		if(selectedCategory == 2) mode = UrlAddress.Channel.Mode.HD;	// HD채널
-		if(selectedCategory == 3) mode = UrlAddress.Channel.Mode.PAY;	// 유료채널
+		if(selectedCategory == 0) mode = UrlAddress.Channel.Mode.ALL;	// 전체채널 (from VodTvchMain화면)
+		if(selectedCategory == 2) mode = UrlAddress.Channel.Mode.HD;	// HD채널 (from VodTvchMain화면)
+		if(selectedCategory == 3) mode = UrlAddress.Channel.Mode.PAY;	// 유료채널 (from VodTvchMain화면)
+		
+		if(selectedCategory == 4) mode = UrlAddress.Channel.Mode.ALL;	// genreCode에 대한 채널정보는 전체채널이다.  (from TvchList)
 		
 		url = UrlAddress.Channel.getGetChannelList(areaCode, productCode, genreCode, mode);
 		

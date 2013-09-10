@@ -96,7 +96,7 @@ public class VodSemi extends Base implements View.OnClickListener {
 				
 				increaseCurrentDepth();
 				Bundle bundle = UiUtil.makeVodDetailBundle(getActivity(), adapter, view, position); 
-				loadingData(2, "상세보기", false, bundle); // go to VodDetail (2 : VodDetail, false : 1 depth가 아님)
+				loadingData(2, "상세보기", false, bundle); // go to VodDetail (2:클래스타입, false:1 depth가 아님)
 			}
 
 		});

@@ -71,7 +71,8 @@ public class TvchSemiParser {
 						eventType = parser.next();
 						list.setErrorString(parser.getText());
 						
-					} else if (parser.getName().equalsIgnoreCase("All_Channel_Item")) {
+					} else if (parser.getName().equalsIgnoreCase("All_Channel_Item") ||
+								parser.getName().equalsIgnoreCase("Genre_Channel_Item") ) {
 						list.getList().add(new ItemTvchSemi()); 		// 리스트 추가
 						mCurrentCount = list.getList().size() - 1; 		// 현재 추가된 리스트의 위치 반환
 						

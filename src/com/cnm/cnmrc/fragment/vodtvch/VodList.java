@@ -66,7 +66,7 @@ public class VodList extends Base implements View.OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View layout = inflater.inflate(R.layout.vod_list, container, false);
 
-		preventClickDispatching = (FrameLayout) layout.findViewById(R.id.search_vod_prevent_click_dispatching);
+		preventClickDispatching = (FrameLayout) layout.findViewById(R.id.prevent_click_dispatching);
 		preventClickDispatching.setOnClickListener(this);
 
 		isFirstDepth = getArguments().getBoolean("isFirstDepth");
@@ -74,7 +74,7 @@ public class VodList extends Base implements View.OnClickListener {
 		genreId = bundle.getString("genreId");
 
 		// listview
-		listView = (ListView) layout.findViewById(R.id.vod__list_listview);
+		listView = (ListView) layout.findViewById(R.id.listview);
 		listView.setDivider(null);
 		listView.setDividerHeight(0);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -82,28 +82,31 @@ public class VodList extends Base implements View.OnClickListener {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				increaseCurrentDepth();
 				
-				Bundle bundle = new Bundle();
-				
 				String title = adapter.getItem(position).getTitle();
+				
 				String genreId = adapter.getItem(position).getGenreId();
+				Bundle bundle = new Bundle();
 				bundle.putString("genreId", genreId);
+				
 				String more = adapter.getItem(position).getMore();
-				// more가 yes일때까지 장르정보 리스트(0:VodList)를 보이고, no이면 vod정보를 보여주는 VodSemi(1) 화면으로 전환된다.
+				
+				// more가 yes일때까지 장르정보 리스트(0:VodList)를 보이고, no이면 vod정보를 보여주는 VodSemi(1:클래스타입) 화면으로 전환된다.
+				// (0:VodList) or (1:VodSemi), false : 1 depth가 아님, 즉 메인화면(예고편,최신영화,TV다시보기,장르별)이 아니다.
 				if(more.equalsIgnoreCase("yes")) {
-					loadingData(0, title, false, bundle); // (0:VodList) or (1:VodSemi), false : 1 depth가 아님, 즉 메인화면(예고편,최신영화,TV다시보기,장르별)이 아니다.
+					loadingData(0, title, false, bundle); // VodList : 0 (클래스타입)
 				} else {
-					loadingData(1, title, false, bundle); // (0:VodList) or (1:VodSemi), false : 1 depth가 아님, 즉 메인화면(예고편,최신영화,TV다시보기,장르별)이 아니다.
+					loadingData(1, title, false, bundle); // VodSemi : 1 (클래스타입)
 				}
 			}
 
 		});
 		
-		showVodList(genreId);
+		showVodList();
 
 		return layout;
 	}
 	
-	private void showVodList(String genreId) {
+	private void showVodList() {
 		// check network and data loading
 		if (Util.GetNetworkInfo(getActivity()) == 99) {
 			Util.AlertShow(getActivity());

@@ -213,7 +213,7 @@ public class Base extends Fragment {
 		// this.isFirstDepth = isFirstDepth;
 		
 		// 1 depth에 해당하는 ft.replace(R.id.loading_data_panel, base)의 base이면 본인을 hide시킨다.
-		if(this.isFirstDepth) {
+		if(this.isFirstDepth) {	// 이건 자신이 만들어질 때 자신이 대분류에 해당하는 화면인지를 확인하는것이다.
 	        Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.loading_data_panel);
 	        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 	    	if (f != null) {

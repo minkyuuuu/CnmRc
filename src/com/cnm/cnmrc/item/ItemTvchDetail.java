@@ -1,7 +1,7 @@
 package com.cnm.cnmrc.item;
 
 
-public class ItemTvchDetail extends ItemRoot{
+public class ItemTvchDetail{
 	
 	int		channel_no;
 	String 	channel_name;

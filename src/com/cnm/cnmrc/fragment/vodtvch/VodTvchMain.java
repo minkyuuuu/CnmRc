@@ -41,6 +41,11 @@ import com.cnm.cnmrc.slidingmenu.SlidingMenu;
 
 public class VodTvchMain extends Fragment implements View.OnClickListener, SlidingMenu.Listener {
 
+	/**
+	 * vodtvchmaind의 loadingDataForSidrebar()은 각각 vod, tvch의 4개의 대분류에 대한 화면이고...
+	 * 대분류 화면에서 리스트아이템을 선택했을 때 다음화면에 대한 처리는 Base의 loadingData()를 통해서 이루어진다.
+	 * isFirstDepth???
+	 */
 	public static VodTvchMain newInstance(String type) {
 		VodTvchMain f = new VodTvchMain();
 		Bundle args = new Bundle();
@@ -63,6 +68,8 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 
 	public int currentDepth = 1;
 	boolean isSkipTitle = false;
+	
+	String type;
 
 	public HashMap<Integer, String> mMapTitle = null;
 
@@ -88,7 +95,7 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 		// --------------------------
 		// type check (vod or tvch)
 		// --------------------------
-		String type = getArguments().getString("type");
+		type = getArguments().getString("type");
 		if (type.equals("vod")) {
 			mCategoryArray = getActivity().getResources().getStringArray(R.array.vod_category);
 			mClassTypeArray = getActivity().getResources().getStringArray(R.array.vod_class_type);
@@ -181,7 +188,7 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 		Class<?> classObject;
 		try {
 			String packageName = this.getClass().getPackage().getName() + ".";
-			classObject = Class.forName(packageName + mClassTypeArray[selectedCategory]); // CommonList, VodSemiDetail, VodDetail, TvchSemiDetail, TvchDetail
+			classObject = Class.forName(packageName + mClassTypeArray[selectedCategory]); // VodList, VodSemi, VodDetail, TvchList, TvchSemi, TvchDetail
 			Object obj = classObject.newInstance();
 
 			// vod 	(1st arg : 2nd arg) : (0:예고편) / (1:최신영화) / (2:TV다시보기) / (3:장르별)
@@ -190,7 +197,7 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 			// true : 1 depth (tvch: TvchSemi, TvchList, TvchSemi, TvchSemi)
 			Bundle bundle = new Bundle();
 			bundle.putString("genreId", "");	// 장르별 첫 화면에서 사용할 대분류 장르별 정보를 위해서...
-			Base base = ((Base) obj).newInstance(selectedCategory, mCategoryArray[selectedCategory], true, bundle); 	
+			Base base = ((Base) obj).newInstance(selectedCategory, mCategoryArray[selectedCategory], true, bundle); 	// 여기서 true란 첫번째depth 즉 대분류를 의미한다.(예고편,최신영화,TV다시보기,장르별)(전체채널,장르별채널,HD채널,유료채)
 																												
 
 			//ft.addToBackStack(null);	// addTBackStack하지 않으면 onBackPressed()가 콜백되지 않는것이지... remove fragment하면 onDestroyView()는 콜백된다.
