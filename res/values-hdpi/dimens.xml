@@ -254,14 +254,20 @@
     
     <dimen name="px300">133.33dp</dimen>
     <dimen name="px302">134.22dp</dimen>
+    <dimen name="px310">137.78dp</dimen>
     <dimen name="px315">140dp</dimen>
     <dimen name="px320">142.22dp</dimen>
+    <dimen name="px326">144.89dp</dimen>
     <dimen name="px330">146.67dp</dimen>
     <dimen name="px335">148.89dp</dimen>
+    <dimen name="px336">149.33dp</dimen>
+    <dimen name="px338">150.22dp</dimen>
     <dimen name="px340">151.11dp</dimen>
     
     <dimen name="px351">156dp</dimen>
+    <dimen name="px352">156.44dp</dimen>
     
+    <dimen name="px362">160.89dp</dimen>
     <dimen name="px364">161.78dp</dimen>
     <dimen name="px370">164.44dp</dimen>
     
@@ -271,6 +277,7 @@
     
     <dimen name="px408">181.33dp</dimen>
     <dimen name="px418">185.78dp</dimen>
+    <dimen name="px420">186.67dp</dimen>
     <dimen name="px442">196.44dp</dimen>
     <dimen name="px446">198.22dp</dimen>
     <dimen name="px464">206.22dp</dimen>

@@ -17,6 +17,7 @@ public class ItemVodSemi {
 	private String duration = "";
 	private String contents = "";
 	private String more = "";
+	private String recording = "";		// 프로토콜문서에 추가되었음.
 	
 	
 	
@@ -110,7 +111,12 @@ public class ItemVodSemi {
 	public void setMore(String more) {
 		this.more = more;
 	}
-	
+	public String getRecording() {
+		return recording;
+	}
+	public void setRecording(String recording) {
+		this.recording = recording;
+	}
 	
 	
 

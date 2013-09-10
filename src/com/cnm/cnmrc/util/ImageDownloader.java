@@ -114,6 +114,11 @@ public class ImageDownloader {
 			url = params[0];
 			int lastPos = url.lastIndexOf("/");
 			int dotPos = url.lastIndexOf(".");
+			
+//			String str = "[lastPos] : %d  <--->  [dotPos] : %d   <---> [url] : %s";
+//			str = String.format(str, lastPos, dotPos, url);
+//			Log.e("hwang",str);
+			
 			fileName = url.substring(lastPos, dotPos) + "list";
 			
 			//File mkDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), PACKGE_NAME);

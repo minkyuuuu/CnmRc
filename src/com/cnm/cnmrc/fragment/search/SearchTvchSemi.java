@@ -62,13 +62,13 @@ public class SearchTvchSemi extends Fragment implements View.OnClickListener  {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View layout = inflater.inflate(R.layout.tvch_semidetail, container, false);
+		View layout = inflater.inflate(R.layout.tvch_semi, container, false);
 		
-		preventClickDispatching = (FrameLayout) layout.findViewById(R.id.search_tvch_prevent_click_dispatching);
+		preventClickDispatching = (FrameLayout) layout.findViewById(R.id.prevent_click_dispatching);
 		preventClickDispatching.setOnClickListener(this);
 		
 		// listview
-		listView   = (ListView) layout.findViewById(R.id.tvch_semidetail);
+		listView   = (ListView) layout.findViewById(R.id.listview);
         listView.setDivider(null);
         listView.setDividerHeight(0);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -151,7 +151,7 @@ public class SearchTvchSemi extends Fragment implements View.OnClickListener  {
 					String desc = Util.getErrorCodeDesc(list.getResultCode());
 					Toast.makeText(getActivity(), desc, Toast.LENGTH_LONG).show();
 				} else {
-					adapter = new SearchTvchSemiAdapter(getActivity(), R.layout.list_item_search_program, mResult);
+					adapter = new SearchTvchSemiAdapter(getActivity(), R.layout.list_item_search_tvch_semi, mResult);
 					listView.setAdapter(adapter);
 				}
 				

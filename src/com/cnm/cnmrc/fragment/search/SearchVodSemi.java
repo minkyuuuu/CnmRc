@@ -76,7 +76,7 @@ public class SearchVodSemi extends Fragment implements View.OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View layout = inflater.inflate(R.layout.vod_semi, container, false);
 		
-		preventClickDispatching = (FrameLayout) layout.findViewById(R.id.search_vod_prevent_click_dispatching);
+		preventClickDispatching = (FrameLayout) layout.findViewById(R.id.prevent_click_dispatching);
 		preventClickDispatching.setOnClickListener(this);
 		
 		// listview

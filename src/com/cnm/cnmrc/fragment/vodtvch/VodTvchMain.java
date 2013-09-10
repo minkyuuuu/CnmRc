@@ -157,9 +157,9 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 		if (f != null)
 			((RcBottomMenu) f).setVodTvchMode();
 
-		// --------------------------------------------------------------------------------------------------------
-		// 처음 로딩되는 대분류에 해당하는 fragment는 VodTvch 클래스의 loadingDataForSidrebar()에서 no addToBackStack으로 생성된다.
-		// --------------------------------------------------------------------------------------------------------
+		// ----------------------------------------------------------------------------------------------------------
+		// 처음 로딩되는 대분류에 해당하는 fragment는 VodTvch 클래스의 loadingDataForSidrebar()에서 addToBackStack에 저장하지 않는다.
+		// ----------------------------------------------------------------------------------------------------------
 		loadingDataForSidrebar();
 
 		return layout;

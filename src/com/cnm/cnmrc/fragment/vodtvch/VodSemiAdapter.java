@@ -72,7 +72,8 @@ public class VodSemiAdapter extends ArrayAdapter<ItemVodSemi> {
         
         // 좌측의 큰 이미지 포스터
         //titleResId.setImageBitmap(Util.getNoBitmap(context));
-        if(itemList.get(position).getImg() != null) {
+        String str = itemList.get(position).getImg();
+        if(str != null && !str.equals("")) {
         	Bitmap loadBitmap = Util.BitmapLoadFromFile(context, itemList.get(position).getImg());	
         	if(loadBitmap == null) {
 	        	String grade = itemList.get(position).getGrade();

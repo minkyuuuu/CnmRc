@@ -1,9 +1,11 @@
 package com.cnm.cnmrc.fragment.vodtvch;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,69 +14,95 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.item.ItemTvchSemiDetail;
+import com.cnm.cnmrc.item.ItemTvchSemi;
+import com.cnm.cnmrc.util.ImageDownloader;
+import com.cnm.cnmrc.util.Util;
 
 // Custom Adapter
-public class TvchSemiAdapter extends ArrayAdapter<ItemTvchSemiDetail> {
-	private String TAG = TvchSemiAdapter.class.getSimpleName();
-	
-    private Activity context;
-    private int layoutResId;
+public class TvchSemiAdapter extends ArrayAdapter<ItemTvchSemi> {
 
-    private ArrayList<ItemTvchSemiDetail> itemist;
+	private Activity context;
+	private int layoutResId;
+	private ArrayList<ItemTvchSemi> itemList;
+	private ImageDownloader imageDownloader;
 
-    public TvchSemiAdapter(Context context, int layoutResId, ArrayList<ItemTvchSemiDetail> arrayList) {
-        super(context, layoutResId, arrayList);
-        this.layoutResId = layoutResId;
-        this.context = (Activity) context;
-        this.itemist = arrayList;
-    }
+	public TvchSemiAdapter(Context context, int layoutResId, ArrayList<ItemTvchSemi> arrayList) {
+		super(context, layoutResId, arrayList);
+		this.layoutResId = layoutResId;
+		this.context = (Activity) context;
+		this.itemList = arrayList;
 
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        View row = convertView;
-        
-        if (row == null) {
-            LayoutInflater inflater = ((Activity)context).getLayoutInflater();
-            row = inflater.inflate(layoutResId, null);
-        } 
-        
-        // channel no
-        TextView channelNo = (TextView)row.findViewById(R.id.channel_no);
-        channelNo.setText(Integer.toString(itemist.get(position).getChannel_no()));
-        
-        // channel icon
-        ImageView tvchIcon = (ImageView)row.findViewById(R.id.tvchicon_res_id);
-        tvchIcon.setBackgroundResource(itemist.get(position).getTvchIcon());
-        
-        // current time
-        TextView currentTime = (TextView)row.findViewById(R.id.current_time);
-        currentTime.setText(itemist.get(position).getCurrent_time());
-        
-        // current title
-        TextView currentTitle = (TextView)row.findViewById(R.id.current_title);
-        currentTitle.setText(" " + itemist.get(position).getCurrent_title());
-        
-        // next time
-        TextView nextTime = (TextView)row.findViewById(R.id.next_time);
-        nextTime.setText(itemist.get(position).getNext_time());
-        
-        // next title
-        TextView nextTitle = (TextView)row.findViewById(R.id.next_title);
-        nextTitle.setText(" " + itemist.get(position).getNext_title());
-        
-        
-        /*if(position == 0) {
-        	((ListView)parent).performItemClick(row, 0, getItemId(0));
-        }*/
+		imageDownloader = new ImageDownloader();
+		imageDownloader.setContext(context);
+	}
 
-        return row;
-    }
+	@Override
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		View row = convertView;
 
-    @Override
-    public int getCount() {
-        return itemist.size();
-    }
-    
+		LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+		row = inflater.inflate(layoutResId, null);
+
+		// 채널 번호
+		TextView number = (TextView) row.findViewById(R.id.number);
+		if (itemList.get(position).getNumber() != null)
+			number.setText(itemList.get(position).getNumber());
+
+		// logo image
+		ImageView logoImg = (ImageView) row.findViewById(R.id.logo_img);
+		String str = itemList.get(position).getLogoImg();
+		if (str != null && !str.equals("")) {
+			imageDownloader.download(itemList.get(position).getLogoImg().trim(), logoImg, null);
+			
+//			String str1 = "[%s] : image path ---> %s";
+//		 	str1 = String.format(str1, position, itemList.get(position).getLogoImg());
+//			Log.v("hwang",str1);
+//			if(str.equals("")) {
+//				Log.v("hwang","\"\"");
+//			} else {
+//				imageDownloader.download(itemList.get(position).getLogoImg().trim(), logoImg, null);
+//			}
+		}
+
+		// onAir Time
+		TextView onAirTime = (TextView) row.findViewById(R.id.onair_time);
+		if (itemList.get(position).getProgramOnAirTime() != null) {
+			Date date = Util.getFromStringToDate(itemList.get(position).getProgramOnAirTime());
+			if (date == null) {
+				onAirTime.setText(" ");
+			} else {
+				onAirTime.setText(Util.getHHmm(date) + " ");
+			}
+		}
+
+		// onAir Title
+		TextView onAirTitle = (TextView) row.findViewById(R.id.onair_title);
+		if (itemList.get(position).getProgramOnAirTitle() != null)
+			onAirTitle.setText(" " + itemList.get(position).getProgramOnAirTitle());
+
+		// onAir Time
+		TextView nextTime = (TextView) row.findViewById(R.id.next_time);
+		if (itemList.get(position).getProgramNextTime() != null) {
+			Date date = Util.getFromStringToDate(itemList.get(position).getProgramNextTime());
+			if (date == null) {
+				nextTime.setText(" ");
+			} else {
+				nextTime.setText(Util.getHHmm(date) + " ");
+			}
+		}
+
+		// onAir Title
+		TextView nextTitle = (TextView) row.findViewById(R.id.next_title);
+		if (itemList.get(position).getProgramNextTitle() != null)
+			nextTitle.setText(" " + itemList.get(position).getProgramNextTitle());
+
+
+		return row;
+	}
+
+	@Override
+	public int getCount() {
+		return itemList.size();
+	}
+
 }
-

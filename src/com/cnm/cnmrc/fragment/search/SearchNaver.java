@@ -63,16 +63,16 @@ public class SearchNaver extends Fragment implements View.OnClickListener {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View layout = inflater.inflate(R.layout.tvch_semidetail, container, false);
+		View layout = inflater.inflate(R.layout.search_naver, container, false);
 
-		preventClickDispatching = (FrameLayout) layout.findViewById(R.id.search_tvch_prevent_click_dispatching);
+		preventClickDispatching = (FrameLayout) layout.findViewById(R.id.prevent_click_dispatching);
 		preventClickDispatching.setOnClickListener(this);
 
 		webview = (WebView) layout.findViewById(R.id.webView);
 		webview.setVisibility(View.INVISIBLE);
 
 		// listview
-		listView = (ListView) layout.findViewById(R.id.tvch_semidetail);
+		listView = (ListView) layout.findViewById(R.id.listview);
 		listView.setDivider(null);
 		listView.setDividerHeight(0);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
