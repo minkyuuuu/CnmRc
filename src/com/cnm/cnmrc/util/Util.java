@@ -39,6 +39,14 @@ public class Util {
 	// --------------
 	// Date
 	// --------------
+	public static Date getNextDAY(Date date, int next) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.add(Calendar.DATE, next);
+		Date datenew = cal.getTime();
+		return datenew;
+	}
+	
 	public static Date toDate(int yyyy, int mm, int dd) {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, yyyy);
@@ -114,6 +122,8 @@ public class Util {
 		int index = c.get(Calendar.DAY_OF_WEEK);
 		return dayOfWeek[index];
 	}
+	
+	
 
 	// ------------------------
 	// AsyncTask onCancelled()

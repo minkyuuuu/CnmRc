@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/px68"
-        android:gravity="center_vertical"
         android:background="#ffd7cfe1"
+        android:gravity="center_vertical"
         android:orientation="horizontal" >
 
         <View
@@ -25,8 +25,7 @@
 
             <RelativeLayout
                 android:layout_width="@dimen/px88"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent" >
 
                 <ImageButton
                     android:id="@+id/date_pre"
@@ -39,8 +38,7 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent" >
 
                 <TextView
                     android:id="@+id/date"
@@ -48,8 +46,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:gravity="left|center_vertical"
-                    android:singleLine="true"
                     android:minWidth="@dimen/px264"
+                    android:singleLine="true"
                     android:text=""
                     android:textColor="#ff7a61aa"
                     android:textSize="@dimen/sp32"
@@ -58,8 +56,7 @@
 
             <RelativeLayout
                 android:layout_width="@dimen/px88"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="match_parent" >
 
                 <ImageButton
                     android:id="@+id/date_next"
@@ -77,11 +74,16 @@
             android:layout_weight="1" />
     </LinearLayout>
 
-    <ListView
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+<!--     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:listSelector="@drawable/xml_vod_semidetail_bg" >
-    </ListView>
+    </ListView> -->
 
 </LinearLayout>
