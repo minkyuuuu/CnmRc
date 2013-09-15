@@ -31,6 +31,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -94,6 +95,7 @@ public class TvchDetail extends Base implements View.OnClickListener {
 		// 좌, 우 날짜변경 버튼
 		prev = (ImageButton) layout.findViewById(R.id.date_pre); 	//이전 아이템으로 이동 버튼
 		prev.setOnClickListener(this);
+		prev.setVisibility(View.INVISIBLE);
 
 		next = (ImageButton) layout.findViewById(R.id.date_next); 	//다음 아이템으로 이동 버튼
 		next.setOnClickListener(this);
@@ -103,7 +105,7 @@ public class TvchDetail extends Base implements View.OnClickListener {
 		Date date = new Date(System.currentTimeMillis());
 		titleDate.setText(Util.getMMDDE(date));
 		
-        List<ArrayFragment> fragments = new Vector<ArrayFragment>();
+        fragments = new Vector<ArrayFragment>();
         fragments.add(ArrayFragment.newInstance(0, channelId));
         fragments.add(ArrayFragment.newInstance(1, channelId));
         fragments.add(ArrayFragment.newInstance(2, channelId));
@@ -117,17 +119,41 @@ public class TvchDetail extends Base implements View.OnClickListener {
 		mPager.setAdapter(pagerAdapter);	//PagerAdapter로 설정
 		mPager.setOnPageChangeListener(new OnPageChangeListener() {	//아이템이 변경되면, gallery나 listview의 onItemSelectedListener와 비슷
 			//아이템이 선택이 되었으면
-			@Override public void onPageSelected(int position) {
+			@Override 
+			public void onPageSelected(int position) {
 				Date date = new Date(System.currentTimeMillis());
 				date = Util.getNextDAY(date, position);
 				titleDate.setText(Util.getMMDDE(date));
 				
 				((ArrayFragment)pagerAdapter.getItem(position)).showTvchDetail();
+				
+				if(position == 0) prev.setVisibility(View.INVISIBLE);
+				else prev.setVisibility(View.VISIBLE);
+				
+				if(position == 6) next.setVisibility(View.INVISIBLE);
+				else next.setVisibility(View.VISIBLE);
 			}
-			@Override public void onPageScrolled(int position, float positionOffest, int positionOffsetPixels) {}
-			@Override public void onPageScrollStateChanged(int state) {}
+			@Override public void onPageScrolled(int position, float positionOffest, int positionOffsetPixels) {
+				// flicking이 일어나면 계속 콜백된다.
+				//Log.i("hwang", "onPageScrolled");
+			}
+			@Override public void onPageScrollStateChanged(int state) {
+				// flicking이 일어나면 마지막에 한번만 콜백된다. 
+				// 마지막페이지, 처음페이지에서 페이지의 변화가 없어도 콜백이 한번 발생한다.
+				// flicking의 방향까지 체크되어야 마지막 페이지가 체크가능하다....
+				// Log.v("hwang", "onPageScrollStateChanged");
+			}
 		});
 		
+		mPager.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				//pagerAdapter.getItem(mPager.getCurrentItem());
+				// getsture를 이용해서 마지막페이지 처리???
+				return false;
+			}
+		});
 		//((ArrayFragment)pagerAdapter.getItem(0)).showTvchDetail(); // 여기선 안된다...
 
 		return layout;
@@ -260,7 +286,7 @@ public class TvchDetail extends Base implements View.OnClickListener {
 	// -----------------------------------------
 	//	뷰 페이저의 페이지에 맞는 fragment를 생성하는 객체
 	// -----------------------------------------
-	private static class ArrayFragment extends Fragment {
+	public static class ArrayFragment extends Fragment {
 		
 		ListView listView;
 		TvchDetailAdapter adapter;
