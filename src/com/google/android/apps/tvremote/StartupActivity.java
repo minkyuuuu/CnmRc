@@ -87,6 +87,11 @@ public class StartupActivity extends CoreServiceActivity {
 		startActivity(intent);
 	}
 	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
+	
 	// No used
 	/*@Override
 	protected void onNewIntent(Intent intent) {
@@ -115,9 +120,11 @@ public class StartupActivity extends CoreServiceActivity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
+			
 			long elapsedTime = watch.time();
 			//long elapsedTime = watch.time(TimeUnit.SECONDS);
 			Log.e("hwang-tvremote", "elapsedTime : " + elapsedTime);	// 1266, 1455
+			
 			keystoreAvailable = true;
 		}
 	}

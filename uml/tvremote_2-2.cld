@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<net.java.amateras.uml.model.RootModel>
+  <backgroundColor>
+    <red>255</red>
+    <green>255</green>
+    <blue>206</blue>
+  </backgroundColor>
+  <foregroundColor>
+    <red>0</red>
+    <green>0</green>
+    <blue>0</blue>
+  </foregroundColor>
+  <showIcon>true</showIcon>
+  <listeners serialization="custom">
+    <java.beans.PropertyChangeSupport>
+      <default>
+        <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+        <source class="net.java.amateras.uml.model.RootModel" reference="../../../.."/>
+      </default>
+      <null/>
+    </java.beans.PropertyChangeSupport>
+  </listeners>
+  <sourceConnections/>
+  <targetConnections/>
+  <children>
+    <net.java.amateras.uml.model.NoteModel>
+      <backgroundColor>
+        <red>255</red>
+        <green>255</green>
+        <blue>206</blue>
+      </backgroundColor>
+      <foregroundColor>
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
+      </foregroundColor>
+      <showIcon>true</showIcon>
+      <parent class="net.java.amateras.uml.model.RootModel">
+        <backgroundColor reference="../../backgroundColor"/>
+        <foregroundColor reference="../../foregroundColor"/>
+        <showIcon>true</showIcon>
+        <listeners serialization="custom">
+          <java.beans.PropertyChangeSupport>
+            <default>
+              <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+              <source class="net.java.amateras.uml.model.RootModel" reference="../../../.."/>
+            </default>
+            <null/>
+          </java.beans.PropertyChangeSupport>
+        </listeners>
+        <sourceConnections/>
+        <targetConnections/>
+        <children>
+          <net.java.amateras.uml.model.NoteModel reference="../../.."/>
+        </children>
+        <filterProperty/>
+      </parent>
+      <listeners serialization="custom">
+        <java.beans.PropertyChangeSupport>
+          <default>
+            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+            <source class="net.java.amateras.uml.model.NoteModel" reference="../../../.."/>
+          </default>
+          <null/>
+        </java.beans.PropertyChangeSupport>
+      </listeners>
+      <constraint>
+        <height>1223</height>
+        <width>737</width>
+        <x>24</x>
+        <y>20</y>
+      </constraint>
+      <sourceConnections/>
+      <targetConnections/>
+      <children/>
+      <filterProperty/>
+      <content>09-19 03:46:55.940: E/hwang-tvremote(32603): CoreServiceActivity::onCreate()
+09-19 03:46:55.945: E/hwang-tvremote(32603): CoreServiceActivity::start call CoreService.class
+09-19 03:46:56.005: D/hwang-tvremote(32603): CoreService::allowedTransitions()
+09-19 03:46:56.005: D/hwang-tvremote(32603): CoreService::CoreService()
+09-19 03:46:56.005: D/hwang-tvremote(32603): CoreService::onCreate()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadConfig()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.035: D/hwang-tvremote(32603): CoreService::onBind()
+09-19 03:46:56.055: E/hwang-tvremote(32603): CoreServiceActivity::runQueuedRunnables()
+
+09-19 03:47:39.390: I/hwang-tvremote(32603): BaseActivity::BaseActivity()
+09-19 03:47:39.390: W/hwang-tvremote(32603): MainActivity::MainActivity()
+09-19 03:47:39.390: W/hwang-tvremote(32603): MainActivity::onCreate()
+09-19 03:47:39.390: I/hwang-tvremote(32603): BaseActivity::onCreate()
+09-19 03:47:39.390: E/hwang-tvremote(32603): CoreServiceActivity::onCreate()
+09-19 03:47:39.390: E/hwang-tvremote(32603): CoreServiceActivity::start call CoreService.class
+09-19 03:47:39.890: I/hwang-tvremote(32603): BaseActivity::setKeepConnected()
+09-19 03:47:39.890: E/hwang-tvremote(32603): CoreServiceActivity::executeWhenCoreServiceAvailable()
+09-19 03:47:39.890: V/hwang-tvremote(32603): BaseActivity::onStart() --&gt; setKeepConnected(true)
+09-19 03:47:39.890: I/hwang-tvremote(32603): BaseActivity::connect()
+09-19 03:47:39.890: E/hwang-tvremote(32603): CoreServiceActivity::executeWhenCoreServiceAvailable()
+09-19 03:47:39.890: I/hwang-tvremote(32603): BaseActivity::resetScreenDim()
+09-19 03:47:39.890: V/hwang-tvremote(32603): BaseActivity::onResume() --&gt; connect()
+09-19 03:47:39.890: V/hwang-tvremote(32603): BaseActivity::onResume() --&gt; resetScreenDim()
+09-19 03:47:39.895: E/hwang-tvremote(32603): CoreServiceActivity::runQueuedRunnables()
+
+09-19 03:47:39.895: D/hwang-tvremote(32603): CoreService::setKeepConnected()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleMessage()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleSetKeepConnected()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::disconnect()
+
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::connect()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleMessage()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleConnect()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleSetKeepConnected()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::disconnect()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::isConnecting()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::isConnecting()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::changeState(State)
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::changeState(State, Runnable)
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::sendNotification()
+09-19 03:47:39.900: I/hwang-tvremote(32603): BaseActivity::onShowDeviceFinder()
+09-19 03:47:39.900: I/hwang-tvremote(32603): BaseActivity::showSwitchBoxActivity()
+
+09-19 03:47:39.900: I/hwang-tvremote(32603): BaseActivity::disconnect()
+09-19 03:47:39.900: E/hwang-tvremote(32603): CoreServiceActivity::executeWhenCoreServiceAvailable()
+09-19 05:43:24.010: E/hwang-tvremote(865): CoreServiceActivity::executeWhenCoreServiceAvailable()::coreService == null
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::disconnect()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleMessage()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleDisconnect()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleSetKeepConnected()
+
+09-19 05:43:24.010: E/hwang-tvremote(865): DeviceFinder::createConnectIntent()
+
+09-19 03:47:39.905: I/hwang-tvremote(32603): BaseActivity::onServiceAvailable()
+09-19 03:47:39.960: I/hwang-tvremote(32603): BaseActivity::resetScreenDim()
+09-19 03:47:39.965: V/hwang-tvremote(32603): BaseActivity::onPause() --&gt; handler.removeMessages(SCREEN_DIM)
+09-19 03:47:39.965: V/hwang-tvremote(32603): BaseActivity::onPause() --&gt; disconnect()
+
+09-19 05:43:24.135: E/hwang-tvremote(865): DeviceFinder::DeviceFinder()
+09-19 05:43:24.135: E/hwang-tvremote(865): DeviceFinder::TrackedDevices::TrackedDevices()
+09-19 05:43:24.135: E/hwang-tvremote(865): DeviceFinder::onCreate()
+09-19 05:43:24.155: E/hwang-tvremote(865): DeviceFinder::onStart()
+09-19 05:43:24.155: E/hwang-tvremote(865): DeviceFinder::getBroadcastAddress()
+09-19 05:43:24.155: E/hwang-tvremote(865): DeviceFinder::startBroadcast()
+09-19 05:43:24.160: E/hwang-tvremote(865): DeviceFinder::buildBroadcastProgressDialog()
+09-19 05:43:24.160: E/hwang-tvremote(865): DeviceFinder::buildProgressDialog()
+09-19 05:43:24.165: E/hwang-tvremote(865): DeviceFinder::showProgressDialog()
+09-19 05:43:24.195: E/hwang-tvremote(865): DeviceFinder::onResume()
+09-19 05:43:24.200: E/hwang-tvremote(865): DeviceFinder::BroadcastHandler::handleMessage()
+09-19 05:43:24.200: E/hwang-tvremote(865): DeviceFinder::handleRemoteDeviceAdd()
+09-19 05:43:24.310: E/hwang-tvremote(865): StartupActivity::onDestroy()
+09-19 05:43:24.310: E/hwang-tvremote(865): CoreServiceActivity::onDestroy()
+09-19 05:43:24.310: E/hwang-tvremote(865): CoreServiceActivity::disconnectFromService()
+09-19 05:43:26.215: E/hwang-tvremote(865): DeviceFinder::BroadcastHandler::handleMessage()
+09-19 05:43:26.215: E/hwang-tvremote(865): DeviceFinder::buildConfirmationDialog()
+09-19 05:43:30.180: E/hwang-tvremote(865): DeviceFinder::BroadcastHandler::handleMessage()
+09-19 05:43:30.180: E/hwang-tvremote(865): DeviceFinder::handleRemoteDeviceAdd()
+09-19 05:43:36.175: E/hwang-tvremote(865): DeviceFinder::BroadcastHandler::handleMessage()
+09-19 05:43:36.175: E/hwang-tvremote(865): DeviceFinder::handleRemoteDeviceAdd()
+
+09-19 03:47:40.190: E/hwang-tvremote(32603): StartupActivity::onDestroy()
+09-19 03:47:40.190: E/hwang-tvremote(32603): CoreServiceActivity::onDestroy()
+09-19 03:47:40.190: E/hwang-tvremote(32603): CoreServiceActivity::disconnectFromService()
+</content>
+      <old>09-19 03:46:55.940: E/hwang-tvremote(32603): CoreServiceActivity::onCreate()
+09-19 03:46:55.945: E/hwang-tvremote(32603): CoreServiceActivity::start call CoreService.class
+09-19 03:46:56.005: D/hwang-tvremote(32603): CoreService::allowedTransitions()
+09-19 03:46:56.005: D/hwang-tvremote(32603): CoreService::CoreService()
+09-19 03:46:56.005: D/hwang-tvremote(32603): CoreService::onCreate()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadConfig()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.030: D/hwang-tvremote(32603): CoreService::loadRemoteDevice()
+09-19 03:46:56.035: D/hwang-tvremote(32603): CoreService::onBind()
+09-19 03:46:56.055: E/hwang-tvremote(32603): CoreServiceActivity::runQueuedRunnables()
+
+09-19 03:47:39.390: I/hwang-tvremote(32603): BaseActivity::BaseActivity()
+09-19 03:47:39.390: W/hwang-tvremote(32603): MainActivity::MainActivity()
+09-19 03:47:39.390: W/hwang-tvremote(32603): MainActivity::onCreate()
+09-19 03:47:39.390: I/hwang-tvremote(32603): BaseActivity::onCreate()
+09-19 03:47:39.390: E/hwang-tvremote(32603): CoreServiceActivity::onCreate()
+09-19 03:47:39.390: E/hwang-tvremote(32603): CoreServiceActivity::start call CoreService.class
+09-19 03:47:39.890: I/hwang-tvremote(32603): BaseActivity::setKeepConnected()
+09-19 03:47:39.890: E/hwang-tvremote(32603): CoreServiceActivity::executeWhenCoreServiceAvailable()
+09-19 03:47:39.890: V/hwang-tvremote(32603): BaseActivity::onStart() --&gt; setKeepConnected(true)
+09-19 03:47:39.890: I/hwang-tvremote(32603): BaseActivity::connect()
+09-19 03:47:39.890: E/hwang-tvremote(32603): CoreServiceActivity::executeWhenCoreServiceAvailable()
+09-19 03:47:39.890: I/hwang-tvremote(32603): BaseActivity::resetScreenDim()
+09-19 03:47:39.890: V/hwang-tvremote(32603): BaseActivity::onResume() --&gt; connect()
+09-19 03:47:39.890: V/hwang-tvremote(32603): BaseActivity::onResume() --&gt; resetScreenDim()
+09-19 03:47:39.895: E/hwang-tvremote(32603): CoreServiceActivity::runQueuedRunnables()
+
+09-19 03:47:39.895: D/hwang-tvremote(32603): CoreService::setKeepConnected()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleMessage()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleSetKeepConnected()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::disconnect()
+
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::connect()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleMessage()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleConnect()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleSetKeepConnected()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::disconnect()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::isConnecting()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::isConnecting()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::changeState(State)
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::changeState(State, Runnable)
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::sendNotification()
+09-19 03:47:39.900: I/hwang-tvremote(32603): BaseActivity::onShowDeviceFinder()
+09-19 03:47:39.900: I/hwang-tvremote(32603): BaseActivity::showSwitchBoxActivity()
+
+09-19 03:47:39.900: I/hwang-tvremote(32603): BaseActivity::disconnect()
+09-19 03:47:39.900: E/hwang-tvremote(32603): CoreServiceActivity::executeWhenCoreServiceAvailable()
+09-19 05:43:24.010: E/hwang-tvremote(865): CoreServiceActivity::executeWhenCoreServiceAvailable()::coreService == null
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::disconnect()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleMessage()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleDisconnect()
+09-19 03:47:39.900: D/hwang-tvremote(32603): CoreService::ConnectionRequestCallback::handleSetKeepConnected()
+
+09-19 05:43:24.010: E/hwang-tvremote(865): DeviceFinder::createConnectIntent()
+
+09-19 03:47:39.905: I/hwang-tvremote(32603): BaseActivity::onServiceAvailable()
+09-19 03:47:39.960: I/hwang-tvremote(32603): BaseActivity::resetScreenDim()
+09-19 03:47:39.965: V/hwang-tvremote(32603): BaseActivity::onPause() --&gt; handler.removeMessages(SCREEN_DIM)
+09-19 03:47:39.965: V/hwang-tvremote(32603): BaseActivity::onPause() --&gt; disconnect()
+
+09-19 03:47:40.190: E/hwang-tvremote(32603): StartupActivity::onDestroy()
+09-19 03:47:40.190: E/hwang-tvremote(32603): CoreServiceActivity::onDestroy()
+09-19 03:47:40.190: E/hwang-tvremote(32603): CoreServiceActivity::disconnectFromService()
+</old>
+    </net.java.amateras.uml.model.NoteModel>
+  </children>
+  <filterProperty/>
+</net.java.amateras.uml.model.RootModel>

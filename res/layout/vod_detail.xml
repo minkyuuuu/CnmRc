@@ -73,7 +73,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/px24"
                 android:layout_marginRight="@dimen/px24"
-                android:background="@drawable/mister_go_big"
+                android:background="@drawable/emptyimgdetail"
                 android:contentDescription="@string/accessibility_no_action" />
 
             <RelativeLayout

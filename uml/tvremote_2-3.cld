@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<net.java.amateras.uml.model.RootModel>
+  <backgroundColor>
+    <red>255</red>
+    <green>255</green>
+    <blue>206</blue>
+  </backgroundColor>
+  <foregroundColor>
+    <red>0</red>
+    <green>0</green>
+    <blue>0</blue>
+  </foregroundColor>
+  <showIcon>true</showIcon>
+  <listeners serialization="custom">
+    <java.beans.PropertyChangeSupport>
+      <default>
+        <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+        <source class="net.java.amateras.uml.model.RootModel" reference="../../../.."/>
+      </default>
+      <null/>
+    </java.beans.PropertyChangeSupport>
+  </listeners>
+  <sourceConnections/>
+  <targetConnections/>
+  <children>
+    <net.java.amateras.uml.model.NoteModel>
+      <backgroundColor>
+        <red>255</red>
+        <green>255</green>
+        <blue>206</blue>
+      </backgroundColor>
+      <foregroundColor>
+        <red>0</red>
+        <green>0</green>
+        <blue>0</blue>
+      </foregroundColor>
+      <showIcon>true</showIcon>
+      <parent class="net.java.amateras.uml.model.RootModel">
+        <backgroundColor reference="../../backgroundColor"/>
+        <foregroundColor reference="../../foregroundColor"/>
+        <showIcon>true</showIcon>
+        <listeners serialization="custom">
+          <java.beans.PropertyChangeSupport>
+            <default>
+              <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+              <source class="net.java.amateras.uml.model.RootModel" reference="../../../.."/>
+            </default>
+            <null/>
+          </java.beans.PropertyChangeSupport>
+        </listeners>
+        <sourceConnections/>
+        <targetConnections/>
+        <children>
+          <net.java.amateras.uml.model.NoteModel reference="../../.."/>
+        </children>
+        <filterProperty/>
+      </parent>
+      <listeners serialization="custom">
+        <java.beans.PropertyChangeSupport>
+          <default>
+            <propertyChangeSupportSerializedDataVersion>2</propertyChangeSupportSerializedDataVersion>
+            <source class="net.java.amateras.uml.model.NoteModel" reference="../../../.."/>
+          </default>
+          <null/>
+        </java.beans.PropertyChangeSupport>
+      </listeners>
+      <constraint>
+        <height>800</height>
+        <width>920</width>
+        <x>24</x>
+        <y>20</y>
+      </constraint>
+      <sourceConnections/>
+      <targetConnections/>
+      <children/>
+      <filterProperty/>
+      <content>09-19 03:26:38.440: W/hwang-tvremote(14899): MainActivity::onActivityResult()
+09-19 03:26:38.440: I/hwang-tvremote(14899): BaseActivity::onActivityResult()
+09-19 03:26:38.440: E/hwang-tvremote(14899): CoreServiceActivity::executeWhenCoreServiceAvailable()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::setTarget()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::handleMessage()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::handleSetTarget()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::disconnect()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::isConnecting()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::isConnecting()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::changeState(State)
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::changeState(State, Runnable)
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::deviceFinderFinished()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::handleMessage()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::changeState(State)
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::changeState(State, Runnable)
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::sendNotification()
+09-19 03:26:38.445: I/hwang-tvremote(14899): BaseActivity::connectOrFinish()
+09-19 03:26:38.445: I/hwang-tvremote(14899): BaseActivity::connect()
+09-19 03:26:38.445: E/hwang-tvremote(14899): CoreServiceActivity::executeWhenCoreServiceAvailable()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::connect()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::handleMessage()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::handleConnect()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::handleSetKeepConnected()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::disconnect()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::sendNotification()
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::changeState(State)
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::changeState(State, Runnable)
+09-19 03:26:38.445: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::sendNotification()
+09-19 03:26:38.445: I/hwang-tvremote(14899): BaseActivity::onConnecting()
+09-19 03:26:38.450: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::connect()
+09-19 03:26:38.450: D/hwang-tvremote(14899): CoreService::startConnectionTask()
+09-19 03:26:38.450: D/hwang-tvremote(14899): CoreService::stopConnectionTask()
+09-19 03:26:38.450: I/hwang-tvremote(14899): BaseActivity::resetScreenDim()
+09-19 03:26:38.450: V/hwang-tvremote(14899): BaseActivity::onResume() --&gt; connect()
+09-19 03:26:38.450: V/hwang-tvremote(14899): BaseActivity::onResume() --&gt; resetScreenDim()
+09-19 03:26:38.450: D/hwang-tvremote(14899): CoreService::ConnectionTask::doInBackground()
+09-19 03:26:38.465: D/hwang-tvremote(14899): CoreService::ConnectionTask::buildSocket()
+09-19 03:26:38.465: D/hwang-tvremote(14899): CoreService::ConnectionTask::getSslSocket()
+09-19 03:26:38.955: D/hwang-tvremote(14899): CoreService::ConnectionTask::onPostExecute()
+09-19 03:26:38.960: D/hwang-tvremote(14899): CoreService::requestPairing()
+09-19 03:26:38.960: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::handleMessage()
+09-19 03:26:38.960: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::handleRequestPairing()
+09-19 03:26:38.960: D/hwang-tvremote(14899): CoreService::stopConnectionTask()
+09-19 03:26:38.960: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::changeState(State)
+09-19 03:26:38.960: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::changeState(State, Runnable)
+09-19 03:26:38.960: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::sendNotification()
+09-19 03:26:38.960: I/hwang-tvremote(14899): BaseActivity::onNeedsPairing()
+09-19 03:26:38.960: I/hwang-tvremote(14899): BaseActivity::showPairingActivity()
+09-19 03:26:38.960: I/hwang-tvremote(14899): BaseActivity::disconnect()
+09-19 03:26:38.960: E/hwang-tvremote(14899): CoreServiceActivity::executeWhenCoreServiceAvailable()
+09-19 03:26:38.960: D/hwang-tvremote(14899): CoreService::disconnect()
+09-19 03:26:38.960: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::handleMessage()
+09-19 03:26:38.960: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::handleDisconnect()
+09-19 03:26:38.960: D/hwang-tvremote(14899): CoreService::ConnectionRequestCallback::handleSetKeepConnected()
+09-19 03:26:38.985: I/hwang-tvremote(14899): BaseActivity::resetScreenDim()
+09-19 03:26:38.985: V/hwang-tvremote(14899): BaseActivity::onPause() --&gt; handler.removeMessages(SCREEN_DIM)
+09-19 03:26:38.985: V/hwang-tvremote(14899): BaseActivity::onPause() --&gt; disconnect()
+09-19 03:26:39.010: E/hwang-tvremote(14899): CoreServiceActivity::onCreate()
+09-19 03:26:39.010: E/hwang-tvremote(14899): CoreServiceActivity::start call CoreService.class
+09-19 03:26:39.045: E/hwang-tvremote(14899): CoreServiceActivity::runQueuedRunnables()
+</content>
+      <old></old>
+    </net.java.amateras.uml.model.NoteModel>
+  </children>
+  <filterProperty/>
+</net.java.amateras.uml.model.RootModel>

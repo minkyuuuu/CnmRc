@@ -152,11 +152,11 @@ public class Util {
 	// default Image
 	// --------------
 	public static Bitmap getNoBitmap(Context context) {
-		return BitmapFactory.decodeResource(context.getResources(), R.drawable.noimg_listposter);
+		return BitmapFactory.decodeResource(context.getResources(), R.drawable.emptyimglist);
 	}
 
 	public static Bitmap getAdultBitmap(Activity activity) {
-		return BitmapFactory.decodeResource(activity.getResources(), R.drawable.posterbg_list_19);
+		return BitmapFactory.decodeResource(activity.getResources(), R.drawable.vodlist19);
 	}
 
 	public final static String PACKGE_NAME = "com.cnm.cnmrc.cache";
