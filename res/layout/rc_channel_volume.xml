@@ -198,6 +198,15 @@
                     android:layout_gravity="center"
                     android:background="@drawable/xml_control_ok"
                     android:contentDescription="@string/accessibility_general_button" />
+
+                <ImageView
+                    android:id="@+id/anim_ok"
+                    android:layout_width="@dimen/px130"
+                    android:layout_height="@dimen/px130"
+                    android:layout_gravity="center"
+                    android:background="@drawable/anim_tappress"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
             </FrameLayout>
         </FrameLayout>
 

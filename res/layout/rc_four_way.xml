@@ -128,14 +128,29 @@
             </FrameLayout>
 
             <!-- ok button -->
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" >
 
-            <ImageButton
-                android:id="@+id/fourway_ok"
-                android:layout_width="@dimen/px110"
-                android:layout_height="@dimen/px110"
-                android:layout_centerInParent="true"
-                android:background="@drawable/xml_control_ok"
-                android:contentDescription="@string/accessibility_general_button" />
+                <ImageButton
+                    android:id="@+id/fourway_ok"
+                    android:layout_width="@dimen/px110"
+                    android:layout_height="@dimen/px110"
+                    android:layout_gravity="center"
+                    android:background="@drawable/xml_control_ok"
+                    android:contentDescription="@string/accessibility_general_button" />
+
+                <ImageView
+                    android:id="@+id/anim_fourway_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|center_vertical"
+                    android:background="@drawable/anim_tappress"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
         </RelativeLayout>
 
         <View

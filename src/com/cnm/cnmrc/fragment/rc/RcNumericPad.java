@@ -29,6 +29,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.cnm.cnmrc.R;
+import com.google.android.apps.tvremote.BaseActivity;
+import com.google.android.apps.tvremote.KeyboardActivity;
+import com.google.android.apps.tvremote.util.Action;
 
 public class RcNumericPad extends Fragment implements View.OnClickListener {
 
@@ -89,45 +92,275 @@ public class RcNumericPad extends Fragment implements View.OnClickListener {
 	@Override
 	public void onClick(View v) {
 
-		switch (v.getId()) {
+/*		switch (v.getId()) {
 		case R.id.numeric_n1:
-			Toast.makeText(getActivity(), v.getTag().toString().toString(), Toast.LENGTH_SHORT).show();
+			Action.NUM1.execute(((BaseActivity)getActivity()).getCommands());
 			break;
 		case R.id.numeric_n2:
-			Toast.makeText(getActivity(), v.getTag().toString().toString(), Toast.LENGTH_SHORT).show();
+			Action.NUM2.execute(((BaseActivity)getActivity()).getCommands());
 			break;
 		case R.id.numeric_n3:
-			Toast.makeText(getActivity(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
+			Action.NUM3.execute(((BaseActivity)getActivity()).getCommands());
 			break;
 		case R.id.numeric_n4:
-			Toast.makeText(getActivity(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
+			Action.NUM4.execute(((BaseActivity)getActivity()).getCommands());
 			break;
 		case R.id.numeric_n5:
-			Toast.makeText(getActivity(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
+			Action.NUM5.execute(((BaseActivity)getActivity()).getCommands());
 			break;
 		case R.id.numeric_n6:
-			Toast.makeText(getActivity(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
+			Action.NUM6.execute(((BaseActivity)getActivity()).getCommands());
 			break;
 		case R.id.numeric_n7:
-			Toast.makeText(getActivity(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
+			Action.NUM7.execute(((BaseActivity)getActivity()).getCommands());
 			break;
 		case R.id.numeric_n8:
-			Toast.makeText(getActivity(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
+			Action.NUM8.execute(((BaseActivity)getActivity()).getCommands());
 			break;
 		case R.id.numeric_n9:
-			Toast.makeText(getActivity(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
+			Action.NUM9.execute(((BaseActivity)getActivity()).getCommands());
 			break;
 		case R.id.numeric_n0:
-			Toast.makeText(getActivity(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
+			Action.NUM0.execute(((BaseActivity)getActivity()).getCommands());
 			break;
 			
 		case R.id.numeric_nback:
-			Toast.makeText(getActivity(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
+			Action.BACKSPACE.execute(((BaseActivity)getActivity()).getCommands());
 			break;
 		case R.id.numeric_nok:
-			Toast.makeText(getActivity(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
+			Action.ENTER.execute(((BaseActivity)getActivity()).getCommands());
+			break;
+		}*/
+		
+		
+		
+		// 테스트용... part 0
+		switch (v.getId()) {
+		case R.id.numeric_n1:	// DVR, 실시간TV와 같음
+			Action.GO_TO_DVR.execute(((BaseActivity)getActivity()).getCommands());
+			break;
+		case R.id.numeric_n2:	// guide, bookmark (tv프로그램 또는 영화) 전화면을 기억하여 북마크로 이동한다. 
+			Action.GO_TO_GUIDE.execute(((BaseActivity)getActivity()).getCommands());
+			break;
+		case R.id.numeric_n3:	// Google TV 설정화면
+			Action.SETTINGS.execute(((BaseActivity)getActivity()).getCommands());
+			break;
+		case R.id.numeric_n4:	// 브라우저에서 페이지단위 이동, 볼륨키도 적용된다.
+			Action.PAGE_UP.execute(((BaseActivity)getActivity()).getCommands());
+			break;
+		case R.id.numeric_n5:	// 브라우저에서 페이지단위 이동, 볼륨키도 적용된다.
+			Action.PAGE_DOWN.execute(((BaseActivity)getActivity()).getCommands());
+			break;
+		case R.id.numeric_n6:	// recall, ???
+			Action.TAB.execute(((BaseActivity)getActivity()).getCommands());
+			break;
+		case R.id.numeric_n7:	// 옵셔메뉴
+			Action.GO_TO_MENU.execute(((BaseActivity)getActivity()).getCommands());
+			break;
+			
+		case R.id.numeric_n8:	// 검색
+	        Action.NAVBAR.execute(((BaseActivity)getActivity()).getCommands());
+	        //showActivity(KeyboardActivity.class);
+			break;
+		case R.id.numeric_n9:	// 실시간 TV
+			Action.GO_TO_LIVE_TV.execute(((BaseActivity)getActivity()).getCommands());
+			break;
+		case R.id.numeric_n0:	// bookmark (tv프로그램 또는 영화) 전화면을 기억하여 북마크로 이동한다. tv모드일때만 book가 실행된다. home에서는 안된다. 그러나 guide는 home에서도 이동한다.
+			Action.GO_TO_BOOKMARK.execute(((BaseActivity)getActivity()).getCommands());
+			break;
+			
+		case R.id.numeric_nback:
+			Action.BACKSPACE.execute(((BaseActivity)getActivity()).getCommands());
+			break;
+		case R.id.numeric_nok:
+			Action.ENTER.execute(((BaseActivity)getActivity()).getCommands());
 			break;
 		}
+		
+		
+		// 테스트용... part 1
+//		switch (v.getId()) {
+//		case R.id.numeric_n1:	// DVR, 실시간TV와 같음
+//			Action.GO_TO_DVR.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n2:	// guide, bookmark (tv프로그램 또는 영화) 전화면을 기억하여 북마크로 이동한다. 
+//			Action.GO_TO_GUIDE.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n3:	// info, 아무런 동작을 하지 않는다. ???
+//			Action.GO_TO_INFO.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n4:	// 브라우저에서 페이지단위 이동, 볼륨키도 적용된다.
+//			Action.PAGE_UP.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n5:	// 브라우저에서 페이지단위 이동, 볼륨키도 적용된다.
+//			Action.PAGE_DOWN.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n6:	// recall, ???
+//			Action.TAB.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n7:	// 옵셔메뉴
+//			Action.GO_TO_MENU.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//			
+//		case R.id.numeric_n8:	// 검색
+//	        Action.NAVBAR.execute(((BaseActivity)getActivity()).getCommands());
+//	        //showActivity(KeyboardActivity.class);
+//			break;
+//		case R.id.numeric_n9:	// 실시간 TV
+//			Action.GO_TO_LIVE_TV.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n0:	// bookmark (tv프로그램 또는 영화) 전화면을 기억하여 북마크로 이동한다. tv모드일때만 book가 실행된다. home에서는 안된다. 그러나 guide는 home에서도 이동한다.
+//			Action.GO_TO_BOOKMARK.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//			
+//		case R.id.numeric_nback:
+//			Action.BACKSPACE.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_nok:
+//			Action.ENTER.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		}
+		
+		// 테스트용... part 2
+//		switch (v.getId()) {
+//		case R.id.numeric_n1:	// Google TV 설정화면
+//			Action.SETTINGS.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n2:	// x
+//			Action.SETUP.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n3:	// x
+//			Action.EXPLORER.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n4:	// char '*'
+//			Action.STAR.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n5:	// x
+//			Action.ZOOM_IN.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n6:	// x
+//			Action.ZOOM_OUT.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n7:	// 옵셔메뉴
+//			Action.GO_TO_MENU.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//			
+//		case R.id.numeric_n8:	// 검색
+//			Action.NAVBAR.execute(((BaseActivity)getActivity()).getCommands());
+//			//showActivity(KeyboardActivity.class);
+//			break;
+//		case R.id.numeric_n9:	// 실시간 TV
+//			Action.GO_TO_LIVE_TV.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n0:	// bookmark (tv프로그램 또는 영화) 전화면을 기억하여 북마크로 이동한다. tv모드일때만 book가 실행된다. home에서는 안된다. 그러나 guide는 home에서도 이동한다.
+//			Action.GO_TO_BOOKMARK.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//			
+//		case R.id.numeric_nback:
+//			Action.BACKSPACE.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_nok:
+//			Action.ENTER.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		}
+		
+		// 테스트용... part 3
+//		switch (v.getId()) {
+//		case R.id.numeric_n1:	// ckick
+//			Action.CLICK_DOWN.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n2:	// click
+//			Action.CLICK_UP.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n3:	// x
+//			Action.BD_TOP_MENU.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n4:	// x
+//			Action.BD_MENU.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n5:	// x
+//			Action.EJECT.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n6:	// x
+//			Action.AUDIO.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n7:	// x
+//			Action.CAPTIONS.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//			
+//		case R.id.numeric_n8:	// 검색
+//			Action.NAVBAR.execute(((BaseActivity)getActivity()).getCommands());
+//			//showActivity(KeyboardActivity.class);
+//			break;
+//		case R.id.numeric_n9:	// 실시간 TV
+//			Action.GO_TO_LIVE_TV.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n0:	// bookmark (tv프로그램 또는 영화) 전화면을 기억하여 북마크로 이동한다. tv모드일때만 book가 실행된다. home에서는 안된다. 그러나 guide는 home에서도 이동한다.
+//			Action.GO_TO_BOOKMARK.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//			
+//		case R.id.numeric_nback:
+//			Action.BACKSPACE.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_nok:
+//			Action.ENTER.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		}
+		
+		// 테스트용... part 4
+//		switch (v.getId()) {
+//		case R.id.numeric_n1:	// x
+//			Action.POWER_STB.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n2:	// x
+//			Action.INPUT_STB.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n3:	// x
+//			Action.POWER_BD.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n4:	// x
+//			Action.INPUT_BD.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n5:	// x
+//			Action.POWER_AVR.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n6:	// x
+//			Action.INPUT_AVR.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n7:	// x
+//			Action.POWER_TV.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//			
+//		case R.id.numeric_n8:	// x
+//			Action.INPUT_TV.execute(((BaseActivity)getActivity()).getCommands());
+//			//showActivity(KeyboardActivity.class);
+//			break;
+//		case R.id.numeric_n9:	// 실시간 TV
+//			Action.GO_TO_LIVE_TV.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n0:	// bookmark (tv프로그램 또는 영화) 전화면을 기억하여 북마크로 이동한다. tv모드일때만 book가 실행된다. home에서는 안된다. 그러나 guide는 home에서도 이동한다.
+//			Action.GO_TO_BOOKMARK.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//			
+//		case R.id.numeric_nback:
+//			Action.BACKSPACE.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_nok:
+//			Action.ENTER.execute(((BaseActivity)getActivity()).getCommands());
+//			break;
+//		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 
 }

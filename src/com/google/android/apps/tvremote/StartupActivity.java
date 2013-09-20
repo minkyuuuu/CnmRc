@@ -57,6 +57,7 @@ public class StartupActivity extends CoreServiceActivity {
 			public void run() {
 				keystoreAvailable = true;
 				showMainActivity();
+				finish();
 			}
 		}, 1500);
 	}
@@ -93,13 +94,13 @@ public class StartupActivity extends CoreServiceActivity {
 	}
 	
 	// No used
-	/*@Override
+	@Override
 	protected void onNewIntent(Intent intent) {
 		setIntent(intent);
 		if (keystoreAvailable) {
 			showMainActivity();
 		}
-	}*/
+	}
 
 	private class KeystoreInitializerTask extends AsyncTask<KeyStoreManager, Void, Void> {
 		private final String id;
@@ -126,6 +127,7 @@ public class StartupActivity extends CoreServiceActivity {
 			Log.e("hwang-tvremote", "elapsedTime : " + elapsedTime);	// 1266, 1455
 			
 			keystoreAvailable = true;
+			//showMainActivity();
 		}
 	}
 

@@ -19,17 +19,15 @@ package com.cnm.cnmrc.fragment.rc;
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.cnm.cnmrc.R;
+import com.google.android.apps.tvremote.BaseActivity;
+import com.google.android.apps.tvremote.util.Action;
 
 public class RcChannelVolume extends RcBase implements View.OnClickListener {
 	
@@ -51,6 +49,9 @@ public class RcChannelVolume extends RcBase implements View.OnClickListener {
 
 	ImageButton mChUp, mChDown, mChname; // channel
 	ImageView mAnimChUp, mAnimChDown;
+	
+	ImageButton mOK;
+	ImageView mAnimOK;
 
 	boolean mToogleMuteOff = true;
 
@@ -88,6 +89,10 @@ public class RcChannelVolume extends RcBase implements View.OnClickListener {
 
 		mChname = (ImageButton) layout.findViewById(R.id.panel_chname);
 		mChname.setOnClickListener(this);
+		
+		mOK = (ImageButton) layout.findViewById(R.id.ok);
+		mAnimOK = (ImageView) layout.findViewById(R.id.anim_ok);
+		mOK.setOnClickListener(this);
 
 		return layout;
 	}
@@ -116,14 +121,17 @@ public class RcChannelVolume extends RcBase implements View.OnClickListener {
 
 		switch (v.getId()) {
 		case R.id.control_volplus:
-			if (!oneClickTapPress)
-				return;
+			if (!oneClickTapPress) return;
+			Action.VOLUME_UP.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, mAnimVolPlus);
+			mMute.setBackgroundResource(R.drawable.xml_control_mute_off); // mute 배경이미지가 바뀌어야 한다.
+			mToogleMuteOff = true;
 			break;
 		case R.id.control_mute:
 			if (!oneClickTapPress) return;
 			oneClickTapPress = false;
+			Action.MUTE.execute(((BaseActivity)getActivity()).getCommands());
 			
 			startLoadingAni((ImageButton) v, mAnimMute);
 			if (mToogleMuteOff) {
@@ -136,18 +144,29 @@ public class RcChannelVolume extends RcBase implements View.OnClickListener {
 			break;
 		case R.id.control_volminus:
 			if (!oneClickTapPress) return;
+			Action.VOLUME_DOWN.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, mAnimVolMinus);
+			mMute.setBackgroundResource(R.drawable.xml_control_mute_off); // mute 배경이미지가 바뀌어야 한다.
+			mToogleMuteOff = true;
 			break;
 		case R.id.control_chup:
 			if (!oneClickTapPress) return;
+			Action.CHANNEL_UP.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, mAnimChUp);
 			break;
 		case R.id.control_chdown:
 			if (!oneClickTapPress) return;
+			Action.CHANNEL_DOWN.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, mAnimChDown);
+			break;
+		case R.id.ok:
+			if (!oneClickTapPress) return;
+			Action.ENTER.execute(((BaseActivity)getActivity()).getCommands());
+			oneClickTapPress = false;
+			startLoadingAni((ImageButton) v, mAnimOK);
 			break;
 		}
 	}

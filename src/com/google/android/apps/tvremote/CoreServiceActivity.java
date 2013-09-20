@@ -16,16 +16,16 @@
 
 package com.google.android.apps.tvremote;
 
-import android.app.Activity;
+import java.util.LinkedList;
+import java.util.Queue;
+
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * Abstract activity that handles connection to the {@link CoreService}.
@@ -35,7 +35,7 @@ import java.util.Queue;
  * disconnection appropriate callbacks are invoked.
  * 
  */
-public abstract class CoreServiceActivity extends Activity {
+public abstract class CoreServiceActivity extends FragmentActivity {
 	private static final String LOG_TAG = "CoreServiceActivity";
 
 	/**

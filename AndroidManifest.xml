@@ -34,7 +34,6 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        
         <activity
             android:name="com.google.android.apps.tvremote.StartupActivity"
             android:noHistory="true"
@@ -44,21 +43,26 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
         </activity>
-        
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:windowSoftInputMode="adjustPan" >
         </activity>
-        
-        
         <activity
             android:name=".QwertyActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="sensor" />
         <activity
             android:name=".MirroringTvchActivity"
             android:configChanges="orientation|keyboardHidden"

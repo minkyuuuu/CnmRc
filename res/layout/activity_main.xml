@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.cnm.cnmrc"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/xml_repeat_default_bg" >
@@ -67,5 +68,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         layout="@layout/include_circle_menu" />
+    
+    <com.google.android.apps.tvremote.widget.HighlightView
+        android:id="@+id/HighlightView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        app:button="@drawable/button_highlight" />
 
 </FrameLayout>

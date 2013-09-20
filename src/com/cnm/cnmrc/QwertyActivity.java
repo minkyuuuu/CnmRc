@@ -1,23 +1,41 @@
 package com.cnm.cnmrc;
 
-import com.cnm.cnmrc.popup.PopupSearchRecentlyDelete;
-
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.View.OnKeyListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class QwertyActivity extends FragmentActivity implements View.OnClickListener {
+import com.google.android.apps.tvremote.BaseActivity;
+import com.google.android.apps.tvremote.TextInputHandler;
+import com.google.android.apps.tvremote.TouchHandler;
+import com.google.android.apps.tvremote.TouchHandler.Mode;
+import com.google.android.apps.tvremote.util.Action;
+import com.google.android.apps.tvremote.widget.ImeInterceptView;
+
+public class QwertyActivity extends BaseActivity implements View.OnClickListener {
 
 	EditText edit;
 	Button mQwertyCancel, mQwertyTextClear;
+
+	/**
+	 * Captures text inputs.
+	 */
+	private final TextInputHandler textInputHandler;
+
+	/**
+	 * The main view.
+	 */
+	private ImeInterceptView view;
+
+	public QwertyActivity() {
+		textInputHandler = new TextInputHandler(this, getCommands());
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +43,8 @@ public class QwertyActivity extends FragmentActivity implements View.OnClickList
 
 		setContentView(R.layout.activity_qwerty);
 
-		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-
+		//getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		//
 		edit = (EditText) findViewById(R.id.qwerty_edit);
 		edit.requestFocus();
 
@@ -48,13 +66,55 @@ public class QwertyActivity extends FragmentActivity implements View.OnClickList
 			}
 
 		});
-		
-		mQwertyCancel = (Button) findViewById(R.id.qwerty_cancel);
-		mQwertyCancel.setOnClickListener(this);
-		
-		mQwertyTextClear = (Button) findViewById(R.id.qwerty_textclear);
-		mQwertyTextClear.setOnClickListener(this);
 
+		view = (ImeInterceptView) findViewById(R.id.keyboard);
+		//view.requestFocus();
+		view.setInterceptor(new ImeInterceptView.Interceptor() {
+			public boolean onKeyEvent(KeyEvent event) {
+				QwertyActivity.this.onUserInteraction();
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					switch (event.getKeyCode()) {
+//					case KeyEvent.KEYCODE_DEL:
+//						if(edit.length() > 0) {
+//							edit.setText(edit.getText().delete(edit.length() - 1, edit.length()));
+//						}
+//						return false;
+						
+					case KeyEvent.KEYCODE_BACK:
+						finish();
+						return true;
+
+					case KeyEvent.KEYCODE_SEARCH:
+						Action.NAVBAR.execute(getCommands());
+						return true;
+
+					case KeyEvent.KEYCODE_ENTER:
+						Action.ENTER.execute(getCommands());
+						//finish();
+						return true;
+					}
+				}
+				return textInputHandler.handleKey(event);
+			}
+
+			public boolean onSymbol(char c) {
+				QwertyActivity.this.onUserInteraction();
+				textInputHandler.handleChar(c);
+				//edit.setText(appendDisplayedText(String.valueOf(c)));
+				return false;
+			}
+		});
+
+		textInputHandler.setDisplay((TextView) findViewById(R.id.text_feedback_chars));
+
+		// Attach touch handler to the touch pad.
+		new TouchHandler(view, Mode.POINTER_MULTITOUCH, getCommands());
+
+	}
+
+	private String appendDisplayedText(CharSequence seq) {
+		seq = new StringBuffer(edit.getText()).append(seq);
+		return String.valueOf(seq);
 	}
 
 	private void performDone() {
@@ -65,15 +125,16 @@ public class QwertyActivity extends FragmentActivity implements View.OnClickList
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.qwerty_cancel:
-			finish();
-			break;
-		case R.id.qwerty_textclear:
-			edit.setText("");
-			Toast.makeText(QwertyActivity.this, "TV글자 지우기", Toast.LENGTH_SHORT).show();
-			break;
 		}
 
+	}
+
+	@Override
+	public boolean onTrackballEvent(MotionEvent event) {
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			finish();
+		}
+		return super.onTrackballEvent(event);
 	}
 
 	/*

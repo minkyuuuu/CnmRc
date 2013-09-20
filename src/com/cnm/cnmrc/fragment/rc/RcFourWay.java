@@ -25,13 +25,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.cnm.cnmrc.R;
+import com.google.android.apps.tvremote.BaseActivity;
+import com.google.android.apps.tvremote.util.Action;
 
 public class RcFourWay extends RcBase implements View.OnClickListener{
 
 	View layout;
 	
-	ImageButton up, down, left, right;
-	ImageView aniUp, aniDown, aniLeft, aniRight;
+	ImageButton up, down, left, right, ok;
+	ImageView aniUp, aniDown, aniLeft, aniRight, aniOk;
 	
 	public static RcFourWay newInstance(String type) {
 		RcFourWay f = new RcFourWay();
@@ -60,6 +62,10 @@ public class RcFourWay extends RcBase implements View.OnClickListener{
 		left = (ImageButton) layout.findViewById(R.id.fourway_left);
 		aniLeft = (ImageView) layout.findViewById(R.id.anim_fourway_left);
 		left.setOnClickListener(this);
+		
+		ok = (ImageButton) layout.findViewById(R.id.fourway_ok);
+		aniOk = (ImageView) layout.findViewById(R.id.anim_fourway_ok);
+		ok.setOnClickListener(this);
 
 		return layout;
 	}
@@ -82,23 +88,33 @@ public class RcFourWay extends RcBase implements View.OnClickListener{
 		switch(v.getId()){
 		case R.id.fourway_up:
 			if (!oneClickTapPress) return;
+			Action.DPAD_UP.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, aniUp);
 			break;
 		case R.id.fourway_right:
 			if (!oneClickTapPress) return;
+			Action.DPAD_RIGHT.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, aniRight);
 			break;
 		case R.id.fourway_down:
 			if (!oneClickTapPress) return;
+			Action.DPAD_DOWN.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, aniDown);
 			break;
 		case R.id.fourway_left:
 			if (!oneClickTapPress) return;
+			Action.DPAD_LEFT.execute(((BaseActivity)getActivity()).getCommands());	// DPAD_LEFT(X)
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, aniLeft);
+			break;
+		case R.id.fourway_ok:
+			if (!oneClickTapPress) return;
+			Action.DPAD_CENTER.execute(((BaseActivity)getActivity()).getCommands());
+			oneClickTapPress = false;
+			startLoadingAni((ImageButton) v, aniOk);
 			break;
 		}
 	}

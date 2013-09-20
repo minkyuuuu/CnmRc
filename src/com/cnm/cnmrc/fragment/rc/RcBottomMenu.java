@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.cnm.cnmrc.R;
+import com.google.android.apps.tvremote.BaseActivity;
+import com.google.android.apps.tvremote.util.Action;
 
 public class RcBottomMenu extends Fragment implements View.OnClickListener {
 	
@@ -67,16 +69,20 @@ public class RcBottomMenu extends Fragment implements View.OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.previous:
+		case R.id.previous:			// 뒤로가기, 이전, 취소
+			Action.BACK.execute(((BaseActivity)getActivity()).getCommands());	
 			Log.i("hwang", "previous");
 			break;
-		case R.id.favorite_channel:
+		case R.id.favorite_channel:	// 선호채널 (GREEN)
+			Action.COLOR_GREEN.execute(((BaseActivity)getActivity()).getCommands());
 			Log.i("hwang", "favorite_channel");
 			break;
-		case R.id.view_switch:
+		case R.id.view_switch:		// 보기전환 (YELLOW)
+			Action.COLOR_YELLOW.execute(((BaseActivity)getActivity()).getCommands());
 			Log.i("hwang", "view_switch");
 			break;
-		case R.id.exit:
+		case R.id.exit:				// 나가기, 이전, 취소
+			Action.ESCAPE.execute(((BaseActivity)getActivity()).getCommands());	// 나가기
 			Log.i("hwang", "exit");
 			break;
 		}

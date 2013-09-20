@@ -26,6 +26,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.cnm.cnmrc.R;
+import com.google.android.apps.tvremote.BaseActivity;
+import com.google.android.apps.tvremote.util.Action;
 
 public class RcTrickPlay extends RcBase implements View.OnClickListener {
 
@@ -91,32 +93,32 @@ public class RcTrickPlay extends RcBase implements View.OnClickListener {
 
 		switch (v.getId()) {
 		case R.id.trick_play:
-			if (!oneClickTapPress)
-				return;
+			if (!oneClickTapPress) return;
+			Action.MEDIA_PLAY.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, aniPlay);
 			break;
 		case R.id.trick_ff:
-			if (!oneClickTapPress)
-				return;
+			if (!oneClickTapPress) return;
+			Action.MEDIA_FAST_FORWARD.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, aniFF);
 			break;
 		case R.id.trick_stop:
-			if (!oneClickTapPress)
-				return;
+			if (!oneClickTapPress) return;
+			Action.MEDIA_STOP.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, aniStop);
 			break;
 		case R.id.trick_rew:
-			if (!oneClickTapPress)
-				return;
+			if (!oneClickTapPress) return;
+			Action.MEDIA_REWIND.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, aniRew);
 			break;
 		case R.id.trick_pause:
-			if (!oneClickTapPress)
-				return;
+			if (!oneClickTapPress) return;
+			Action.MEDIA_PAUSE.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, aniPause);
 			break;

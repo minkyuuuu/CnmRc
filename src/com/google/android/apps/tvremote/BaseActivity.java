@@ -103,7 +103,7 @@ public class BaseActivity extends CoreServiceActivity
   /**
    * Constructor.
    */
-  BaseActivity() {
+  protected BaseActivity() {
     commands = new QueuingSender(new MissingSenderToaster());
   }
 
@@ -284,7 +284,7 @@ public class BaseActivity extends CoreServiceActivity
   /**
    * Returns the interface to send commands to the remote box.
    */
-  protected final ICommandSender getCommands() {
+  public final ICommandSender getCommands() {
     return commands;
   }
 

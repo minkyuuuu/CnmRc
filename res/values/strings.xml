@@ -112,6 +112,10 @@
     <string name="popup_mirroring_enter_line_1">미러TV로 이동하시겠습니까?</string>
     <string name="popup_mirroring_enter_line_2">스트리밍시간이 몇 초 소요됩니다.</string>
     <string name="popup_mirroring_exit_line_1">미러TV를 종료하시겠습니까?</string>
+    
+    <string name="popup_gtv_connection_title">씨앤앰 TV 연결</string>
+    <string name="popup_gtv_connection_line_1">씨앤앰 셋탑박스를</string>
+    <string name="popup_gtv_connection_line_2">연결하시겠습니까?</string>
 
     <!-- mobile Accessibility -->
     <string name="accessibility_no_action"></string>

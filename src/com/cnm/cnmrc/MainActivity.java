@@ -1,24 +1,14 @@
 package com.cnm.cnmrc;
 
-import java.util.ArrayList;
-
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
-import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,10 +35,12 @@ import com.cnm.cnmrc.fragment.search.SearchVodDetail;
 import com.cnm.cnmrc.fragment.vodtvch.Base;
 import com.cnm.cnmrc.fragment.vodtvch.VodDetail;
 import com.cnm.cnmrc.fragment.vodtvch.VodTvchMain;
+import com.cnm.cnmrc.popup.PopupGtvConnection;
 import com.google.android.apps.tvremote.BaseActivity;
-import com.google.android.apps.tvremote.KeyboardActivity;
-import com.google.android.apps.tvremote.layout.SlidingLayout;
+import com.google.android.apps.tvremote.DeviceFinder;
+import com.google.android.apps.tvremote.util.Action;
 import com.google.android.apps.tvremote.widget.HighlightView;
+import com.google.android.apps.tvremote.widget.KeyCodeButton;
 import com.google.anymote.Key;
 
 /**
@@ -83,7 +75,7 @@ import com.google.anymote.Key;
  * 
  */
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, KeyCodeButton.KeyCodeHandler {
 
 	// string constants for fragment tag 
 	public final String TAG_FRAGMENT_VOD_TVCH = "vod_tvch";
@@ -127,12 +119,22 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	Animation aniCirCleMenuEnter, aniCirCleMenuExit;
 
 	Dialog myProgressDialog;
+	
+	Handler handler;
+	
+	private HighlightView surface;
+	
+	public MainActivity() {
+		//super();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main);
+		
+		surface = (HighlightView) findViewById(R.id.HighlightView);
 
 		if (savedInstanceState != null) {
 			Bundle bundle = savedInstanceState.getBundle("save_data");
@@ -166,8 +168,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		//        fm.removeOnBackStackChangedListener(mRemoveOnBackStackChangedListener);
 		//        fm.addOnBackStackChangedListener(mAddOnBackStackChangedListener);
 
-//	    Intent intent = new Intent(this, StartupActivity.class);
-//	    startActivity(intent);
+		
+		// Gtv connection (팝업창)
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		PopupGtvConnection popupGtvConnection = new PopupGtvConnection();
+		popupGtvConnection.show(ft, PopupGtvConnection.class.getSimpleName());
+		
+		showChannelVolume();
 	}
 
 	@Override
@@ -349,9 +356,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 		// top menu
 		case R.id.stb_power:
+			Action.POWER.execute(getCommands());	// POWER_TV(x) POWER(o) POWER_AVR(x) POWER_BD(x) POWER_STB(x)
 			Log.i("hwang", "stb_power");
 			break;
 		case R.id.integration_ui_main:
+			Action.HOME.execute(getCommands());		// KEYCODE_MOVE_HOME은 안된다. ???
 			Log.i("hwang", "integration_ui_main");
 			break;
 		case R.id.vod:
@@ -905,6 +914,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		 * qwerty.show(ft, QwertyFragment.class.getSimpleName());
 		 */
 	}
+	
+	public void openGtvConnection() {
+		rcIconOn();
+
+		Intent intent = new Intent(this, DeviceFinder.class);
+		startActivity(intent);
+		overridePendingTransition(R.anim.qwerty_zoom_in, 0);
+	}
 
 	private void rcIconOn() {
 		if (mCircleMenuBg.getVisibility() == View.VISIBLE)
@@ -1012,6 +1029,25 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 		Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG_AREA);
 		return f;
 	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
+	
+	public HighlightView getHighlightView() {
+		return surface;
+	}
+
+	// KeyCode handler implementation.
+	public void onRelease(Key.Code keyCode) {
+		getCommands().key(keyCode, Key.Action.UP);
+	}
+
+	public void onTouch(Key.Code keyCode) {
+		//playClick();
+		getCommands().key(keyCode, Key.Action.DOWN);
+	}
 
 	/*
 	 * @Override public void onEventQwertySelected() { //remoconIconOn();
@@ -1087,10 +1123,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 	
 	
 	
-	  @Override
-	  protected void onDestroy() {
-	    super.onDestroy();
-	  }
+
 	
 	
 //	  private static final String LOG_TAG = "RemoteActivity";
