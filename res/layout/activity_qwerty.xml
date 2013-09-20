@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <com.cnm.cnmrc.custom.ExtendedEditText
         android:id="@+id/qwerty_edit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/px100"
+        android:paddingLeft="@dimen/px10"
+        android:background="#ff000000"
         android:hint="@string/qwerty_hint"
         android:imeOptions="actionDone"
+        android:textSize="@dimen/px40"
+        android:textColor="#ffffffff"
         android:inputType="text"
         android:singleLine="true" />
 
@@ -44,7 +48,7 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:lines="1"
-            android:padding="20dp"
+            android:padding="@dimen/px20"
             android:scrollHorizontally="false"
             android:singleLine="true"
             android:textSize="@dimen/px60"

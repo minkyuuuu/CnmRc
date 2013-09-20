@@ -46,26 +46,28 @@ public class QwertyActivity extends BaseActivity implements View.OnClickListener
 		//getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 		//
 		edit = (EditText) findViewById(R.id.qwerty_edit);
-		edit.requestFocus();
-
-		edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_DONE) {
-
-					String str = v.getText().toString();
-					if (str.equals("")) {
-						Toast.makeText(QwertyActivity.this, "입력해 주세요", Toast.LENGTH_SHORT).show();
-					} else {
-						performDone();
-					}
-
-					return true;
-				}
-				return false;
-			}
-
-		});
+		edit.setFocusable(false);
+		edit.setFocusableInTouchMode(false);
+		//edit.requestFocus();
+//
+//		edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//			@Override
+//			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+//				if (actionId == EditorInfo.IME_ACTION_DONE) {
+//
+//					String str = v.getText().toString();
+//					if (str.equals("")) {
+//						Toast.makeText(QwertyActivity.this, "입력해 주세요", Toast.LENGTH_SHORT).show();
+//					} else {
+//						performDone();
+//					}S
+//
+//					return true;
+//				}
+//				return false;
+//			}
+//
+//		});
 
 		view = (ImeInterceptView) findViewById(R.id.keyboard);
 		//view.requestFocus();
@@ -74,12 +76,12 @@ public class QwertyActivity extends BaseActivity implements View.OnClickListener
 				QwertyActivity.this.onUserInteraction();
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
 					switch (event.getKeyCode()) {
-//					case KeyEvent.KEYCODE_DEL:
-//						if(edit.length() > 0) {
-//							edit.setText(edit.getText().delete(edit.length() - 1, edit.length()));
-//						}
-//						return false;
-						
+					case KeyEvent.KEYCODE_DEL:
+						if (edit.length() > 0) {
+							edit.setText(edit.getText().delete(edit.length() - 1, edit.length()));
+						}
+						return textInputHandler.handleKey(event);	
+
 					case KeyEvent.KEYCODE_BACK:
 						finish();
 						return true;
@@ -90,7 +92,7 @@ public class QwertyActivity extends BaseActivity implements View.OnClickListener
 
 					case KeyEvent.KEYCODE_ENTER:
 						Action.ENTER.execute(getCommands());
-						//finish();
+						finish();
 						return true;
 					}
 				}
@@ -100,7 +102,7 @@ public class QwertyActivity extends BaseActivity implements View.OnClickListener
 			public boolean onSymbol(char c) {
 				QwertyActivity.this.onUserInteraction();
 				textInputHandler.handleChar(c);
-				//edit.setText(appendDisplayedText(String.valueOf(c)));
+				edit.setText(appendDisplayedText(String.valueOf(c)));
 				return false;
 			}
 		});
@@ -108,7 +110,9 @@ public class QwertyActivity extends BaseActivity implements View.OnClickListener
 		textInputHandler.setDisplay((TextView) findViewById(R.id.text_feedback_chars));
 
 		// Attach touch handler to the touch pad.
-		new TouchHandler(view, Mode.POINTER_MULTITOUCH, getCommands());
+		new TouchHandler(view, Mode.POINTER_MULTITOUCH, getCommands(), getDefaultDpadListener());
+		
+		getWindow().setSoftInputMode(EditorInfo.IME_ACTION_DONE);
 
 	}
 

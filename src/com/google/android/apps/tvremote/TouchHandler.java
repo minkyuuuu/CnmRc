@@ -17,6 +17,7 @@
 package com.google.android.apps.tvremote;
 
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -25,464 +26,631 @@ import com.google.android.apps.tvremote.backport.ScaleGestureDetector;
 import com.google.android.apps.tvremote.backport.ScaleGestureDetectorFactory;
 import com.google.android.apps.tvremote.protocol.ICommandSender;
 import com.google.android.apps.tvremote.util.Action;
+import com.google.android.apps.tvremote.widget.SoftDpad.Direction;
+import com.google.android.apps.tvremote.widget.SoftDpad.DpadListener;
 
 /**
  * The touchpad logic.
- *
+ * 
  */
 public final class TouchHandler implements View.OnTouchListener {
-  /**
-   * Defines the kind of events this handler is supposed to generate.
-   */
-  private final Mode mode;
+	/**
+	 * Defines the kind of events this handler is supposed to generate.
+	 */
+	private final Mode mode;
 
-  /**
-   * Interface to send commands during a touch sequence.
-   */
-  private final ICommandSender commands;
+	/**
+	 * Interface to send commands during a touch sequence.
+	 */
+	private final ICommandSender commands;
 
-  /**
-   * The current touch sequence.
-   */
-  private Sequence state;
+	/**
+	 * The current touch sequence.
+	 */
+	private Sequence state;
 
-  /**
-   * {@code true} if the touch handler is active.
-   */
-  private boolean isActive;
+	/**
+	 * {@code true} if the touch handler is active.
+	 */
+	private boolean isActive;
 
-  /**
-   * Scale gesture detector.
-   */
-  private final ScaleGestureDetector scaleGestureDetector;
+	/**
+	 * Scale gesture detector.
+	 */
+	private final ScaleGestureDetector scaleGestureDetector;
 
-  private final float zoomThreshold;
+	private final float zoomThreshold;
 
-  /**
-   * Max thresholds for a sequence to be considered a click.
-   */
-  private static final int CLICK_DISTANCE_THRESHOLD_SQUARE = 30 * 30;
-  private static final int CLICK_TIME_THRESHOLD = 500;
-  private static final float SCROLLING_FACTOR = 0.2f;
+	/**
+	 * Max thresholds for a sequence to be considered a click.
+	 */
+	private static final int CLICK_DISTANCE_THRESHOLD_SQUARE = 30 * 30;
+	private static final int CLICK_TIME_THRESHOLD = 500;
+	private static final float SCROLLING_FACTOR = 0.2f;
 
-  /**
-   * Threshold to send a scroll event.
-   */
-  private static final int SCROLL_THRESHOLD = 2;
+	/**
+	 * Threshold to send a scroll event.
+	 */
+	private static final int SCROLL_THRESHOLD = 2;
 
-  /**
-   * Thresholds for multitouch gestures.
-   */
-  private static final float MT_SCROLL_BEGIN_DIST_THRESHOLD_SQR = 20.0f * 20.0f;
-  private static final float MT_SCROLL_BEGIN_THRESHOLD = 1.2f;
-  private static final float MT_SCROLL_END_THRESHOLD = 1.4f;
-  private static final float MT_ZOOM_SCALE_THRESHOLD = 1.8f;
+	/**
+	 * Thresholds for multitouch gestures.
+	 */
+	private static final float MT_SCROLL_BEGIN_DIST_THRESHOLD_SQR = 20.0f * 20.0f;
+	private static final float MT_SCROLL_BEGIN_THRESHOLD = 1.2f;
+	private static final float MT_SCROLL_END_THRESHOLD = 1.4f;
+	private static final float MT_ZOOM_SCALE_THRESHOLD = 1.8f;
 
-  /**
-   * Describes the way touches should be interpreted.
-   */
-  public enum Mode {
-    POINTER,
-    POINTER_MULTITOUCH,
-    SCROLL_VERTICAL,
-    SCROLL_HORIZONTAL,
-    ZOOM_VERTICAL
-  }
+	/**
+	 * Describes the way touches should be interpreted.
+	 */
+	public enum Mode {
+		POINTER, POINTER_MULTITOUCH, SCROLL_VERTICAL, SCROLL_HORIZONTAL, ZOOM_VERTICAL
+	}
 
-  public TouchHandler(View view, Mode mode, ICommandSender commands) {
-    if (Mode.POINTER_MULTITOUCH.equals(mode)) {
-      this.scaleGestureDetector = ScaleGestureDetectorFactory
-          .createScaleGestureDetector(view, new MultitouchHandler());
-      this.mode = Mode.POINTER;
-    } else {
-      this.scaleGestureDetector = null;
-      this.mode = mode;
-    }
+	public TouchHandler(View view, Mode mode, ICommandSender commands, DpadListener listener) {
+		if (Mode.POINTER_MULTITOUCH.equals(mode)) {
+			this.scaleGestureDetector = ScaleGestureDetectorFactory.createScaleGestureDetector(view, new MultitouchHandler());
+			this.mode = Mode.POINTER;
+		} else {
+			this.scaleGestureDetector = null;
+			this.mode = mode;
+		}
 
-    this.commands = commands;
-    isActive = true;
-    zoomThreshold = view.getResources().getInteger(R.integer.zoom_threshold);
-    view.setOnTouchListener(this);
-  }
+		this.commands = commands;
+		isActive = true;
+		zoomThreshold = view.getResources().getInteger(R.integer.zoom_threshold);
+		view.setOnTouchListener(this);
 
-  public boolean onTouch(View v, MotionEvent event) {
-    if (!isActive) {
-      return false;
-    }
+		initializeSoftDpad(listener); // softdpad
+	}
 
-    if (scaleGestureDetector != null) {
-      scaleGestureDetector.onTouchEvent(event);
-      if (scaleGestureDetector.isInProgress()) {
-        if (state != null) {
-          state.cancelDownTimer();
-          state = null;
-        }
-        return true;
-      }
-    }
+	long softDpadstartTimeStamp;
+	long checkTimeGap = 150;
+	public boolean onTouch(View v, MotionEvent event) {
+		Log.e("hwang-tvremote", "TouchHandler MotionEvent");
+		if (!isActive) {
+			return false;
+		}
 
-    int x = (int) event.getX();
-    int y = (int) event.getY();
-    long timestamp = event.getEventTime();
-    switch (event.getAction()) {
-      case MotionEvent.ACTION_DOWN:
-        state = new Sequence(x, y, timestamp);
-        return true;
+		if (scaleGestureDetector != null) {
+			scaleGestureDetector.onTouchEvent(event);
+			if (scaleGestureDetector.isInProgress()) {
+				if (state != null) {
+					state.cancelDownTimer();
+					state = null;
+				}
+				return true;
+			}
+		}
 
-      case MotionEvent.ACTION_CANCEL:
-        state = null;
-        return true;
+		int x = (int) event.getX();
+		int y = (int) event.getY();
+		long timestamp = event.getEventTime();
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			state = new Sequence(x, y, timestamp);
 
-      case MotionEvent.ACTION_UP:
-        boolean handled = state != null && state.handleUp(x, y, timestamp);
-        state = null;
-        return handled;
+			// softdpad
+			handleActionDown(x, y);
+			softDpadstartTimeStamp = timestamp;
 
-      case MotionEvent.ACTION_MOVE:
-        return state != null && state.handleMove(x, y, timestamp);
+			return true;
 
-      default:
-        return false;
-    }
-  }
+		case MotionEvent.ACTION_CANCEL:
+			state = null;
+			return true;
 
-  /**
-   * {@code true} activates the touch handler, {@code false} deactivates it.
-   */
-  public void setActive(boolean active) {
-    isActive = active;
-  }
+		case MotionEvent.ACTION_UP:
+//			if (isDpadFocused) {
+//				handleActionUp(x, y);
+//				//return false;
+//			}
 
-  /**
-   * Stores parameters of a touch sequence, i.e. down - move(s) - up and handles
-   * new touch events.
-   */
-  private class Sequence {
+			boolean handled = state != null && state.handleUp(x, y, timestamp);
+			state = null;
 
-    /**
-     * Location of the sequence's start event.
-     */
-    private final int refX, refY;
+			return handled;
 
-    /**
-     * Location of the last touch event.
-     */
-    private int lastX, lastY;
-    private long lastTimestamp;
+		case MotionEvent.ACTION_MOVE:
 
-    /**
-     * Delta Y accumulated across several touches.
-     */
-    private int accuY;
+//			if (isDpadFocused) {
+//				handleActionMove(x, y);
+//				//return true;
+//				return state != null && state.handleMove(x, y, timestamp);
+//			}
 
-    /**
-     * Timer that expires when a click down has to be sent.
-     */
-    private CountDownTimer clickDownTimer;
+			return state != null && state.handleMove(x, y, timestamp);
 
-    /**
-     * {@code true} if a click down has been sent.
-     */
-    private boolean clickDownSent;
+		default:
+			return false;
+		}
+	}
 
-    public Sequence(int x, int y, long timestamp) {
-      refX = x;
-      refY = y;
-      clickDownSent = false;
-      setLastTouch(x, y, timestamp);
-      if (mode == Mode.POINTER) {
-        startClickDownTimer();
-      }
-    }
+	/**
+	 * {@code true} activates the touch handler, {@code false} deactivates it.
+	 */
+	public void setActive(boolean active) {
+		isActive = active;
+	}
 
-    private void setLastTouch(int x, int y, long timestamp) {
-      lastX = x;
-      lastY = y;
-      lastTimestamp = timestamp;
-    }
+	/**
+	 * Stores parameters of a touch sequence, i.e. down - move(s) - up and
+	 * handles new touch events.
+	 */
+	private class Sequence {
 
-    /**
-     * Returns {@code true} if a sequence is a movement.
-     */
-    private boolean isMove(int x, int y) {
-      int distance = ((refX - x) * (refX - x)) + ((refY - y) * (refY - y));
-      return distance > CLICK_DISTANCE_THRESHOLD_SQUARE;
-    }
+		/**
+		 * Location of the sequence's start event.
+		 */
+		private final int refX, refY;
 
-    /**
-     * Starts a timer that will expire after
-     * {@link TouchHandler#CLICK_TIME_THRESHOLD} and start to send a click down
-     * event if the touch event cannot be interpreted as a movement.
-     */
-    private void startClickDownTimer() {
-      clickDownTimer = new CountDownTimer(CLICK_TIME_THRESHOLD,
-          CLICK_TIME_THRESHOLD) {
-        @Override
-        public void onTick(long arg0) {
-          // Nothing to do.
-        }
+		/**
+		 * Location of the last touch event.
+		 */
+		private int lastX, lastY;
+		private long lastTimestamp;
 
-        @Override
-        public void onFinish() {
-          clickDown();
-        }
-      };
-      clickDownTimer.start();
-    }
+		/**
+		 * Delta Y accumulated across several touches.
+		 */
+		private int accuY;
 
-    /**
-     * Cancels the timer, no-op if there is no timer available.
-     *
-     * @return {@code true} if there was a timer to cancel
-     */
-    private boolean cancelDownTimer() {
-      if (clickDownTimer != null) {
-        clickDownTimer.cancel();
-        clickDownTimer = null;
-        return true;
-      }
-      return false;
-    }
+		/**
+		 * Timer that expires when a click down has to be sent.
+		 */
+		private CountDownTimer clickDownTimer;
 
-    /**
-     * Sends a click down message.
-     */
-    private void clickDown() {
-      Action.CLICK_DOWN.execute(commands);
-      clickDownSent = true;
-    }
+		/**
+		 * {@code true} if a click down has been sent.
+		 */
+		private boolean clickDownSent;
 
-    /**
-     * Handles a touch up.
-     *
-     * A click will be issued if the initial touch of the sequence is close
-     * enough both timewise and distance-wise.
-     *
-     * @param   x             an integer representing the touch's x coordinate
-     * @param   y             an integer representing the touch's y coordinate
-     * @param   timestamp     a long representing the touch's time
-     * @return  {@code true} if a click was issued
-     */
-    public boolean handleUp(int x, int y, long timestamp) {
-      if (mode != Mode.POINTER) {
-        return true;
-      }
-      // If a click down is waiting, send it.
-      if (cancelDownTimer()) {
-        clickDown();
-      }
-      if (clickDownSent) {
-        Action.CLICK_UP.execute(commands);
-      }
-      return true;
-    }
+		public Sequence(int x, int y, long timestamp) {
+			refX = x;
+			refY = y;
+			clickDownSent = false;
+			setLastTouch(x, y, timestamp);
+			if (mode == Mode.POINTER) {
+				startClickDownTimer();
+			}
+		}
 
-    /**
-     * Handles a touch move.
-     *
-     * Depending on the initial touch of the sequence, this will result in a
-     * pointer move or in a scrolling action.
-     *
-     * @param   x             an integer representing the touch's x coordinate
-     * @param   y             an integer representing the touch's y coordinate
-     * @param   timestamp     a long representing the touch's time
-     * @return  {@code true} if any action was taken
-     */
-    public boolean handleMove(int x, int y, long timestamp) {
-      if (mode == Mode.POINTER) {
-        if (!isMove(x, y)) {
-          // Stand still while it's not a move to avoid a movement when a click
-          // is performed.
-        } else {
-          cancelDownTimer();
-        }
-      }
+		private void setLastTouch(int x, int y, long timestamp) {
+			lastX = x;
+			lastY = y;
+			lastTimestamp = timestamp;
+		}
 
-      long timeDelta = timestamp - lastTimestamp;
-      int deltaX = x - lastX;
-      int deltaY = y - lastY;
+		/**
+		 * Returns {@code true} if a sequence is a movement.
+		 */
+		private boolean isMove(int x, int y) {
+			int distance = ((refX - x) * (refX - x)) + ((refY - y) * (refY - y));
+			return distance > CLICK_DISTANCE_THRESHOLD_SQUARE;
+		}
 
-      switch(mode) {
-        case POINTER:
-          commands.moveRelative(deltaX, deltaY);
-          break;
+		/**
+		 * Starts a timer that will expire after
+		 * {@link TouchHandler#CLICK_TIME_THRESHOLD} and start to send a click
+		 * down event if the touch event cannot be interpreted as a movement.
+		 */
+		private void startClickDownTimer() {
+			clickDownTimer = new CountDownTimer(CLICK_TIME_THRESHOLD, CLICK_TIME_THRESHOLD) {
+				@Override
+				public void onTick(long arg0) {
+					// Nothing to do.
+				}
 
-        case SCROLL_VERTICAL:
-          if (shouldTriggerScrollEvent(deltaY)) {
-            commands.scroll(0, deltaY);
-          }
-          break;
+				@Override
+				public void onFinish() {
+					clickDown();
+				}
+			};
+			clickDownTimer.start();
+		}
 
-        case SCROLL_HORIZONTAL:
-          if (shouldTriggerScrollEvent(deltaX)) {
-            commands.scroll(deltaX, 0);
-          }
-          break;
+		/**
+		 * Cancels the timer, no-op if there is no timer available.
+		 * 
+		 * @return {@code true} if there was a timer to cancel
+		 */
+		private boolean cancelDownTimer() {
+			if (clickDownTimer != null) {
+				clickDownTimer.cancel();
+				clickDownTimer = null;
+				return true;
+			}
+			return false;
+		}
 
-        case ZOOM_VERTICAL:
-          accuY += deltaY;
-          if (Math.abs(accuY) >= zoomThreshold) {
-            if (accuY < 0) {
-              Action.ZOOM_IN.execute(commands);
-            } else {
-              Action.ZOOM_OUT.execute(commands);
-            }
-            accuY = 0;
-          }
-          break;
-      }
-      setLastTouch(x, y, timestamp);
-      return true;
-    }
-  }
+		/**
+		 * Sends a click down message.
+		 */
+		private void clickDown() {
+			Action.CLICK_DOWN.execute(commands);
+			clickDownSent = true;
+		}
 
-  /**
-   * Handles multitouch events to capture zoom and scroll events.
-   */
-  private class MultitouchHandler
-      implements ScaleGestureDetector.OnScaleGestureListener {
+		/**
+		 * Handles a touch up.
+		 * 
+		 * A click will be issued if the initial touch of the sequence is close
+		 * enough both timewise and distance-wise.
+		 * 
+		 * @param x
+		 *            an integer representing the touch's x coordinate
+		 * @param y
+		 *            an integer representing the touch's y coordinate
+		 * @param timestamp
+		 *            a long representing the touch's time
+		 * @return {@code true} if a click was issued
+		 */
+		public boolean handleUp(int x, int y, long timestamp) {
+			
+			// softdpad
+			if((timestamp - softDpadstartTimeStamp) < checkTimeGap) {
+				if (isDpadFocused) {
+					handleActionUp(x, y);
+					return true;
+				}
+			}
+			
+			if (mode != Mode.POINTER) {
+				return true;
+			}
+			
+			// If a click down is waiting, send it.
+			if (cancelDownTimer()) {
+				clickDown();
+			}
+			if (clickDownSent) {
+				Action.CLICK_UP.execute(commands);
+			}
+			return true;
+		}
 
-    private float lastScrollX;
-    private float lastScrollY;
-    private boolean isScrolling;
+		/**
+		 * Handles a touch move.
+		 * 
+		 * Depending on the initial touch of the sequence, this will result in a
+		 * pointer move or in a scrolling action.
+		 * 
+		 * @param x
+		 *            an integer representing the touch's x coordinate
+		 * @param y
+		 *            an integer representing the touch's y coordinate
+		 * @param timestamp
+		 *            a long representing the touch's time
+		 * @return {@code true} if any action was taken
+		 */
+		public boolean handleMove(int x, int y, long timestamp) {
+			if (mode == Mode.POINTER) {
+				if (!isMove(x, y)) {
+					// Stand still while it's not a move to avoid a movement when a click
+					// is performed.
+				} else {
+					cancelDownTimer();
+				}
+			}
 
-    public boolean onScale(ScaleGestureDetector detector) {
-      float scaleFactor = detector.getScaleFactor();
-      float deltaX = scaleGestureDetector.getFocusX() - lastScrollX;
-      float deltaY = scaleGestureDetector.getFocusY() - lastScrollY;
+			long timeDelta = timestamp - lastTimestamp;
+			
+			// softdpad
+			if(timeDelta < checkTimeGap) return true;
+			
+			int deltaX = x - lastX;
+			int deltaY = y - lastY;
 
-      toggleScrolling(scaleFactor, deltaX, deltaY);
-      float absX = Math.abs(deltaX);
-      float signX = Math.signum(deltaX);
-      float absY = Math.abs(deltaY);
-      float signY = Math.signum(deltaY);
-      // If both translations are less than 1
-      // pick greater one and align to 1
-      if ((absX < 1) && (absY < 1)) {
-          if (absX > absY) {
-              deltaX = signX;
-              deltaY = 0;
-          } else {
-              deltaX = 0;
-              deltaY = signY;
-          }
-      } else {
-          if (absX < 1) {
-              deltaX = 0;
-          } else {
-              deltaX = ((absX - 1) * SCROLLING_FACTOR + 1) * signX;
-          }
-          if (absY < 1) {
-              deltaY = 0;
-          } else {
-              deltaY = ((absY - 1) * SCROLLING_FACTOR + 1) * signY;
-          }
-      }
+			switch (mode) {
+			case POINTER:
+				commands.moveRelative(deltaX, deltaY);
+				break;
 
-      if (isScrolling) {
-        if (shouldTriggerScrollEvent(deltaX)
-            || shouldTriggerScrollEvent(deltaY)) {
-          executeScrollEvent(deltaX, deltaY);
-        }
-        return false;
-      }
+			case SCROLL_VERTICAL:
+				if (shouldTriggerScrollEvent(deltaY)) {
+					commands.scroll(0, deltaY);
+				}
+				break;
 
-      if (!isWithinInvRange(scaleFactor, MT_ZOOM_SCALE_THRESHOLD)) {
-        executeZoomEvent(scaleFactor);
-        return true;
-      }
+			case SCROLL_HORIZONTAL:
+				if (shouldTriggerScrollEvent(deltaX)) {
+					commands.scroll(deltaX, 0);
+				}
+				break;
 
-      return false;
-    }
+			case ZOOM_VERTICAL:
+				accuY += deltaY;
+				if (Math.abs(accuY) >= zoomThreshold) {
+					if (accuY < 0) {
+						Action.ZOOM_IN.execute(commands);
+					} else {
+						Action.ZOOM_OUT.execute(commands);
+					}
+					accuY = 0;
+				}
+				break;
+			}
+			setLastTouch(x, y, timestamp);
+			return true;
+		}
+	}
 
-    public boolean onScaleBegin(ScaleGestureDetector detector) {
-      resetScroll();
-      return true;
-    }
+	/**
+	 * Handles multitouch events to capture zoom and scroll events.
+	 */
+	private class MultitouchHandler implements ScaleGestureDetector.OnScaleGestureListener {
 
-    public void onScaleEnd(ScaleGestureDetector detector) {
-      // Do nothing
-    }
+		private float lastScrollX;
+		private float lastScrollY;
+		private boolean isScrolling;
 
-    /**
-     * Resets scrolling mode.
-     */
-    private void resetScroll() {
-      isScrolling = false;
-      updateScroll();
-    }
+		public boolean onScale(ScaleGestureDetector detector) {
+			float scaleFactor = detector.getScaleFactor();
+			float deltaX = scaleGestureDetector.getFocusX() - lastScrollX;
+			float deltaY = scaleGestureDetector.getFocusY() - lastScrollY;
 
-    /**
-     * Updates last scroll positions.
-     */
-    private void updateScroll() {
-      lastScrollX = scaleGestureDetector.getFocusX();
-      lastScrollY = scaleGestureDetector.getFocusY();
-    }
+			toggleScrolling(scaleFactor, deltaX, deltaY);
+			float absX = Math.abs(deltaX);
+			float signX = Math.signum(deltaX);
+			float absY = Math.abs(deltaY);
+			float signY = Math.signum(deltaY);
+			// If both translations are less than 1
+			// pick greater one and align to 1
+			if ((absX < 1) && (absY < 1)) {
+				if (absX > absY) {
+					deltaX = signX;
+					deltaY = 0;
+				} else {
+					deltaX = 0;
+					deltaY = signY;
+				}
+			} else {
+				if (absX < 1) {
+					deltaX = 0;
+				} else {
+					deltaX = ((absX - 1) * SCROLLING_FACTOR + 1) * signX;
+				}
+				if (absY < 1) {
+					deltaY = 0;
+				} else {
+					deltaY = ((absY - 1) * SCROLLING_FACTOR + 1) * signY;
+				}
+			}
 
-    /**
-     * Sends zoom event.
-     *
-     * @param scaleFactor scale factor.
-     */
-    private void executeZoomEvent(float scaleFactor) {
-      resetScroll();
-      if (scaleFactor > 1.0f) {
-        Action.ZOOM_IN.execute(commands);
-      } else {
-        Action.ZOOM_OUT.execute(commands);
-      }
-    }
+			if (isScrolling) {
+				if (shouldTriggerScrollEvent(deltaX) || shouldTriggerScrollEvent(deltaY)) {
+					executeScrollEvent(deltaX, deltaY);
+				}
+				return false;
+			}
 
-    /**
-     * Sends scroll event.
-     */
-    private void executeScrollEvent(float deltaX, float deltaY) {
-      commands.scroll(Math.round(deltaX), Math.round(deltaY));
-      updateScroll();
-    }
+			if (!isWithinInvRange(scaleFactor, MT_ZOOM_SCALE_THRESHOLD)) {
+				executeZoomEvent(scaleFactor);
+				return true;
+			}
 
-    /**
-     * Enables of disables scrolling, depending on the current state,
-     * scale factor, and distance from last registered focus position.
-     *
-     * mode should be enabled / disabled depending on the speed of dragging
-     * vs. scale factor.
-     */
-    private void toggleScrolling(
-        float scaleFactor, float deltaX, float deltaY) {
-      if (!isScrolling
-          && isWithinInvRange(scaleFactor, MT_SCROLL_BEGIN_THRESHOLD)) {
-        float dist = deltaX * deltaX + deltaY * deltaY;
-        if (dist > MT_SCROLL_BEGIN_DIST_THRESHOLD_SQR) {
-          isScrolling = true;
-        }
-      } else if (isScrolling
-          && !isWithinInvRange(scaleFactor, MT_SCROLL_END_THRESHOLD)) {
-        // Stop scrolling if zooming occurs.
-        isScrolling = false;
-      }
-    }
+			return false;
+		}
 
-    /**
-     * Returns {@code true} if {@code (1/upperLimit) &lt; scaleFactor &lt;
-     * upperLimit}
-     */
-    private boolean isWithinInvRange(float scaleFactor, float upperLimit) {
-      if (upperLimit < 1.0f) {
-        throw new IllegalArgumentException("Upper limit < 1.0f: " + upperLimit);
-      }
-      return 1.0f / upperLimit < scaleFactor && scaleFactor < upperLimit;
-    }
-  }
+		public boolean onScaleBegin(ScaleGestureDetector detector) {
+			resetScroll();
+			return true;
+		}
 
-  /**
-   * Returns {@code true} if the delta measured when scrolling is enough to
-   * trigger a scroll event.
-   *
-   * @param deltaScroll the amount of scroll wanted
-   */
-  private static boolean shouldTriggerScrollEvent(float deltaScroll) {
-    return Math.abs(deltaScroll) >= SCROLL_THRESHOLD;
-  }
+		public void onScaleEnd(ScaleGestureDetector detector) {
+			// Do nothing
+		}
+
+		/**
+		 * Resets scrolling mode.
+		 */
+		private void resetScroll() {
+			isScrolling = false;
+			updateScroll();
+		}
+
+		/**
+		 * Updates last scroll positions.
+		 */
+		private void updateScroll() {
+			lastScrollX = scaleGestureDetector.getFocusX();
+			lastScrollY = scaleGestureDetector.getFocusY();
+		}
+
+		/**
+		 * Sends zoom event.
+		 * 
+		 * @param scaleFactor
+		 *            scale factor.
+		 */
+		private void executeZoomEvent(float scaleFactor) {
+			resetScroll();
+			if (scaleFactor > 1.0f) {
+				Action.ZOOM_IN.execute(commands);
+			} else {
+				Action.ZOOM_OUT.execute(commands);
+			}
+		}
+
+		/**
+		 * Sends scroll event.
+		 */
+		private void executeScrollEvent(float deltaX, float deltaY) {
+			commands.scroll(Math.round(deltaX), Math.round(deltaY));
+			updateScroll();
+		}
+
+		/**
+		 * Enables of disables scrolling, depending on the current state, scale
+		 * factor, and distance from last registered focus position.
+		 * 
+		 * mode should be enabled / disabled depending on the speed of dragging
+		 * vs. scale factor.
+		 */
+		private void toggleScrolling(float scaleFactor, float deltaX, float deltaY) {
+			if (!isScrolling && isWithinInvRange(scaleFactor, MT_SCROLL_BEGIN_THRESHOLD)) {
+				float dist = deltaX * deltaX + deltaY * deltaY;
+				if (dist > MT_SCROLL_BEGIN_DIST_THRESHOLD_SQR) {
+					isScrolling = true;
+				}
+			} else if (isScrolling && !isWithinInvRange(scaleFactor, MT_SCROLL_END_THRESHOLD)) {
+				// Stop scrolling if zooming occurs.
+				isScrolling = false;
+			}
+		}
+
+		/**
+		 * Returns {@code true} if {@code (1/upperLimit) &lt; scaleFactor &lt;
+		 * upperLimit}
+		 */
+		private boolean isWithinInvRange(float scaleFactor, float upperLimit) {
+			if (upperLimit < 1.0f) {
+				throw new IllegalArgumentException("Upper limit < 1.0f: " + upperLimit);
+			}
+			return 1.0f / upperLimit < scaleFactor && scaleFactor < upperLimit;
+		}
+	}
+
+	/**
+	 * Returns {@code true} if the delta measured when scrolling is enough to
+	 * trigger a scroll event.
+	 * 
+	 * @param deltaScroll
+	 *            the amount of scroll wanted
+	 */
+	private static boolean shouldTriggerScrollEvent(float deltaScroll) {
+		return Math.abs(deltaScroll) >= SCROLL_THRESHOLD;
+	}
+
+	// --------------------
+	// SoftDpad
+	// --------------------
+	private static final double TAN_DIRECTION = Math.tan(Math.PI / 4);
+
+	private int centerX;
+	private int centerY;
+	private int originTouchX;
+	private int originTouchY;
+	private int clickRadiusSqr;
+	private boolean isDpadFocused;
+	private Direction dPadDirection;
+	private DpadListener listener;
+
+	private void initializeSoftDpad(DpadListener listener) {
+		this.listener = listener;
+		initialize();
+		center();
+	}
+
+	private void initialize() {
+		isDpadFocused = false;
+		//setScaleType(ScaleType.CENTER_INSIDE);
+		dPadDirection = Direction.IDLE;
+	}
+
+	public int getCenterX() {
+		return centerX;
+	}
+
+	public int getCenterY() {
+		return centerY;
+	}
+
+	public void setDpadListener(DpadListener listener) {
+		this.listener = listener;
+	}
+
+	private void handleActionDown(int x, int y) {
+		dPadDirection = Direction.IDLE;
+		isDpadFocused = true;
+		originTouchX = x;
+		originTouchY = y;
+	}
+
+	private void handleActionMove(int x, int y) {
+		int dx = x - originTouchX;
+		int dy = y - originTouchY;
+
+		Direction move = getDirection(dx, dy);
+		if (move.isMove && !dPadDirection.isMove) {
+			sendEvent(move, true, true);
+			dPadDirection = move;
+		}
+	}
+
+	private void handleActionUp(int x, int y) {
+		boolean playSound = true;
+		handleActionMove(x, y);
+		if (dPadDirection.isMove) {
+			sendEvent(dPadDirection, false, playSound);
+		} else {
+			onCenterAction();
+		}
+		center();
+	}
+
+	private void center() {
+		isDpadFocused = false;
+		dPadDirection = Direction.IDLE;
+	}
+
+	private Direction getDirection(int dx, int dy) {
+		//		if (isClick(dx, dy)) {
+		//			return Direction.CENTER;
+		//		}
+		if (dx == 0) {
+			if (dy > 0) {
+				return Direction.DOWN;
+			} else {
+				return Direction.UP;
+			}
+		}
+		if (dy == 0) {
+			if (dx > 0) {
+				return Direction.RIGHT;
+			} else {
+				return Direction.LEFT;
+			}
+		}
+		float ratioX = (float) (dy) / (float) (dx);
+		float ratioY = (float) (dx) / (float) (dy);
+		if (Math.abs(ratioX) < TAN_DIRECTION) {
+			if (dx > 0) {
+				return Direction.RIGHT;
+			} else {
+				return Direction.LEFT;
+			}
+		}
+		if (Math.abs(ratioY) < TAN_DIRECTION) {
+			if (dy > 0) {
+				return Direction.DOWN;
+			} else {
+				return Direction.UP;
+			}
+		}
+		return Direction.CENTER;
+	}
+
+	private void sendEvent(Direction move, boolean pressed, boolean playSound) {
+		if (listener != null) {
+			switch (move) {
+			case UP:
+			case DOWN:
+			case LEFT:
+			case RIGHT:
+				listener.onDpadMoved(move, pressed);
+			}
+		}
+	}
+
+	private void onCenterAction() {
+		if (listener != null) {
+			listener.onDpadClicked();
+		}
+	}
+
+	private boolean isClick(int dx, int dy) {
+		return (dx * dx + dy * dy) < clickRadiusSqr;
+	}
 }

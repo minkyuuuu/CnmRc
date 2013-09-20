@@ -27,107 +27,115 @@ import com.google.anymote.Key.Code;
 
 /**
  * Handles text-related key input.
- *
+ * 
  * This class also manages a view that displays the last few characters typed.
- *
+ * 
  */
 public final class TextInputHandler {
 
-  /**
-   * Interface to send commands during a touch sequence.
-   */
-  private final ICommandSender commands;
+	/**
+	 * Interface to send commands during a touch sequence.
+	 */
+	private final ICommandSender commands;
 
-  /**
-   * Context.
-   */
-  private final Context context;
+	/**
+	 * Context.
+	 */
+	private final Context context;
 
-  /**
-   * {@code true} if display should be cleared before next output.
-   */
-  private boolean clearNextTime;
+	/**
+	 * {@code true} if display should be cleared before next output.
+	 */
+	private boolean clearNextTime;
 
-  public TextInputHandler(Context context, ICommandSender commands) {
-    this.commands = commands;
-    this.context = context;
-  }
+	public TextInputHandler(Context context, ICommandSender commands) {
+		this.commands = commands;
+		this.context = context;
+	}
 
-  /**
-   * The view that contains the visual feedback for text input.
-   */
-  private TextView display;
+	/**
+	 * The view that contains the visual feedback for text input.
+	 */
+	private TextView display;
 
-  /**
-   * Handles a character input.
-   *
-   * @param  c             the character being typed
-   * @return {@code true}  if the event was handled
-   */
-  public boolean handleChar(char c) {
-    if (isValidCharacter(c)) {
-      String str = String.valueOf(c);
-      appendDisplayedText(str);
-      commands.string(str);
-      return true;
-    }
-    return false;
-  }
+	/**
+	 * Handles a character input.
+	 * 
+	 * @param c
+	 *            the character being typed
+	 * @return {@code true} if the event was handled
+	 */
+	public boolean handleChar(char c) {
+		if (isValidCharacter(c)) {
+			String str = String.valueOf(c);
+			appendDisplayedText(str);
+			commands.string(str);
+			return true;
+		}
+		return false;
+	}
 
-  /**
-   * Handles a key event.
-   *
-   * @param     event   the key event to handle
-   * @return    {@code true} if the event was handled
-   */
-  public boolean handleKey(KeyEvent event) {
-    if (event.getAction() != KeyEvent.ACTION_DOWN) {
-      return false;
-    }
-    int code = event.getKeyCode();
-    if (code == KeyEvent.KEYCODE_ENTER) {
-      displaySingleTimeMessage(context.getString(R.string.keyboard_enter));
-      Action.ENTER.execute(commands);
-      return true;
-    }
-    if (code == KeyEvent.KEYCODE_DEL) {
-      displaySingleTimeMessage(context.getString(R.string.keyboard_del));
-      Action.BACKSPACE.execute(commands);
-      return true;
-    }
+	/**
+	 * Handles a key event.
+	 * 
+	 * @param event
+	 *            the key event to handle
+	 * @return {@code true} if the event was handled
+	 */
+	public boolean handleKey(KeyEvent event) {
+		if (event.getAction() != KeyEvent.ACTION_DOWN) {
+			return false;
+		}
+		int code = event.getKeyCode();
+		if (code == KeyEvent.KEYCODE_ENTER) {
+			displaySingleTimeMessage(context.getString(R.string.keyboard_enter));
+			Action.ENTER.execute(commands);
+			return true;
+		}
+		if (code == KeyEvent.KEYCODE_DEL) {
+			displaySingleTimeMessage(context.getString(R.string.keyboard_del));
+			Action.BACKSPACE.execute(commands);
+			return true;
+		}
 
-    if (code == KeyEvent.KEYCODE_SPACE) {
-      appendDisplayedText(" ");
-      commands.keyPress(Code.KEYCODE_SPACE);
-      return true;
-    }
+		if (code == KeyEvent.KEYCODE_SPACE) {
+			appendDisplayedText(" ");
+			commands.keyPress(Code.KEYCODE_SPACE);
+			return true;
+		}
 
-    int c = event.getUnicodeChar();
-    return handleChar((char) c);
-  }
+		int c = event.getUnicodeChar();
+		return handleChar((char) c);
+	}
 
-  private boolean isValidCharacter(int unicode) {
-    return unicode > 0 && unicode < 256;
-  }
+	private boolean isValidCharacter(int unicode) {
+		// 한글자모확장-A :	a960 ~ a97f (43360 ~ 43391) 32ea
+		// 한글음절 :		ac00 ~ d7af (44032 ~ 55215) 11184ea
+		// 한글자모확장-B :	d7b0 ~ d7ff (55216 ~ 55295) 80ea
+//		return (unicode > 0 && unicode < 256) || (unicode > 43359 && unicode < 43392) || (unicode > 55215 && unicode < 55296);	// 조합형?
+//		return (unicode > 0 && unicode < 256) || (unicode > 44032 && unicode < 55215);	// 완성형 
+//		return (unicode > 0 && unicode < 256) || (unicode > 43359 && unicode < 55296);  // 조합형 & 완성형S
+		return (unicode > 0 && unicode < 256);
+	}
 
-  public void setDisplay(TextView textView) {
-    display = textView;
-  }
+	public void setDisplay(TextView textView) {
+		display = textView;
+	}
 
-  private void appendDisplayedText(CharSequence seq) {
-    if (display != null) {
-      if (!clearNextTime) {
-        seq = new StringBuffer(display.getText()).append(seq);
-      }
-      display.setText(seq);
-    }
-    clearNextTime = false;
-  }
+	private void appendDisplayedText(CharSequence seq) {
+		if (display != null) {
+			if (!clearNextTime) {
+				seq = new StringBuffer(display.getText()).append(seq);
+			}
+			display.setText(seq);
+		}
+		clearNextTime = false;
+	}
 
-  private void displaySingleTimeMessage(CharSequence seq) {
-    if (display != null) {
-      display.setText(seq);
-      clearNextTime = true;
-    }
-  }
+	private void displaySingleTimeMessage(CharSequence seq) {
+		if (display != null) {
+			display.setText(seq);
+			clearNextTime = true;
+		}
+	}
 }

@@ -89,7 +89,7 @@ public final class KeyboardActivity extends BaseActivity {
         (TextView) findViewById(R.id.text_feedback_chars));
 
     // Attach touch handler to the touch pad.
-    new TouchHandler(view, Mode.POINTER_MULTITOUCH, getCommands());
+    new TouchHandler(view, Mode.POINTER_MULTITOUCH, getCommands(), getDefaultDpadListener());
   }
 
   @Override

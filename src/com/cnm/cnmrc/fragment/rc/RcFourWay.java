@@ -23,10 +23,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.cnm.cnmrc.R;
 import com.google.android.apps.tvremote.BaseActivity;
+import com.google.android.apps.tvremote.TouchHandler;
+import com.google.android.apps.tvremote.TouchHandler.Mode;
 import com.google.android.apps.tvremote.util.Action;
+import com.google.android.apps.tvremote.widget.SoftDpad;
 
 public class RcFourWay extends RcBase implements View.OnClickListener{
 
@@ -34,6 +38,8 @@ public class RcFourWay extends RcBase implements View.OnClickListener{
 	
 	ImageButton up, down, left, right, ok;
 	ImageView aniUp, aniDown, aniLeft, aniRight, aniOk;
+	
+	RelativeLayout view;	// Attach touch handler to the touch pad.
 	
 	public static RcFourWay newInstance(String type) {
 		RcFourWay f = new RcFourWay();
@@ -66,6 +72,13 @@ public class RcFourWay extends RcBase implements View.OnClickListener{
 		ok = (ImageButton) layout.findViewById(R.id.fourway_ok);
 		aniOk = (ImageView) layout.findViewById(R.id.anim_fourway_ok);
 		ok.setOnClickListener(this);
+		
+	    //SoftDpad softDpad = (SoftDpad) layout.findViewById(R.id.SoftDpad);
+	    //softDpad.setDpadListener( ((BaseActivity)getActivity()).getDefaultDpadListener() );
+	    
+		// Attach touch handler to the touch pad.
+		view = (RelativeLayout) layout.findViewById(R.id.view);
+		new TouchHandler(view, Mode.POINTER_MULTITOUCH, ((BaseActivity)getActivity()).getCommands(), ((BaseActivity)getActivity()).getDefaultDpadListener() );
 
 		return layout;
 	}

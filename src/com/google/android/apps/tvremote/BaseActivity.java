@@ -330,16 +330,18 @@ public class BaseActivity extends CoreServiceActivity
   /**
    * Returns a default implementation for the DpadListener.
    */
-  protected DpadListener getDefaultDpadListener() {
+  public DpadListener getDefaultDpadListener() {
     return new DpadListener() {
 
       public void onDpadClicked() {
+    	  Log.i("hwang-tvremote", "BaseActivity::DpadListener::onDpadClicked()");
         if(getCommands() != null) {
           Action.DPAD_CENTER.execute(getCommands());
         }
       }
 
       public void onDpadMoved(SoftDpad.Direction direction, boolean pressed) {
+    	  Log.i("hwang-tvremote", "BaseActivity::DpadListener::onDpadMoved()");
         Action action = translateDirection(direction, pressed);
         if (action != null) {
           action.execute(getCommands());
