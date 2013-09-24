@@ -109,13 +109,21 @@ public final class TextInputHandler {
 	}
 
 	private boolean isValidCharacter(int unicode) {
-		// 한글자모확장-A :	a960 ~ a97f (43360 ~ 43391) 32ea
-		// 한글음절 :		ac00 ~ d7af (44032 ~ 55215) 11184ea
-		// 한글자모확장-B :	d7b0 ~ d7ff (55216 ~ 55295) 80ea
+		// 한글자모 		: 10a0 ~ 318f (4256 ~ 4351)
+		// 호환용 한글자모 	: 3130 ~ 318f (12592 ~ 12687)
+		// 한글자모확장-A 	: a960 ~ a97f (43360 ~ 43391) 32ea
+		// 한글음절 		: ac00 ~ d7af (44032 ~ 55215) 11184ea
+		// 한글자모확장-B 	: d7b0 ~ d7ff (55216 ~ 55295) 80ea
+//		return (unicode > 0 && unicode < 256) || (unicode > 4255 && unicode < 4352);	// 한글자모
+//		return (unicode > 0 && unicode < 256) || (unicode > 12591 && unicode < 12688);	// 호환용 한글자모
+		
 //		return (unicode > 0 && unicode < 256) || (unicode > 43359 && unicode < 43392) || (unicode > 55215 && unicode < 55296);	// 조합형?
+//		return (unicode > 0 && unicode < 256) || (unicode > 43359 && unicode < 43392);	// 조합형 A
+//		return (unicode > 0 && unicode < 256) || (unicode > 55215 && unicode < 55296);	// 조합형 B
 //		return (unicode > 0 && unicode < 256) || (unicode > 44032 && unicode < 55215);	// 완성형 
 //		return (unicode > 0 && unicode < 256) || (unicode > 43359 && unicode < 55296);  // 조합형 & 완성형S
-		return (unicode > 0 && unicode < 256);
+		//return (unicode > 0 && unicode < 256);
+		return (unicode > 0 && unicode < 256) || (unicode > 12591 && unicode < 12688);	// 호환용 한글자모
 	}
 
 	public void setDisplay(TextView textView) {

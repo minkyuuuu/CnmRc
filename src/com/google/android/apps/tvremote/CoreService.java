@@ -58,7 +58,7 @@ import com.google.android.apps.tvremote.util.LimitedLinkedHashMap;
  */
 public final class CoreService extends Service implements ConnectionManager {
 
-	private static final String LOG_TAG = "TvRemoteCoreService";
+	private static final String LOG_TAG = "hwang-tvremote";
 
 	/**
 	 * Connection status enumeration.
@@ -138,11 +138,15 @@ public final class CoreService extends Service implements ConnectionManager {
 	public CoreService() {
 		target = null;
 		sendSocket = null;
+		
+		Log.e("hwang-tvremote", "CoreService : CoreService() 생성");
 	}
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		
+		Log.e("hwang-tvremote", "CoreService : onCreate()");
 		
 		handler = new Handler(new ConnectionRequestCallback());
 		recentlyConnected = new LimitedLinkedHashMap<InetAddress, RemoteDevice>(getResources().getInteger(R.integer.recently_connected_count));
@@ -159,10 +163,14 @@ public final class CoreService extends Service implements ConnectionManager {
 			keyStoreManager.store();
 		}
 		super.onDestroy();
+		
+		Log.e("hwang-tvremote", "CoreService : onDestroy()");
 	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
+		Log.e("hwang-tvremote", "CoreService : onBind()");
+		
 		return new LocalBinder();
 	}
 
@@ -196,7 +204,7 @@ public final class CoreService extends Service implements ConnectionManager {
 		if (sendSocket == null) {
 			return;
 		}
-		Log.i(LOG_TAG, "Closing connection to " + sendSocket.getInetAddress() + ":" + sendSocket.getPort());
+		Log.v(LOG_TAG, "CoreService : Closing connection to " + sendSocket.getInetAddress() + ":" + sendSocket.getPort());
 		if (anymoteSender != null) {
 			anymoteSender.disconnect();
 			anymoteSender = null;
@@ -204,7 +212,7 @@ public final class CoreService extends Service implements ConnectionManager {
 		try {
 			sendSocket.close();
 		} catch (IOException e) {
-			Log.e(LOG_TAG, "failed to close socket");
+			Log.e(LOG_TAG, "CoreService : failed to close socket");
 		}
 		sendSocket = null;
 	}
@@ -215,6 +223,8 @@ public final class CoreService extends Service implements ConnectionManager {
 	 * @return {@code true} if the config was saved
 	 */
 	private boolean storeConfig() {
+		Log.v("hwang-tvremote", "CoreService : storeConfig()");
+		
 		SharedPreferences pref = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 		SharedPreferences.Editor prefEdit = pref.edit();
 		prefEdit.clear();
@@ -244,6 +254,8 @@ public final class CoreService extends Service implements ConnectionManager {
 	 * Loads an existing configuration, and builds the socket to the target.
 	 */
 	private void loadConfig() {
+		Log.v("hwang-tvremote", "CoreService : loadConfig()");
+		
 		SharedPreferences pref = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 
 		RemoteDevice restoredTarget = loadRemoteDevice(pref, "");
@@ -290,6 +302,8 @@ public final class CoreService extends Service implements ConnectionManager {
 	}
 
 	private void addRecentlyConnected(RemoteDevice remoteDevice) {
+		Log.v("hwang-tvremote", "CoreService : addRecentlyConnected()");
+		
 		recentlyConnected.remove(remoteDevice.getAddress());
 		recentlyConnected.put(remoteDevice.getAddress(), remoteDevice);
 		storeConfig();
@@ -311,26 +325,38 @@ public final class CoreService extends Service implements ConnectionManager {
 	}
 
 	public void notifyConnectionFailed() {
+		Log.v("hwang-tvremote", "CoreService : notifyConnectionFailed()");
+		
 		sendMessage(Request.CONNECTION_ERROR, null);
 	}
 
 	public void connect(ConnectionListener listener) {
+		Log.v("hwang-tvremote", "CoreService : connect()");
+		
 		sendMessage(Request.CONNECT, listener);
 	}
 
 	public void connected(ConnectionResult result) {
+		Log.v("hwang-tvremote", "CoreService : connected()");
+		
 		sendMessage(Request.CONNECTED, result);
 	}
 
 	public void disconnect(ConnectionListener listener) {
+		Log.v("hwang-tvremote", "CoreService : disconnect()");
+		
 		sendMessage(Request.DISCONNECT, listener);
 	}
 
 	public void setKeepConnected(boolean keepConnected) {
+		Log.v("hwang-tvremote", "CoreService : setKeepConnected()");
+		
 		sendMessage(Request.SET_KEEP_CONNECTED, Boolean.valueOf(keepConnected));
 	}
 
 	public void setTarget(RemoteDevice remoteDevice) {
+		Log.v("hwang-tvremote", "CoreService : setTarget()");
+		
 		sendMessage(Request.SET_TARGET, remoteDevice);
 	}
 
@@ -339,28 +365,40 @@ public final class CoreService extends Service implements ConnectionManager {
 	}
 
 	public ArrayList<RemoteDevice> getRecentlyConnected() {
+		Log.v("hwang-tvremote", "CoreService : getRecentlyConnected()");
+		
 		ArrayList<RemoteDevice> devices = new ArrayList<RemoteDevice>(recentlyConnected.values());
 		Collections.reverse(devices);
 		return devices;
 	}
 
 	public void pairingFinished() {
+		Log.v("hwang-tvremote", "CoreService : pairingFinished()");
+		
 		sendMessage(Request.PAIRING_FINISHED, null);
 	}
 
 	public void deviceFinderFinished() {
+		Log.v("hwang-tvremote", "CoreService : deviceFinderFinished()");
+		
 		sendMessage(Request.DEVICE_FINDER_FINISHED, null);
 	}
 
 	public void requestDeviceFinder() {
+		Log.v("hwang-tvremote", "CoreService : requestDeviceFinder()");
+		
 		sendMessage(Request.REQUEST_DEVICE_FINDER, null);
 	}
 
 	private void requestPairing() {
+		Log.v("hwang-tvremote", "CoreService : requestPairing()");
+		
 		sendMessage(Request.REQUEST_PAIRING, null);
 	}
 
 	private void sendMessage(Request request, Object obj) {
+		Log.v("hwang-tvremote", "CoreService : sendMessage()");
+		
 		Message msg = handler.obtainMessage(request.ordinal());
 		msg.obj = obj;
 		handler.dispatchMessage(msg);
@@ -372,10 +410,14 @@ public final class CoreService extends Service implements ConnectionManager {
 		private boolean pendingNotification;
 
 		private boolean changeState(State newState) {
+			Log.v("hwang-tvremote", "CoreService : changeState(State newState)");
+			
 			return changeState(newState, null);
 		}
 
 		private boolean changeState(State newState, Runnable callback) {
+			Log.v("hwang-tvremote", "CoreService : changeState(State newState, Runnable callback)");
+			
 			if (isTransitionLegal(currentState, newState)) {
 				if (Debug.isDebugConnection()) {
 					Log.d(LOG_TAG, "Changing state: " + currentState + " -> " + newState);
@@ -395,7 +437,8 @@ public final class CoreService extends Service implements ConnectionManager {
 
 		public boolean handleMessage(Message msg) {
 			Request request = Request.values()[msg.what];
-			Log.v(LOG_TAG, "handleMessage:" + request + " (" + msg.obj + ")");
+			Log.v(LOG_TAG, "CoreService : handleMessage: " + request + " (" + msg.obj + ")");
+			
 			switch (request) {
 			case CONNECT:
 				handleConnect((ConnectionListener) msg.obj);
@@ -442,14 +485,20 @@ public final class CoreService extends Service implements ConnectionManager {
 		}
 
 		private boolean isConnected() {
+			Log.v("hwang-tvremote", "CoreService : isConnected()");
+			
 			return Debug.isDebugConnectionLess() || sendSocket != null;
 		}
 
 		private boolean isConnecting() {
+			Log.v("hwang-tvremote", "CoreService : isConnecting()");
+			
 			return State.CONNECTING.equals(currentState);
 		}
 
 		private void handleConnectionError() {
+			Log.v("hwang-tvremote", "CoreService : handleConnectionError()");
+			
 			if (changeState(State.DISCONNECTING)) {
 				cleanupSocket();
 			}
@@ -459,6 +508,8 @@ public final class CoreService extends Service implements ConnectionManager {
 		}
 
 		private void handleConnect(ConnectionListener listener) {
+			Log.v("hwang-tvremote", "CoreService : handleConnect()");
+			
 			handleSetKeepConnected(true);
 
 			if (listener != connectionListener) {
@@ -478,17 +529,23 @@ public final class CoreService extends Service implements ConnectionManager {
 		}
 
 		private void handleRequestDeviceFinder() {
+			Log.v("hwang-tvremote", "CoreService : handleRequestDeviceFinder()");
+			
 			stopConnectionTask();
 			disconnect(true);
 			changeState(State.DEVICE_FINDER);
 		}
 
 		private void handleRequestPairing() {
+			Log.v("hwang-tvremote", "CoreService : handleRequestPairing()");
+			
 			stopConnectionTask();
 			changeState(State.PAIRING);
 		}
 
 		private void handleConnected(final ConnectionResult result) {
+			Log.v("hwang-tvremote", "CoreService : handleConnected()");
+			
 			stopConnectionTask();
 			if (sendSocket != null) {
 				throw new IllegalStateException();
@@ -503,6 +560,8 @@ public final class CoreService extends Service implements ConnectionManager {
 		}
 
 		private void handleDisconnect(ConnectionListener listener) {
+			Log.v("hwang-tvremote", "CoreService : handleDisconnect()");
+			
 			handleSetKeepConnected(false);
 			if (listener == connectionListener) {
 				connectionListener = null;
@@ -510,6 +569,8 @@ public final class CoreService extends Service implements ConnectionManager {
 		}
 
 		private void handleSetKeepConnected(boolean keepConnected) {
+			Log.v("hwang-tvremote", "CoreService : handleSetKeepConnected()");
+			
 			keepConnectedRefcount += keepConnected ? 1 : -1;
 			if (Debug.isDebugConnection()) {
 				Log.d(LOG_TAG, "KeepConnectedRefcount: " + keepConnectedRefcount);
@@ -523,6 +584,8 @@ public final class CoreService extends Service implements ConnectionManager {
 		}
 
 		private void handleSetTarget(RemoteDevice remoteDevice) {
+			Log.v("hwang-tvremote", "CoreService : handleSetTarget()");
+			
 			disconnect(true);
 			target = remoteDevice;
 			if (target != null && changeState(State.CONNECTING)) {
@@ -531,6 +594,8 @@ public final class CoreService extends Service implements ConnectionManager {
 		}
 
 		private void disconnect(boolean unconditionally) {
+			Log.v("hwang-tvremote", "CoreService : disconnect()");
+			
 			if (unconditionally || keepConnectedRefcount == 0) {
 				if (isConnected()) {
 					changeState(State.DISCONNECTING);
@@ -545,6 +610,8 @@ public final class CoreService extends Service implements ConnectionManager {
 		}
 
 		private void connect() {
+			Log.v("hwang-tvremote", "CoreService : connect()");
+			
 			if (Debug.isDebugConnection()) {
 				Log.d(LOG_TAG, "Connecting to: " + target);
 			}
@@ -572,25 +639,36 @@ public final class CoreService extends Service implements ConnectionManager {
 			}
 			switch (currentState) {
 			case IDLE:
+				Log.v("hwang-tvremote", "CoreService : sendNotification() : IDLE");
 				break;
 
 			case CONNECTING:
+				Log.v("hwang-tvremote", "CoreService : sendNotification() : CONNECTING");
+				
 				connectionListener.onConnecting();
 				break;
 
 			case CONNECTED:
+				Log.v("hwang-tvremote", "CoreService : sendNotification() : CONNECTED");
+				
 				connectionListener.onConnectionSuccessful(Debug.isDebugConnectionLess() ? new DummySender() : anymoteSender);
 				break;
 
 			case DISCONNECTING:
+				Log.v("hwang-tvremote", "CoreService : sendNotification() : DISCONNECTING");
+				
 				connectionListener.onDisconnected();
 				break;
 
 			case DEVICE_FINDER:
+				Log.v("hwang-tvremote", "CoreService : sendNotification() : DEVICE_FINDER");
+				
 				connectionListener.onShowDeviceFinder();
 				break;
 
 			case PAIRING:
+				Log.v("hwang-tvremote", "CoreService : sendNotification() : PAIRING");
+				
 				if (target != null) {
 					connectionListener.onNeedsPairing(target);
 				} else {
@@ -605,12 +683,16 @@ public final class CoreService extends Service implements ConnectionManager {
 	}
 
 	private void startConnectionTask(RemoteDevice remoteDevice) {
+		Log.v("hwang-tvremote", "CoreService : startConnectionTask()");
+		
 		stopConnectionTask();
 		connectionTask = new ConnectionTask(this);
 		connectionTask.execute(remoteDevice);
 	}
 
 	private void stopConnectionTask() {
+		Log.v("hwang-tvremote", "CoreService : stopConnectionTask()");
+		
 		if (connectionTask != null) {
 			connectionTask.cancel(true);
 			connectionTask = null;
@@ -641,6 +723,8 @@ public final class CoreService extends Service implements ConnectionManager {
 
 		@Override
 		protected ConnectionResult doInBackground(RemoteDevice... params) {
+			Log.v("hwang-tvremote", "CoreService : ConnectionTask : doInBackground()");
+			
 			if (params.length != 1) {
 				throw new IllegalStateException("Expected exactly one remote device");
 			}
@@ -679,14 +763,21 @@ public final class CoreService extends Service implements ConnectionManager {
 			return new ConnectionResult(ConnectionStatus.ERROR_CREATE, null, null);
 		}
 
+		
 		private ConnectionStatus buildSocket(RemoteDevice target) {
+			Log.v("hwang-tvremote", "CoreService : ConnectionTask : buildSocket()");
+			
+			
 			if (target == null) {
 				throw new IllegalStateException();
 			}
 
 			// Set up the new connection.
 			try {
+				
 				socket = getSslSocket(target);
+
+				
 			} catch (SSLException e) {
 				Log.e(LOG_TAG, "(SSL) Could not create socket to " + target, e);
 				return ConnectionStatus.ERROR_HANDSHAKE;
@@ -732,19 +823,31 @@ public final class CoreService extends Service implements ConnectionManager {
 		 *             on error loading the KeyStore
 		 */
 		private SSLSocket getSslSocket(RemoteDevice target) throws GeneralSecurityException, IOException {
+			Log.v("hwang-tvremote", "CoreService : ConnectionTask : getSslSocket()");
+
+			
+//			new Thread(new Runnable() {
+//				private RemoteDevice target;
+//
+//				@Override
+//				public void run() {
+//					
+//				}
+//			}).run();
+			
 			// Build a new key store based on the key store manager.
 			KeyManager[] keyManagers = coreService.getKeyStoreManager().getKeyManagers();
 			TrustManager[] trustManagers = coreService.getKeyStoreManager().getTrustManagers();
-
+			
 			if (keyManagers.length == 0) {
 				throw new IllegalStateException("No key managers");
 			}
-
+			
 			// Create a new SSLContext, using the new KeyManagers and TrustManagers
 			// as the sources of keys and trust decisions, respectively.
 			SSLContext sslContext = SSLContext.getInstance("TLS");
 			sslContext.init(keyManagers, trustManagers, null);
-
+			
 			// Finally, build a new SSLSocketFactory from the SSLContext, and
 			// then generate a new SSLSocket from it.
 			SSLSocketFactory factory = sslContext.getSocketFactory();
@@ -753,10 +856,11 @@ public final class CoreService extends Service implements ConnectionManager {
 			sock.setUseClientMode(true);
 			sock.setKeepAlive(true);
 			sock.setTcpNoDelay(true);
-
+			
 			InetSocketAddress fullAddr = new InetSocketAddress(target.getAddress(), target.getPort());
 			sock.connect(fullAddr, SOCKET_CREATION_TIMEOUT_MS);
 			sock.startHandshake();
+			
 
 			return sock;
 		}
@@ -765,6 +869,8 @@ public final class CoreService extends Service implements ConnectionManager {
 
 		@Override
 		protected void onCancelled() {
+			Log.v("hwang-tvremote", "CoreService : ConnectionTask : onCancelled()");
+			
 			super.onCancelled();
 		}
 
@@ -773,12 +879,18 @@ public final class CoreService extends Service implements ConnectionManager {
 			super.onPostExecute(result);
 			switch (result.status) {
 			case OK:
+				Log.v("hwang-tvremote", "CoreService : ConnectionTask : onPostExecute() : OK");
+				
 				coreService.connected(result);
 				break;
 			case ERROR_CREATE:
+				Log.v("hwang-tvremote", "CoreService : ConnectionTask : onPostExecute() : ERROR_CREATE");
+				
 				coreService.requestDeviceFinder();
 				break;
 			case ERROR_HANDSHAKE:
+				Log.v("hwang-tvremote", "CoreService : ConnectionTask : onPostExecute() : ERROR_HANDSHAKE");
+				
 				coreService.requestPairing();
 				break;
 			}

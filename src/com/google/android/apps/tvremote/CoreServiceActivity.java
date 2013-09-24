@@ -36,7 +36,7 @@ import android.util.Log;
  * 
  */
 public abstract class CoreServiceActivity extends FragmentActivity {
-	private static final String LOG_TAG = "CoreServiceActivity";
+	private static final String LOG_TAG = "hwang-tvremote";
 
 	/**
 	 * Used to connect to the background service.
@@ -48,32 +48,48 @@ public abstract class CoreServiceActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.e("hwang-tvremote", "CoreServiceActivity : onCreate()");
+		
 		runnableQueue = new LinkedList<Runnable>();
+		
+		   
 		connectToService();
+		
 	}
 
 	@Override
 	protected void onDestroy() {
 		disconnectFromService();
 		super.onDestroy();
+		
+		Log.e("hwang-tvremote", "CoreServiceActivity : onDestroy()");
 	}
 
 	/**
 	 * Opens the connection to the underlying service.
 	 */
 	private void connectToService() {
+		Log.w("hwang-tvremote", "CoreServiceActivity : new ServiceConnection()");
+		
 		serviceConnection = new ServiceConnection() {
 			public void onServiceConnected(ComponentName name, IBinder service) {
 				coreService = ((CoreService.LocalBinder) service).getService();
 				runQueuedRunnables();
 				onServiceAvailable(coreService);
+				
+				Log.w("hwang-tvremote", "CoreServiceActivity : callback onServiceConnected from CoreService");
 			}
 
 			public void onServiceDisconnected(ComponentName name) {
 				onServiceDisconnecting(coreService);
 				coreService = null;
+				
+				Log.w("hwang-tvremote", "CoreServiceActivity : callback onServiceDisconnected from CoreService");
 			}
 		};
+		
+		Log.w("hwang-tvremote", "CoreServiceActivity : starting bind CoreService");
+		
 		Intent intent = new Intent(this, CoreService.class);
 		bindService(intent, serviceConnection, BIND_AUTO_CREATE);
 	}
@@ -105,6 +121,7 @@ public abstract class CoreServiceActivity extends FragmentActivity {
 
 	/**
 	 * Starts an activity based on its class.
+	 * called from Child Activity (BaseActivity)
 	 */
 	protected void showActivity(Class<?> activityClass) {
 		Intent intent = new Intent(this, activityClass);
@@ -124,7 +141,7 @@ public abstract class CoreServiceActivity extends FragmentActivity {
 
 	protected boolean executeWhenCoreServiceAvailable(Runnable runnable) {
 		if (coreService == null) {
-			Log.d(LOG_TAG, "Queueing runnable: " + runnable);
+			Log.d(LOG_TAG, "CoreServiceActivity : Queueing runnable: " + runnable);
 			runnableQueue.offer(runnable);
 			return false;
 		}

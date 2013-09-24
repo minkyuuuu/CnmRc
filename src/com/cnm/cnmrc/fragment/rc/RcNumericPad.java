@@ -17,20 +17,17 @@
 package com.cnm.cnmrc.fragment.rc;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
+import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 import com.google.android.apps.tvremote.BaseActivity;
-import com.google.android.apps.tvremote.KeyboardActivity;
 import com.google.android.apps.tvremote.util.Action;
 
 public class RcNumericPad extends Fragment implements View.OnClickListener {
@@ -170,7 +167,11 @@ public class RcNumericPad extends Fragment implements View.OnClickListener {
 			break;
 			
 		case R.id.numeric_nback:
-			Action.BACKSPACE.execute(((BaseActivity)getActivity()).getCommands());
+		    Intent intent = getActivity().getIntent();
+		    intent.setAction(Intent.ACTION_SEND);
+		    intent.putExtra(Intent.EXTRA_TEXT, "http://daum.net");
+		    intent.setType("text/plain");
+		    ((MainActivity)getActivity()).flingIntent(intent);
 			break;
 		case R.id.numeric_nok:
 			Action.ENTER.execute(((BaseActivity)getActivity()).getCommands());

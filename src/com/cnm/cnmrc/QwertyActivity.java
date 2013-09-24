@@ -4,34 +4,27 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnKeyListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cnm.cnmrc.custom.ExtendedEditText;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.TextInputHandler;
-import com.google.android.apps.tvremote.TouchHandler;
-import com.google.android.apps.tvremote.TouchHandler.Mode;
+import com.google.android.apps.tvremote.TouchHandlerA;
+import com.google.android.apps.tvremote.TouchHandlerA.Mode;
 import com.google.android.apps.tvremote.util.Action;
-import com.google.android.apps.tvremote.widget.ImeInterceptView;
 
-public class QwertyActivity extends BaseActivity implements View.OnClickListener {
+public class QwertyActivity extends BaseActivity {
 
-	EditText edit;
+	ExtendedEditText edit;
 	Button mQwertyCancel, mQwertyTextClear;
-
-	/**
-	 * Captures text inputs.
-	 */
-	private final TextInputHandler textInputHandler;
+	private TextInputHandler textInputHandler = null;
 
 	/**
 	 * The main view.
 	 */
-	private ImeInterceptView view;
+	private View view;
 
 	public QwertyActivity() {
 		textInputHandler = new TextInputHandler(this, getCommands());
@@ -44,44 +37,47 @@ public class QwertyActivity extends BaseActivity implements View.OnClickListener
 		setContentView(R.layout.activity_qwerty);
 
 		//getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-		//
-		edit = (EditText) findViewById(R.id.qwerty_edit);
-		edit.setFocusable(false);
-		edit.setFocusableInTouchMode(false);
-		//edit.requestFocus();
-//
-//		edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//			@Override
-//			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//				if (actionId == EditorInfo.IME_ACTION_DONE) {
-//
-//					String str = v.getText().toString();
-//					if (str.equals("")) {
-//						Toast.makeText(QwertyActivity.this, "입력해 주세요", Toast.LENGTH_SHORT).show();
-//					} else {
-//						performDone();
-//					}S
-//
-//					return true;
-//				}
-//				return false;
-//			}
-//
-//		});
 
-		view = (ImeInterceptView) findViewById(R.id.keyboard);
-		//view.requestFocus();
-		view.setInterceptor(new ImeInterceptView.Interceptor() {
+		
+		edit = (ExtendedEditText) findViewById(R.id.qwerty_edit);
+		//edit.setFocusable(true);
+		//edit.setFocusableInTouchMode(true);
+		//edit.requestFocus();
+
+		//		edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+		//			@Override
+		//			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+		//				if (actionId == EditorInfo.IME_ACTION_DONE) {
+		//
+		//					String str = v.getText().toString();
+		//					if (str.equals("")) {
+		//						Toast.makeText(QwertyActivity.this, "입력해 주세요", Toast.LENGTH_SHORT).show();
+		//					} else {
+		//						performDone();
+		//					}
+		//
+		//					return true;
+		//				}
+		//				return false;
+		//			}
+		//
+		//		});
+
+		//		edit.setOnKeyListener(new OnKeyListener() {
+		//			@Override
+		//			public boolean onKey(View v, int keyCode, KeyEvent event) {
+		//				if (keyCode == KeyEvent.KEYCODE_ENTER) {
+		//
+		//				}
+		//				return false;
+		//			}
+		//		});
+
+		((ExtendedEditText) edit).setInterceptor(new ExtendedEditText.Interceptor() {
 			public boolean onKeyEvent(KeyEvent event) {
 				QwertyActivity.this.onUserInteraction();
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
 					switch (event.getKeyCode()) {
-					case KeyEvent.KEYCODE_DEL:
-						if (edit.length() > 0) {
-							edit.setText(edit.getText().delete(edit.length() - 1, edit.length()));
-						}
-						return textInputHandler.handleKey(event);	
-
 					case KeyEvent.KEYCODE_BACK:
 						finish();
 						return true;
@@ -94,42 +90,54 @@ public class QwertyActivity extends BaseActivity implements View.OnClickListener
 						Action.ENTER.execute(getCommands());
 						finish();
 						return true;
+//					case KeyEvent.KEYCODE_DEL:
+//						Action.BACKSPACE.execute(getCommands());
+//						return true;
 					}
 				}
+
 				return textInputHandler.handleKey(event);
 			}
 
 			public boolean onSymbol(char c) {
 				QwertyActivity.this.onUserInteraction();
 				textInputHandler.handleChar(c);
-				edit.setText(appendDisplayedText(String.valueOf(c)));
+				//handleChar(c);
 				return false;
 			}
 		});
-
+		
 		textInputHandler.setDisplay((TextView) findViewById(R.id.text_feedback_chars));
 
 		// Attach touch handler to the touch pad.
-		new TouchHandler(view, Mode.POINTER_MULTITOUCH, getCommands(), getDefaultDpadListener());
-		
-		getWindow().setSoftInputMode(EditorInfo.IME_ACTION_DONE);
+		view = (View) findViewById(R.id.view);
+		new TouchHandlerA(view, Mode.POINTER_MULTITOUCH, getCommands());
 
 	}
 
+	public boolean handleChar(char c) {
+		if (isValidCharacter(c)) {
+			String str = String.valueOf(c);
+			//appendDisplayedText(str);
+			getCommands().string(str);
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isValidCharacter(int unicode) {
+		//return unicode > 0 && unicode < 256;
+		return (unicode > 0 && unicode < 256) || (unicode > 12591 && unicode < 12688);
+	}
+
 	private String appendDisplayedText(CharSequence seq) {
-		seq = new StringBuffer(edit.getText()).append(seq);
+		//seq = new StringBuffer(edit.getText()).append(seq);
+		//edit.setText(seq);
 		return String.valueOf(seq);
 	}
 
 	private void performDone() {
 		Toast.makeText(QwertyActivity.this, "완료", Toast.LENGTH_SHORT).show();
-
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		}
 
 	}
 

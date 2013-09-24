@@ -116,6 +116,10 @@
     <string name="popup_gtv_connection_title">씨앤앰 TV 연결</string>
     <string name="popup_gtv_connection_line_1">씨앤앰 셋탑박스를</string>
     <string name="popup_gtv_connection_line_2">연결하시겠습니까?</string>
+    
+    <string name="popup_gtv_searching_title">씨앤앰 TV 찾기</string>
+    <string name="popup_gtv_searching_line_1">씨앤앰 셋탑박스를</string>
+    <string name="popup_gtv_searching_line_2">찾고 있는 중입니다.</string>
 
     <!-- mobile Accessibility -->
     <string name="accessibility_no_action"></string>

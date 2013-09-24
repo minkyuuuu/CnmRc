@@ -40,36 +40,37 @@ public class StartupActivity extends CoreServiceActivity {
 	TimeWatch watch;
 
 	/**
-	 * 주 기능:
-	 * splash display (1500 milliseconds)
-	 * make KeyStore at /data/data/com.cnm.cnmrc/files/ipremote.keystore
+	 * 주 기능: splash display (1500 milliseconds) make KeyStore at
+	 * /data/data/com.cnm.cnmrc/files/ipremote.keystore
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		// Show splash UI.
 		setContentView(R.layout.tutorial);
-		
-		// show MainActiviry after 1500 milliseconds
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				keystoreAvailable = true;
-				showMainActivity();
-				finish();
-			}
-		}, 1500);
+
+		Log.e("hwang-tvremote", "StartupActivity : onCreate()");
 	}
 
 	@Override
 	protected void onServiceAvailable(CoreService coreService) {
 		if (!getKeyStoreManager().hasServerIdentityAlias()) {
-			Log.e("hwang-tvremote", "startupActivity start");
+			Log.i("hwang-tvremote", "StartupActivity : start");
 			watch = TimeWatch.start();
-			new KeystoreInitializerTask(getUniqueId()).execute(getKeyStoreManager());	// take times : 1500 milliseconds
+			new KeystoreInitializerTask(getUniqueId()).execute(getKeyStoreManager()); // take times : 1500 milliseconds
 		} else {
-			Log.i("hwang-tvremote", "already KeyStore hasServerIdentityAlias");
+			Log.i("hwang-tvremote", "StartupActivity : already KeyStore hasServerIdentityAlias");
+			
+			// show MainActiviry after 1500 milliseconds
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					keystoreAvailable = true;
+					showMainActivity();
+					finish();
+				}
+			}, 1500);
 		}
 	}
 
@@ -77,7 +78,7 @@ public class StartupActivity extends CoreServiceActivity {
 	protected void onServiceDisconnecting(CoreService coreService) {
 		// Do nothing
 	}
-	
+
 	private void showMainActivity() {
 		Intent intent = new Intent(this, MainActivity.class);
 		Intent originalIntent = getIntent();
@@ -87,17 +88,20 @@ public class StartupActivity extends CoreServiceActivity {
 		}
 		startActivity(intent);
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		
+		Log.e("hwang-tvremote", "StartupActivity : onDestroy()");
 	}
-	
+
 	// No used
 	@Override
 	protected void onNewIntent(Intent intent) {
 		setIntent(intent);
 		if (keystoreAvailable) {
+			Log.i("hwang-tvremote", "StartupActivity : onNewIntent()");
 			showMainActivity();
 		}
 	}
@@ -121,13 +125,14 @@ public class StartupActivity extends CoreServiceActivity {
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			
+
 			long elapsedTime = watch.time();
 			//long elapsedTime = watch.time(TimeUnit.SECONDS);
-			Log.e("hwang-tvremote", "elapsedTime : " + elapsedTime);	// 1266, 1455
-			
+			Log.e("hwang-tvremote", "StartupActivity : KeystoreInitializerTask elapsedTime : " + elapsedTime); // 1266, 1455
+
 			keystoreAvailable = true;
-			//showMainActivity();
+			showMainActivity();
+			finish();
 		}
 	}
 

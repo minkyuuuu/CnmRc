@@ -17,30 +17,45 @@
 package com.cnm.cnmrc.popup;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.fragment.rc.RcFourWay;
 
 public class PopupBase extends DialogFragment  implements View.OnClickListener {
 	
 	TextView mTitle, mLine1, mLine2;
 	Button mYes, mNo;
+	ImageView mProgressBar;
+	Animation animation;
+	
+	Context context;
 	
 	@Override
 	public void onAttach(Activity activity) {
+		context = activity;
+		
 		super.onAttach(activity);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View layout = (View) inflater.inflate(R.layout.popup, container, false);
+		
+		animation = AnimationUtils.loadAnimation( context, R.anim.gtv_progressbar );
+		mProgressBar = (ImageView) layout.findViewById(R.id.popup_progressbar);
+		mProgressBar.setVisibility(View.INVISIBLE);
 		
 		mTitle = (TextView) layout.findViewById(R.id.popup_title);
 		

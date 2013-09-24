@@ -1,11 +1,14 @@
 package com.cnm.cnmrc;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -128,9 +131,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		//super();
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// java.lang.RuntimeException: Unable to stop activity {com.cnm.cnmrc/com.cnm.cnmrc.MainActivity}: android.os.NetworkOnMainThreadException
+		if (android.os.Build.VERSION.SDK_INT > 9) {
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+			StrictMode.setThreadPolicy(policy);
+		}
 
 		setContentView(R.layout.activity_main);
 		
@@ -170,6 +180,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 		
 		// Gtv connection (팝업창)
+		Log.i("hwang-tvremote", "Gtv connection (팝업창)");
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		PopupGtvConnection popupGtvConnection = new PopupGtvConnection();
 		popupGtvConnection.show(ft, PopupGtvConnection.class.getSimpleName());
@@ -1047,6 +1058,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	public void onTouch(Key.Code keyCode) {
 		//playClick();
 		getCommands().key(keyCode, Key.Action.DOWN);
+	}
+	
+	public void flingIntent(Intent intent) {
+		if (intent != null) {
+			if (Intent.ACTION_SEND.equals(intent.getAction())) {
+				String text = intent.getStringExtra(Intent.EXTRA_TEXT);
+				if (text != null) {
+					Uri uri = Uri.parse(text);
+					if (uri != null && ("http".equals(uri.getScheme()) || "https".equals(uri.getScheme()))) {
+						getCommands().flingUrl(text);
+					} else {
+						Toast.makeText(this, R.string.error_could_not_send_url, Toast.LENGTH_SHORT).show();
+					}
+				} else {
+					Log.w("hwang", "No URI to fling");
+				}
+			}
+		}
 	}
 
 	/*

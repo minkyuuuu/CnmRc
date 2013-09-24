@@ -36,7 +36,8 @@ public class PopupGtvConnection extends PopupBase {
 		case R.id.popup_yes:
 			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
 			Log.i("hwang", "(search)yes button pressed");
-			((MainActivity) getActivity()).openGtvConnection();
+			//((MainActivity) getActivity()).openGtvConnection();
+			((MainActivity) getActivity()).connect();
 			break;
 		case R.id.popup_no:
 			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
