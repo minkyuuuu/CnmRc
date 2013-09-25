@@ -68,7 +68,6 @@ public class StartupActivity extends CoreServiceActivity {
 				public void run() {
 					keystoreAvailable = true;
 					showMainActivity();
-					finish();
 				}
 			}, 1500);
 		}
@@ -87,6 +86,7 @@ public class StartupActivity extends CoreServiceActivity {
 			intent.putExtras(originalIntent);
 		}
 		startActivity(intent);
+		finish();
 	}
 
 	@Override
@@ -132,7 +132,6 @@ public class StartupActivity extends CoreServiceActivity {
 
 			keystoreAvailable = true;
 			showMainActivity();
-			finish();
 		}
 	}
 

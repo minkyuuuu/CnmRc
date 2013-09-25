@@ -69,10 +69,5 @@
         android:layout_height="match_parent"
         layout="@layout/include_circle_menu" />
     
-    <com.google.android.apps.tvremote.widget.HighlightView
-        android:id="@+id/HighlightView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        app:button="@drawable/button_highlight" />
 
 </FrameLayout>

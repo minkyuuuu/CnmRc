@@ -31,6 +31,7 @@ import com.cnm.cnmrc.fragment.config.ConfigProduct;
 import com.cnm.cnmrc.fragment.rc.RcBottomMenu;
 import com.cnm.cnmrc.fragment.rc.RcChannelVolume;
 import com.cnm.cnmrc.fragment.rc.RcFourWay;
+import com.cnm.cnmrc.fragment.rc.RcTopMenu;
 import com.cnm.cnmrc.fragment.rc.RcTrickPlay;
 import com.cnm.cnmrc.fragment.search.SearchMain;
 import com.cnm.cnmrc.fragment.search.SearchNaver;
@@ -41,7 +42,6 @@ import com.cnm.cnmrc.fragment.vodtvch.VodTvchMain;
 import com.cnm.cnmrc.popup.PopupGtvConnection;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.DeviceFinder;
-import com.google.android.apps.tvremote.util.Action;
 import com.google.android.apps.tvremote.widget.HighlightView;
 import com.google.android.apps.tvremote.widget.KeyCodeButton;
 import com.google.anymote.Key;
@@ -103,7 +103,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	FrameLayout mRcPanel; // rc_panel(채널/볼륨, 사방향) 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
 	FrameLayout mRcNumericPad; // rc_numeric_pad 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
 
-	ImageButton mStbPower, mIntegrationUiMain, mVod, mTvch, mSearch; // top menu (셋탑전원, 통합ui메인, vod, TV채널, 검색)
 	ImageButton mMirroring, mFourWay, mQwerty, mChannelVolume, mConfig; // circle menu (미러TV, 사방향키, 쿼티, 채널/볼륨, 설정)
 
 	ImageButton mRcIcon; // remocon icon
@@ -115,8 +114,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	FrameLayout mSearchPanel; // top menu의 search 아이콘의 메인화면의 레이아웃
 	FrameLayout mConfigPanel; // circle menu의 config 아이콘의 메인화면의 레이아웃
 
-	Animation aniRcPanelFadeout;
-	Animation aniRcTopMenuFadein;
+	public Animation aniRcPanelFadeout;
+	public Animation aniRcTopMenuFadein;
 	Animation aniQwertyFadeout;
 
 	Animation aniCirCleMenuEnter, aniCirCleMenuExit;
@@ -126,6 +125,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	Handler handler;
 	
 	private HighlightView surface;
+	
+	Fragment mRcTopMenu;
 	
 	public MainActivity() {
 		//super();
@@ -180,19 +181,84 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 		
 		// Gtv connection (팝업창)
-		Log.i("hwang-tvremote", "Gtv connection (팝업창)");
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		PopupGtvConnection popupGtvConnection = new PopupGtvConnection();
-		popupGtvConnection.show(ft, PopupGtvConnection.class.getSimpleName());
+		showPopupGtvConnection();
 		
 		showChannelVolume();
+	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		
+		Log.e("hwang-tvremote", "MainActivity : onNewIntent()");
 	}
 
 	@Override
 	protected void onPause() {
 		rcIconOn();
-		Log.i("hwang", "pause");
+		Log.e("hwang-tvremote", "MainActivity : onPause()");
+		
 		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_SEARCH);
+		if (f != null) {
+			boolean b = f.isVisible();
+			boolean h = f.isHidden();
+		}
+		Log.e("hwang-tvremote", "MainActivity : onResume()");
+		
+		super.onResume();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		
+		Log.e("hwang-tvremote", "MainActivity : onDestroy()");
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		
+		Log.e("hwang-tvremote", "MainActivity : onConfigurationChanged()");
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		Bundle bundle = new Bundle();
+
+		bundle.putBoolean("isMirroringTV", isMirroringTV);
+
+		if (isMirroringTV)
+			isChaeWon1 ^= isChaeWon1;
+		bundle.putBoolean("isChaeWon1", isChaeWon1);
+
+		outState.putBundle("save_data", bundle);
+
+		//super.onSaveInstanceState(outState); // vod_tvch --> mirrorTV -->  popup exit --> error
+		
+		Log.e("hwang-tvremote", "MainActivity : onSaveInstanceState()");
+	}
+
+	protected void onRestroreInstanceState(Bundle outState) {
+		isMirroringTV = outState.getBoolean("isMirroringTV");
+		
+		Log.e("hwang-tvremote", "MainActivity : onRestroreInstanceState()");
+	}
+
+
+	// ----------------------------
+	// prepare app
+	// ----------------------------
+	public void showPopupGtvConnection() {
+		Log.e("hwang-tvremote", "MainActivity : Gtv connection (팝업창)");
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		PopupGtvConnection popupGtvConnection = new PopupGtvConnection();
+		popupGtvConnection.show(ft, PopupGtvConnection.class.getSimpleName());
 	}
 
 	private void initUI() {
@@ -203,11 +269,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		mRcNumericPad = (FrameLayout) findViewById(R.id.rc_numeric_pad);
 
 		// top menu
-		mStbPower = (ImageButton) findViewById(R.id.stb_power);
-		mIntegrationUiMain = (ImageButton) findViewById(R.id.integration_ui_main);
-		mVod = (ImageButton) findViewById(R.id.vod);
-		mTvch = (ImageButton) findViewById(R.id.tvch);
-		mSearch = (ImageButton) findViewById(R.id.search);
 
 		// numeric menu
 
@@ -267,11 +328,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		});
 
 		// top menu
-		mStbPower.setOnClickListener(this);
-		mIntegrationUiMain.setOnClickListener(this);
-		mVod.setOnClickListener(this);
-		mTvch.setOnClickListener(this);
-		mSearch.setOnClickListener(this);
 
 		// numeric menu
 
@@ -366,24 +422,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			break;
 
 		// top menu
-		case R.id.stb_power:
-			Action.POWER.execute(getCommands());	// POWER_TV(x) POWER(o) POWER_AVR(x) POWER_BD(x) POWER_STB(x)
-			Log.i("hwang", "stb_power");
-			break;
-		case R.id.integration_ui_main:
-			Action.HOME.execute(getCommands());		// KEYCODE_MOVE_HOME은 안된다. ???
-			Log.i("hwang", "integration_ui_main");
-			break;
-		case R.id.vod:
-			goToVodTvch("vod");
-			break;
-		case R.id.tvch:
-			goToVodTvch("tvch");
-			break;
-		case R.id.search:
-			Log.i("hwang", "main search clicked!!!!");
-			goToSearch("rc");
-			break;
 
 		// bottom menu
 
@@ -441,10 +479,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		// ---------------------
 		// mirringTV on VodTvch
 		// ---------------------
-		if (noVodTvchDestroy) {
-			noVodTvchDestroy = false;
-			return;
-		}
+//		if (noVodTvchDestroy) {
+//			noVodTvchDestroy = false;
+//			return;
+//		}
 
 		// ---------------------
 		// circle menu
@@ -593,25 +631,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	}
 
 	private void backToRc() {
-		mStbPower.startAnimation(aniRcTopMenuFadein);
-		mIntegrationUiMain.startAnimation(aniRcTopMenuFadein);
-		mVod.startAnimation(aniRcTopMenuFadein);
-		mTvch.startAnimation(aniRcTopMenuFadein);
-		mSearch.startAnimation(aniRcTopMenuFadein);
+		RcTopMenu rcTopMenu = getFragmentRcTopMenu();
+		if (rcTopMenu != null) rcTopMenu.backToRc();
+		
 		mRcPanel.startAnimation(aniRcTopMenuFadein);
 		mRcNumericPad.startAnimation(aniRcTopMenuFadein);
 
-		mStbPower.setVisibility(View.VISIBLE);
-		mIntegrationUiMain.setVisibility(View.VISIBLE);
-		mVod.setVisibility(View.VISIBLE);
-		mTvch.setVisibility(View.VISIBLE);
-		mSearch.setVisibility(View.VISIBLE);
 		mRcPanel.setVisibility(View.VISIBLE);
 		mRcNumericPad.setVisibility(View.VISIBLE);
 		mVodTvchPanel.setVisibility(View.INVISIBLE);
 	}
 
-	private void goToVodTvch(String type) {
+	public void goToVodTvch(String type) {
 		clearVodTvchTopMeny();
 
 		FragmentManager fm = getSupportFragmentManager();
@@ -627,19 +658,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		ft.commit();
 		fm.executePendingTransactions();
 
-		mStbPower.startAnimation(aniRcPanelFadeout);
-		mIntegrationUiMain.startAnimation(aniRcPanelFadeout);
-		mVod.startAnimation(aniRcPanelFadeout);
-		mTvch.startAnimation(aniRcPanelFadeout);
-		mSearch.startAnimation(aniRcPanelFadeout);
+		RcTopMenu rcTopMenu = getFragmentRcTopMenu();
+		if (rcTopMenu != null) rcTopMenu.goToVodTvch();
+		
 		mRcPanel.startAnimation(aniRcPanelFadeout);
 		mRcNumericPad.startAnimation(aniRcPanelFadeout);
 
-		mStbPower.setVisibility(View.INVISIBLE);
-		mIntegrationUiMain.setVisibility(View.INVISIBLE);
-		mVod.setVisibility(View.INVISIBLE);
-		mTvch.setVisibility(View.INVISIBLE);
-		mSearch.setVisibility(View.INVISIBLE);
 		mRcPanel.setVisibility(View.INVISIBLE);
 		mRcNumericPad.setVisibility(View.INVISIBLE);
 		mVodTvchPanel.setVisibility(View.VISIBLE);
@@ -663,19 +687,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		fm.executePendingTransactions();
 
 		if (type.equals("rc")) {
-			mStbPower.startAnimation(aniRcPanelFadeout);
-			mIntegrationUiMain.startAnimation(aniRcPanelFadeout);
-			mVod.startAnimation(aniRcPanelFadeout);
-			mTvch.startAnimation(aniRcPanelFadeout);
-			mSearch.startAnimation(aniRcPanelFadeout);
+			RcTopMenu rcTopMenu = getFragmentRcTopMenu();
+			if (rcTopMenu != null) rcTopMenu.goToVodTvch();
+			
 			mRcPanel.startAnimation(aniRcPanelFadeout);
 			mRcNumericPad.startAnimation(aniRcPanelFadeout);
 
-			mStbPower.setVisibility(View.INVISIBLE);
-			mIntegrationUiMain.setVisibility(View.INVISIBLE);
-			mVod.setVisibility(View.INVISIBLE);
-			mTvch.setVisibility(View.INVISIBLE);
-			mSearch.setVisibility(View.INVISIBLE);
 			mRcPanel.setVisibility(View.INVISIBLE);
 			mRcNumericPad.setVisibility(View.INVISIBLE);
 			mVodTvchPanel.setVisibility(View.VISIBLE);
@@ -708,19 +725,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		fm.executePendingTransactions();
 
 		if (type.equals("rc")) {
-			mStbPower.startAnimation(aniRcPanelFadeout);
-			mIntegrationUiMain.startAnimation(aniRcPanelFadeout);
-			mVod.startAnimation(aniRcPanelFadeout);
-			mTvch.startAnimation(aniRcPanelFadeout);
-			mSearch.startAnimation(aniRcPanelFadeout);
+			RcTopMenu rcTopMenu = getFragmentRcTopMenu();
+			if (rcTopMenu != null) rcTopMenu.goToVodTvch();
+			
 			mRcPanel.startAnimation(aniRcPanelFadeout);
 			mRcNumericPad.startAnimation(aniRcPanelFadeout);
 
-			mStbPower.setVisibility(View.INVISIBLE);
-			mIntegrationUiMain.setVisibility(View.INVISIBLE);
-			mVod.setVisibility(View.INVISIBLE);
-			mTvch.setVisibility(View.INVISIBLE);
-			mSearch.setVisibility(View.INVISIBLE);
 			mRcPanel.setVisibility(View.INVISIBLE);
 			mRcNumericPad.setVisibility(View.INVISIBLE);
 			mConfigPanel.setVisibility(View.VISIBLE);
@@ -886,17 +896,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	}
 
 	public void openMirroring() {
-		noVodTvchDestroy = false;
+		//noVodTvchDestroy = false;
 
 		// vod_tvch화면에서 진입하면 down된다...
-		final VodTvchMain vodTVch = (VodTvchMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
-		if (vodTVch != null) {
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.addToBackStack(null);
-			ft.commit();
-
-			noVodTvchDestroy = true; // vod_tvch화면에서 mirroingTV을 진입할 때 VodTvch의 onDestroyView()에서 destory를 막기위해...
-		}
+//		final VodTvchMain vodTVch = (VodTvchMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_VOD_TVCH);
+//		if (vodTVch != null) {
+//			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//			ft.addToBackStack(null);
+//			ft.commit();
+//
+//			noVodTvchDestroy = true; // vod_tvch화면에서 mirroingTV을 진입할 때 VodTvch의 onDestroyView()에서 destory를 막기위해...
+//		}
 
 		if (isMirroringTV) {
 			Intent intent = new Intent(this, MirroringTvchActivity.class);
@@ -972,50 +982,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		ft.commit();
 	}
 
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		// TODO Auto-generated method stub
-		super.onConfigurationChanged(newConfig);
-	}
-
-	@Override
-	protected void onResume() {
-		Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_SEARCH);
-		if (f != null) {
-			boolean b = f.isVisible();
-			boolean h = f.isHidden();
-		}
-		super.onResume();
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		Bundle bundle = new Bundle();
-
-		bundle.putBoolean("isMirroringTV", isMirroringTV);
-
-		if (isMirroringTV)
-			isChaeWon1 ^= isChaeWon1;
-		bundle.putBoolean("isChaeWon1", isChaeWon1);
-
-		outState.putBundle("save_data", bundle);
-
-		//super.onSaveInstanceState(outState); // vod_tvch --> mirrorTV -->  popup exit --> error
-	}
-
-	protected void onRestroreInstanceState(Bundle outState) {
-		isMirroringTV = outState.getBoolean("isMirroringTV");
-	}
-
-	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-	}
 
 	public Dialog getMyProgressBar() {
 		return myProgressDialog;
 	}
 
+	public RcTopMenu getFragmentRcTopMenu() {
+		RcTopMenu f = (RcTopMenu)getSupportFragmentManager().findFragmentById(R.id.fragment_rc_top_menu);
+		return f;
+	}
+	
 	public Fragment getFragmentRcBottomMenu() {
 		Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_rc_bottom_menu);
 		return f;
@@ -1041,11 +1017,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		return f;
 	}
 	
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
+
 	
+	
+	// --------------------------------------
+	// tvremocon
+	// --------------------------------------
 	public HighlightView getHighlightView() {
 		return surface;
 	}

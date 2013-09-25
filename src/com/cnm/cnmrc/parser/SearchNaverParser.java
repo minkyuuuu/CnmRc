@@ -30,7 +30,7 @@ public class SearchNaverParser {
 		list = new ItemSearchNaverList();
 
 		String searchEncoder = Util.getURLEncoder(search);
-		URL = "http://openapi.naver.com/search?key=33f760bc1e0e514c338dbf7d6690795f" 
+		URL = "http://openapi.naver.com/search?key=ba5c945583e735931b33012306147b6c" 
 							+ "&query=" + searchEncoder 
 							+ "&display=" + count 
 							+ "&start=" + start 

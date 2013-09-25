@@ -19,7 +19,6 @@ import com.google.android.apps.tvremote.util.Action;
 public class RcBottomMenu extends Fragment implements View.OnClickListener {
 	
 	View layout;
-	
 	ImageButton mPrevious, mFavoriteChannel, mViewSwitch, mExit;			// bottom menu (이전, 선호채널, 보기전환, 나가기)
 	LinearLayout mRemoconMode, mVodTvchMode;
 

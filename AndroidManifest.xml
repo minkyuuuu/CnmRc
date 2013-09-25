@@ -36,25 +36,20 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.google.android.apps.tvremote.StartupActivity"
+            android:theme="@android:style/Theme.NoTitleBar" 
             android:noHistory="true"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity

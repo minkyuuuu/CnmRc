@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/device_finder"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/xml_repeat_default_bg"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px110"
+        android:background="#ff7961aa" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:singleLine="true"
+            android:text="@string/device_finder_title"
+            android:textColor="#ffffffff"
+            android:textSize="@dimen/sp45"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/px20"
+        android:layout_marginLeft="@dimen/px20"
+        android:layout_marginBottom="@dimen/px6"
+        android:text="@string/device_finder_subtitle"
+        android:textColor="#ff7961aa"
+        android:textSize="@dimen/sp32"
+        android:textStyle="bold" 
+        />
+
+    <ListView
+        android:id="@+id/stb_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/px20"
+        android:layout_marginRight="@dimen/px20"
+        android:listSelector="@android:color/transparent"
+        />
+
+    <!-- 하단메뉴공간을 보상하는 영역 -->
+
+<!--     <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px90"
+        android:layout_gravity="bottom"
+        android:background="@drawable/xml_repeat_default_bg" /> -->
+
+</LinearLayout>
+<!--
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/device_finder"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:visibility="invisible"
+    android:background="@android:color/black">>
+
+  <Button android:id="@+id/button_manual"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/finder_manual"
+          android:textSize="19sp"/>
+
+  <ListView android:id="@+id/stb_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:choiceMode="singleChoice"/>
+
+</LinearLayout>
+-->

@@ -825,16 +825,6 @@ public final class CoreService extends Service implements ConnectionManager {
 		private SSLSocket getSslSocket(RemoteDevice target) throws GeneralSecurityException, IOException {
 			Log.v("hwang-tvremote", "CoreService : ConnectionTask : getSslSocket()");
 
-			
-//			new Thread(new Runnable() {
-//				private RemoteDevice target;
-//
-//				@Override
-//				public void run() {
-//					
-//				}
-//			}).run();
-			
 			// Build a new key store based on the key store manager.
 			KeyManager[] keyManagers = coreService.getKeyStoreManager().getKeyManagers();
 			TrustManager[] trustManagers = coreService.getKeyStoreManager().getTrustManagers();

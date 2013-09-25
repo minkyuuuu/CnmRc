@@ -20,6 +20,8 @@
     <color name="search_menu_text_press">#ffffffff</color>
     
     <color name="touchbarprogress">#ff7a61aa</color>
+    
+    <color name="gtv_list_item_pressed">#109d84bd</color>
 
     <drawable name="aaa">#009d84bd</drawable>
     

@@ -244,8 +244,8 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 	public void onDestroyView() {
 		super.onDestroyView();
 
-		if (((MainActivity) getActivity()).noVodTvchDestroy)
-			return;
+//		if (((MainActivity) getActivity()).noVodTvchDestroy)
+//			return;
 
 		// ----------------------------------------------------------------------------------------------
 		// vod에 일부인 vodtopmenu fragment는 vod가 destory될 때 자식인 vodtopmenu도 같이 destory해주진 않는다.

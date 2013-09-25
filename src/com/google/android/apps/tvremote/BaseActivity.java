@@ -123,12 +123,6 @@ public class BaseActivity extends CoreServiceActivity implements ConnectionListe
 	}
 
 	@Override
-	protected void onStop() {
-		setKeepConnected(false);
-		super.onStop();
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
 		//connect();
@@ -142,6 +136,12 @@ public class BaseActivity extends CoreServiceActivity implements ConnectionListe
 		super.onPause();
 	}
 
+	@Override
+	protected void onStop() {
+		setKeepConnected(false);
+		super.onStop();
+	}
+	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		int code = event.getKeyCode();
@@ -482,7 +482,8 @@ public class BaseActivity extends CoreServiceActivity implements ConnectionListe
 			if (getConnectionManager().getTarget() != null) {
 				connect();
 			} else {
-				finish();
+				// hwang
+				// finish();
 			}
 		}
 	}

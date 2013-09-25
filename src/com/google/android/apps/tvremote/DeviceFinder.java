@@ -56,7 +56,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -115,7 +114,7 @@ public final class DeviceFinder extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.tvremocon_device_finder_layout);
+		setContentView(R.layout.gtv_device_finder_layout);
 
 		previousRemoteDevice = getIntent().getParcelableExtra(EXTRA_REMOTE_DEVICE);
 
@@ -126,13 +125,54 @@ public final class DeviceFinder extends FragmentActivity {
 
 		stbList = (ListView) findViewById(R.id.stb_list);
 		stbList.setOnItemClickListener(selectHandler);
-		stbList.setAdapter(dataAdapter);
+		stbList.setDivider(null);
+		stbList.setDividerHeight(0);
+		//stbList.setAdapter(dataAdapter);
+		
+		//findViewById(R.id.device_finder).setVisibility(View.VISIBLE);
+		
+//		((Button) findViewById(R.id.button_manual)).setOnClickListener(new View.OnClickListener() {
+//		public void onClick(View v) {
+//			buildManualIpDialog().show();
+//		}
+//	});
+		
+		
+		
+		ArrayList<MyItem> arItem = new ArrayList<MyItem>();  
+        MyItem mi;  
+          
+        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");  
+        arItem.add(mi);  
+        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
+        arItem.add(mi);  
+        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
+        arItem.add(mi);  
+        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
+        arItem.add(mi);  
+        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
+        arItem.add(mi);  
+        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
+        arItem.add(mi);  
+        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
+        arItem.add(mi);  
+        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
+        arItem.add(mi);  
+        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
+        arItem.add(mi);  
+        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
+        arItem.add(mi);  
+          
+        mi = new MyItem("IP 주소 직접 입력", "");
+        arItem.add(mi);  
+  
+        MyListAdapter myAdapter = new MyListAdapter(this, R.layout.list_item_gtv_device_finder, arItem);  
+  
+        stbList.setAdapter(myAdapter);
+		
 
-		((Button) findViewById(R.id.button_manual)).setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				buildManualIpDialog().show();
-			}
-		});
+		
+		
 	}
 
 
@@ -165,7 +205,9 @@ public final class DeviceFinder extends FragmentActivity {
 		broadcastHandler.sendMessageDelayed(message, getResources().getInteger(R.integer.broadcast_timeout));
 		
 		showProgressDialog(buildBroadcastProgressDialog());
-		showBroadcastProgress();
+		
+		// hwang
+		showPopupBroadcastSearching();
 	}
 	
 	private void showProgressDialog(ProgressDialog newDialog) {
@@ -174,6 +216,13 @@ public final class DeviceFinder extends FragmentActivity {
 		}
 		progressDialog = newDialog;
 		//newDialog.show();
+		
+		// hwang
+		if(isPopupShowing) {
+			Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_POPUP);
+			getSupportFragmentManager().beginTransaction().remove(f).commit();
+			isPopupShowing = false;
+		}
 	}
 
 	@Override
@@ -258,7 +307,7 @@ public final class DeviceFinder extends FragmentActivity {
 		return dialog;
 	}
 
-	private void showBroadcastProgress() {
+	private void showPopupBroadcastSearching() {
 		String message;
 		String networkName = getNetworkName();
 		if (!TextUtils.isEmpty(networkName)) {
@@ -270,6 +319,7 @@ public final class DeviceFinder extends FragmentActivity {
 		if(isPopupShowing) {
 			Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_POPUP);
 			getSupportFragmentManager().beginTransaction().remove(f).commit();
+			isPopupShowing = false;
 		}
 		
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -282,6 +332,35 @@ public final class DeviceFinder extends FragmentActivity {
 		broadcastHandler.removeMessages(DELAYED_MESSAGE); // when cancel button is clicked!!!
 	}
 	
+	
+	// -----------------------
+	// 셋탑박스 연결을 위한 리스트
+	// -----------------------
+	private AlertDialog buildConfirmationDialog(final RemoteDevice remoteDevice) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		View view = LayoutInflater.from(this).inflate(R.layout.device_info, null);
+		final TextView ipTextView = (TextView) view.findViewById(R.id.device_info_ip_address);
+
+		if (remoteDevice.getName() != null) {
+			builder.setMessage(remoteDevice.getName());
+		}
+		ipTextView.setText(remoteDevice.getAddress().getHostAddress());
+
+		return builder.setTitle(R.string.finder_label).setCancelable(false).setPositiveButton(R.string.finder_connect, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialogInterface, int id) {
+				connectToEntry(remoteDevice);
+			}
+		}).setNegativeButton(R.string.finder_add_other, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialogInterface, int id) {
+				showOtherDevices();
+			}
+		}).create();
+	}
+	
+	private void showConfirmation(final RemoteDevice remoteDevice) {
+		findViewById(R.id.device_finder).setVisibility(View.VISIBLE);
+		
+	}
 	
 	
 	
@@ -298,6 +377,14 @@ public final class DeviceFinder extends FragmentActivity {
 		if (progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
+		
+		// hwang
+		if(isPopupShowing) {
+			Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_POPUP);
+			getSupportFragmentManager().beginTransaction().remove(f).commit();
+			isPopupShowing = false;
+		}
+		
 		if (confirmationDialog != null && confirmationDialog.isShowing()) {
 			confirmationDialog.dismiss();
 		}
@@ -465,6 +552,14 @@ public final class DeviceFinder extends FragmentActivity {
 					if (progressDialog.isShowing()) {
 						progressDialog.dismiss();
 					}
+					
+					// hwang
+					if(isPopupShowing) {
+						Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_POPUP);
+						getSupportFragmentManager().beginTransaction().remove(f).commit();
+						isPopupShowing = false;
+					}
+					
 					buildBroadcastTimeoutDialog().show();
 					break;
 
@@ -483,8 +578,17 @@ public final class DeviceFinder extends FragmentActivity {
 					}
 
 					progressDialog.dismiss();
+					// hwang
+					if(isPopupShowing) {
+						Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_POPUP);
+						getSupportFragmentManager().beginTransaction().remove(f).commit();
+						isPopupShowing = false;
+					}
+					
 					confirmationDialog = buildConfirmationDialog(toConnect);
-					confirmationDialog.show();
+					//confirmationDialog.show();
+					
+					
 					break;
 				}
 			}
@@ -527,30 +631,7 @@ public final class DeviceFinder extends FragmentActivity {
 
 
 
-	private AlertDialog buildConfirmationDialog(final RemoteDevice remoteDevice) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		View view = LayoutInflater.from(this).inflate(R.layout.device_info, null);
-		final TextView ipTextView = (TextView) view.findViewById(R.id.device_info_ip_address);
 
-		if (remoteDevice.getName() != null) {
-			builder.setMessage(remoteDevice.getName());
-		}
-		ipTextView.setText(remoteDevice.getAddress().getHostAddress());
-
-		return builder.setTitle(R.string.finder_label).setCancelable(false).setPositiveButton(R.string.finder_connect, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialogInterface, int id) {
-				connectToEntry(remoteDevice);
-			}
-		}).setNegativeButton(R.string.finder_add_other, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialogInterface, int id) {
-				showOtherDevices();
-			}
-		}).create();
-	}
-	
-	private void buildConfirmation(final RemoteDevice remoteDevice) {
-		
-	}
 
 	private AlertDialog buildManualIpDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -768,4 +849,77 @@ public final class DeviceFinder extends FragmentActivity {
 		WifiInfo info = wifiManager.getConnectionInfo();
 		return info != null ? info.getSSID() : null;
 	}
+	
+	
+	
+	
+	//리스트 뷰에 출력할 항목  
+	class MyItem {  
+	    MyItem(String aIdx, String aName) {  
+	        Idx = aIdx;  
+	        Name = aName;  
+	    }  
+	    String Idx;  
+	    String Name;  
+	}  
+	  
+	//어댑터 클래스  
+	class MyListAdapter extends BaseAdapter {  
+	    Context maincon;  
+	    LayoutInflater Inflater;  
+	    ArrayList<MyItem> arSrc;  
+	    int layout;  
+	  
+	    public MyListAdapter(Context context, int alayout, ArrayList<MyItem> aarSrc) {  
+	        maincon = context;  
+	        Inflater = (LayoutInflater)context.getSystemService(  
+	                Context.LAYOUT_INFLATER_SERVICE);  
+	        arSrc = aarSrc;  
+	        layout = alayout;  
+	    }  
+	  
+	    public int getCount() {  
+	        return arSrc.size();  
+	    }  
+	  
+	    public String getItem(int position) {  
+	        return arSrc.get(position).Name;  
+	    }  
+	  
+	    public long getItemId(int position) {  
+	        return position;  
+	    }  
+	  
+	    // 각 항목의 뷰 생성  
+		public View getView(int position, View convertView, ViewGroup parent) {
+			final int pos = position;
+			if (convertView == null) {
+				convertView = Inflater.inflate(layout, parent, false);
+			}
+
+			TextView info = (TextView) convertView.findViewById(R.id.remotetv_info);
+			info.setText(arSrc.get(position).Idx);
+			
+			TextView ip = (TextView) convertView.findViewById(R.id.remotetv_ip);
+			ip.setText(arSrc.get(position).Name);
+			
+			LinearLayout select = (LinearLayout) convertView.findViewById(R.id.remotetv_select);
+			LinearLayout input = (LinearLayout) convertView.findViewById(R.id.manual_input);
+			if (position != getCount()-1) {
+				select.setVisibility(View.VISIBLE);
+				input.setVisibility(View.INVISIBLE);
+			} else {
+				TextView info1 = (TextView) convertView.findViewById(R.id.ip_manual_input);
+				info1.setText(arSrc.get(position).Idx);
+				
+				select.setVisibility(View.INVISIBLE);
+				input.setVisibility(View.VISIBLE);
+				
+			}
+
+			return convertView;
+		}
+	}  
+	
+	
 }
