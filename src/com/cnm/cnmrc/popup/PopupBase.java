@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.fragment.rc.RcFourWay;
 
 public class PopupBase extends DialogFragment  implements View.OnClickListener {
 	
@@ -74,22 +74,40 @@ public class PopupBase extends DialogFragment  implements View.OnClickListener {
 	}
 
 	@Override
+	public void dismiss() {
+		Log.d("hwang-tvremote", "PopupBase : dismiss()");
+		super.dismiss();
+	}
+
+	@Override
+	public void onDestroyView() {
+		Log.d("hwang-tvremote", "PopupBase : onDestroyView()");
+		super.onDestroyView();
+	}
+
+	@Override
+	public void onDetach() {
+		Log.d("hwang-tvremote", "PopupBase : onDetach()");
+		super.onDetach();
+	}
+
+	@Override
 	public void onStart() {
-		// TODO Auto-generated method stub
+		Log.d("hwang-tvremote", "PopupBase : onStart()");
 		super.onStart();
 
 	}
 
 	@Override
 	public void onDismiss(DialogInterface dialog) {
-		// TODO Auto-generated method stub
+		Log.d("hwang-tvremote", "PopupBase : onDismiss()");
 		super.onDismiss(dialog);
 
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		Log.d("hwang-tvremote", "PopupBase : onClick()");
 		
 	}
 

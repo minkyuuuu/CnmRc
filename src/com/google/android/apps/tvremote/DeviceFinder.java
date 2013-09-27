@@ -59,12 +59,13 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.popup.PopupGtvSearching;
-import com.google.android.apps.tvremote.util.Debug;
+import com.cnm.cnmrc.popup.PopupGtvManuallyInput;
+import com.cnm.cnmrc.popup.PopupGtvTimeout;
 
 /**
  * Device discovery with mDNS.
@@ -93,12 +94,14 @@ public final class DeviceFinder extends FragmentActivity {
 	public static final String EXTRA_RECENTLY_CONNECTED = "recently_connected";
 
 	public DeviceFinder() {
-		dataAdapter = new DeviceFinderListAdapter();
+//		deviceList = new ArrayList<DeviceInfo>();
+//		dataAdapter = new DeviceFinderListAdapter(this, deviceList);
 		trackedDevices = new TrackedDevices();
 	}
 	
 	private boolean isPopupShowing = false;
 	private final String TAG_FRAGMENT_POPUP = "tvremote-popup";
+	ArrayList<DeviceInfo> deviceList;
 	
 	/**
 	 * Returns an intent that starts this activity.
@@ -113,6 +116,7 @@ public final class DeviceFinder extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.d("hwang-tvremote", "DeviceFinder : onCreate()");
 
 		setContentView(R.layout.gtv_device_finder_layout);
 
@@ -123,13 +127,15 @@ public final class DeviceFinder extends FragmentActivity {
 		broadcastHandler = new BroadcastHandler();
 		wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
 
+		deviceList = new ArrayList<DeviceInfo>();
 		stbList = (ListView) findViewById(R.id.stb_list);
 		stbList.setOnItemClickListener(selectHandler);
 		stbList.setDivider(null);
 		stbList.setDividerHeight(0);
-		//stbList.setAdapter(dataAdapter);
+		dataAdapter = new DeviceFinderListAdapter(this, R.layout.list_item_gtv_device_finder, deviceList);
+		stbList.setAdapter(dataAdapter);
 		
-		//findViewById(R.id.device_finder).setVisibility(View.VISIBLE);
+		findViewById(R.id.device_finder).setVisibility(View.INVISIBLE);
 		
 //		((Button) findViewById(R.id.button_manual)).setOnClickListener(new View.OnClickListener() {
 //		public void onClick(View v) {
@@ -138,37 +144,23 @@ public final class DeviceFinder extends FragmentActivity {
 //	});
 		
 		
-		
-		ArrayList<MyItem> arItem = new ArrayList<MyItem>();  
-        MyItem mi;  
-          
-        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");  
-        arItem.add(mi);  
-        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
-        arItem.add(mi);  
-        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
-        arItem.add(mi);  
-        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
-        arItem.add(mi);  
-        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
-        arItem.add(mi);  
-        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
-        arItem.add(mi);  
-        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
-        arItem.add(mi);  
-        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
-        arItem.add(mi);  
-        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
-        arItem.add(mi);  
-        mi = new MyItem("stb_catv_cnm-192-168-0-25", "192.168.0.25");
-        arItem.add(mi);  
-          
-        mi = new MyItem("IP 주소 직접 입력", "");
-        arItem.add(mi);  
+//		deviceList = new ArrayList<DeviceInfo>();
+//		
+//		//ArrayList<DeviceInfo> deviceList = new ArrayList<DeviceInfo>();  
+//		DeviceInfo deviceInfo;  
+//          
+//        deviceInfo = new DeviceInfo("stb_catv_cnm-192-168-0-25", "192.168.0.21");  
+//        deviceList.add(deviceInfo);  
+//          
+//        deviceInfo = new DeviceInfo("IP 주소 직접 입력.", "");
+//        deviceList.add(deviceInfo);  
   
-        MyListAdapter myAdapter = new MyListAdapter(this, R.layout.list_item_gtv_device_finder, arItem);  
-  
-        stbList.setAdapter(myAdapter);
+//        MyListAdapter myAdapter = new MyListAdapter(this, R.layout.list_item_gtv_device_finder, deviceList);  
+//        stbList.setAdapter(myAdapter);
+        
+//        DeviceFinderListAdapter dataAdapter1 = new DeviceFinderListAdapter(this, R.layout.list_item_gtv_device_finder, deviceList);
+//        stbList.setAdapter(dataAdapter1);
+//        dataAdapter.notifyDataSetChanged();
 		
 
 		
@@ -180,9 +172,11 @@ public final class DeviceFinder extends FragmentActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+		Log.d("hwang-tvremote", "DeviceFinder : onStart()");
 
 		try {
 			broadcastAddress = getBroadcastAddress();
+			Log.d("hwang-tvremote", "DeviceFinder : broadcastAddress : " + broadcastAddress);
 		} catch (IOException e) {
 			Log.e(LOG_TAG, "Failed to get broadcast address");
 			setResult(RESULT_CANCELED, null);
@@ -194,9 +188,12 @@ public final class DeviceFinder extends FragmentActivity {
 	
 	private void startBroadcast() {
 		if (!isWifiAvailable()) {
-			buildNoWifiDialog().show();
+			//buildNoWifiDialog().show();
+			// hwang
+			showPopupNoWifi();
 			return;
 		}
+		
 		broadcastClient = new BroadcastDiscoveryClient(broadcastAddress, broadcastHandler);
 		broadcastClientThread = new Thread(broadcastClient);
 		broadcastClientThread.start();
@@ -227,6 +224,8 @@ public final class DeviceFinder extends FragmentActivity {
 
 	@Override
 	protected void onPause() {
+		Log.d("hwang-tvremote", "DeviceFinder : onPause()");
+		
 		active = false;
 		broadcastHandler.removeMessages(DELAYED_MESSAGE);
 		super.onPause();
@@ -236,16 +235,27 @@ public final class DeviceFinder extends FragmentActivity {
 	protected void onResume() {
 		super.onResume();
 		active = true;
+		
+		Log.d("hwang-tvremote", "DeviceFinder : onResume()");
 	}
 
 	@Override
 	protected void onStop() {
+		Log.d("hwang-tvremote", "DeviceFinder : onStop()");
+		
 		if (null != broadcastClient) {
 			broadcastClient.stop();
 			broadcastClient = null;
 		}
 
 		super.onStop();
+	}
+
+	@Override
+	protected void onDestroy() {
+		Log.d("hwang-tvremote", "DeviceFinder : onDestroy()");
+		
+		super.onDestroy();
 	}
 
 	@Override
@@ -261,15 +271,35 @@ public final class DeviceFinder extends FragmentActivity {
 		}
 	}
 	
-	private OnItemClickListener selectHandler = new OnItemClickListener() {
-		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-			RemoteDevice remoteDevice = (RemoteDevice) parent.getItemAtPosition(position);
-			if (remoteDevice != null) {
-				connectToEntry(remoteDevice);
+	// --------------------
+	// No Wifi available
+	// --------------------
+	private AlertDialog buildNoWifiDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		builder.setMessage(R.string.finder_wifi_not_available);
+		builder.setCancelable(false);
+		builder.setPositiveButton(R.string.finder_configure, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialogInterface, int id) {
+				Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+				startActivityForResult(intent, CODE_WIFI_SETTINGS);
 			}
-		}
-	};
+		});
+		builder.setNegativeButton(R.string.finder_cancel, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialogInterface, int id) {
+				setResult(RESULT_CANCELED, null);
+				finish();
+			}
+		});
+		return builder.create();
+	}
 	
+	private void showPopupNoWifi() {
+		Log.e("hwang-tvremote", "DeviceFinder : showPopupNoWifi (팝업창)");
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		PopupGtvTimeout popupGtvTimeout = new PopupGtvTimeout();
+		popupGtvTimeout.show(ft, PopupGtvTimeout.class.getSimpleName());
+	}
 	
 	// --------------------
 	// Searching...
@@ -322,11 +352,24 @@ public final class DeviceFinder extends FragmentActivity {
 			isPopupShowing = false;
 		}
 		
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		PopupGtvSearching popupGtvSearching = new PopupGtvSearching();
-		popupGtvSearching.show(ft, TAG_FRAGMENT_POPUP);
+//		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//		PopupGtvSearching popupGtvSearching = new PopupGtvSearching();
+//		popupGtvSearching.show(ft, TAG_FRAGMENT_POPUP);
+//		
+//		isPopupShowing = true;
 		
-		isPopupShowing = true;
+		
+		
+		// test remove above comment
+		showConfirmation();
+		
+		// before notify data adapter, make device list for "셋탑박스 연결" 화면
+		makeDeviceList();
+		
+		// Notify data adapter and update title.
+		dataAdapter.notifyDataSetChanged();
+		
+		
 	}
 	public void removeDelayedMessage() {
 		broadcastHandler.removeMessages(DELAYED_MESSAGE); // when cancel button is clicked!!!
@@ -348,7 +391,7 @@ public final class DeviceFinder extends FragmentActivity {
 
 		return builder.setTitle(R.string.finder_label).setCancelable(false).setPositiveButton(R.string.finder_connect, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialogInterface, int id) {
-				connectToEntry(remoteDevice);
+				connectToEntry(remoteDevice); // go to pairing
 			}
 		}).setNegativeButton(R.string.finder_add_other, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialogInterface, int id) {
@@ -357,15 +400,112 @@ public final class DeviceFinder extends FragmentActivity {
 		}).create();
 	}
 	
-	private void showConfirmation(final RemoteDevice remoteDevice) {
+	private void showConfirmation() {
+		//private void showConfirmation(final RemoteDevice remoteDevice) {
 		findViewById(R.id.device_finder).setVisibility(View.VISIBLE);
 		
 	}
 	
+	// ---------------------------
+	// No Google TV devices found
+	// ---------------------------
+	private AlertDialog buildBroadcastTimeoutDialog() {
+		String message;
+		String networkName = getNetworkName();
+		if (!TextUtils.isEmpty(networkName)) {
+			message = getString(R.string.finder_no_devices_with_ssid, networkName);
+		} else {
+			message = getString(R.string.finder_no_devices);
+		}
+
+		return buildTimeoutDialog(message, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialogInterface, int id) {
+				startBroadcast();
+			}
+		});
+	}
+
+	private AlertDialog buildTimeoutDialog(CharSequence message, DialogInterface.OnClickListener retryListener) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		return builder.setMessage(message).setCancelable(false).setPositiveButton(R.string.finder_wait, retryListener).setNegativeButton(R.string.finder_cancel, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialogInterface, int id) {
+				setResult(RESULT_CANCELED, null);
+				finish();
+			}
+		}).create();
+	}
+	private void showPopupBroadcastTimeout() {
+		// test remove below comment
+//		Log.e("hwang-tvremote", "DeviceFinder : showPopupBroadcastTimeout (팝업창)");
+//		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//		PopupGtvTimeout popupGtvTimeout = new PopupGtvTimeout();
+//		popupGtvTimeout.show(ft, PopupGtvTimeout.class.getSimpleName());
+		
+	}
 	
+	// ---------------------------
+	// pairing or mannually input
+	// ---------------------------
+	private OnItemClickListener selectHandler = new OnItemClickListener() {
+		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+			// test remove below comment
+//			RemoteDevice remoteDevice = (RemoteDevice) parent.getItemAtPosition(position);
+//			if (remoteDevice != null) {
+//				connectToEntry(remoteDevice);
+//			}
+			
+			// pairing or mannually input
+			if(position != deviceList.size() - 1) {	// pairing
+				
+			} else {								// mannually input
+				showPopupManuallyInput();
+			}
+			
+			
+			
+		}
+	};
 	
+	private AlertDialog buildManualIpDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		View view = LayoutInflater.from(this).inflate(R.layout.manual_ip, null);
+		final EditText ipEditText = (EditText) view.findViewById(R.id.manual_ip_entry);
+
+		ipEditText.setFilters(new InputFilter[] { new NumberKeyListener() {
+			@Override
+			protected char[] getAcceptedChars() {
+				return "0123456789.:".toCharArray();
+			}
+
+			public int getInputType() {
+				return InputType.TYPE_CLASS_NUMBER;
+			}
+		} });
+
+		builder.setPositiveButton(R.string.manual_ip_connect, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				RemoteDevice remoteDevice = remoteDeviceFromString(ipEditText.getText().toString());
+				if (remoteDevice != null) {
+					connectToEntry(remoteDevice);
+				} else {
+					Toast.makeText(DeviceFinder.this, getString(R.string.manual_ip_error_address), Toast.LENGTH_LONG).show();
+				}
+			}
+		}).setNegativeButton(R.string.manual_ip_cancel, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				// do nothing
+			}
+		}).setCancelable(true).setTitle(R.string.manual_ip_label).setMessage(R.string.manual_ip_entry_label).setView(view);
+		return builder.create();
+	}
 	
-	
+	private void showPopupManuallyInput() {
+		Log.e("hwang-tvremote", "DeviceFinder : manually input (팝업창)");
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		PopupGtvManuallyInput popupGtvManuallyInput = new PopupGtvManuallyInput();
+		popupGtvManuallyInput.show(ft, PopupGtvManuallyInput.class.getSimpleName());
+	}
 	
 	
 	
@@ -398,7 +538,7 @@ public final class DeviceFinder extends FragmentActivity {
 	 * @param remoteDevice
 	 *            the listEntry representing the box you want to connect to
 	 */
-	private void connectToEntry(RemoteDevice remoteDevice) {
+	public void connectToEntry(RemoteDevice remoteDevice) {
 		Intent resultIntent = new Intent();
 		resultIntent.putExtra(EXTRA_REMOTE_DEVICE, remoteDevice);
 		setResult(RESULT_OK, resultIntent);
@@ -410,27 +550,23 @@ public final class DeviceFinder extends FragmentActivity {
 
 
 	private class DeviceFinderListAdapter extends BaseAdapter {
+		LayoutInflater inflater; 
+		ArrayList<DeviceInfo> deviceList; 
+		int layout;  
+		
+		public DeviceFinderListAdapter(Context context, int layout, ArrayList<DeviceInfo> deviceList) {
+			inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			this.layout = layout;
+			this.deviceList = deviceList;
+		}
+		
 		public int getCount() {
-			return getTotalSize();
+			return deviceList.size();
 		}
 
 		@Override
-		public boolean hasStableIds() {
-			return false;
-		}
-
-		@Override
-		public boolean areAllItemsEnabled() {
-			return false;
-		}
-
-		@Override
-		public boolean isEnabled(int position) {
-			return position != trackedDevices.size();
-		}
-
 		public Object getItem(int position) {
-			return getRemoteDevice(position);
+			return deviceList.get(position);  
 		}
 
 		public long getItemId(int position) {
@@ -438,38 +574,63 @@ public final class DeviceFinder extends FragmentActivity {
 		}
 
 		public View getView(int position, View convertView, ViewGroup parent) {
-			ListEntryView liv;
-
-			if (position == trackedDevices.size()) {
-				return getLayoutInflater().inflate(R.layout.device_list_separator_layout, null);
+			View row = convertView;
+			
+			if (row == null) {
+		        row = inflater.inflate(layout, parent, false);
+		        // row = inflater.inflate(R.layout.list_item_gtv_device_finder, null); // ???
 			}
-
-			if (convertView == null || !(convertView instanceof ListEntryView)) {
-				liv = (ListEntryView) getLayoutInflater().inflate(R.layout.device_list_item_layout, null);
+			
+			TextView name = (TextView) row.findViewById(R.id.device_list_item_name);
+			TextView targetAddr = (TextView) row.findViewById(R.id.device_list_target_addr);
+			TextView manually = (TextView) row.findViewById(R.id.ip_manually_input);
+	        
+			LinearLayout deviceListLayout = (LinearLayout) row.findViewById(R.id.device_list);
+			LinearLayout manuallyInputLayout = (LinearLayout) row.findViewById(R.id.manually_input);
+			
+			if (position != getCount()-1) {
+				if (null != name) name.setText(deviceList.get(position).name);
+				if (null != targetAddr) targetAddr.setText(deviceList.get(position).targetAddr);
+				deviceListLayout.setVisibility(View.VISIBLE);
+				manuallyInputLayout.setVisibility(View.INVISIBLE);
 			} else {
-				liv = (ListEntryView) convertView;
+				if (null != manually) manually.setText(deviceList.get(position).name);
+				deviceListLayout.setVisibility(View.INVISIBLE);
+				manuallyInputLayout.setVisibility(View.VISIBLE);
 			}
-
-			liv.setListEntry(getRemoteDevice(position));
-			return liv;
-		}
-
-		private int getTotalSize() {
-			return Debug.isDebugDevices() ? trackedDevices.size() + recentlyConnectedDevices.size() + 1 : trackedDevices.size();
+			
+			return row;
 		}
 
 		private RemoteDevice getRemoteDevice(int position) {
 			if (position < trackedDevices.size()) {
 				return trackedDevices.get(position);
-			} else if (Debug.isDebugDevices()) {
-				if (position == trackedDevices.size()) {
-					return null;
-				} else if (position < getTotalSize()) {
-					return recentlyConnectedDevices.get(position - trackedDevices.size() - 1);
-				}
-			}
+			} 
 			return null;
 		}
+	}
+	
+	private void makeDeviceList() {
+		deviceList.clear();
+		DeviceInfo deviceInfo;
+
+		deviceInfo = new DeviceInfo("stb_catv_cnm-192-168-0-25", "192.168.0.25");
+		deviceList.add(deviceInfo);
+
+		deviceInfo = new DeviceInfo("IP 주소 직접 입력.", "");
+		deviceList.add(deviceInfo);
+
+		// test remove below comment
+//		if (trackedDevices.size() > 0) {
+//			for (int i = 0; i < trackedDevices.size() + 3; i++) {
+//				//deviceList.
+//		        DeviceInfo deviceInfo = new DeviceInfo(trackedDevices.get(0).getName(), trackedDevices.get(0).getAddress().getHostAddress());  
+//		        deviceList.add(deviceInfo); 
+//			}
+//			
+//	        DeviceInfo deviceInfo = new DeviceInfo("IP 주소 직접 입력.", "IP 주소 직접 입력.");  
+//	        deviceList.add(deviceInfo); 
+//		}
 	}
 
 	private InetAddress getBroadcastAddress() throws IOException {
@@ -486,7 +647,7 @@ public final class DeviceFinder extends FragmentActivity {
 	/**
 	 * Represents an entry in the box list.
 	 */
-	public static class ListEntryView extends LinearLayout {
+	public static class ListEntryView extends RelativeLayout {
 
 		public ListEntryView(Context context, AttributeSet attrs) {
 			super(context, attrs);
@@ -560,7 +721,11 @@ public final class DeviceFinder extends FragmentActivity {
 						isPopupShowing = false;
 					}
 					
-					buildBroadcastTimeoutDialog().show();
+					
+					// buildBroadcastTimeoutDialog().show();
+					showPopupBroadcastTimeout();
+					
+					
 					break;
 
 				case GTV_DEVICE_FOUND:
@@ -588,6 +753,9 @@ public final class DeviceFinder extends FragmentActivity {
 					confirmationDialog = buildConfirmationDialog(toConnect);
 					//confirmationDialog.show();
 					
+					// hwang
+//					showConfirmation(toConnect);
+					
 					
 					break;
 				}
@@ -607,6 +775,9 @@ public final class DeviceFinder extends FragmentActivity {
 		if (trackedDevices.add(remoteDevice)) {
 			Log.v(LOG_TAG, "Adding new device: " + remoteDevice);
 
+			// before notify data adapter, make device list for "셋탑박스 연결" 화면
+			makeDeviceList();
+			
 			// Notify data adapter and update title.
 			dataAdapter.notifyDataSetChanged();
 
@@ -633,89 +804,14 @@ public final class DeviceFinder extends FragmentActivity {
 
 
 
-	private AlertDialog buildManualIpDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		View view = LayoutInflater.from(this).inflate(R.layout.manual_ip, null);
-		final EditText ipEditText = (EditText) view.findViewById(R.id.manual_ip_entry);
-
-		ipEditText.setFilters(new InputFilter[] { new NumberKeyListener() {
-			@Override
-			protected char[] getAcceptedChars() {
-				return "0123456789.:".toCharArray();
-			}
-
-			public int getInputType() {
-				return InputType.TYPE_CLASS_NUMBER;
-			}
-		} });
-
-		builder.setPositiveButton(R.string.manual_ip_connect, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				RemoteDevice remoteDevice = remoteDeviceFromString(ipEditText.getText().toString());
-				if (remoteDevice != null) {
-					connectToEntry(remoteDevice);
-				} else {
-					Toast.makeText(DeviceFinder.this, getString(R.string.manual_ip_error_address), Toast.LENGTH_LONG).show();
-				}
-			}
-		}).setNegativeButton(R.string.manual_ip_cancel, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				// do nothing
-			}
-		}).setCancelable(true).setTitle(R.string.manual_ip_label).setMessage(R.string.manual_ip_entry_label).setView(view);
-		return builder.create();
-	}
-
-	private AlertDialog buildBroadcastTimeoutDialog() {
-		String message;
-		String networkName = getNetworkName();
-		if (!TextUtils.isEmpty(networkName)) {
-			message = getString(R.string.finder_no_devices_with_ssid, networkName);
-		} else {
-			message = getString(R.string.finder_no_devices);
-		}
-
-		return buildTimeoutDialog(message, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialogInterface, int id) {
-				startBroadcast();
-			}
-		});
-	}
-
-	private AlertDialog buildTimeoutDialog(CharSequence message, DialogInterface.OnClickListener retryListener) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-		return builder.setMessage(message).setCancelable(false).setPositiveButton(R.string.finder_wait, retryListener).setNegativeButton(R.string.finder_cancel, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialogInterface, int id) {
-				setResult(RESULT_CANCELED, null);
-				finish();
-			}
-		}).create();
-	}
-
-	private AlertDialog buildNoWifiDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-		builder.setMessage(R.string.finder_wifi_not_available);
-		builder.setCancelable(false);
-		builder.setPositiveButton(R.string.finder_configure, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialogInterface, int id) {
-				Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
-				startActivityForResult(intent, CODE_WIFI_SETTINGS);
-			}
-		});
-		builder.setNegativeButton(R.string.finder_cancel, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialogInterface, int id) {
-				setResult(RESULT_CANCELED, null);
-				finish();
-			}
-		});
-		return builder.create();
-	}
 
 
 
-	private RemoteDevice remoteDeviceFromString(String text) {
+
+
+
+
+	public RemoteDevice remoteDeviceFromString(String text) {
 		String[] ipPort = text.split(":");
 		int port;
 		if (ipPort.length == 1) {
@@ -739,7 +835,7 @@ public final class DeviceFinder extends FragmentActivity {
 	}
 
 	private ListView stbList;
-	private final DeviceFinderListAdapter dataAdapter;
+	private DeviceFinderListAdapter dataAdapter;
 
 	private BroadcastHandler broadcastHandler;
 	private BroadcastDiscoveryClient broadcastClient;
@@ -850,76 +946,14 @@ public final class DeviceFinder extends FragmentActivity {
 		return info != null ? info.getSSID() : null;
 	}
 	
-	
-	
-	
 	//리스트 뷰에 출력할 항목  
-	class MyItem {  
-	    MyItem(String aIdx, String aName) {  
-	        Idx = aIdx;  
-	        Name = aName;  
+	class DeviceInfo {  
+	    DeviceInfo(String aName, String aTargetName) {  
+	        name = aName;  
+	        targetAddr = aTargetName;  
 	    }  
-	    String Idx;  
-	    String Name;  
+	    String name;  
+	    String targetAddr;  
 	}  
-	  
-	//어댑터 클래스  
-	class MyListAdapter extends BaseAdapter {  
-	    Context maincon;  
-	    LayoutInflater Inflater;  
-	    ArrayList<MyItem> arSrc;  
-	    int layout;  
-	  
-	    public MyListAdapter(Context context, int alayout, ArrayList<MyItem> aarSrc) {  
-	        maincon = context;  
-	        Inflater = (LayoutInflater)context.getSystemService(  
-	                Context.LAYOUT_INFLATER_SERVICE);  
-	        arSrc = aarSrc;  
-	        layout = alayout;  
-	    }  
-	  
-	    public int getCount() {  
-	        return arSrc.size();  
-	    }  
-	  
-	    public String getItem(int position) {  
-	        return arSrc.get(position).Name;  
-	    }  
-	  
-	    public long getItemId(int position) {  
-	        return position;  
-	    }  
-	  
-	    // 각 항목의 뷰 생성  
-		public View getView(int position, View convertView, ViewGroup parent) {
-			final int pos = position;
-			if (convertView == null) {
-				convertView = Inflater.inflate(layout, parent, false);
-			}
-
-			TextView info = (TextView) convertView.findViewById(R.id.remotetv_info);
-			info.setText(arSrc.get(position).Idx);
-			
-			TextView ip = (TextView) convertView.findViewById(R.id.remotetv_ip);
-			ip.setText(arSrc.get(position).Name);
-			
-			LinearLayout select = (LinearLayout) convertView.findViewById(R.id.remotetv_select);
-			LinearLayout input = (LinearLayout) convertView.findViewById(R.id.manual_input);
-			if (position != getCount()-1) {
-				select.setVisibility(View.VISIBLE);
-				input.setVisibility(View.INVISIBLE);
-			} else {
-				TextView info1 = (TextView) convertView.findViewById(R.id.ip_manual_input);
-				info1.setText(arSrc.get(position).Idx);
-				
-				select.setVisibility(View.INVISIBLE);
-				input.setVisibility(View.VISIBLE);
-				
-			}
-
-			return convertView;
-		}
-	}  
-	
 	
 }

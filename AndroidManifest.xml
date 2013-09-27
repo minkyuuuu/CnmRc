@@ -94,7 +94,8 @@
             android:name="com.google.android.apps.tvremote.DeviceFinder"
             android:label="@string/finder_label"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" 
+            />
         <activity
             android:name="com.google.android.apps.tvremote.PairingActivity"
             android:label="@string/pairing_activity_label"

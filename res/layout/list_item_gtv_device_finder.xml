@@ -2,11 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/px130" 
-    android:background="#00000000"
     >
 
     <LinearLayout
-        android:id="@+id/remotetv_select"
+        android:id="@+id/device_list"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px100"
         android:layout_alignParentLeft="true"
@@ -22,29 +21,29 @@
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/remotetv_info"
+                android:id="@+id/device_list_item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="HD실속형"
-                android:textColor="#ff333333"
+                android:textColor="@drawable/xml_gtv_textcolor"
                 android:textSize="@dimen/sp32" 
                 android:textStyle="bold"
                 />
 
             <TextView
-                android:id="@+id/remotetv_ip"
+                android:id="@+id/device_list_target_addr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="HD실속형"
-                android:textColor="#ff797979"
+                android:textColor="@drawable/xml_gtv_sub_textcolor"
                 android:textSize="@dimen/sp26" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/manual_input"
+        android:id="@+id/manually_input"
         android:layout_width="match_parent"
         android:layout_height="@dimen/px100"
         android:layout_alignParentLeft="true"
@@ -52,15 +51,15 @@
         android:paddingLeft="@dimen/px20"
         android:orientation="horizontal"
         android:visibility="invisible" 
-        android:background="@drawable/set_bg">
+        android:background="@drawable/xml_gtv_list_item_bg">
 
         <TextView
-            android:id="@+id/ip_manual_input"
+            android:id="@+id/ip_manually_input"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="HD실속형"
-            android:textColor="#ff333333"
+            android:text=""
+            android:textColor="@drawable/xml_gtv_textcolor"
             android:textSize="@dimen/sp32" 
             android:textStyle="bold"/>
     </LinearLayout>

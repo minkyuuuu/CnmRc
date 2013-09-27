@@ -102,9 +102,18 @@
         \n개정된 \'주민등록법\'에 의해 타인의 주민등록번호를 도용하여 부정사용하는 경우 3년 이하의 징역 또는
         1천만원의 벌금이 부과됩니다.</string>
         
+    
+    
+    
     <!-- device finder -->
     <string name="device_finder_title">셋탑박스 연결</string>
     <string name="device_finder_subtitle">셋탑박스를 선택하세요.</string>
+    <string name="device_finder_manually">IP 주소 직접 입력.</string>
+    <string name="manual_ip_hint">xxx.xxx.xxx.xxx</string>
+    <string name="manual_ip_error_address">잘못된 IP 주소입니다.</string>
+    <string name="manual_ip_no_address">IP 주소를 입력하십시요.</string>
+    <string name="unkown_tgt_name">Unknown</string>
+    <string name="unkown_tgt_addr">unknown address</string>
 
     <!-- popup -->
     <string name="popup_yes">확인</string>
@@ -124,6 +133,18 @@
     <string name="popup_gtv_searching_title">씨앤앰 TV 찾기</string>
     <string name="popup_gtv_searching_line_1">씨앤앰 셋탑박스를</string>
     <string name="popup_gtv_searching_line_2">찾고 있는 중입니다.</string>
+    
+    <string name="popup_gtv_timeout_title">씨앤앰 TV 찾기</string>
+    <string name="popup_gtv_timeout_line_1">씨앤앰 셋탑박스를</string>
+    <string name="popup_gtv_timeout_line_2">찾을 수 없습니다.</string>
+    
+    <string name="popup_gtv_nowifi_title">WiFi Network not available</string>
+    <string name="popup_gtv_nowifi_line_1">설정에 가셔서</string>
+    <string name="popup_gtv_nowifi_line_2">WiFi를 켜십시요.</string>
+    
+    <string name="popup_gtv_manually_input_title">IP 주소 입력</string>
+    <string name="popup_gtv_manually_input_line_1">IP주소는 셋탑박스의 설정 > 네트워크 ></string>
+    <string name="popup_gtv_manually_input_line_2">네크워크 정보에서 확인할 수 있습니다.</string>
 
     <!-- mobile Accessibility -->
     <string name="accessibility_no_action"></string>
@@ -223,8 +244,7 @@
     
     
     
-    <string name="unkown_tgt_name">Unknown</string>
-    <string name="unkown_tgt_addr">unknown address</string>
+
     <string name="ok_text">OK</string>
 
     <!-- Manifest labels -->
@@ -261,9 +281,9 @@
     <!-- Manual IP dialog strings -->
     <string name="manual_ip_label">Add Google TV</string>
     <string name="manual_ip_entry_label">IP Address</string>
-    <string name="manual_ip_hint">xxx.xxx.xxx.xxx</string>
+    
     <string name="manual_ip_message">You can find IP address of your Google TV device by going to:\nSettings &gt; Network &gt; Network Information</string>
-    <string name="manual_ip_error_address">Invalid address.</string>
+    
     <string name="manual_ip_default_box_name">Unknown box</string>
     <string name="manual_ip_connect">Connect</string>
     <string name="manual_ip_cancel">Cancel</string>

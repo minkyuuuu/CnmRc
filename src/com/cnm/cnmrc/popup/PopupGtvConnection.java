@@ -13,7 +13,8 @@ public class PopupGtvConnection extends PopupBase {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		Log.d("hwang-tvremote", "PopupGtvConnection : onCreate()");
+		
 		int style = DialogFragment.STYLE_NO_TITLE;
 		int theme = android.R.style.Theme_Translucent_NoTitleBar;
 		setStyle(style, theme);
@@ -22,6 +23,8 @@ public class PopupGtvConnection extends PopupBase {
 	
 	@Override
 	public void onActivityCreated(Bundle arg0) {
+		Log.d("hwang-tvremote", "PopupGtvConnection : onActivityCreated()");
+		
 		mTitle.setText(getString(R.string.popup_gtv_connection_title));
 		
 		mLine1.setText(getString(R.string.popup_gtv_connection_line_1));
@@ -32,6 +35,8 @@ public class PopupGtvConnection extends PopupBase {
 
 	@Override
 	public void onClick(View v) {
+		Log.d("hwang-tvremote", "PopupGtvConnection : onClick()");
+		
 		switch (v.getId()) {
 		case R.id.popup_yes:
 			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();

@@ -245,6 +245,7 @@ public class BaseActivity extends CoreServiceActivity implements ConnectionListe
 						}
 					}
 					getConnectionManager().deviceFinderFinished();
+					Log.e("hwang-tvremote", "BaseActivity : onActivityResult : requestCode == CODE_SWITCH_BOX");
 					connectOrFinish();
 				} else if (requestCode == CODE_PAIRING) {
 					getConnectionManager().pairingFinished();
