@@ -32,6 +32,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -40,6 +42,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.popup.PopupGtvPairingDialog;
+import com.cnm.cnmrc.popup.PopupGtvWaitingPairingCode;
 import com.google.polo.exception.PoloException;
 import com.google.polo.pairing.ClientPairingSession;
 import com.google.polo.pairing.PairingContext;
@@ -113,6 +117,11 @@ public class PairingActivity extends CoreServiceActivity {
 
 	private ProgressDialog progressDialog;
 	private RemoteDevice remoteDevice;
+	
+	
+	
+	private boolean isPopupShowing = false;
+	private final String TAG_FRAGMENT_POPUP = "tvremote-pairing-popup";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +130,10 @@ public class PairingActivity extends CoreServiceActivity {
 		handler = new Handler();
 
 		progressDialog = buildProgressDialog();
-		progressDialog.show();
+		//progressDialog.show();
+		
+		// hwang
+		showPopupWaitingPairingCode();
 
 		remoteDevice = getIntent().getParcelableExtra(EXTRA_REMOTE_DEVICE);
 		if (remoteDevice == null) {
@@ -144,6 +156,57 @@ public class PairingActivity extends CoreServiceActivity {
 		intent.putExtra(EXTRA_REMOTE_DEVICE, remoteDevice);
 		return intent;
 	}
+	
+	
+	// --------------------
+	// waiting pairing code
+	// --------------------
+	private ProgressDialog buildProgressDialog() {
+		ProgressDialog dialog = new ProgressDialog(this);
+		dialog.setMessage(getString(R.string.pairing_waiting));
+		dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+			public boolean onKey(DialogInterface dialogInterface, int which, KeyEvent event) {
+				if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+					cancelPairing();
+					return true;
+				}
+				return false;
+			}
+		});
+		dialog.setButton(getString(R.string.pairing_cancel), new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialogInterface, int which) {
+				cancelPairing();
+			}
+		});
+		return dialog;
+	}
+	
+	private void showPopupWaitingPairingCode() {
+		if(isPopupShowing) {
+			Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_POPUP);
+			getSupportFragmentManager().beginTransaction().remove(f).commit();
+			isPopupShowing = false;
+		}
+		
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		PopupGtvWaitingPairingCode popupGtvWaitingPairingCode = new PopupGtvWaitingPairingCode();
+		popupGtvWaitingPairingCode.show(ft, TAG_FRAGMENT_POPUP);
+		
+		isPopupShowing = true;
+	}
+	
+	// --------------------
+	// start pairing
+	// --------------------
+	@Override
+	protected void onServiceAvailable(CoreService coreService) {
+		startPairing();
+	}
+
+	@Override
+	protected void onServiceDisconnecting(CoreService coreService) {
+		cancelPairing();
+	}
 
 	private void startPairing() {
 		if (pairing != null) {
@@ -154,7 +217,40 @@ public class PairingActivity extends CoreServiceActivity {
 		pairing = new PairingClientThread();
 		new Thread(pairing).start();
 	}
-
+	
+	public void cancelPairing() {
+		if (pairing != null) {
+			pairing.cancel();
+			pairing = null;
+		}
+		dismissProgressDialog();
+		finishedPairing(Result.FAILED_CANCELED);
+	}
+	
+	private void dismissProgressDialog() {
+		if (progressDialog != null) {
+			progressDialog.dismiss();
+			progressDialog = null;
+		}
+		
+		// hwang
+		if(isPopupShowing) {
+			Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_POPUP);
+			getSupportFragmentManager().beginTransaction().remove(f).commit();
+			isPopupShowing = false;
+		}
+	}
+	
+	private void finishedPairing(Result result) {
+		Intent resultIntent = new Intent();
+		resultIntent.putExtra(EXTRA_PAIRING_RESULT, result);
+		setResult(result.resultCode);
+		finish();
+	}
+	
+	// ----------------------
+	// create Pairing Dialog
+	// ----------------------
 	private AlertDialog createPairingDialog(final PairingClientThread client) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		View view = LayoutInflater.from(this).inflate(R.layout.pairing, null);
@@ -173,19 +269,34 @@ public class PairingActivity extends CoreServiceActivity {
 		}).setCancelable(false).setTitle(R.string.pairing_label).setMessage(remoteDevice.getName()).setView(view);
 		return builder.create();
 	}
-
-	private void finishedPairing(Result result) {
-		Intent resultIntent = new Intent();
-		resultIntent.putExtra(EXTRA_PAIRING_RESULT, result);
-		setResult(result.resultCode);
-		finish();
+	
+	private void showPopupPairingDialog(final PairingClientThread client) {
+		//alertDialog = null;
+		
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		PopupGtvPairingDialog popupGtvPairingDialog = new PopupGtvPairingDialog(client);
+		popupGtvPairingDialog.show(ft, PopupGtvPairingDialog.class.getSimpleName());
+		
+		showKeyboard();
 	}
+	
+	public void makeAlertDialogNull() {
+		alertDialog = null;
+	}
+	
+	public String getRemoteDeviceName() {
+		if(remoteDevice != null) return remoteDevice.getName();
+		
+		return "";
+	}
+
+
 
 	/**
 	 * Pairing client thread, that handles pairing logic.
 	 * 
 	 */
-	private final class PairingClientThread extends Thread {
+	public final class PairingClientThread extends Thread {
 		private String secret;
 		private boolean isCancelling;
 
@@ -326,13 +437,19 @@ public class PairingActivity extends CoreServiceActivity {
 				if (pairing == null) {
 					return;
 				}
+				
 				alertDialog = createPairingDialog(client);
-				alertDialog.show();
+				//alertDialog.show();
+				
+				// hwang
+				showPopupPairingDialog(client);
 
 				// Focus and show keyboard
-				View pinView = alertDialog.findViewById(R.id.pairing_pin_entry);
-				pinView.requestFocus();
-				showKeyboard();
+				//View pinView = alertDialog.findViewById(R.id.pairing_pin_entry);
+				//pinView.requestFocus();
+				//showKeyboard();
+				
+				
 			}
 		});
 	}
@@ -349,58 +466,15 @@ public class PairingActivity extends CoreServiceActivity {
 		});
 	}
 
-	private ProgressDialog buildProgressDialog() {
-		ProgressDialog dialog = new ProgressDialog(this);
-		dialog.setMessage(getString(R.string.pairing_waiting));
-		dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-			public boolean onKey(DialogInterface dialogInterface, int which, KeyEvent event) {
-				if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-					cancelPairing();
-					return true;
-				}
-				return false;
-			}
-		});
-		dialog.setButton(getString(R.string.pairing_cancel), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialogInterface, int which) {
-				cancelPairing();
-			}
-		});
-		return dialog;
-	}
-
-	@Override
-	protected void onServiceAvailable(CoreService coreService) {
-		startPairing();
-	}
-
-	@Override
-	protected void onServiceDisconnecting(CoreService coreService) {
-		cancelPairing();
-	}
-
-	private void cancelPairing() {
-		if (pairing != null) {
-			pairing.cancel();
-			pairing = null;
-		}
-		dismissProgressDialog();
-		finishedPairing(Result.FAILED_CANCELED);
-	}
-
-	private void dismissProgressDialog() {
-		if (progressDialog != null) {
-			progressDialog.dismiss();
-			progressDialog = null;
-		}
-	}
-
-	private void hideKeyboard() {
+	// --------------------
+	// keyboard
+	// --------------------
+	public void hideKeyboard() {
 		InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		manager.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
 	}
 
-	private void showKeyboard() {
+	public void showKeyboard() {
 		InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 	}

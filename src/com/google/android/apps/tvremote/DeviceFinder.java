@@ -65,6 +65,7 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.popup.PopupGtvManuallyInput;
+import com.cnm.cnmrc.popup.PopupGtvSearching;
 import com.cnm.cnmrc.popup.PopupGtvTimeout;
 
 /**
@@ -352,25 +353,13 @@ public final class DeviceFinder extends FragmentActivity {
 			isPopupShowing = false;
 		}
 		
-//		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//		PopupGtvSearching popupGtvSearching = new PopupGtvSearching();
-//		popupGtvSearching.show(ft, TAG_FRAGMENT_POPUP);
-//		
-//		isPopupShowing = true;
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		PopupGtvSearching popupGtvSearching = new PopupGtvSearching();
+		popupGtvSearching.show(ft, TAG_FRAGMENT_POPUP);
 		
-		
-		
-		// test remove above comment
-		showConfirmation();
-		
-		// before notify data adapter, make device list for "셋탑박스 연결" 화면
-		makeDeviceList();
-		
-		// Notify data adapter and update title.
-		dataAdapter.notifyDataSetChanged();
-		
-		
+		isPopupShowing = true;
 	}
+	
 	public void removeDelayedMessage() {
 		broadcastHandler.removeMessages(DELAYED_MESSAGE); // when cancel button is clicked!!!
 	}
@@ -400,12 +389,11 @@ public final class DeviceFinder extends FragmentActivity {
 		}).create();
 	}
 	
-	private void showConfirmation() {
-		//private void showConfirmation(final RemoteDevice remoteDevice) {
+	private void showConfirmation(final RemoteDevice remoteDevice) {
 		findViewById(R.id.device_finder).setVisibility(View.VISIBLE);
-		
+
 	}
-	
+
 	// ---------------------------
 	// No Google TV devices found
 	// ---------------------------
@@ -437,10 +425,10 @@ public final class DeviceFinder extends FragmentActivity {
 	}
 	private void showPopupBroadcastTimeout() {
 		// test remove below comment
-//		Log.e("hwang-tvremote", "DeviceFinder : showPopupBroadcastTimeout (팝업창)");
-//		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//		PopupGtvTimeout popupGtvTimeout = new PopupGtvTimeout();
-//		popupGtvTimeout.show(ft, PopupGtvTimeout.class.getSimpleName());
+		Log.e("hwang-tvremote", "DeviceFinder : showPopupBroadcastTimeout (팝업창)");
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		PopupGtvTimeout popupGtvTimeout = new PopupGtvTimeout();
+		popupGtvTimeout.show(ft, PopupGtvTimeout.class.getSimpleName());
 		
 	}
 	
@@ -457,6 +445,10 @@ public final class DeviceFinder extends FragmentActivity {
 			
 			// pairing or mannually input
 			if(position != deviceList.size() - 1) {	// pairing
+				RemoteDevice remoteDevice = (RemoteDevice) parent.getItemAtPosition(position);
+				if (remoteDevice != null) {
+					connectToEntry(remoteDevice);
+				}
 				
 			} else {								// mannually input
 				showPopupManuallyInput();
@@ -507,6 +499,20 @@ public final class DeviceFinder extends FragmentActivity {
 		popupGtvManuallyInput.show(ft, PopupGtvManuallyInput.class.getSimpleName());
 	}
 	
+	/**
+	 * Connects to the chosen entry in the list. Finishes the activity and
+	 * returns the informations on the chosen box.
+	 * 
+	 * @param remoteDevice
+	 *            the listEntry representing the box you want to connect to
+	 */
+	public void connectToEntry(RemoteDevice remoteDevice) {
+		Intent resultIntent = new Intent();
+		resultIntent.putExtra(EXTRA_REMOTE_DEVICE, remoteDevice);
+		setResult(RESULT_OK, resultIntent);
+		finish();
+	}
+	
 	
 	
 	
@@ -531,19 +537,7 @@ public final class DeviceFinder extends FragmentActivity {
 		findViewById(R.id.device_finder).setVisibility(View.VISIBLE);
 	}
 
-	/**
-	 * Connects to the chosen entry in the list. Finishes the activity and
-	 * returns the informations on the chosen box.
-	 * 
-	 * @param remoteDevice
-	 *            the listEntry representing the box you want to connect to
-	 */
-	public void connectToEntry(RemoteDevice remoteDevice) {
-		Intent resultIntent = new Intent();
-		resultIntent.putExtra(EXTRA_REMOTE_DEVICE, remoteDevice);
-		setResult(RESULT_OK, resultIntent);
-		finish();
-	}
+
 
 
 
@@ -566,7 +560,7 @@ public final class DeviceFinder extends FragmentActivity {
 
 		@Override
 		public Object getItem(int position) {
-			return deviceList.get(position);  
+			return getRemoteDevice(position);
 		}
 
 		public long getItemId(int position) {
@@ -611,26 +605,26 @@ public final class DeviceFinder extends FragmentActivity {
 	}
 	
 	private void makeDeviceList() {
-		deviceList.clear();
-		DeviceInfo deviceInfo;
-
-		deviceInfo = new DeviceInfo("stb_catv_cnm-192-168-0-25", "192.168.0.25");
-		deviceList.add(deviceInfo);
-
-		deviceInfo = new DeviceInfo("IP 주소 직접 입력.", "");
-		deviceList.add(deviceInfo);
+//		deviceList.clear();
+//		DeviceInfo deviceInfo;
+//
+//		deviceInfo = new DeviceInfo("stb_catv_cnm-192-168-0-25", "192.168.0.25");
+//		deviceList.add(deviceInfo);
+//
+//		deviceInfo = new DeviceInfo("IP 주소 직접 입력.", "");
+//		deviceList.add(deviceInfo);
 
 		// test remove below comment
-//		if (trackedDevices.size() > 0) {
-//			for (int i = 0; i < trackedDevices.size() + 3; i++) {
-//				//deviceList.
-//		        DeviceInfo deviceInfo = new DeviceInfo(trackedDevices.get(0).getName(), trackedDevices.get(0).getAddress().getHostAddress());  
-//		        deviceList.add(deviceInfo); 
-//			}
-//			
-//	        DeviceInfo deviceInfo = new DeviceInfo("IP 주소 직접 입력.", "IP 주소 직접 입력.");  
-//	        deviceList.add(deviceInfo); 
-//		}
+		if (trackedDevices.size() > 0) {
+			for (int i = 0; i < trackedDevices.size(); i++) {
+				//deviceList.
+		        DeviceInfo deviceInfo = new DeviceInfo(trackedDevices.get(0).getName(), trackedDevices.get(0).getAddress().getHostAddress());  
+		        deviceList.add(deviceInfo); 
+			}
+			
+	        DeviceInfo deviceInfo = new DeviceInfo("IP 주소 직접 입력.", "IP 주소 직접 입력.");  
+	        deviceList.add(deviceInfo); 
+		}
 	}
 
 	private InetAddress getBroadcastAddress() throws IOException {
@@ -754,7 +748,7 @@ public final class DeviceFinder extends FragmentActivity {
 					//confirmationDialog.show();
 					
 					// hwang
-//					showConfirmation(toConnect);
+					showConfirmation(toConnect);
 					
 					
 					break;

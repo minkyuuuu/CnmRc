@@ -1,7 +1,10 @@
 package com.cnm.cnmrc.popup;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnKeyListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.InputFilter;
@@ -20,15 +23,30 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.R;
 import com.google.android.apps.tvremote.DeviceFinder;
+import com.google.android.apps.tvremote.PairingActivity;
+import com.google.android.apps.tvremote.PairingActivity.PairingClientThread;
 import com.google.android.apps.tvremote.RemoteDevice;
 
-public class PopupGtvManuallyInput extends DialogFragment implements View.OnClickListener {
+@SuppressLint("ValidFragment")
+public class PopupGtvPairingDialog extends DialogFragment implements View.OnClickListener {
+	
+//	public static PopupGtvPairingDialog newInstance(PairingClientThread c) {
+//		PopupGtvPairingDialog f = new PopupGtvPairingDialog();
+//		client = c;
+//		return f;
+//	}
 
 	TextView mTitle, mLine1, mLine2;
 	EditText mEdit;
 	Button mYes, mNo;
+	
+	static PairingClientThread client;
 
 	Context context;
+	
+	public PopupGtvPairingDialog(PairingClientThread c) {
+		client = c;
+	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -52,19 +70,21 @@ public class PopupGtvManuallyInput extends DialogFragment implements View.OnClic
 		View layout = (View) inflater.inflate(R.layout.popup_ip_input, container, false);
 
 		mTitle = (TextView) layout.findViewById(R.id.popup_title);
-		mTitle.setText(getString(R.string.popup_gtv_manually_input_title));
+		mTitle.setText(getString(R.string.popup_gtv_pairing_dialog_title));
 
 		mEdit = (EditText) layout.findViewById(R.id.popup_edit);
-		mEdit.setFilters(new InputFilter[] { new NumberKeyListener() {
-			@Override
-			protected char[] getAcceptedChars() {
-				return "0123456789.:".toCharArray();
-			}
-
-			public int getInputType() {
-				return InputType.TYPE_CLASS_NUMBER;
-			}
-		} });
+		mEdit.setHint(getString(R.string.pairing_code_hint));
+//		mEdit.setFilters(new InputFilter[] { new NumberKeyListener() {
+//			@Override
+//			protected char[] getAcceptedChars() {
+//				return "0123456789abcdefABCDEF:".toCharArray();
+//			}
+//
+//			public int getInputType() {
+//				//return InputType.TYPE_CLASS_NUMBER | InputType.TYPE_CLASS_TEXT;
+//				return InputType.TYPE_CLASS_TEXT;
+//			}
+//		} });
 		mEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -72,7 +92,7 @@ public class PopupGtvManuallyInput extends DialogFragment implements View.OnClic
 
 					String str = v.getText().toString();
 					if (str.equals("")) {
-						Toast.makeText(getActivity(), getString(R.string.manual_ip_no_address), Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(), getString(R.string.no_pairing_code), Toast.LENGTH_SHORT).show();
 					} else {
 						performAction();
 					}
@@ -85,9 +105,10 @@ public class PopupGtvManuallyInput extends DialogFragment implements View.OnClic
 		});
 
 		mLine1 = (TextView) layout.findViewById(R.id.popup_line_1);
-		mLine1.setText(getString(R.string.popup_gtv_manually_input_line_1));
+		mLine1.setText(((PairingActivity)getActivity()).getRemoteDeviceName());
+		
 		mLine2 = (TextView) layout.findViewById(R.id.popup_line_2);
-		mLine2.setText(getString(R.string.popup_gtv_manually_input_line_2));
+		mLine2.setVisibility(View.GONE);
 
 		mYes = (Button) layout.findViewById(R.id.popup_yes);
 		mYes.setText(getString(R.string.popup_yes));
@@ -104,14 +125,34 @@ public class PopupGtvManuallyInput extends DialogFragment implements View.OnClic
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+		getDialog().setOnKeyListener(new OnKeyListener() {
+
+			@Override
+			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+				// disable search button action
+				if (keyCode == KeyEvent.KEYCODE_BACK) {
+					closeDialog();
+					return true;
+				}
+				return false;
+			}
+		});
+	}
+	
+	@Override
+	public void onDestroyView() {
+		((PairingActivity)getActivity()).hideKeyboard();
+		super.onDestroyView();
 	}
 
 	@Override
 	public void onClick(View v) {
+		((PairingActivity)getActivity()).makeAlertDialogNull();
+		
 		switch (v.getId()) {
 		case R.id.popup_yes:
 			if (mEdit.getText().length() < 1) {
-				Toast.makeText(getActivity(), getString(R.string.manual_ip_no_address), Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), getString(R.string.no_pairing_code), Toast.LENGTH_SHORT).show();
 				//getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
 				break;
 			}
@@ -119,23 +160,22 @@ public class PopupGtvManuallyInput extends DialogFragment implements View.OnClic
 			performAction();
 			break;
 		case R.id.popup_no:
-			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+			closeDialog();
 			break;
 		}
 
 	}
 	
 	private void performAction() {
-		RemoteDevice remoteDevice = ((DeviceFinder)getActivity()).remoteDeviceFromString(mEdit.getText().toString());
-		if (remoteDevice != null) {
-			((DeviceFinder)getActivity()).connectToEntry(remoteDevice);
-			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-			getActivity().finish();
-		} else {
-			Toast.makeText(getActivity(), getString(R.string.manual_ip_error_address), Toast.LENGTH_SHORT).show();
-			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-			//getActivity().finish();
-		}
+		((PairingActivity)getActivity()).hideKeyboard();
+		getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+		client.setSecret(mEdit.getText().toString());
+	}
+	
+	private void closeDialog() {
+		((PairingActivity) getActivity()).hideKeyboard();
+		getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+		client.cancel();
 	}
 
 }

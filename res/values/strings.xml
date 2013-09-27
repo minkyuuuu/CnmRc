@@ -114,6 +114,11 @@
     <string name="manual_ip_no_address">IP 주소를 입력하십시요.</string>
     <string name="unkown_tgt_name">Unknown</string>
     <string name="unkown_tgt_addr">unknown address</string>
+    <string name="no_pairing_code">연결 코드를 입력하십시요.</string>
+    <string name="pairing_code_hint">연결 코드를 입력하십시요.</string>
+    
+    <string name="pairing_failed_toast">씨앤앰 TV 연결이 실패했습니다.</string>
+    <string name="pairing_succeeded_toast">씨앤앰 TV 연결이 성공했습니다.</string>
 
     <!-- popup -->
     <string name="popup_yes">확인</string>
@@ -145,6 +150,15 @@
     <string name="popup_gtv_manually_input_title">IP 주소 입력</string>
     <string name="popup_gtv_manually_input_line_1">IP주소는 셋탑박스의 설정 > 네트워크 ></string>
     <string name="popup_gtv_manually_input_line_2">네크워크 정보에서 확인할 수 있습니다.</string>
+    
+    <string name="popup_gtv_waiting_pairing_code_title">연결 코드</string>
+    <string name="popup_gtv_waiting_pairing_code_line_1">연결 코드를</string>
+    <string name="popup_gtv_waiting_pairing_code_line_2">기다리고 있습니다.</string>
+    
+    <string name="popup_gtv_pairing_dialog_title">연결 코드 입력</string>
+    
+    
+    
 
     <!-- mobile Accessibility -->
     <string name="accessibility_no_action"></string>
@@ -367,8 +381,7 @@
     <string name="pairing_ok">Pair</string>
     <string name="pairing_request_code">Request code</string>
     <string name="pairing_cancel">Cancel</string>
-    <string name="pairing_failed_toast">Pairing failed</string>
-    <string name="pairing_succeeded_toast">Pairing succeeded</string>
+
     <string name="pairing_waiting">Waiting for pairing code</string>
 
     <!-- Keyboard messages -->

@@ -8,19 +8,17 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.cnm.cnmrc.R;
-import com.google.android.apps.tvremote.DeviceFinder;
 import com.google.android.apps.tvremote.PairingActivity;
 
-public class PopupGtvSearching extends PopupBase {
-	
-	
-//	public static PopupGtvSearching newInstance(String type) {
-//		PopupGtvSearching f = new PopupGtvSearching();
-//		Bundle args = new Bundle();
-//		args.putString("type", type);
-//		f.setArguments(args);
-//		return f;
-//	}
+public class PopupGtvWaitingPairingCode extends PopupBase {
+
+	//	public static PopupGtvSearching newInstance(String type) {
+	//		PopupGtvSearching f = new PopupGtvSearching();
+	//		Bundle args = new Bundle();
+	//		args.putString("type", type);
+	//		f.setArguments(args);
+	//		return f;
+	//	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,21 +29,33 @@ public class PopupGtvSearching extends PopupBase {
 		setStyle(style, theme);
 
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle arg0) {
-		mTitle.setText(getString(R.string.popup_gtv_searching_title));
-		
-		mLine1.setText(getString(R.string.popup_gtv_searching_line_1));
-		mLine2.setText(getString(R.string.popup_gtv_searching_line_2));
-		
+		mTitle.setText(getString(R.string.popup_gtv_waiting_pairing_code_title));
+
+		mLine1.setText(getString(R.string.popup_gtv_waiting_pairing_code_line_1));
+		mLine2.setText(getString(R.string.popup_gtv_waiting_pairing_code_line_2));
+
 		mProgressBar.setVisibility(View.VISIBLE);
 		mProgressBar.startAnimation(animation);
 		mYes.setVisibility(View.GONE);
-		
+
 		super.onActivityCreated(arg0);
 	}
-	
+
+	@Override
+	public void dismiss() {
+		// TODO Auto-generated method stub
+		super.dismiss();
+	}
+
+	@Override
+	public void onDestroyView() {
+		((PairingActivity) getActivity()).hideKeyboard();
+		super.onDestroyView();
+	}
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -63,12 +73,6 @@ public class PopupGtvSearching extends PopupBase {
 			}
 		});
 	}
-	
-	private void closeDialog() {
-		((DeviceFinder)getActivity()).removeDelayedMessage(); // when cancel button is clicked!!!
-		getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-		((DeviceFinder)getActivity()).finish();
-	}
 
 	@Override
 	public void onClick(View v) {
@@ -81,5 +85,12 @@ public class PopupGtvSearching extends PopupBase {
 		}
 
 	}
+
+	private void closeDialog() {
+		((PairingActivity) getActivity()).cancelPairing();
+		((PairingActivity) getActivity()).hideKeyboard();
+		getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+	}
+
 
 }

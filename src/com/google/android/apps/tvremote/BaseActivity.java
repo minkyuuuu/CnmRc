@@ -168,8 +168,8 @@ public class BaseActivity extends CoreServiceActivity implements ConnectionListe
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		MenuInflater inflater = new MenuInflater(this);
-		inflater.inflate(R.menu.main, menu);
+//		MenuInflater inflater = new MenuInflater(this);
+//		inflater.inflate(R.menu.main, menu);
 		return true;
 	}
 
@@ -177,19 +177,21 @@ public class BaseActivity extends CoreServiceActivity implements ConnectionListe
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-
-		case R.id.menu_switch:
-			getConnectionManager().requestDeviceFinder();
-			return true;
-
-		case R.id.menu_about:
-			showActivity(AboutActivity.class);
-			return true;
-
-		default:
-			return super.onOptionsItemSelected(item);
-		}
+//		switch (item.getItemId()) {
+//
+//		case R.id.menu_switch:
+//			getConnectionManager().requestDeviceFinder();
+//			return true;
+//
+//		case R.id.menu_about:
+//			showActivity(AboutActivity.class);
+//			return true;
+//
+//		default:
+//			return super.onOptionsItemSelected(item);
+//		}
+		
+		return super.onOptionsItemSelected(item);
 	}
 
 	/**
