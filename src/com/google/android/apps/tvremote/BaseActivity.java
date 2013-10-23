@@ -35,6 +35,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.util.CnmPreferences;
 import com.google.android.apps.tvremote.ConnectionManager.ConnectionListener;
 import com.google.android.apps.tvremote.TrackballHandler.Direction;
 import com.google.android.apps.tvremote.TrackballHandler.Listener;
@@ -125,13 +126,22 @@ public class BaseActivity extends CoreServiceActivity implements ConnectionListe
 	@Override
 	protected void onResume() {
 		super.onResume();
-		//connect();
-		//resetScreenDim();
+		Log.e("hwang-tvremote", "BaseActivity : onResume()");
+		
+		// 어플 처음 진입시 무조건 Gtv에 연결하는게 아니라 사용자 의지로 연결한다.
+		// 사용자가 Gtv에 연결을 한 번 시도한 적이 있으면 connect()를 시도한다.
+		CnmPreferences pref = CnmPreferences.getInstance();
+		if(pref.loadFirstConnectGtv(getApplicationContext())) {
+			connect();
+			//resetScreenDim();
+		}
+		
 	}
 
 	@Override
 	protected void onPause() {
 		handler.removeMessages(SCREEN_DIM);
+		Log.e("hwang-tvremote", "BaseActivity : onPause()");
 		disconnect();
 		super.onPause();
 	}

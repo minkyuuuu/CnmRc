@@ -40,9 +40,9 @@ public class QwertyActivity extends BaseActivity {
 
 		
 		edit = (ExtendedEditText) findViewById(R.id.qwerty_edit);
-		//edit.setFocusable(true);
-		//edit.setFocusableInTouchMode(true);
-		//edit.requestFocus();
+		edit.setFocusable(true);
+		edit.setFocusableInTouchMode(true);
+		edit.requestFocus();
 
 		//		edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 		//			@Override
@@ -90,9 +90,9 @@ public class QwertyActivity extends BaseActivity {
 						Action.ENTER.execute(getCommands());
 						finish();
 						return true;
-//					case KeyEvent.KEYCODE_DEL:
-//						Action.BACKSPACE.execute(getCommands());
-//						return true;
+					case KeyEvent.KEYCODE_DEL:
+						Action.BACKSPACE.execute(getCommands());
+						return true;
 					}
 				}
 

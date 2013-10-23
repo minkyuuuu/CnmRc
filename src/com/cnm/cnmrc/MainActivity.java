@@ -40,6 +40,7 @@ import com.cnm.cnmrc.fragment.vodtvch.Base;
 import com.cnm.cnmrc.fragment.vodtvch.VodDetail;
 import com.cnm.cnmrc.fragment.vodtvch.VodTvchMain;
 import com.cnm.cnmrc.popup.PopupGtvConnection;
+import com.cnm.cnmrc.util.Util;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.DeviceFinder;
 import com.google.android.apps.tvremote.widget.HighlightView;
@@ -209,6 +210,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			boolean h = f.isHidden();
 		}
 		Log.e("hwang-tvremote", "MainActivity : onResume()");
+		
+		// hwang
+		Util.hideSoftKeyboard(this);
 		
 		super.onResume();
 	}
@@ -925,6 +929,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		rcIconOn();
 
 		Intent intent = new Intent(this, QwertyActivity.class);
+//		Intent intent = new Intent(this, KeyboardActivity.class);
 		startActivity(intent);
 		overridePendingTransition(R.anim.qwerty_zoom_in, 0);
 

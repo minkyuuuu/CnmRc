@@ -28,6 +28,7 @@
                 android:layout_height="@dimen/px142"
                 android:layout_marginLeft="@dimen/px20"
                 android:background="@drawable/noimg_listposter"
+                android:scaleType="fitXY"
                 android:contentDescription="@string/accessibility_no_action" />
 
             <!-- 3 lines -->

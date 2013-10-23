@@ -40,6 +40,7 @@ public class UiUtil {
 		
 		ImageView logo = (ImageView)view.findViewById(R.id.logo_img);
 		Bitmap logoImage = ((BitmapDrawable)logo.getDrawable()).getBitmap();	// 기본적으로 no image 포스터가 적용되어 있다.
+		if(logoImage == null) logoImage = Util.getNoBitmap(context);
 		
 		Bundle bundle = new Bundle();
 		

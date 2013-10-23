@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.util.CnmPreferences;
 
 public class PopupGtvConnection extends PopupBase {
 
@@ -43,6 +44,10 @@ public class PopupGtvConnection extends PopupBase {
 			Log.i("hwang", "(search)yes button pressed");
 			//((MainActivity) getActivity()).openGtvConnection();
 			((MainActivity) getActivity()).connect();
+			
+			CnmPreferences pref = CnmPreferences.getInstance();
+			pref.saveFirstConnectGtv(getActivity().getApplicationContext(), true);
+			
 			break;
 		case R.id.popup_no:
 			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();

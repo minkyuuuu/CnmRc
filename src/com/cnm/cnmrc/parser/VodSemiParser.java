@@ -88,7 +88,8 @@ public class VodSemiParser {
 					} else if (tag.equalsIgnoreCase("VodSearch_Item") ||
 								tag.equalsIgnoreCase("Trailer_Item") ||
 								tag.equalsIgnoreCase("NewMovie_Item") ||
-								tag.equalsIgnoreCase("Tv_Item") ) {
+								tag.equalsIgnoreCase("Tv_Item") ||
+								tag.equalsIgnoreCase("vod_Item") ) {
 						list.getList().add(new ItemVodSemi()); 			// 리스트 추가
 						mCurrentCount = list.getList().size() - 1; 		// 현재 추가된 리스트의 위치 반환
 						

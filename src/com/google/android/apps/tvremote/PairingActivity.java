@@ -245,6 +245,7 @@ public class PairingActivity extends CoreServiceActivity {
 		Intent resultIntent = new Intent();
 		resultIntent.putExtra(EXTRA_PAIRING_RESULT, result);
 		setResult(result.resultCode);
+		hideKeyboard();	// hwang
 		finish();
 	}
 	
@@ -277,7 +278,7 @@ public class PairingActivity extends CoreServiceActivity {
 		PopupGtvPairingDialog popupGtvPairingDialog = new PopupGtvPairingDialog(client);
 		popupGtvPairingDialog.show(ft, PopupGtvPairingDialog.class.getSimpleName());
 		
-		showKeyboard();
+		//showKeyboard();
 	}
 	
 	public void makeAlertDialogNull() {
@@ -475,6 +476,7 @@ public class PairingActivity extends CoreServiceActivity {
 	}
 
 	public void showKeyboard() {
+		Log.e("hwang-tvremote", "hhhhhhh : onWindowFocusChanged()");
 		InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 	}

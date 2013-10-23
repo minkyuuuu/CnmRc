@@ -12,6 +12,7 @@ public class CnmPreferences {
 	
 	// Key Define
 	public final String FIRST_LOADING_CNM_APP = "first_loading_cnm_app";
+	public final String FIRST_CONNECT_GTV = "first_connect_gtv";
 	public final String CHECK_REGIST_USER = "check_regist_user";	// no needed in this App
 	
 	public final String VERSION = "version";
@@ -53,6 +54,19 @@ public class CnmPreferences {
 	public boolean loadFirstLoadingCnmApp(Context context) {
 		SharedPreferences pref = context.getSharedPreferences(CNM_PREFERENCE, mode);
 		return pref.getBoolean(FIRST_LOADING_CNM_APP, true);
+	}
+	
+	// App 설치후 Gtv 연결을 시도했느냐? 기본 false, 시도한 후는 true -------------------------------------------
+	public void saveFirstConnectGtv(Context context, boolean value) {
+		SharedPreferences pref = context.getSharedPreferences(CNM_PREFERENCE, mode);
+		SharedPreferences.Editor editor = pref.edit();
+		
+		editor.putBoolean(FIRST_CONNECT_GTV, value);
+		editor.commit();
+	}
+	public boolean loadFirstConnectGtv(Context context) {
+		SharedPreferences pref = context.getSharedPreferences(CNM_PREFERENCE, mode);
+		return pref.getBoolean(FIRST_CONNECT_GTV, false);
 	}
 	
 	// transaction id ------------------------------------------------------------------------
