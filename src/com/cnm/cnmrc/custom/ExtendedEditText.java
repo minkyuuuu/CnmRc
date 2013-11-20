@@ -82,6 +82,7 @@ public class ExtendedEditText extends EditText {
 
 	@Override
 	public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+		//outAttrs.privateImeOptions = "defaultInputmode=english";
 		outAttrs.imeOptions = EditorInfo.IME_ACTION_DONE;
 		return new InterceptConnection(this, true);
 	}

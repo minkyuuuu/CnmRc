@@ -25,6 +25,38 @@ import com.google.anymote.Key.Code;
  * 
  */
 public enum Action {
+	SHIFT_LEFT {		// 기획의도는 셋탑전원인데 ...
+		@Override
+		public void execute(ICommandSender sender) {
+			sender.keyPress(Code.KEYCODE_SHIFT_LEFT);
+		}
+	},
+	
+	SWITCH_CHARSET {		// 기획의도는 셋탑전원인데 ...
+		@Override
+		public void execute(ICommandSender sender) {
+			sender.keyPress(Code.KEYCODE_SHIFT_LEFT);
+		}
+	},
+	
+	CHAR_Q {		// 기획의도는 셋탑전원인데 ...
+		@Override
+		public void execute(ICommandSender sender) {
+			sender.keyPress(Code.KEYCODE_Q);
+		}
+	},
+	CHAR_H {		// 기획의도는 셋탑전원인데 ...
+		@Override
+		public void execute(ICommandSender sender) {
+			sender.keyPress(Code.KEYCODE_H);
+		}
+	},
+	CHAR_F {		// 기획의도는 셋탑전원인데 ...
+		@Override
+		public void execute(ICommandSender sender) {
+			sender.keyPress(Code.KEYCODE_F);
+		}
+	},
 
 	// -----------------------------
 	// MainActivity > top menu

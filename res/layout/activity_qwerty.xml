@@ -14,7 +14,9 @@
         android:inputType="text"
         android:paddingLeft="@dimen/px10"
         android:singleLine="true"
-        android:textSize="@dimen/px40" />
+        android:textSize="@dimen/px40" 
+        android:privateImeOptions="defaultInputmode=english;symbol=false"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"

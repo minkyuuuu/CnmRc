@@ -67,6 +67,7 @@ import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.popup.PopupGtvManuallyInput;
 import com.cnm.cnmrc.popup.PopupGtvSearching;
 import com.cnm.cnmrc.popup.PopupGtvTimeout;
+import com.cnm.cnmrc.util.CnmPreferences;
 
 /**
  * Device discovery with mDNS.
@@ -104,10 +105,14 @@ public final class DeviceFinder extends FragmentActivity {
 	private final String TAG_FRAGMENT_POPUP = "tvremote-popup";
 	ArrayList<DeviceInfo> deviceList;
 	
+	static Context mContext;
+	
 	/**
 	 * Returns an intent that starts this activity.
 	 */
 	public static Intent createConnectIntent(Context ctx, RemoteDevice recentlyConnected, ArrayList<RemoteDevice> recentlyConnectedList) {
+		mContext = ctx;
+		
 		Intent intent = new Intent(ctx, DeviceFinder.class);
 		intent.putExtra(EXTRA_REMOTE_DEVICE, recentlyConnected);
 		intent.putParcelableArrayListExtra(EXTRA_RECENTLY_CONNECTED, recentlyConnectedList);
@@ -447,6 +452,13 @@ public final class DeviceFinder extends FragmentActivity {
 			if(position != deviceList.size() - 1) {	// pairing
 				RemoteDevice remoteDevice = (RemoteDevice) parent.getItemAtPosition(position);
 				if (remoteDevice != null) {
+					// hwang 2013-11-20
+					// pairing host address is reset.
+					String hostAddress = remoteDevice.getAddress().getHostAddress();
+					CnmPreferences pref = CnmPreferences.getInstance();
+					pref.savePairingHostAddress(mContext, hostAddress);
+					//String temp = pref.loadPairingHostAddress(mContext);
+					
 					connectToEntry(remoteDevice);
 				}
 				

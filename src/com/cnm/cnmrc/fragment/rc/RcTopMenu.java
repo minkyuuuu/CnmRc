@@ -18,10 +18,8 @@ package com.cnm.cnmrc.fragment.rc;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +27,6 @@ import android.widget.ImageButton;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.fragment.vodtvch.VodTvchMain;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.util.Action;
 
@@ -106,9 +103,28 @@ public class RcTopMenu extends Fragment implements View.OnClickListener {
 		switch (v.getId()) {
 		case R.id.stb_power:
 			Action.POWER.execute(((BaseActivity)getActivity()).getCommands()); 	// POWER_TV(x) POWER(o) POWER_AVR(x) POWER_BD(x) POWER_STB(x)
+			
+			// 2013-11-13 test hangul
+			/*Action.CHAR_Q.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
+			
+			Handler h = new Handler();
+			h.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					Action.CHAR_H.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
+				}
+			}, 20);*/
+			
 			break;
 		case R.id.integration_ui_main:
-			Action.HOME.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
+			//Action.HOME.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
+			
+			// 2013-11-13 test hangul
+			// 연속으로 action을 보내도 보낸 순서로 잘 처리된다. 따로 handler를 사용할 필요가 없다.
+			/*Action.CHAR_Q.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
+			Action.CHAR_H.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
+*/			
+			
 			break;
 		case R.id.vod:
 			((MainActivity)getActivity()).goToVodTvch("vod");

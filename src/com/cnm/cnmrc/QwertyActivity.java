@@ -43,6 +43,7 @@ public class QwertyActivity extends BaseActivity {
 		edit.setFocusable(true);
 		edit.setFocusableInTouchMode(true);
 		edit.requestFocus();
+		edit.setPrivateImeOptions("defaultInputmode=english;symbol=false");
 
 		//		edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 		//			@Override

@@ -48,6 +48,10 @@ public class PopupGtvConnection extends PopupBase {
 			CnmPreferences pref = CnmPreferences.getInstance();
 			pref.saveFirstConnectGtv(getActivity().getApplicationContext(), true);
 			
+			// hwang 2013-11-20
+			// pairing host address is reset.
+			pref.savePairingHostAddress(getActivity().getApplicationContext(), "");
+			
 			break;
 		case R.id.popup_no:
 			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();

@@ -16,6 +16,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
@@ -99,6 +101,9 @@ public class Util {
 	}
 	public static String getDD(Date date) {
 		return new SimpleDateFormat("dd").format(date);
+	}
+	public static String getYYYYMMDDHHmmss(Date date) {
+		return new SimpleDateFormat("yyyyMMddHHmmss").format(date);
 	}
 	
 	public static String getMMDDE(Date date) {
@@ -329,4 +334,18 @@ public class Util {
 		}
 		return "";
 	}
+	
+	// wifi available
+	public static boolean isWifiAvailable(Context context) {
+		WifiManager wifiManager;
+		wifiManager = (WifiManager) context.getSystemService(context.WIFI_SERVICE);
+		
+		if (!wifiManager.isWifiEnabled()) {
+			return false;
+		}
+		WifiInfo info = wifiManager.getConnectionInfo();
+		return info != null && info.getIpAddress() != 0;
+	}
+	
+	
 }

@@ -34,6 +34,8 @@ public class CnmPreferences {
 	public final String CONFIG_VOD_UPDATE_NOTI = "config_vod_update_noti";		// 설정 (VOD업데이트알림)
 	public final String CONFIG_WATCHING_RES_NOTI = "config_watching_res_noti";	// 설정 (시청예약알림)
 	public final String CONFIG_AUTO_ADULT_CERT = "config_auto_adult_cert";		// 설정 (자동성인인증하기)
+	
+	public final String PAIRING_HOST_ADDRESS = "pairing_host_address";			// pairing되는 Google STB host address (예, 192.168.0.25)
 
 	private static CnmPreferences instance;
 
@@ -260,6 +262,19 @@ public class CnmPreferences {
 	public boolean loadConfigAutoAdultCert(Context context) {
 		SharedPreferences pref = context.getSharedPreferences(CNM_PREFERENCE, mode);
 		return pref.getBoolean(CONFIG_AUTO_ADULT_CERT, false);
+	}
+	
+	// pairing host address with Google STB -----------------------------------------------------
+	public void savePairingHostAddress(Context context, String value) {
+		SharedPreferences pref = context.getSharedPreferences(CNM_PREFERENCE, mode);
+		SharedPreferences.Editor editor = pref.edit();
+		
+		editor.putString(PAIRING_HOST_ADDRESS, value);
+		editor.commit();
+	}
+	public String loadPairingHostAddress(Context context) {
+		SharedPreferences pref = context.getSharedPreferences(CNM_PREFERENCE, mode);
+		return pref.getString(PAIRING_HOST_ADDRESS, "");
 	}
 	
 	

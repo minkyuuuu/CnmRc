@@ -30,6 +30,7 @@ public class UiUtil {
 	}
 	
 	public static Bundle makeVodDetailBundle(Context context, VodSemiAdapter adapter, View view, int position) {
+		String vodAssetId = adapter.getItem(position).getId();
 		String title = adapter.getItem(position).getTitle();
 		String hd = adapter.getItem(position).getHd();
 		String grade = adapter.getItem(position).getGrade();
@@ -54,6 +55,7 @@ public class UiUtil {
 		}
 		byte[] logoImg = baos.toByteArray();
 		
+		bundle.putString("vodAssetId", vodAssetId); 
 		bundle.putByteArray("logoImg", logoImg);
 		bundle.putString("title", title); 
 		bundle.putString("hd", hd); 
