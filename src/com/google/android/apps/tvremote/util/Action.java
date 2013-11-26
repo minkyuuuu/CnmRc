@@ -25,17 +25,31 @@ import com.google.anymote.Key.Code;
  * 
  */
 public enum Action {
-	SHIFT_LEFT {		// 기획의도는 셋탑전원인데 ...
+	SHIFT_LEFT {		// shift
 		@Override
 		public void execute(ICommandSender sender) {
 			sender.keyPress(Code.KEYCODE_SHIFT_LEFT);
 		}
 	},
 	
-	SWITCH_CHARSET {		// 기획의도는 셋탑전원인데 ...
+	SWITCH_CHARSET {	// 한영변환
 		@Override
 		public void execute(ICommandSender sender) {
-			sender.keyPress(Code.KEYCODE_SHIFT_LEFT);
+			sender.keyPress(Code.KEYCODE_SWITCH_CHARSET);
+		}
+	},
+	
+	SWITCH_CHARSET_ENG {	// 한영변환
+		@Override
+		public void execute(ICommandSender sender) {
+			sender.keyPress(Code.KEYCODE_SWITCH_CHARSET_ENG);
+		}
+	},
+	
+	SWITCH_CHARSET_KOR {	// 한영변환
+		@Override
+		public void execute(ICommandSender sender) {
+			sender.keyPress(Code.KEYCODE_SWITCH_CHARSET_KOR);
 		}
 	},
 	

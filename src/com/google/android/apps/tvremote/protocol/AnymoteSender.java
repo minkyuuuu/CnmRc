@@ -16,24 +16,23 @@
 
 package com.google.android.apps.tvremote.protocol;
 
+import java.io.IOException;
+import java.net.Socket;
+
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.util.Log;
+
 import com.google.android.apps.tvremote.CoreService;
 import com.google.android.apps.tvremote.protocol.AckManager.Listener;
 import com.google.anymote.Key.Action;
 import com.google.anymote.Key.Code;
-import com.google.anymote.Messages.DataList;
 import com.google.anymote.Messages.FlingResult;
 import com.google.anymote.common.AnymoteFactory;
 import com.google.anymote.common.ConnectInfo;
 import com.google.anymote.common.ErrorListener;
 import com.google.anymote.device.DeviceAdapter;
 import com.google.anymote.device.MessageReceiver;
-
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.util.Log;
-
-import java.io.IOException;
-import java.net.Socket;
 
 /**
  * An implementation of the ICommandSender interface which uses the Anymote
@@ -86,9 +85,10 @@ public final class AnymoteSender implements ICommandSender {
         Log.d(LOG_TAG, "onData: " + type + " / " + data);
       }
 
-      public void onDataList(DataList dataList) {
-        Log.d(LOG_TAG, "onDataList: " + dataList.toString());
-      }
+      // 2.2.0에서는 있었으나 2.5.0에는 없다.
+//      public void onDataList(DataList dataList) {
+//        Log.d(LOG_TAG, "onDataList: " + dataList.toString());
+//      }
 
       public void onFlingResult(
           FlingResult flingResult, Integer sequenceNumber) {
