@@ -50,6 +50,7 @@ import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.Util;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.DeviceFinder;
+import com.google.android.apps.tvremote.RemoteDevice;
 import com.google.android.apps.tvremote.widget.HighlightView;
 import com.google.android.apps.tvremote.widget.KeyCodeButton;
 import com.google.anymote.Key;
@@ -654,7 +655,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	}
 
 	public void goToVodTvch(String type) {
-		clearVodTvchTopMeny();
+		// hwang 2013-11-26
+		RemoteDevice remoteDevice = getConnectionManager().getTarget();
+		if (remoteDevice != null) {
+			String hostAddress = remoteDevice.getAddress().getHostAddress();
+			CnmPreferences pref = CnmPreferences.getInstance();
+			pref.savePairingHostAddress(this, hostAddress);
+		} 
+		
+		clearVodTvchTopMenu();
 
 		FragmentManager fm = getSupportFragmentManager();
 		Log.i("hwang", "before when mainActivity  fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
@@ -890,10 +899,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			}
 		}
 
-		clearVodTvchTopMeny();
+		clearVodTvchTopMenu();
 	}
 
-	public void clearVodTvchTopMeny() {
+	public void clearVodTvchTopMenu() {
 		Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_vod_tvch_top_menu);
 		if (f != null) {
 			getSupportFragmentManager().beginTransaction().remove(f).commit();
@@ -929,13 +938,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			Toast.makeText(this, "WiFi not Available", Toast.LENGTH_SHORT).show();
 			return;
 		}
+		
+		// hwang 2013-11-26
+		RemoteDevice remoteDevice = getConnectionManager().getTarget();
+		String hostAddress;
+		if (remoteDevice != null) {
+			hostAddress = remoteDevice.getAddress().getHostAddress();
+		} else {
+			// STB alive check
+			CnmPreferences pref = CnmPreferences.getInstance();
+			hostAddress = pref.loadPairingHostAddress(this);
+		}
 
-		// STB alive check
-		CnmPreferences pref = CnmPreferences.getInstance();
-		String hostAddress = pref.loadPairingHostAddress(this);
 
 		// test
-		//hostAddress = "192.168.0.25";
+		//hostAddress = "192.168.0.6";
 
 		try {
 			if (hostAddress.equals("")) {

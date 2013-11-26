@@ -117,7 +117,7 @@ public class RcTopMenu extends Fragment implements View.OnClickListener {
 			
 			break;
 		case R.id.integration_ui_main:
-			//Action.HOME.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
+			Action.HOME.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
 			
 			// 2013-11-13 test hangul
 			// 연속으로 action을 보내도 보낸 순서로 잘 처리된다. 따로 handler를 사용할 필요가 없다.

@@ -44,6 +44,7 @@ import com.cnm.cnmrc.tcp.TCPClientVod;
 import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.UiUtil;
 import com.cnm.cnmrc.util.Util;
+import com.google.android.apps.tvremote.RemoteDevice;
 
 public class VodDetail extends Base implements View.OnClickListener {
 	static Context mContext;

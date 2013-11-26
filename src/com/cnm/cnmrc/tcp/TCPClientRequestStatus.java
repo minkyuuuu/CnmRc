@@ -35,21 +35,18 @@ public class TCPClientRequestStatus extends Thread {
 	@Override
 	public void run() {
 		try {
-			socket = new Socket(hostAddress, 2751);
+			socket = new Socket(hostAddress, 27351);
 			sendMessage(socket);
 			receiveMessage(socket);
 
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				socket.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -67,36 +64,26 @@ public class TCPClientRequestStatus extends Thread {
 			oos.writeObject(sb.toString());
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
 
-	private void receiveMessage(Socket socket) {
+	void receiveMessage(Socket socket) {
 		try {
 			is = socket.getInputStream();
 			ois = new ObjectInputStream(is);
 			String msg = (String) ois.readObject();
-			//Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
-			//VodDetail.receiveMessageFromSTB(msg);
 			
-			 // 메시지 얻어오기
-            Message toMsg = handler.obtainMessage();
-             
-            // 메시지 ID 설정
-            toMsg.what = 1;
-             
-            // 메시지 정보 설정3 (Object 형식)
-            toMsg.obj = msg;
+            Message toMsg = handler.obtainMessage();	// 메시지 얻어오기
+            toMsg.what = 1;			// 메시지 ID 설정
+            toMsg.obj = msg;	 	// 메시지 정보 설정3 (Object 형식)
              
             handler.sendMessage(toMsg);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
