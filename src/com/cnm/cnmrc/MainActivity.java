@@ -60,11 +60,13 @@ import com.google.anymote.Key;
  * @author minkyu
  * @date 2013.7.17
  * 
- *       메인화면 구성 1) 상단메뉴(top) / 하단숫자(numeric) / 하단메뉴(bottom) / 하단써클메뉴(circle)
+ *       메인화면 구성 
+ *       1) 상단메뉴(top) / 하단숫자(numeric) / 하단메뉴(bottom) / 하단써클메뉴(circle)
  * 
- *       여기서 pannel이란 용어는 fragment가 대체되는 FrameLayout viewgroup을 의미한다. 2)
- *       vod_tvch_panel : top menu에서 vod, tvch 아이콘의 메인화면이 대체되는 fragment 영역 3)
- *       rc_panel : circle menu에서 미러TV, 사방향키, 채널/볼륨 화면이 대체되는 fragment 영역 circle
+ *       여기서 pannel이란 용어는 fragment가 대체되는 FrameLayout viewgroup을 의미한다. 
+ *       2) vod_tvch_panel : top menu에서 vod, tvch 아이콘의 메인화면이 대체되는 fragment 영역 
+ *       
+ *       3) rc_panel : circle menu에서 미러TV, 사방향키, 채널/볼륨 화면이 대체되는 fragment 영역 circle
  *       menu의 쿼티화면은 activity로 처리함.
  * 
  *       4) 하단중앙 리모컨아이콘 : rc icon
@@ -1032,13 +1034,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		 */
 	}
 
-	public void openGtvConnection() {
-		rcIconOn();
-
-		Intent intent = new Intent(this, DeviceFinder.class);
-		startActivity(intent);
-		overridePendingTransition(R.anim.qwerty_zoom_in, 0);
-	}
+	// remove hwang 2013-11-28
+//	public void openGtvConnection() {
+//		rcIconOn();
+//
+//		Intent intent = new Intent(this, DeviceFinder.class);
+//		startActivity(intent);
+//		overridePendingTransition(R.anim.qwerty_zoom_in, 0);
+//	}
 
 	private void rcIconOn() {
 		if (mCircleMenuBg.getVisibility() == View.VISIBLE)

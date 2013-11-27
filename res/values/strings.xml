@@ -336,7 +336,7 @@
     <string name="voice_search_send">Search</string>
     <string name="voice_cancel">Cancel</string>
     <string name="voice_dialog_label">Voice command</string>
-    <string name="sender_missing">Connecting</string>
+    <string name="sender_missing">Sender Missing</string>
 
     <!-- Content Descriptions -->
     <string name="keyboard_hide_desc">Hide Keyboard</string>

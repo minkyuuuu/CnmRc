@@ -54,7 +54,8 @@ public class CnmApplication extends Application {
 		// -----------------------------------------------------------------------------------
 		// App 설치후 처음 진입 했을 때... 해야 할일...
 		// 1) AuthenticateClient : terminalID 발급을 받아야 할것 같은데... 기존 앱에서는 발급받지 않는다.
-		//    발급 받지 않는 대신에 지금 만들 앱에서는 제공되는 안드로이용 termianlID를 사용한다.
+		//    발급 받지 않는 대신에 지금 만들 앱에서는 제공되는 안드로이용 termianlID를 사용한다. 
+		//    : 2013-11-28일 현재 적용하지 않았다.
 		//    : MjAxMS0wNC0xNl80OTk1NTY4NF9Dbk1UZXN0QW5kcm9pZF8g (from 조규상 to 박종필)
 		// 2) CheckRegistUser을 해서 등록된 사용자이면 셋탑등록이 되었다고 설정한다.
 		//    : 새로운 앱에서는 기존앱의 셋탑등록 여부에 관심갖을 필요가 없다.

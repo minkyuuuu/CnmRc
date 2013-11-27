@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.View;
 
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.util.CnmPreferences;
 import com.google.android.apps.tvremote.DeviceFinder;
 import com.google.android.apps.tvremote.PairingActivity;
 
@@ -65,6 +66,11 @@ public class PopupGtvSearching extends PopupBase {
 	}
 	
 	private void closeDialog() {
+		// hwang 2013-11-28 adding
+		// 계속해서 찾기 팝업창이 보인다.
+		CnmPreferences pref = CnmPreferences.getInstance();
+		pref.saveFirstConnectGtv(getActivity().getApplicationContext(), false);
+		
 		((DeviceFinder)getActivity()).removeDelayedMessage(); // when cancel button is clicked!!!
 		getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
 		((DeviceFinder)getActivity()).finish();

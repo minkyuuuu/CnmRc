@@ -55,6 +55,11 @@ public class PopupGtvConnection extends PopupBase {
 			break;
 		case R.id.popup_no:
 			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+			
+			// hwang 2013-11-28 adding
+			pref = CnmPreferences.getInstance();
+			pref.saveFirstConnectGtv(getActivity().getApplicationContext(), false);
+			
 			break;
 		}
 

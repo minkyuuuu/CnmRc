@@ -5,6 +5,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.View;
 
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.util.CnmPreferences;
 import com.google.android.apps.tvremote.DeviceFinder;
 
 public class PopupGtvTimeout extends PopupBase {
@@ -44,6 +45,11 @@ public class PopupGtvTimeout extends PopupBase {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.popup_yes:
+			// hwang 2013-11-28 adding
+			// 계속해서 찾기 팝업창이 보인다.
+			CnmPreferences pref = CnmPreferences.getInstance();
+			pref.saveFirstConnectGtv(getActivity().getApplicationContext(), false);
+			
 			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
 			getActivity().setResult(getActivity().RESULT_CANCELED, null);
 			getActivity().finish();

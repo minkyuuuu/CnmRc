@@ -128,13 +128,14 @@ public class BaseActivity extends CoreServiceActivity implements ConnectionListe
 		super.onResume();
 		Log.e("hwang-tvremote", "BaseActivity : onResume()");
 		
+		// hwang 2013-11-28 
 		// 어플 처음 진입시 무조건 Gtv에 연결하는게 아니라 사용자 의지로 연결한다.
 		// 사용자가 Gtv에 연결을 한 번 시도한 적이 있으면 connect()를 시도한다.
-		CnmPreferences pref = CnmPreferences.getInstance();
+		/*CnmPreferences pref = CnmPreferences.getInstance();
 		if(pref.loadFirstConnectGtv(getApplicationContext())) {
 			connect();
 			//resetScreenDim();
-		}
+		}*/
 		
 	}
 
@@ -275,6 +276,7 @@ public class BaseActivity extends CoreServiceActivity implements ConnectionListe
 		switch (resultCode) {
 		case PairingActivity.RESULT_OK:
 			showMessage(R.string.pairing_succeeded_toast);
+			Log.d("hwang2", "handlePairingResult : PairingActivity.RESULT_OK : " + "connect()");
 			connect();
 			break;
 		case PairingActivity.RESULT_CANCELED:
@@ -477,23 +479,33 @@ public class BaseActivity extends CoreServiceActivity implements ConnectionListe
 		public void onMissingSender() {
 			if (System.currentTimeMillis() - lastToastTime > MIN_TOAST_PERIOD) {
 				lastToastTime = System.currentTimeMillis();
-				showMessage(R.string.sender_missing);
+				// hwang 2013-11-28 comment 아마 STB에 보내지 못해서...
+				//showMessage(R.string.sender_missing);
 			}
 		}
 	}
 
 	private void logConnectionStatus(CharSequence sequence) {
-		String message = String.format("%s (%s)", sequence, getClass().getSimpleName());
+		// hwang 2013-11-28 comment
+		/*String message = String.format("%s (%s)", sequence, getClass().getSimpleName());
 		if (Debug.isDebugConnection()) {
 			Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-		}
+		}*/
 		Log.d(LOG_TAG, "Connection state: " + sequence);
 	}
 
 	private void connectOrFinish() {
 		if (getConnectionManager() != null) {
 			if (getConnectionManager().getTarget() != null) {
-				connect();
+				Log.d("hwang2", "connectOrFinish : " + "connect()");
+				// hwang 2013-11-28 comment
+				//connect();
+				
+				// 처음 connect 시도시 연결코드를 입력하는 팝업창을 띄우기 위해서...
+				CnmPreferences pref = CnmPreferences.getInstance();
+				if(pref.loadFirstConnectGtv(getApplicationContext())) {
+					connect();
+				}
 			} else {
 				// hwang
 				// finish();
