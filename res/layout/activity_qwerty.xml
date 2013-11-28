@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ff000000"
+    android:background="#80000000"
     android:orientation="vertical" >
 
     <com.cnm.cnmrc.custom.ExtendedEditText
         android:id="@+id/qwerty_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/px110"
         android:hint="@string/qwerty_hint"
         android:imeOptions="actionDone"
         android:inputType="text"
-        android:paddingLeft="@dimen/px10"
+        android:paddingLeft="@dimen/px20"
         android:singleLine="true"
         android:textSize="@dimen/px40" 
-        android:privateImeOptions="defaultInputmode=english;symbol=false"
         />
 
-    <RelativeLayout
+<!--     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" >
@@ -27,7 +28,7 @@
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ff000000" >
+            android:background="#80000000" >
         </View>
 
         <com.google.android.apps.tvremote.widget.FadingTextView
@@ -45,6 +46,6 @@
             android:singleLine="true"
             android:textSize="@dimen/px60"
             android:textStyle="bold" />
-    </RelativeLayout>
+    </RelativeLayout> -->
 
 </LinearLayout>

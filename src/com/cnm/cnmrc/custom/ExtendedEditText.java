@@ -1,5 +1,7 @@
 package com.cnm.cnmrc.custom;
 
+import com.google.android.apps.tvremote.util.Action;
+
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -12,10 +14,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 /**
- * This class overrides the onKeyPreIme method to dispatch a key event if the
- * KeyEvent passed to onKeyPreIme has a key code of KeyEvent.KEYCODE_BACK. This
- * allows key event listeners to detect that the soft keyboard was dismissed.
- * 
+ * This class overrides the onKeyPreIme method to dispatch a key event 
+ * if the KeyEvent passed to onKeyPreIme has a key code of KeyEvent.KEYCODE_BACK. 
+ * This allows key event listeners to detect that the soft keyboard was dismissed.
  */
 
 public class ExtendedEditText extends EditText {
@@ -74,9 +75,9 @@ public class ExtendedEditText extends EditText {
 
 	@Override
 	public boolean dispatchKeyEventPreIme(KeyEvent event) {
-		if (interceptor != null && interceptor.onKeyEvent(event)) {
-			return true;
-		}
+//		if (interceptor != null && interceptor.onKeyEvent(event)) {
+//			return true;
+//		}
 		return super.dispatchKeyEventPreIme(event);
 	}
 
@@ -84,7 +85,9 @@ public class ExtendedEditText extends EditText {
 	public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
 		//outAttrs.privateImeOptions = "defaultInputmode=english";
 		outAttrs.imeOptions = EditorInfo.IME_ACTION_DONE;
-		return new InterceptConnection(this, true);
+		//return super.onCreateInputConnection(outAttrs);
+		//return new InterceptConnection(this, true);
+		return new InterceptConnection(this, false);	// DONE ok
 	}
 
 	/**
@@ -114,20 +117,27 @@ public class ExtendedEditText extends EditText {
 			//return super.commitText("", newCursorPosition);
 			//return true;
 		}
-
-		@Override
-		public boolean sendKeyEvent(KeyEvent event) {
-			interceptor.onKeyEvent(event);
-			return true;
-		}
-
-		@Override
-		public boolean commitText(CharSequence text, int newCursorPosition) {
-			for (int i = 0; i < text.length(); ++i) {
-				interceptor.onSymbol(text.charAt(i));
-			}
-			return true;
-		}
+//
+//		@Override
+//		public boolean sendKeyEvent(KeyEvent event) {
+////			switch (event.getKeyCode()) {
+////			case KeyEvent.KEYCODE_BACK:		// 4
+////			case KeyEvent.KEYCODE_ENTER:	// 66
+////			case KeyEvent.KEYCODE_DEL:		// 67
+////				interceptor.onKeyEvent(event);
+////			}
+//			return true;
+//		}
+		
+		
+//
+//		@Override
+//		public boolean commitText(CharSequence text, int newCursorPosition) {
+////			for (int i = 0; i < text.length(); ++i) {
+////				interceptor.onSymbol(text.charAt(i));
+////			}
+//			return true;
+//		}
 
 //		@Override
 //		public CharSequence getTextBeforeCursor(int length, int flags) {

@@ -131,11 +131,12 @@ public class BaseActivity extends CoreServiceActivity implements ConnectionListe
 		// hwang 2013-11-28 
 		// 어플 처음 진입시 무조건 Gtv에 연결하는게 아니라 사용자 의지로 연결한다.
 		// 사용자가 Gtv에 연결을 한 번 시도한 적이 있으면 connect()를 시도한다.
-		/*CnmPreferences pref = CnmPreferences.getInstance();
+		// 키보드 액티비지에 같다가 되돌아오면 connect해주어야 한다.
+		CnmPreferences pref = CnmPreferences.getInstance();
 		if(pref.loadFirstConnectGtv(getApplicationContext())) {
 			connect();
 			//resetScreenDim();
-		}*/
+		}
 		
 	}
 

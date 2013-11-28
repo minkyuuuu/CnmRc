@@ -1,23 +1,21 @@
 package com.cnm.cnmrc;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cnm.cnmrc.custom.ExtendedEditText;
-import com.cnm.cnmrc.util.CnmPreferences;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.TextInputHandler;
 import com.google.android.apps.tvremote.TouchHandlerA;
 import com.google.android.apps.tvremote.TouchHandlerA.Mode;
 import com.google.android.apps.tvremote.util.Action;
 
-public class QwertyActivity extends BaseActivity {
+public class QwertyActivityTest extends BaseActivity {
 
 	ExtendedEditText edit;
 	Button mQwertyCancel, mQwertyTextClear;
@@ -28,8 +26,8 @@ public class QwertyActivity extends BaseActivity {
 	 */
 	private View view;
 
-	public QwertyActivity() {
-		//textInputHandler = new TextInputHandler(this, getCommands());
+	public QwertyActivityTest() {
+		textInputHandler = new TextInputHandler(this, getCommands());
 	}
 
 	@Override
@@ -37,134 +35,86 @@ public class QwertyActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_qwerty);
-		
-		// hwang 2013-11-28 add
-		// MainActivity와 별개의 BaseActivity를 사용한다.
-		CnmPreferences pref = CnmPreferences.getInstance();
-		if(pref.loadFirstConnectGtv(getApplicationContext())) {
-			connect();
-		}
-		
+
 		//getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
 		
 		edit = (ExtendedEditText) findViewById(R.id.qwerty_edit);
 		edit.setFocusable(true);
 		edit.setFocusableInTouchMode(true);
 		edit.requestFocus();
-		//edit.setPrivateImeOptions("defaultInputmode=english;symbol=false");
+		edit.setPrivateImeOptions("defaultInputmode=english;symbol=false");
 
-//		edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//			@Override
-//			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//				if (actionId == EditorInfo.IME_ACTION_DONE) {
-//					Action.ENTER.execute(getCommands());
-//					//finish();
-//					
-//					String str = v.getText().toString();
-//					if (str.equals("")) {
-//						Toast.makeText(QwertyActivity.this, "입력해 주세요", Toast.LENGTH_SHORT).show();
-//					} else {
-//						performDone();
-//					}
-//					return true;
-//				}
-//				return false;
-//			}
-//
-//		});
-//
-//		edit.setOnKeyListener(new OnKeyListener() {
-//			@Override
-//			public boolean onKey(View v, int keyCode, KeyEvent event) {
-//				if (event.getAction() == KeyEvent.ACTION_DOWN) {
-//					switch (event.getKeyCode()) {
-//					case KeyEvent.KEYCODE_BACK:		// 4
-//						finish();
-//						return true;
-//
-//					case KeyEvent.KEYCODE_ENTER:	// 66
-//						Action.ENTER.execute(getCommands());
-//						finish();
-//						return true;
-//						
-//					case KeyEvent.KEYCODE_DEL:		// 67
-//						Action.BACKSPACE.execute(getCommands());
-//						return true;
-//					}
-//				}
-//				return false;
-//			}
-//		});
+		//		edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+		//			@Override
+		//			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+		//				if (actionId == EditorInfo.IME_ACTION_DONE) {
+		//
+		//					String str = v.getText().toString();
+		//					if (str.equals("")) {
+		//						Toast.makeText(QwertyActivity.this, "입력해 주세요", Toast.LENGTH_SHORT).show();
+		//					} else {
+		//						performDone();
+		//					}
+		//
+		//					return true;
+		//				}
+		//				return false;
+		//			}
+		//
+		//		});
 
-		edit.addTextChangedListener(onEditTextChanged);
-		
+		//		edit.setOnKeyListener(new OnKeyListener() {
+		//			@Override
+		//			public boolean onKey(View v, int keyCode, KeyEvent event) {
+		//				if (keyCode == KeyEvent.KEYCODE_ENTER) {
+		//
+		//				}
+		//				return false;
+		//			}
+		//		});
+
 		((ExtendedEditText) edit).setInterceptor(new ExtendedEditText.Interceptor() {
 			public boolean onKeyEvent(KeyEvent event) {
-				QwertyActivity.this.onUserInteraction();
+				QwertyActivityTest.this.onUserInteraction();
 				if (event.getAction() == KeyEvent.ACTION_DOWN) {
 					switch (event.getKeyCode()) {
-					case KeyEvent.KEYCODE_BACK:		// 4
+					case KeyEvent.KEYCODE_BACK:
 						finish();
 						return true;
 
-					case KeyEvent.KEYCODE_ENTER:	// 66
+					case KeyEvent.KEYCODE_SEARCH:
+						Action.NAVBAR.execute(getCommands());
+						return true;
+
+					case KeyEvent.KEYCODE_ENTER:
 						Action.ENTER.execute(getCommands());
 						finish();
 						return true;
-						
-						// not working on this status
-//					case KeyEvent.KEYCODE_DEL:		// 67
-//						Action.BACKSPACE.execute(getCommands());
-//						return true;
+					case KeyEvent.KEYCODE_DEL:
+						Action.BACKSPACE.execute(getCommands());
+						return true;
 					}
 				}
 
-				return false;
-				//return textInputHandler.handleKey(event);
+				return textInputHandler.handleKey(event);
 			}
 
 			public boolean onSymbol(char c) {
-				//QwertyActivity.this.onUserInteraction();
-				//textInputHandler.handleChar(c);
-				handleChar(c);
+				QwertyActivityTest.this.onUserInteraction();
+				textInputHandler.handleChar(c);
+				//handleChar(c);
 				return false;
 			}
 		});
 		
-		//textInputHandler.setDisplay((TextView) findViewById(R.id.text_feedback_chars));
+		textInputHandler.setDisplay((TextView) findViewById(R.id.text_feedback_chars));
 
 		// Attach touch handler to the touch pad.
 		view = (View) findViewById(R.id.view);
 		new TouchHandlerA(view, Mode.POINTER_MULTITOUCH, getCommands());
 
 	}
-	
-	int beforeCount = 0;
-	int afterCount = 0;
-	String beforeText = "";
-	TextWatcher onEditTextChanged = new TextWatcher(){
-		public void afterTextChanged(Editable s) {
-			//beforeText = s.toString();
-			//Toast.makeText(QwertyActivity.this, "count : " + s, Toast.LENGTH_SHORT).show();
-		}
-		public void beforeTextChanged(CharSequence s, int start, int count, int after){
-			beforeText = s.toString();
-			//Toast.makeText(QwertyActivity.this, "count : " + s, Toast.LENGTH_SHORT).show();
-			
-		}
-
-		public void onTextChanged(CharSequence s, int start, int before, int count){
-			Toast.makeText(QwertyActivity.this, "start : " + start, Toast.LENGTH_SHORT).show();
-			beforeCount = beforeText.length();
-			afterCount = s.length();
-			if(afterCount < beforeCount) {
-				Action.BACKSPACE.execute(getCommands());
-			} else {
-				CharSequence c = s.subSequence(start, start+1);
-				handleChar(c.toString());
-			}
-		}
-	};
 
 	public boolean handleChar(char c) {
 		if (isValidCharacter(c)) {
@@ -173,11 +123,6 @@ public class QwertyActivity extends BaseActivity {
 			getCommands().string(str);
 			return true;
 		}
-		return false;
-	}
-	
-	public boolean handleChar(String str) {
-		getCommands().string(str);
 		return false;
 	}
 
@@ -193,7 +138,7 @@ public class QwertyActivity extends BaseActivity {
 	}
 
 	private void performDone() {
-		Toast.makeText(QwertyActivity.this, "완료", Toast.LENGTH_SHORT).show();
+		Toast.makeText(QwertyActivityTest.this, "완료", Toast.LENGTH_SHORT).show();
 
 	}
 
