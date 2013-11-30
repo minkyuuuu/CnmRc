@@ -163,6 +163,9 @@ public class VodDetail extends Base implements View.OnClickListener {
 		
 		switch (v.getId()) {
 		case R.id.vod_zzim:
+			// test wifi status
+			//boolean b = Util.setWifiEnable(getActivity(), false);
+			
 			// wifi check
 			if (!Util.isWifiAvailable(getActivity())) {
 				Toast.makeText(getActivity(), "WiFi not Available", Toast.LENGTH_SHORT).show();
@@ -174,7 +177,7 @@ public class VodDetail extends Base implements View.OnClickListener {
 			hostAddress = pref.loadPairingHostAddress(getActivity());
 			
 			// test
-			//hostAddress = "192.168.0.6";
+			//hostAddress = "192.168.0.9";
 			
 			try {
 				if (hostAddress.equals("")) {

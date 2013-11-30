@@ -1,7 +1,9 @@
 package com.cnm.cnmrc.tcp;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -58,7 +60,6 @@ public class TCPClientTv extends Thread {
 	void sendMessage(Socket socket) {
 		try {
 			os = socket.getOutputStream();
-			oos = new ObjectOutputStream(os);
 			
 			StringBuffer sb = new StringBuffer();
 			sb.append(size);
@@ -71,7 +72,8 @@ public class TCPClientTv extends Thread {
 			Arrays.fill(whiteSpace, ' ');
 			sb.append(whiteSpace);
 			
-			oos.writeObject(sb.toString());
+			byte[] buffer = sb.toString().getBytes("utf-8");
+			os.write(buffer);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -82,8 +84,12 @@ public class TCPClientTv extends Thread {
 	void receiveMessage(Socket socket) {
 		try {
 			is = socket.getInputStream();
-			ois = new ObjectInputStream(is);
-			String msg = (String) ois.readObject();
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+			char[] ch = new char[4096];
+			int count = br.read(ch);
+			//String msg = ch.toString(); xxx
+			String msg = new String(ch);
 			
             Message toMsg = handler.obtainMessage();	// 메시지 얻어오기
             toMsg.what = 1;			// 메시지 ID 설정
@@ -92,8 +98,6 @@ public class TCPClientTv extends Thread {
             handler.sendMessage(toMsg);
 
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 

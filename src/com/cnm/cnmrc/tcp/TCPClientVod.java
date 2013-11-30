@@ -1,10 +1,14 @@
 package com.cnm.cnmrc.tcp;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -20,6 +24,8 @@ public class TCPClientVod extends Thread {
 	private OutputStream os = null;
 	private ObjectInputStream ois = null;
 	private ObjectOutputStream oos = null;
+	private BufferedWriter bw = null;
+	private BufferedReader br = null;
 
 	Socket socket = null;
 	Handler handler = null;
@@ -58,7 +64,8 @@ public class TCPClientVod extends Thread {
 	void sendMessage(Socket socket) {
 		try {
 			os = socket.getOutputStream();
-			oos = new ObjectOutputStream(os);
+			//oos = new ObjectOutputStream(os);
+			//bw = new BufferedWriter(new OutputStreamWriter(os));
 			
 			StringBuffer sb = new StringBuffer();
 			sb.append(size);
@@ -72,7 +79,10 @@ public class TCPClientVod extends Thread {
 			Arrays.fill(whiteSpace, ' ');
 			sb.append(whiteSpace);
 			
-			oos.writeObject(sb.toString());
+			//oos.writeObject(sb.toString());
+			//bw.write(sb.toString());
+			byte[] buffer = sb.toString().getBytes("utf-8");
+			os.write(buffer);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -83,8 +93,29 @@ public class TCPClientVod extends Thread {
 	void receiveMessage(Socket socket) {
 		try {
 			is = socket.getInputStream();
-			ois = new ObjectInputStream(is);
-			String msg = (String) ois.readObject();
+			//ois = new ObjectInputStream(is);
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+			char[] ch = new char[4096];
+			int count = br.read(ch);
+			//String msg = ch.toString(); xxx
+			String msg = new String(ch);
+			
+			/*try {
+				msg = (String) ois.readObject();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+			
+			//br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+			//String msg = "";
+			
+//			while( (msg=br.readLine()) != null)
+//				System.out.println(msg);
+			
+			//char[] msg = null;
+			//int count = br.read(msg);
 			
             Message toMsg = handler.obtainMessage();	// 메시지 얻어오기
             toMsg.what = 1;			// 메시지 ID 설정
@@ -93,8 +124,6 @@ public class TCPClientVod extends Thread {
             handler.sendMessage(toMsg);
 
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 

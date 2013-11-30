@@ -347,5 +347,13 @@ public class Util {
 		return info != null && info.getIpAddress() != 0;
 	}
 	
+	// wifi available
+	public static boolean setWifiEnable(Context context, boolean status) {
+		WifiManager wifiManager;
+		wifiManager = (WifiManager) context.getSystemService(context.WIFI_SERVICE);
+		
+		return wifiManager.setWifiEnabled(status);
+	}
+	
 	
 }

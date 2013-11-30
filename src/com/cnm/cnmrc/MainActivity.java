@@ -1008,7 +1008,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
              
             switch (msg.what) {
             case 1:
+            	String str = (String)msg.obj;
             	Toast.makeText(MainActivity.this, (String)msg.obj, Toast.LENGTH_LONG).show();
+            	//Toast.makeText(MainActivity.this, "length : " + str.length(), Toast.LENGTH_LONG).show();
                 break;
  
             default:

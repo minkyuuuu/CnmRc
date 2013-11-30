@@ -102,7 +102,11 @@ public class RcTopMenu extends Fragment implements View.OnClickListener {
 		
 		switch (v.getId()) {
 		case R.id.stb_power:
+			// 반드시 풀자....
 			Action.POWER.execute(((BaseActivity)getActivity()).getCommands()); 	// POWER_TV(x) POWER(o) POWER_AVR(x) POWER_BD(x) POWER_STB(x)
+			
+			
+			//Action.SWITCH_CHARSET.execute(((BaseActivity)getActivity()).getCommands()); 	// POWER_TV(x) POWER(o) POWER_AVR(x) POWER_BD(x) POWER_STB(x)
 			
 			// 2013-11-13 test hangul
 			/*Action.CHAR_Q.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
