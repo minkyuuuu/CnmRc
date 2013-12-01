@@ -157,7 +157,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 		setContentView(R.layout.activity_main);
 
-		surface = (HighlightView) findViewById(R.id.HighlightView);
+		// hwang 2013-12-01
+		//surface = (HighlightView) findViewById(R.id.HighlightView);
 
 		if (savedInstanceState != null) {
 			Bundle bundle = savedInstanceState.getBundle("save_data");
@@ -222,7 +223,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		Log.e("hwang-tvremote", "MainActivity : onResume()");
 
 		// hwang
-		Util.hideSoftKeyboard(this);
+		//Util.hideSoftKeyboard(this);
 
 		super.onResume();
 	}
@@ -1120,9 +1121,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	// --------------------------------------
 	// tvremocon
 	// --------------------------------------
-	public HighlightView getHighlightView() {
+	// hwang 2013-12-01
+	/*public HighlightView getHighlightView() {
 		return surface;
-	}
+	}*/
 
 	// KeyCode handler implementation.
 	public void onRelease(Key.Code keyCode) {

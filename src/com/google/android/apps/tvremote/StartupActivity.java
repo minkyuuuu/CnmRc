@@ -48,7 +48,7 @@ public class StartupActivity extends CoreServiceActivity {
 		super.onCreate(savedInstanceState);
 
 		// Show splash UI.
-		setContentView(R.layout.tutorial);
+		setContentView(R.layout.startup);
 
 		Log.e("hwang-tvremote", "StartupActivity : onCreate()");
 	}

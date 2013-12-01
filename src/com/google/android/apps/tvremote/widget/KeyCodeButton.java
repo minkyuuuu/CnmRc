@@ -118,8 +118,9 @@ public class KeyCodeButton extends ImageButton {
   protected void onDraw(Canvas canvas) {
     super.onDraw(canvas);
 
+    // hwang 2013-12-01
     // Notify highlight layer to draw highlight
-    Context context = getContext();
+    /*Context context = getContext();
     if (context instanceof MainActivity) {
       HighlightView highlightView = ((MainActivity) context).getHighlightView();
       if (this.isPressed()) {
@@ -132,6 +133,8 @@ public class KeyCodeButton extends ImageButton {
         wasPressed = false;
         highlightView.clearButtonHighlight();
       }
-    }
+    }*/
+    
+    
   }
 }

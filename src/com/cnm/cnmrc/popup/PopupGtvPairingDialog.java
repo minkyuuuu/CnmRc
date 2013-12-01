@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.Util;
 import com.google.android.apps.tvremote.DeviceFinder;
 import com.google.android.apps.tvremote.PairingActivity;
@@ -118,6 +119,11 @@ public class PopupGtvPairingDialog extends DialogFragment implements View.OnClic
 		mNo = (Button) layout.findViewById(R.id.popup_no);
 		mNo.setText(getString(R.string.popup_no));
 		mNo.setOnClickListener(this);
+		
+		// hwang 2013-12-01 adding
+		// 무조건 다시 연결시도를 하지 못하게하자!!!
+		CnmPreferences pref = CnmPreferences.getInstance();
+		pref.saveFirstConnectGtv(getActivity().getApplicationContext(), false);
 
 		return layout;
 	}
@@ -150,6 +156,7 @@ public class PopupGtvPairingDialog extends DialogFragment implements View.OnClic
 	@Override
 	public void onClick(View v) {
 		((PairingActivity)getActivity()).makeAlertDialogNull();
+		Util.hideSoftKeyboard(getActivity());
 		
 		switch (v.getId()) {
 		case R.id.popup_yes:
@@ -170,12 +177,14 @@ public class PopupGtvPairingDialog extends DialogFragment implements View.OnClic
 	
 	private void performAction() {
 		((PairingActivity)getActivity()).hideKeyboard();
+		Util.hideSoftKeyboard(getActivity());
 		getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
 		client.setSecret(mEdit.getText().toString());
 	}
 	
 	private void closeDialog() {
 		((PairingActivity) getActivity()).hideKeyboard();
+		Util.hideSoftKeyboard(getActivity());
 		getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
 		client.cancel();
 	}

@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.util.CnmPreferences;
+import com.cnm.cnmrc.util.Util;
 import com.google.android.apps.tvremote.ConnectionManager.ConnectionListener;
 import com.google.android.apps.tvremote.TrackballHandler.Direction;
 import com.google.android.apps.tvremote.TrackballHandler.Listener;
@@ -127,6 +128,9 @@ public class BaseActivity extends CoreServiceActivity implements ConnectionListe
 	protected void onResume() {
 		super.onResume();
 		Log.e("hwang-tvremote", "BaseActivity : onResume()");
+		
+		// hwang 2013-12-01
+		//Util.hideSoftKeyboard(this);
 		
 		// hwang 2013-11-28 
 		// 어플 처음 진입시 무조건 Gtv에 연결하는게 아니라 사용자 의지로 연결한다.
@@ -389,6 +393,13 @@ public class BaseActivity extends CoreServiceActivity implements ConnectionListe
 	}
 
 	public void connect() {
+		// hwang 2013-12-01
+		// wifi check
+		if (!Util.isWifiAvailable(this)) {
+			Toast.makeText(this, "WiFi not Available", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
 		if (!isConnected) {
 			isConnected = true;
 			executeWhenCoreServiceAvailable(new Runnable() {

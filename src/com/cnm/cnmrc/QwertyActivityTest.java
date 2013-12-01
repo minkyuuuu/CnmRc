@@ -108,7 +108,8 @@ public class QwertyActivityTest extends BaseActivity {
 			}
 		});
 		
-		textInputHandler.setDisplay((TextView) findViewById(R.id.text_feedback_chars));
+		// hwang 2013-12-01
+		//textInputHandler.setDisplay((TextView) findViewById(R.id.text_feedback_chars));
 
 		// Attach touch handler to the touch pad.
 		view = (View) findViewById(R.id.view);

@@ -374,7 +374,12 @@ public final class DeviceFinder extends FragmentActivity {
 	// 셋탑박스 연결을 위한 리스트
 	// -----------------------
 	private AlertDialog buildConfirmationDialog(final RemoteDevice remoteDevice) {
+		
+		// hwang 2013-12-01
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		// hwang 2013-12-01
+		// R.layout.device_info을 억지로 넣어둠...
 		View view = LayoutInflater.from(this).inflate(R.layout.device_info, null);
 		final TextView ipTextView = (TextView) view.findViewById(R.id.device_info_ip_address);
 
@@ -473,6 +478,9 @@ public final class DeviceFinder extends FragmentActivity {
 	
 	private AlertDialog buildManualIpDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		// hwang 2013-12-01
+		// R.layout.manual_ip을 억지로 넣어둠...
 		View view = LayoutInflater.from(this).inflate(R.layout.manual_ip, null);
 		final EditText ipEditText = (EditText) view.findViewById(R.id.manual_ip_entry);
 

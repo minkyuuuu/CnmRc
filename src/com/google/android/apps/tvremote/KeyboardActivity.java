@@ -52,7 +52,9 @@ public final class KeyboardActivity extends BaseActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.keyboard);
+    
+    // hwang 2013-12-01
+    /*setContentView(R.layout.keyboard);
 
     view = (ImeInterceptView) findViewById(R.id.keyboard);
     view.requestFocus();
@@ -86,7 +88,7 @@ public final class KeyboardActivity extends BaseActivity {
     });
 
     textInputHandler.setDisplay(
-        (TextView) findViewById(R.id.text_feedback_chars));
+        (TextView) findViewById(R.id.text_feedback_chars));*/
 
     // Attach touch handler to the touch pad.
     new TouchHandler(view, Mode.POINTER_MULTITOUCH, getCommands(), getDefaultDpadListener());

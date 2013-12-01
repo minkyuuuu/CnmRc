@@ -254,6 +254,9 @@ public class PairingActivity extends CoreServiceActivity {
 	// ----------------------
 	private AlertDialog createPairingDialog(final PairingClientThread client) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		// hwang 2013-12-01
+		// R.layout.pairing을 억지로 넣어둠...
 		View view = LayoutInflater.from(this).inflate(R.layout.pairing, null);
 		final EditText pinEditText = (EditText) view.findViewById(R.id.pairing_pin_entry);
 
@@ -283,6 +286,9 @@ public class PairingActivity extends CoreServiceActivity {
 	
 	public void makeAlertDialogNull() {
 		alertDialog = null;
+		
+		// hwang 2013-12-01
+		hideKeyboard();
 	}
 	
 	public String getRemoteDeviceName() {
