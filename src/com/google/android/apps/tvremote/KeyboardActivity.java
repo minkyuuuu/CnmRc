@@ -22,7 +22,7 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 
 import com.cnm.cnmrc.R;
-import com.google.android.apps.tvremote.TouchHandler.Mode;
+import com.google.android.apps.tvremote.TouchHandlerTestExtendFunction.Mode;
 import com.google.android.apps.tvremote.util.Action;
 import com.google.android.apps.tvremote.widget.ImeInterceptView;
 
@@ -91,7 +91,7 @@ public final class KeyboardActivity extends BaseActivity {
         (TextView) findViewById(R.id.text_feedback_chars));*/
 
     // Attach touch handler to the touch pad.
-    new TouchHandler(view, Mode.POINTER_MULTITOUCH, getCommands(), getDefaultDpadListener());
+    new TouchHandlerTestExtendFunction(view, Mode.POINTER_MULTITOUCH, getCommands(), getDefaultDpadListener());
   }
 
   @Override

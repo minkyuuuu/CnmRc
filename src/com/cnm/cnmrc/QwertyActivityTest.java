@@ -11,8 +11,8 @@ import android.widget.Toast;
 import com.cnm.cnmrc.custom.ExtendedEditText;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.TextInputHandler;
-import com.google.android.apps.tvremote.TouchHandlerA;
-import com.google.android.apps.tvremote.TouchHandlerA.Mode;
+import com.google.android.apps.tvremote.TouchHandler;
+import com.google.android.apps.tvremote.TouchHandler.Mode;
 import com.google.android.apps.tvremote.util.Action;
 
 public class QwertyActivityTest extends BaseActivity {
@@ -92,7 +92,7 @@ public class QwertyActivityTest extends BaseActivity {
 						finish();
 						return true;
 					case KeyEvent.KEYCODE_DEL:
-						Action.BACKSPACE.execute(getCommands());
+						Action.DEL.execute(getCommands());
 						return true;
 					}
 				}
@@ -106,6 +106,12 @@ public class QwertyActivityTest extends BaseActivity {
 				//handleChar(c);
 				return false;
 			}
+			public boolean onSymbolA(char c) {
+				QwertyActivityTest.this.onUserInteraction();
+				textInputHandler.handleChar(c);
+				//handleChar(c);
+				return false;
+			}
 		});
 		
 		// hwang 2013-12-01
@@ -113,7 +119,7 @@ public class QwertyActivityTest extends BaseActivity {
 
 		// Attach touch handler to the touch pad.
 		view = (View) findViewById(R.id.view);
-		new TouchHandlerA(view, Mode.POINTER_MULTITOUCH, getCommands());
+		new TouchHandler(view, Mode.POINTER_MULTITOUCH, getCommands());
 
 	}
 

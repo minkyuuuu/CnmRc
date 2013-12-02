@@ -17,6 +17,7 @@
 package com.google.android.apps.tvremote;
 
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -25,12 +26,14 @@ import com.google.android.apps.tvremote.backport.ScaleGestureDetector;
 import com.google.android.apps.tvremote.backport.ScaleGestureDetectorFactory;
 import com.google.android.apps.tvremote.protocol.ICommandSender;
 import com.google.android.apps.tvremote.util.Action;
+import com.google.android.apps.tvremote.widget.SoftDpad.Direction;
+import com.google.android.apps.tvremote.widget.SoftDpad.DpadListener;
 
 /**
  * The touchpad logic.
  * 
  */
-public final class TouchHandler implements View.OnTouchListener {
+public final class TouchHandlerTestExtendFunction implements View.OnTouchListener {
 	/**
 	 * Defines the kind of events this handler is supposed to generate.
 	 */
@@ -85,22 +88,27 @@ public final class TouchHandler implements View.OnTouchListener {
 		POINTER, POINTER_MULTITOUCH, SCROLL_VERTICAL, SCROLL_HORIZONTAL, ZOOM_VERTICAL
 	}
 
-	public TouchHandler(View view, Mode pointerMultitouch, ICommandSender commands) {
-		if (Mode.POINTER_MULTITOUCH.equals(pointerMultitouch)) {
+	public TouchHandlerTestExtendFunction(View view, Mode mode, ICommandSender commands, DpadListener listener) {
+		if (Mode.POINTER_MULTITOUCH.equals(mode)) {
 			this.scaleGestureDetector = ScaleGestureDetectorFactory.createScaleGestureDetector(view, new MultitouchHandler());
 			this.mode = Mode.POINTER;
 		} else {
 			this.scaleGestureDetector = null;
-			this.mode = pointerMultitouch;
+			this.mode = mode;
 		}
 
 		this.commands = commands;
 		isActive = true;
 		zoomThreshold = view.getResources().getInteger(R.integer.zoom_threshold);
 		view.setOnTouchListener(this);
+
+		initializeSoftDpad(listener); // softdpad
 	}
 
+	long softDpadstartTimeStamp;
+	long checkTimeGap = 150;
 	public boolean onTouch(View v, MotionEvent event) {
+		Log.e("hwang-tvremote", "TouchHandler MotionEvent");
 		if (!isActive) {
 			return false;
 		}
@@ -122,6 +130,11 @@ public final class TouchHandler implements View.OnTouchListener {
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
 			state = new Sequence(x, y, timestamp);
+
+			// softdpad
+			handleActionDown(x, y);
+			softDpadstartTimeStamp = timestamp;
+
 			return true;
 
 		case MotionEvent.ACTION_CANCEL:
@@ -129,11 +142,24 @@ public final class TouchHandler implements View.OnTouchListener {
 			return true;
 
 		case MotionEvent.ACTION_UP:
+//			if (isDpadFocused) {
+//				handleActionUp(x, y);
+//				//return false;
+//			}
+
 			boolean handled = state != null && state.handleUp(x, y, timestamp);
 			state = null;
+
 			return handled;
 
 		case MotionEvent.ACTION_MOVE:
+
+//			if (isDpadFocused) {
+//				handleActionMove(x, y);
+//				//return true;
+//				return state != null && state.handleMove(x, y, timestamp);
+//			}
+
 			return state != null && state.handleMove(x, y, timestamp);
 
 		default:
@@ -261,9 +287,19 @@ public final class TouchHandler implements View.OnTouchListener {
 		 * @return {@code true} if a click was issued
 		 */
 		public boolean handleUp(int x, int y, long timestamp) {
+			
+			// softdpad
+			if((timestamp - softDpadstartTimeStamp) < checkTimeGap) {
+				if (isDpadFocused) {
+					handleActionUp(x, y);
+					return true;
+				}
+			}
+			
 			if (mode != Mode.POINTER) {
 				return true;
 			}
+			
 			// If a click down is waiting, send it.
 			if (cancelDownTimer()) {
 				clickDown();
@@ -299,6 +335,10 @@ public final class TouchHandler implements View.OnTouchListener {
 			}
 
 			long timeDelta = timestamp - lastTimestamp;
+			
+			// softdpad
+			if(timeDelta < checkTimeGap) return true;
+			
 			int deltaX = x - lastX;
 			int deltaY = y - lastY;
 
@@ -481,5 +521,136 @@ public final class TouchHandler implements View.OnTouchListener {
 	 */
 	private static boolean shouldTriggerScrollEvent(float deltaScroll) {
 		return Math.abs(deltaScroll) >= SCROLL_THRESHOLD;
+	}
+
+	// --------------------
+	// SoftDpad
+	// --------------------
+	private static final double TAN_DIRECTION = Math.tan(Math.PI / 4);
+
+	private int centerX;
+	private int centerY;
+	private int originTouchX;
+	private int originTouchY;
+	private int clickRadiusSqr;
+	private boolean isDpadFocused;
+	private Direction dPadDirection;
+	private DpadListener listener;
+
+	private void initializeSoftDpad(DpadListener listener) {
+		this.listener = listener;
+		initialize();
+		center();
+	}
+
+	private void initialize() {
+		isDpadFocused = false;
+		//setScaleType(ScaleType.CENTER_INSIDE);
+		dPadDirection = Direction.IDLE;
+	}
+
+	public int getCenterX() {
+		return centerX;
+	}
+
+	public int getCenterY() {
+		return centerY;
+	}
+
+	public void setDpadListener(DpadListener listener) {
+		this.listener = listener;
+	}
+
+	private void handleActionDown(int x, int y) {
+		dPadDirection = Direction.IDLE;
+		isDpadFocused = true;
+		originTouchX = x;
+		originTouchY = y;
+	}
+
+	private void handleActionMove(int x, int y) {
+		int dx = x - originTouchX;
+		int dy = y - originTouchY;
+
+		Direction move = getDirection(dx, dy);
+		if (move.isMove && !dPadDirection.isMove) {
+			sendEvent(move, true, true);
+			dPadDirection = move;
+		}
+	}
+
+	private void handleActionUp(int x, int y) {
+		boolean playSound = true;
+		handleActionMove(x, y);
+		if (dPadDirection.isMove) {
+			sendEvent(dPadDirection, false, playSound);
+		} else {
+			onCenterAction();
+		}
+		center();
+	}
+
+	private void center() {
+		isDpadFocused = false;
+		dPadDirection = Direction.IDLE;
+	}
+
+	private Direction getDirection(int dx, int dy) {
+		//		if (isClick(dx, dy)) {
+		//			return Direction.CENTER;
+		//		}
+		if (dx == 0) {
+			if (dy > 0) {
+				return Direction.DOWN;
+			} else {
+				return Direction.UP;
+			}
+		}
+		if (dy == 0) {
+			if (dx > 0) {
+				return Direction.RIGHT;
+			} else {
+				return Direction.LEFT;
+			}
+		}
+		float ratioX = (float) (dy) / (float) (dx);
+		float ratioY = (float) (dx) / (float) (dy);
+		if (Math.abs(ratioX) < TAN_DIRECTION) {
+			if (dx > 0) {
+				return Direction.RIGHT;
+			} else {
+				return Direction.LEFT;
+			}
+		}
+		if (Math.abs(ratioY) < TAN_DIRECTION) {
+			if (dy > 0) {
+				return Direction.DOWN;
+			} else {
+				return Direction.UP;
+			}
+		}
+		return Direction.CENTER;
+	}
+
+	private void sendEvent(Direction move, boolean pressed, boolean playSound) {
+		if (listener != null) {
+			switch (move) {
+			case UP:
+			case DOWN:
+			case LEFT:
+			case RIGHT:
+				listener.onDpadMoved(move, pressed);
+			}
+		}
+	}
+
+	private void onCenterAction() {
+		if (listener != null) {
+			listener.onDpadClicked();
+		}
+	}
+
+	private boolean isClick(int dx, int dy) {
+		return (dx * dx + dy * dy) < clickRadiusSqr;
 	}
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#80000000"
+    android:orientation="vertical" >
+
+    <com.cnm.cnmrc.custom.ExtendedEditText
+        android:id="@+id/qwerty_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/px110"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
+        android:focusable="false"
+        android:hint="@string/qwerty_hint"
+        android:inputType="text"
+        android:paddingLeft="@dimen/px20"
+        android:singleLine="true"
+        android:textSize="@dimen/px40" 
+        />
+
+<!--     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#80000000" >
+        </View>
+
+        <com.google.android.apps.tvremote.widget.FadingTextView
+            android:id="@+id/text_feedback_chars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@android:color/transparent"
+            android:ellipsize="start"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:lines="1"
+            android:padding="@dimen/px20"
+            android:scrollHorizontally="false"
+            android:singleLine="true"
+            android:textSize="@dimen/px60"
+            android:textStyle="bold" />
+    </RelativeLayout> -->
+
+</LinearLayout>

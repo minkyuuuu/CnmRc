@@ -18,7 +18,7 @@ import android.widget.EditText;
  * allows key event listeners to detect that the soft keyboard was dismissed.
  */
 
-public class ExtendedEditText extends EditText {
+public class ExtendedEditTextTextWatcherTest2 extends EditText {
 	/**
 	 * Will receive intercepted key events.
 	 */
@@ -41,7 +41,6 @@ public class ExtendedEditText extends EditText {
 		 * @return {@code true} if the event was handled
 		 */
 		public boolean onSymbol(char c);
-		public boolean onSymbolA(char c);
 	}
 
 	private Interceptor interceptor;
@@ -54,17 +53,17 @@ public class ExtendedEditText extends EditText {
 	Context mContext = null;
 	Activity mActivity = null;
 
-	public ExtendedEditText(Context context) {
+	public ExtendedEditTextTextWatcherTest2(Context context) {
 		super(context);
 		initialize();
 	}
 
-	public ExtendedEditText(Context context, AttributeSet attrs) {
+	public ExtendedEditTextTextWatcherTest2(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initialize();
 	}
 
-	public ExtendedEditText(Context context, AttributeSet attrs, int defStyle) {
+	public ExtendedEditTextTextWatcherTest2(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		initialize();
 	}
@@ -125,25 +124,25 @@ public class ExtendedEditText extends EditText {
 		@Override
 		public boolean setComposingText(CharSequence text, int newCursorPosition) {
 			for (int i = 0; i < text.length(); ++i) {
-				interceptor.onSymbolA(text.charAt(i));
+				interceptor.onSymbol(text.charAt(i));
 			}
 			return super.setComposingText(text, newCursorPosition);
 		}
 
 		// if below 2 override method is not commented, Not show text in EditText
-		@Override
-		public boolean sendKeyEvent(KeyEvent event) {
-			interceptor.onKeyEvent(event);
-			return true;
-		}
-
-		@Override
-		public boolean commitText(CharSequence text, int newCursorPosition) {
-			for (int i = 0; i < text.length(); ++i) {
-				interceptor.onSymbol(text.charAt(i));
-			}
-			return true;
-		}
+//		@Override
+//		public boolean sendKeyEvent(KeyEvent event) {
+//			interceptor.onKeyEvent(event);
+//			return true;
+//		}
+//
+//		@Override
+//		public boolean commitText(CharSequence text, int newCursorPosition) {
+//			for (int i = 0; i < text.length(); ++i) {
+//				interceptor.onSymbol(text.charAt(i));
+//			}
+//			return true;
+//		}
 	}
 
 	@Override

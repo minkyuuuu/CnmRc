@@ -125,9 +125,9 @@ public class RcTopMenu extends Fragment implements View.OnClickListener {
 			
 			// 2013-11-13 test hangul
 			// 연속으로 action을 보내도 보낸 순서로 잘 처리된다. 따로 handler를 사용할 필요가 없다.
-			/*Action.CHAR_Q.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
-			Action.CHAR_H.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
-*/			
+//			Action.CHAR_Q.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
+//			Action.CHAR_H.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
+			
 			
 			break;
 		case R.id.vod:

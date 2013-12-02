@@ -56,7 +56,7 @@
         <activity
             android:name=".QwertyActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
+            android:windowSoftInputMode="stateAlwaysVisible"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="sensor" />
         <activity

@@ -25,6 +25,10 @@ import com.google.anymote.Key.Code;
  * 
  */
 public enum Action {
+	
+	// -----------------------------
+	// hangul
+	// -----------------------------
 	SHIFT_LEFT {		// shift
 		@Override
 		public void execute(ICommandSender sender) {
@@ -39,33 +43,33 @@ public enum Action {
 		}
 	},
 	
-	SWITCH_CHARSET_ENG {	// 한영변환
+	SWITCH_CHARSET_ENG {	// 영변환
 		@Override
 		public void execute(ICommandSender sender) {
 			sender.keyPress(Code.KEYCODE_SWITCH_CHARSET_ENG);
 		}
 	},
 	
-	SWITCH_CHARSET_KOR {	// 한영변환
+	SWITCH_CHARSET_KOR {	// 한변환
 		@Override
 		public void execute(ICommandSender sender) {
 			sender.keyPress(Code.KEYCODE_SWITCH_CHARSET_KOR);
 		}
 	},
 	
-	CHAR_Q {		// 기획의도는 셋탑전원인데 ...
+	CHAR_Q {		// 45 (keycode or scancode)
 		@Override
 		public void execute(ICommandSender sender) {
 			sender.keyPress(Code.KEYCODE_Q);
 		}
 	},
-	CHAR_H {		// 기획의도는 셋탑전원인데 ...
+	CHAR_H {		// 
 		@Override
 		public void execute(ICommandSender sender) {
 			sender.keyPress(Code.KEYCODE_H);
 		}
 	},
-	CHAR_F {		// 기획의도는 셋탑전원인데 ...
+	CHAR_F {		// 
 		@Override
 		public void execute(ICommandSender sender) {
 			sender.keyPress(Code.KEYCODE_F);
@@ -88,13 +92,6 @@ public enum Action {
 			sender.keyPress(Code.KEYCODE_HOME);
 		}
 	},
-	//	MOVE_HOME {
-	//		@Override
-	//		public void execute(ICommandSender sender) {
-	//			sender.keyPress(Code.KEYCODE_MOVE_HOME);
-	//		}
-	//	},
-	
 	
 	// -------------------------------
 	// MainActivity > channel&volume
@@ -130,9 +127,6 @@ public enum Action {
 			sender.keyPress(Code.KEYCODE_CHANNEL_DOWN);
 		}
 	},
-	
-	
-	
 	
 	// -------------------------------
 	// MainActivity > 사방향
@@ -216,10 +210,6 @@ public enum Action {
 		}
 	},
 
-
-	
-	
-	
 	// -----------------------------------------------------------------------------
 	// MainActivity > Trick Play Button
 	// VCR-like functions such as pause, rewind, fast forward, replay and skip, 
@@ -255,9 +245,6 @@ public enum Action {
 			sender.keyPress(Code.KEYCODE_PAUSE);
 		}
 	},
-	
-	
-	
 	
 	// --------------------------------
 	// MainActivity > 숫자키, 지우기, 확인
@@ -322,7 +309,7 @@ public enum Action {
 			sender.keyPress(Code.KEYCODE_9);
 		}
 	},
-	BACKSPACE {
+	DEL {
 		@Override
 		public void execute(ICommandSender sender) {
 			sender.keyPress(Code.KEYCODE_DEL);
@@ -335,8 +322,6 @@ public enum Action {
 		}
 	},
 	
-	
-
 	// -----------------------------------------------
 	// MainActivity > 뒤로가기, 나가기 : 둘다 취소의 의미이다.
 	// -----------------------------------------------
@@ -380,10 +365,6 @@ public enum Action {
 			sender.keyPress(Code.KEYCODE_PROG_BLUE);
 		}
 	},
-	
-	
-	
-
 	
 	// ----------------------------------------
 	// 현 프로그램에서는 적용하지 않는 키들 (테스트해보자)
@@ -493,27 +474,6 @@ public enum Action {
 		}
 	},
 
-	
-
-	
-//	FORWARD_DEL {
-//		@Override
-//		public void execute(ICommandSender sender) {
-//			sender.keyPress(Code.KEYCODE_FORWARD_DEL);
-//		}
-//	},
-//	MEDIA_CLOSE {
-//		@Override
-//		public void execute(ICommandSender sender) {
-//			sender.keyPress(Code.KEYCODE_MEDIA_CLOSE);
-//		}
-//	},
-	
-	
-	
-	
-	
-	
 	// ---------------
 	// test 3 part
 	// ---------------

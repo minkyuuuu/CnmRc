@@ -34,8 +34,7 @@ public class RcNumericPad extends Fragment implements View.OnClickListener {
 
 	View layout;
 
-	ImageButton m1, m2, m3, m4, m5, m6, m7, m8, m9, m0, mBack, mOk; // numeric
-																	// menu
+	ImageButton m1, m2, m3, m4, m5, m6, m7, m8, m9, m0, mDel, mEnter; // numeric menu
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,8 +53,8 @@ public class RcNumericPad extends Fragment implements View.OnClickListener {
 		m9 = (ImageButton) layout.findViewById(R.id.numeric_n9);
 		m0 = (ImageButton) layout.findViewById(R.id.numeric_n0);
 
-		mBack = (ImageButton) layout.findViewById(R.id.numeric_nback); // 지우기
-		mOk = (ImageButton) layout.findViewById(R.id.numeric_nok); // 확인
+		mDel = (ImageButton) layout.findViewById(R.id.numeric_del); 	// 지우기
+		mEnter = (ImageButton) layout.findViewById(R.id.numeric_enter); // 확인
 
 		m1.setOnClickListener(this);
 		m2.setOnClickListener(this);
@@ -68,8 +67,8 @@ public class RcNumericPad extends Fragment implements View.OnClickListener {
 		m9.setOnClickListener(this);
 		m0.setOnClickListener(this);
 
-		mBack.setOnClickListener(this);
-		mOk.setOnClickListener(this);
+		mDel.setOnClickListener(this);
+		mEnter.setOnClickListener(this);
 
 		return layout;
 	}
@@ -89,7 +88,7 @@ public class RcNumericPad extends Fragment implements View.OnClickListener {
 	@Override
 	public void onClick(View v) {
 
-/*		switch (v.getId()) {
+		switch (v.getId()) {
 		case R.id.numeric_n1:
 			Action.NUM1.execute(((BaseActivity)getActivity()).getCommands());
 			break;
@@ -121,17 +120,15 @@ public class RcNumericPad extends Fragment implements View.OnClickListener {
 			Action.NUM0.execute(((BaseActivity)getActivity()).getCommands());
 			break;
 			
-		case R.id.numeric_nback:
-			Action.BACKSPACE.execute(((BaseActivity)getActivity()).getCommands());
+		case R.id.numeric_del:
+			Action.DEL.execute(((BaseActivity)getActivity()).getCommands());
 			break;
-		case R.id.numeric_nok:
+		case R.id.numeric_enter:
 			Action.ENTER.execute(((BaseActivity)getActivity()).getCommands());
 			break;
-		}*/
+		}
 		
-		
-		
-		// 테스트용... part 0
+		/*// 테스트용... part 0
 		switch (v.getId()) {
 		case R.id.numeric_n1:	// DVR, 실시간TV와 같음
 			Action.GO_TO_DVR.execute(((BaseActivity)getActivity()).getCommands());
@@ -176,7 +173,7 @@ public class RcNumericPad extends Fragment implements View.OnClickListener {
 		case R.id.numeric_nok:
 			Action.ENTER.execute(((BaseActivity)getActivity()).getCommands());
 			break;
-		}
+		}*/
 		
 		
 		// 테스트용... part 1

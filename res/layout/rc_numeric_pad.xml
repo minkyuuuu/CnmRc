@@ -148,7 +148,7 @@
                 android:orientation="horizontal" >
 
                 <ImageButton
-                    android:id="@+id/numeric_nback"
+                    android:id="@+id/numeric_del"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="166"
@@ -204,7 +204,7 @@
                     android:layout_weight="17" />
 
                 <ImageButton
-                    android:id="@+id/numeric_nok"
+                    android:id="@+id/numeric_enter"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="165"

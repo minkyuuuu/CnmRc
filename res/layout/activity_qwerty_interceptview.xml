@@ -1,27 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#80000000"
-    android:orientation="vertical" >
+    android:id="@+id/keyboard_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-    <com.cnm.cnmrc.custom.ExtendedEditText
-        android:id="@+id/qwerty_edit"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/px2"
-        android:background="@android:color/transparent"
-        android:layout_marginTop="@dimen/px110"
-        android:clickable="false"
-        android:focusableInTouchMode="false"
-        android:focusable="false"
-        android:hint=""
-        android:cursorVisible="false"
-        android:inputType="text"
-        android:paddingLeft="@dimen/px20"
-        android:singleLine="true"
-        android:textSize="@dimen/px40" 
-        />
+    <com.google.android.apps.tvremote.widget.ImeInterceptView
+        android:id="@+id/keyboard"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#c0000000"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
 
     <!-- <ImageView
         android:id="@+id/touch_pad_arrow"

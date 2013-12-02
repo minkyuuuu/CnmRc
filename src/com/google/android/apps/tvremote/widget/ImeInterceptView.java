@@ -18,7 +18,6 @@ package com.google.android.apps.tvremote.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.BaseInputConnection;
@@ -55,6 +54,8 @@ public final class ImeInterceptView extends ImageView {
 		 * @return {@code true} if the event was handled
 		 */
 		public boolean onSymbol(char c);
+		
+		public boolean onSymbolA(char c);
 	}
 
 	private Interceptor interceptor;
@@ -94,7 +95,8 @@ public final class ImeInterceptView extends ImageView {
 	@Override
 	public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
 		outAttrs.imeOptions = EditorInfo.IME_ACTION_DONE;
-		return new InterceptConnection(this, true);
+		return new InterceptConnection(this, false);
+		//return new InterceptConnection(super.onCreateInputConnection(outAttrs), true);
 	}
 
 	/**
@@ -104,6 +106,11 @@ public final class ImeInterceptView extends ImageView {
 		public InterceptConnection(View targetView, boolean fullEditor) {
 			super(targetView, fullEditor);
 		}
+		
+		// InputConnectionWrapper
+//		public InterceptConnection(InputConnection target, boolean mutable) {
+//			super(target, mutable);
+//		}
 
 		@Override
 		public boolean performEditorAction(int actionCode) {
@@ -114,9 +121,11 @@ public final class ImeInterceptView extends ImageView {
 		@Override
 		public boolean setComposingText(CharSequence text, int newCursorPosition) {
 			for (int i = 0; i < text.length(); ++i) {
-				interceptor.onSymbol(text.charAt(i));
+				interceptor.onSymbolA(text.charAt(i));
+				
 			}
 			return super.setComposingText(text, newCursorPosition);
+			//return super.finishComposingText();
 		}
 
 		@Override
@@ -132,6 +141,8 @@ public final class ImeInterceptView extends ImageView {
 			}
 			return true;
 		}
+		
+		
 	}
 
 	@Override
