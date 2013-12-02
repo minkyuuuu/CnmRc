@@ -88,19 +88,25 @@ public final class TextInputHandler {
 				languageBefore = Boolean.TRUE;
 				start = Boolean.FALSE;
 				
-				// (Test SWITCH_CHARSET)
+				// 1-1 (Test SWITCH_CHARSET)
 				if(!statusStb) {	// 앱의 입력 언어 모드가 영문일때. (세탑기준으로 영문일때 최초 statusStb = true) (셋탑기준으로 한글일때는 최초 statusStb = false만 바꾸어주면 된다.)
 					Action.SWITCH_CHARSET.execute(commands);		// 세탑이 기본 한글 입력모드이고, 폰에서 영어 진입시 영어변환해주어야한다. 최초에만 맞추어주면된다.
 					statusStb = Boolean.TRUE;
 				}
 				
-				// Real (SWITCH_CHARSET_ENG, SWITCH_CHARSET_KOR)
+				// 1-2 Real (SWITCH_CHARSET_ENG, SWITCH_CHARSET_KOR)
 				//Action.SWITCH_CHARSET_ENG.execute(commands);	// 이 경우는 무조건 현재 폰의 상태를 세탑에 보내준다.
 			}
 			else {
 				if(languageBefore.compareTo(language) != 0) {
 					languageBefore = Boolean.TRUE;
+					
+					// 2-1 (Test SWITCH_CHARSET)
 					Action.SWITCH_CHARSET.execute(commands);
+					
+					// 2-2 Real (SWITCH_CHARSET_ENG, SWITCH_CHARSET_KOR)
+					//Action.SWITCH_CHARSET_ENG.execute(commands);	// 이 경우는 무조건 현재 폰의 상태를 세탑에 보내준다.
+					
 					statusStb = Boolean.TRUE;
 				} 
 			}
@@ -121,19 +127,25 @@ public final class TextInputHandler {
 				languageBefore = Boolean.FALSE;
 				startA = Boolean.FALSE;
 				
-				// (Test SWITCH_CHARSET)
+				// 1-1 (Test SWITCH_CHARSET)
 				if(statusStb) {	// 앱의 입력 언어 모드가 한글일때. (세탑기준으로 영문일때 최초 statusStb = true) (셋탑기준으로 한글일때는 최초 statusStb = false만 바꾸어주면 된다.)
 					Action.SWITCH_CHARSET.execute(commands);		// 세탑이 기본 영어 입력모드이고, 폰에서 한글 진입시 한글변환해주어야한다. 최초에만 맞추어주면된다.
 					statusStb = Boolean.FALSE;
 				}
 				
-				// Real (SWITCH_CHARSET_ENG, SWITCH_CHARSET_KOR)
+				// 1-2 Real (SWITCH_CHARSET_ENG, SWITCH_CHARSET_KOR)
 				//Action.SWITCH_CHARSET_KOR.execute(commands);	// 이 경우는 무조건 현재 폰의 상태를 세탑에 보내준다.
 			}
 			else {
 				if(languageBefore.compareTo(language) != 0) {
 					languageBefore = Boolean.FALSE;
+					
+					// 2-1 (Test SWITCH_CHARSET)
 					Action.SWITCH_CHARSET.execute(commands);
+					
+					// 2-2 Real (SWITCH_CHARSET_ENG, SWITCH_CHARSET_KOR)
+					//Action.SWITCH_CHARSET_KOR.execute(commands);	// 이 경우는 무조건 현재 폰의 상태를 세탑에 보내준다.
+					
 					statusStb = Boolean.FALSE;
 				} 
 			}
