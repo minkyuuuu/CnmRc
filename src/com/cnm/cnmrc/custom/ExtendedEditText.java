@@ -104,7 +104,7 @@ public class ExtendedEditText extends EditText {
 
 		// 아래의 BaseInputConnection 확장은 한글이 조합되어 보이지 않아 의미가 없다.
 		// 따라서 setOnEditorActionListener은 따로 처리해 주어야한다.
-		return new InterceptConnection(this, true);		// Not show text in EditText
+		return new InterceptConnection(this, true);			// Not show text in EditText, 자판를 기준으로 처리해야 해서 EditText(한글 조합)은 포기해야 한다. 현제 수준?
 		//return new InterceptConnection(this, false);		// Show text in EditText, 그러나 한글 조합이 이상하다.
 	}
 

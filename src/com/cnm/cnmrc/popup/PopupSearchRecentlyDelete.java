@@ -1,11 +1,13 @@
 package com.cnm.cnmrc.popup;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
 
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.provider.CnmRcContract.SearchWord;
 
 public class PopupSearchRecentlyDelete extends PopupBase {
 
@@ -35,6 +37,8 @@ public class PopupSearchRecentlyDelete extends PopupBase {
 		case R.id.popup_yes:
 			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
 			Log.i("hwang", "(search)yes button pressed");
+			
+			getActivity().getContentResolver().delete(SearchWord.CONTENT_URI, null, null);
 			break;
 		case R.id.popup_no:
 			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();

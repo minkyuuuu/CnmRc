@@ -43,17 +43,17 @@ public enum Action {
 		}
 	},
 	
-	SWITCH_CHARSET_ENG {	// 영변환
-		@Override
-		public void execute(ICommandSender sender) {
-			sender.keyPress(Code.KEYCODE_SWITCH_CHARSET_ENG);
-		}
-	},
-	
 	SWITCH_CHARSET_KOR {	// 한변환
 		@Override
 		public void execute(ICommandSender sender) {
-			sender.keyPress(Code.KEYCODE_SWITCH_CHARSET_KOR);
+			sender.keyPress(Code.KEYCODE_PROG_RED);
+		}
+	},
+	
+	SWITCH_CHARSET_ENG {	// 영변환
+		@Override
+		public void execute(ICommandSender sender) {
+			sender.keyPress(Code.KEYCODE_PROG_BLUE);
 		}
 	},
 	

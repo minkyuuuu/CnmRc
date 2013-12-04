@@ -89,23 +89,23 @@ public final class TextInputHandler {
 				start = Boolean.FALSE;
 				
 				// 1-1 (Test SWITCH_CHARSET)
-				if(!statusStb) {	// 앱의 입력 언어 모드가 영문일때. (세탑기준으로 영문일때 최초 statusStb = true) (셋탑기준으로 한글일때는 최초 statusStb = false만 바꾸어주면 된다.)
-					Action.SWITCH_CHARSET.execute(commands);		// 세탑이 기본 한글 입력모드이고, 폰에서 영어 진입시 영어변환해주어야한다. 최초에만 맞추어주면된다.
-					statusStb = Boolean.TRUE;
-				}
+//				if(!statusStb) {	// 앱의 입력 언어 모드가 영문일때. (세탑기준으로 영문일때 최초 statusStb = true) (셋탑기준으로 한글일때는 최초 statusStb = false만 바꾸어주면 된다.)
+//					Action.SWITCH_CHARSET.execute(commands);		// 세탑이 기본 한글 입력모드이고, 폰에서 영어 진입시 영어변환해주어야한다. 최초에만 맞추어주면된다.
+//					statusStb = Boolean.TRUE;
+//				}
 				
 				// 1-2 Real (SWITCH_CHARSET_ENG, SWITCH_CHARSET_KOR)
-				//Action.SWITCH_CHARSET_ENG.execute(commands);	// 이 경우는 무조건 현재 폰의 상태를 세탑에 보내준다.
+				Action.SWITCH_CHARSET_ENG.execute(commands);	// 이 경우는 무조건 현재 폰의 상태를 세탑에 보내준다.
 			}
 			else {
 				if(languageBefore.compareTo(language) != 0) {
 					languageBefore = Boolean.TRUE;
 					
 					// 2-1 (Test SWITCH_CHARSET)
-					Action.SWITCH_CHARSET.execute(commands);
+//					Action.SWITCH_CHARSET.execute(commands);
 					
 					// 2-2 Real (SWITCH_CHARSET_ENG, SWITCH_CHARSET_KOR)
-					//Action.SWITCH_CHARSET_ENG.execute(commands);	// 이 경우는 무조건 현재 폰의 상태를 세탑에 보내준다.
+					Action.SWITCH_CHARSET_ENG.execute(commands);	// 이 경우는 무조건 현재 폰의 상태를 세탑에 보내준다.
 					
 					statusStb = Boolean.TRUE;
 				} 
@@ -128,23 +128,23 @@ public final class TextInputHandler {
 				startA = Boolean.FALSE;
 				
 				// 1-1 (Test SWITCH_CHARSET)
-				if(statusStb) {	// 앱의 입력 언어 모드가 한글일때. (세탑기준으로 영문일때 최초 statusStb = true) (셋탑기준으로 한글일때는 최초 statusStb = false만 바꾸어주면 된다.)
-					Action.SWITCH_CHARSET.execute(commands);		// 세탑이 기본 영어 입력모드이고, 폰에서 한글 진입시 한글변환해주어야한다. 최초에만 맞추어주면된다.
-					statusStb = Boolean.FALSE;
-				}
+//				if(statusStb) {	// 앱의 입력 언어 모드가 한글일때. (세탑기준으로 영문일때 최초 statusStb = true) (셋탑기준으로 한글일때는 최초 statusStb = false만 바꾸어주면 된다.)
+//					Action.SWITCH_CHARSET.execute(commands);		// 세탑이 기본 영어 입력모드이고, 폰에서 한글 진입시 한글변환해주어야한다. 최초에만 맞추어주면된다.
+//					statusStb = Boolean.FALSE;
+//				}
 				
 				// 1-2 Real (SWITCH_CHARSET_ENG, SWITCH_CHARSET_KOR)
-				//Action.SWITCH_CHARSET_KOR.execute(commands);	// 이 경우는 무조건 현재 폰의 상태를 세탑에 보내준다.
+				Action.SWITCH_CHARSET_KOR.execute(commands);	// 이 경우는 무조건 현재 폰의 상태를 세탑에 보내준다.
 			}
 			else {
 				if(languageBefore.compareTo(language) != 0) {
 					languageBefore = Boolean.FALSE;
 					
 					// 2-1 (Test SWITCH_CHARSET)
-					Action.SWITCH_CHARSET.execute(commands);
+//					Action.SWITCH_CHARSET.execute(commands);
 					
 					// 2-2 Real (SWITCH_CHARSET_ENG, SWITCH_CHARSET_KOR)
-					//Action.SWITCH_CHARSET_KOR.execute(commands);	// 이 경우는 무조건 현재 폰의 상태를 세탑에 보내준다.
+					Action.SWITCH_CHARSET_KOR.execute(commands);	// 이 경우는 무조건 현재 폰의 상태를 세탑에 보내준다.
 					
 					statusStb = Boolean.FALSE;
 				} 
@@ -155,7 +155,6 @@ public final class TextInputHandler {
 			
 			// 한글 문자 보내기
 			sendHangul(str);	// 한글을 해당하는 영문자판의 문자로보낸다.
-			//sendHangul2();	// 한글을 해당하는 키코드로 보낸다.
 			//commands.string(str);
 			
 			return true;
@@ -166,7 +165,7 @@ public final class TextInputHandler {
 	private void sendHangul(String str) {
 		//if(str.equals("ㅂ")) commands.string("q");
 		if(str.equals("ㅂ")) {
-			Action.CHAR_Q.execute(commands);	// same above~~
+			Action.CHAR_Q.execute(commands);	// same above~~, 키코드와 문자가 같은 의미이다.
 			return;
 		}
 		

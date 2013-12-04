@@ -107,23 +107,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 	boolean doubleBackKeyPressedToExitApp;
 
-	boolean isMirroringTV = true; // for test, which MirroringTV or MirroringVOD
-	boolean isChaeWon1 = true; // for test, which MirroringTV or MirroringVOD
-	public boolean noVodTvchDestroy = false; // vod_tvch화면에서 mirroingTV을 진입할 때 VodTvch의 onDestroyView()에서 destory를 막기위해...
+	boolean isMirroringTV = true; 				// for test, which MirroringTV or MirroringVOD
+	boolean isChaeWon1 = true; 					// for test, which MirroringTV or MirroringVOD
+	public boolean noVodTvchDestroy = false; 	// vod_tvch화면에서 mirroingTV을 진입할 때 VodTvch의 onDestroyView()에서 destory를 막기위해...
 
-	FrameLayout mRcPanel; // rc_panel(채널/볼륨, 사방향) 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
-	FrameLayout mRcNumericPad; // rc_numeric_pad 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
+	FrameLayout mRcPanel; 		// rc_panel(채널/볼륨, 사방향) 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
+	FrameLayout mRcNumericPad; 	// rc_numeric_pad 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
 
 	ImageButton mMirroring, mFourWay, mQwerty, mChannelVolume, mConfig; // circle menu (미러TV, 사방향키, 쿼티, 채널/볼륨, 설정)
 
-	ImageButton mRcIcon; // remocon icon
-	LinearLayout mCircleMenu; // circle menu를 담고있는 레이아웃
-	FrameLayout mCircleMenuBg; // circle menu가 보일때 바탕에 깔리는 반투명배경의 레이아웃
+	ImageButton mRcIcon; 		// remocon icon
+	LinearLayout mCircleMenu; 	// circle menu를 담고있는 레이아웃
+	FrameLayout mCircleMenuBg; 	// circle menu가 보일때 바탕에 깔리는 반투명배경의 레이아웃
 	boolean toggleCircleMenu = true; // circle menu가 보이는지 or 안보이는지?
 
-	FrameLayout mVodTvchPanel; // top menu의 vod, tvch 아이콘의 메인화면의 레이아웃
-	FrameLayout mSearchPanel; // top menu의 search 아이콘의 메인화면의 레이아웃
-	FrameLayout mConfigPanel; // circle menu의 config 아이콘의 메인화면의 레이아웃
+	FrameLayout mVodTvchPanel; 	// top menu의 vod, tvch 아이콘의 메인화면의 레이아웃
+	FrameLayout mSearchPanel; 	// top menu의 search 아이콘의 메인화면의 레이아웃
+	FrameLayout mConfigPanel; 	// circle menu의 config 아이콘의 메인화면의 레이아웃
 
 	public Animation aniRcPanelFadeout;
 	public Animation aniRcTopMenuFadein;
@@ -327,7 +327,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		progressBar.setIndeterminate(true);
 		myProgressDialog.addContentView(progressBar, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 		ColorDrawable colorDrawable = new ColorDrawable();
-		//colorDrawable.setColor(0xFFFF0000); // not 진저브레
+		//colorDrawable.setColor(0xFFFF0000); // not 진저브레드
 		//myProgressDialog.getWindow().setBackgroundDrawable(colorDrawable);
 	}
 

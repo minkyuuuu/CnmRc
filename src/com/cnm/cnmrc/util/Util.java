@@ -246,6 +246,9 @@ public class Util {
 	public static void hideSoftKeyboard(Activity activity) {
 		InputMethodManager mgr = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
 		mgr.hideSoftInputFromWindow(activity.getWindow().getDecorView().getWindowToken(), 0);
+		
+		//InputMethodManager manager = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+		//manager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 	}
 
 	// ---------------------------------------------------------

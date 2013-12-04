@@ -70,6 +70,8 @@
     <string name="search_hint">검색어를 입력해 주세요.</string>
     <string name="search_vod">VOD</string>
     <string name="search_tvch">프로그램</string>
+    <string name="search_initial_1">컨텐츠명 또는 연관단어를</string>
+    <string name="search_initial_2">입력해 주세요.</string>
 
     <!-- config -->
     <string name="config_title">설정</string>

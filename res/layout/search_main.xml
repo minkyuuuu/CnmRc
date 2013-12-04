@@ -27,10 +27,9 @@
                 android:id="@+id/search_edit"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/px92"
+                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="@dimen/px4"
-                android:layout_weight="1"
-                android:focusable="true"
                 android:hint="@string/search_hint"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
@@ -102,159 +101,196 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <!-- (1) 검색어입력, 3개 탭, 최근검색 -->
-    <!-- (1) 상세보기 영역 -->
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" >
 
         <!-- (1) 검색어입력, 3개 탭, 최근검색 -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <RadioGroup
-                android:id="@+id/search_radio_group"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/px98"
-                android:checkedButton="@+id/search_vod"
-                android:orientation="horizontal" >
-
-                <RadioButton
-                    android:id="@+id/search_vod"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/xml_search_menu_base"
-                    android:button="@null"
-                    android:checked="true"
-                    android:gravity="center"
-                    android:text="@string/search_vod"
-                    android:textColor="@drawable/xml_search_menu_textcolor"
-                    android:textSize="@dimen/sp32" />
-
-                <View
-                    android:layout_width="@dimen/px2"
-                    android:layout_height="@dimen/px98"
-                    android:background="@drawable/search_menu_delimiter" />
-
-                <RadioButton
-                    android:id="@+id/search_tvch"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/xml_search_menu_base"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="@string/search_tvch"
-                    android:textColor="@drawable/xml_search_menu_textcolor"
-                    android:textSize="@dimen/sp32" />
-
-                <View
-                    android:layout_width="@dimen/px2"
-                    android:layout_height="@dimen/px98"
-                    android:background="@drawable/search_menu_delimiter" />
-
-                <RadioButton
-                    android:id="@+id/search_naver"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/xml_search_menu_base_naver"
-                    android:button="@null"
-                    android:gravity="center_vertical" />
-            </RadioGroup>
-
-            <!-- (1-1) 최근검색어 -->
-            <!-- (1-1) 검색결과 리스트 -->
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" >
-
-                <!-- (1-1) 최근검색어 -->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        android:id="@+id/search_recently_word"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/px68"
-                        android:layout_gravity="left"
-                        android:background="#ffbababa"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/px20"
-                        android:singleLine="true"
-                        android:text="@string/search_subtitle"
-                        android:textColor="#ff333333"
-                        android:textSize="@dimen/sp30"
-                        android:textStyle="bold" />
-
-                    <ListView
-                        android:id="@+id/search_recently_listview"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:listSelector="@drawable/xml_vod_list_bg" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/px8" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/px82"
-                        android:orientation="horizontal" >
-
-                        <View
-                            android:layout_width="@dimen/px8"
-                            android:layout_height="match_parent" />
-
-                        <Button
-                            android:id="@+id/search_recently_delete"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/px82"
-                            android:layout_weight="1"
-                            android:background="@drawable/xml_search_recently_delete"
-                            android:text="@string/search_recently_delete"
-                            android:textColor="@drawable/xml_search_recently_delete_textcolor"
-                            android:textSize="@dimen/sp30" />
-
-                        <View
-                            android:layout_width="@dimen/px8"
-                            android:layout_height="match_parent" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/px8" />
-                </LinearLayout>
-                <!-- (1-1) 검색결과 리스트 -->
-
-                <FrameLayout
-                    android:id="@+id/search_result_panel"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:focusable="false" >
-                </FrameLayout>
-            </FrameLayout>
-        </LinearLayout>
-
         <!-- (1) 상세보기 영역 -->
 
         <FrameLayout
-            android:id="@+id/detail_panel"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
+
+            <!-- (1) 검색어입력, 3개 탭, 최근검색 -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <RadioGroup
+                    android:id="@+id/search_radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/px98"
+                    android:checkedButton="@+id/search_vod"
+                    android:orientation="horizontal" >
+
+                    <RadioButton
+                        android:id="@+id/search_vod"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/xml_search_menu_base"
+                        android:button="@null"
+                        android:checked="true"
+                        android:gravity="center"
+                        android:text="@string/search_vod"
+                        android:textColor="@drawable/xml_search_menu_textcolor"
+                        android:textSize="@dimen/sp32" />
+
+                    <View
+                        android:layout_width="@dimen/px2"
+                        android:layout_height="@dimen/px98"
+                        android:background="@drawable/search_menu_delimiter" />
+
+                    <RadioButton
+                        android:id="@+id/search_tvch"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/xml_search_menu_base"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="@string/search_tvch"
+                        android:textColor="@drawable/xml_search_menu_textcolor"
+                        android:textSize="@dimen/sp32" />
+
+                    <View
+                        android:layout_width="@dimen/px2"
+                        android:layout_height="@dimen/px98"
+                        android:background="@drawable/search_menu_delimiter" />
+
+                    <RadioButton
+                        android:id="@+id/search_naver"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/xml_search_menu_base_naver"
+                        android:button="@null"
+                        android:gravity="center_vertical" />
+                </RadioGroup>
+
+                <!-- (1-1) 최근검색어 -->
+                <!-- (1-1) 검색결과 리스트 -->
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" >
+
+                    <!-- (1-1) 최근검색어 -->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/search_recently_word"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/px68"
+                            android:layout_gravity="left"
+                            android:background="#ffbababa"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="@dimen/px20"
+                            android:singleLine="true"
+                            android:text="@string/search_subtitle"
+                            android:textColor="#ff333333"
+                            android:textSize="@dimen/sp30"
+                            android:textStyle="bold" />
+
+                        <ListView
+                            android:id="@+id/search_recently_listview"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:listSelector="@drawable/xml_vod_list_bg" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/px8" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/px82"
+                            android:orientation="horizontal" >
+
+                            <View
+                                android:layout_width="@dimen/px8"
+                                android:layout_height="match_parent" />
+
+                            <Button
+                                android:id="@+id/search_recently_delete"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/px82"
+                                android:layout_weight="1"
+                                android:background="@drawable/xml_search_recently_delete"
+                                android:text="@string/search_recently_delete"
+                                android:textColor="@drawable/xml_search_recently_delete_textcolor"
+                                android:textSize="@dimen/sp30" />
+
+                            <View
+                                android:layout_width="@dimen/px8"
+                                android:layout_height="match_parent" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/px8" />
+                    </LinearLayout>
+                    <!-- (1-1) 검색결과 리스트 -->
+
+                    <FrameLayout
+                        android:id="@+id/search_result_panel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:focusable="false" >
+                    </FrameLayout>
+                </FrameLayout>
+            </LinearLayout>
+
+            <!-- (1) 상세보기 영역 -->
+
+            <FrameLayout
+                android:id="@+id/detail_panel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+            </FrameLayout>
         </FrameLayout>
+
+        <!-- 검색어가 하나도 없을 때 -->
+
+        <RelativeLayout
+            android:id="@+id/no_search_word"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/xml_repeat_default_bg" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/search_initial_1"
+                    android:textColor="#ff000000"
+                    android:textSize="@dimen/sp35" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/search_initial_2"
+                    android:textColor="#ff000000"
+                    android:textSize="@dimen/sp35" />
+            </LinearLayout>
+        </RelativeLayout>
     </FrameLayout>
 
     <!-- 하단메뉴공간을 보상하는 영역 -->

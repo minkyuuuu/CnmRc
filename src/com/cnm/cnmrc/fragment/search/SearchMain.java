@@ -3,7 +3,13 @@ package com.cnm.cnmrc.fragment.search;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.ContentObserver;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
@@ -33,6 +39,7 @@ import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.adapter.SearchRecentlyAdapter;
 import com.cnm.cnmrc.popup.PopupSearchRecentlyDelete;
+import com.cnm.cnmrc.provider.CnmRcContract.SearchWord;
 import com.cnm.cnmrc.util.Util;
 
 public class SearchMain extends Fragment implements View.OnClickListener {
@@ -58,10 +65,13 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 
 	ListView mListView;
 	String[] mArray = null;
-	ArrayList<String> arrayList = null;
+	ArrayList<String> mArrayList = null;
+	SearchRecentlyAdapter mAdapter = null;
 
-	FrameLayout mResultPanelFrameLayout;
-	FrameLayout mDetilPanelFrameLayout;
+	FrameLayout mResultPanel;
+	FrameLayout mDetilPanel;
+	RelativeLayout mNoSearchWordPanel;
+	boolean noSearchword = false;
 
 	Button mSearchRecentlyDelete;
 	Button mEditSearchIcon;
@@ -81,11 +91,14 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		mTopSearchIcon = (ImageButton) layout.findViewById(R.id.top_search_icon);
 		mTopSearchIcon.setOnClickListener(this);
 
-		mResultPanelFrameLayout = (FrameLayout) layout.findViewById(R.id.search_result_panel);
-		mResultPanelFrameLayout.setVisibility(View.INVISIBLE);
+		mResultPanel = (FrameLayout) layout.findViewById(R.id.search_result_panel);
+		mResultPanel.setVisibility(View.INVISIBLE);
 
-		mDetilPanelFrameLayout = (FrameLayout) layout.findViewById(R.id.detail_panel);
-		mDetilPanelFrameLayout.setVisibility(View.INVISIBLE);
+		mDetilPanel = (FrameLayout) layout.findViewById(R.id.detail_panel);
+		mDetilPanel.setVisibility(View.INVISIBLE);
+
+		mNoSearchWordPanel = (RelativeLayout) layout.findViewById(R.id.no_search_word);
+		mNoSearchWordPanel.setVisibility(View.INVISIBLE);
 
 		mSearchRecentlyDelete = (Button) layout.findViewById(R.id.search_recently_delete);
 		mSearchRecentlyDelete.setOnClickListener(this);
@@ -102,13 +115,16 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		// // not work
 
 		edit = (EditText) layout.findViewById(R.id.search_edit);
-		//edit.requestFocus();
 
+		// 2013-12-04 처음 진입시 키보드가 안보이게...
 		edit.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				Log.i("hwang", "edit focus changed!!!");
 				if (hasFocus) {
-					Util.showSoftKeyboard(getActivity(), edit);
+					if (noSearchword) {
+						if (mNoSearchWordPanel.getVisibility() == View.VISIBLE)
+							mNoSearchWordPanel.setVisibility(View.GONE);
+					}
 				}
 			}
 		});
@@ -156,17 +172,34 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 
 		// listview
 		mListView = (ListView) layout.findViewById(R.id.search_recently_listview);
-		mArray = getActivity().getResources().getStringArray(R.array.search_recently_word);
-		arrayList = new ArrayList<String>(mArray.length);
-		for (String item : mArray) {
-			arrayList.add(item);
+		getActivity().getContentResolver().registerContentObserver(SearchWord.CONTENT_URI, true, observer);
+
+		// ---------------------------------------------------------
+		// 검색어가 있는지를 체크해서 하나도 없으면 "검색어가 없다는 문구"를 보이고
+		// 있으면 리스트형태로 보여준다.
+		// ---------------------------------------------------------
+		Cursor cursor = getActivity().getContentResolver().query(SearchWord.CONTENT_URI, null, null, null, SearchWord.DEFAULT_SORT);
+		if (cursor != null) {
+			if (cursor.getCount() > 0) {
+				mNoSearchWordPanel.setVisibility(View.GONE);
+				noSearchword = false;
+				mArrayList = new ArrayList<String>(cursor.getCount());
+				while (cursor.moveToNext()) {
+					mArrayList.add(cursor.getString(1));
+				}
+			} else {
+				mArrayList = new ArrayList<String>(0);
+				mNoSearchWordPanel.setVisibility(View.VISIBLE);
+				noSearchword = true;
+			}
+			cursor.close();
 		}
 
 		// ----------------------
 		// Search Recently List
 		// ----------------------
-		SearchRecentlyAdapter adapter = new SearchRecentlyAdapter(getActivity(), R.layout.list_item_search_recently, arrayList);
-		mListView.setAdapter(adapter);
+		mAdapter = new SearchRecentlyAdapter(getActivity(), R.layout.list_item_search_recently, mArrayList);
+		mListView.setAdapter(mAdapter);
 		mListView.setDivider(null);
 		mListView.setDividerHeight(0);
 		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -180,7 +213,7 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 				Editable etext = edit.getText();
 				Selection.setSelection(etext, length);
 
-				Util.showSoftKeyboard(getActivity(), edit);
+				//Util.showSoftKeyboard(getActivity(), edit);
 			}
 
 		});
@@ -190,11 +223,15 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 
 	private void performSearch() {
 		int checkedId = radioGroup.getCheckedRadioButtonId();
+
 		Util.hideSoftKeyboard(getActivity());
-		mResultPanelFrameLayout.setVisibility(View.VISIBLE);
+		mResultPanel.setVisibility(View.VISIBLE);
 		radioGroup.setVisibility(View.VISIBLE);
-		// Toast.makeText(getActivity(), "검색" + checkedId,
-		// Toast.LENGTH_SHORT).show();
+
+		// 검색어를 db에 저장		
+		ContentValues values = new ContentValues();
+		values.put(SearchWord.SEARCHWORD_ID, edit.getText().toString());
+		Uri uri = getActivity().getContentResolver().insert(SearchWord.CONTENT_URI, values);
 
 		switch (checkedId) {
 		case R.id.search_vod:
@@ -221,14 +258,15 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		ft.replace(R.id.search_result_panel, searchVod, "search_vod_semi");
 		ft.commit();
 		getActivity().getSupportFragmentManager().executePendingTransactions();
+		Util.hideSoftKeyboard(getActivity());
 	}
 
 	public void showSearchVodDetail(Bundle bundle) {
 		mTitleLayout.setVisibility(View.VISIBLE);
 		mSearchTitle.setText("상세보기");
-		mDetilPanelFrameLayout.setVisibility(View.VISIBLE);
+		mDetilPanel.setVisibility(View.VISIBLE);
 		Util.hideSoftKeyboard(getActivity());
-		
+
 		SearchVodDetail searchVodDetail = SearchVodDetail.newInstance(bundle);
 		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 
@@ -249,6 +287,7 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		ft.replace(R.id.search_result_panel, searchTvch, "search_tvch_semi");
 		ft.commit();
 		getActivity().getSupportFragmentManager().executePendingTransactions();
+		Util.hideSoftKeyboard(getActivity());
 	}
 
 	private void searchNaver() {
@@ -260,6 +299,7 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		ft.replace(R.id.search_result_panel, searchTvch, "search_naver");
 		ft.commit();
 		getActivity().getSupportFragmentManager().executePendingTransactions();
+		Util.hideSoftKeyboard(getActivity());
 	}
 
 	private void changeViewList(int checkedId) {
@@ -273,27 +313,7 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		// 최근검색어 라인이 필요없는것 같다. 하단의 "최근 검색어 삭제" 버튼이 현재 리스트의 내용을 가리키고있다.
 		TextView word = (TextView) layout.findViewById(R.id.search_recently_word);
 		word.setVisibility(View.GONE);
-		/*
-		 * if (checkedId == R.id.search_tvch || checkedId == R.id.search_naver)
-		 * { TextView word = (TextView)
-		 * layout.findViewById(R.id.search_recently_word);
-		 * word.setVisibility(View.GONE); } else { TextView word = (TextView)
-		 * layout.findViewById(R.id.search_recently_word);
-		 * word.setVisibility(View.VISIBLE); }
-		 */
 
-		// /**
-		// * show buttons according to card or cash
-		// * card : 카드관리 and 할부조회
-		// * cash : 통장관리
-		// */
-		// if (checkedId == R.id.button_segfirst) { // 카드 지출
-		// mCard.setVisibility(View.VISIBLE);
-		// mCash.setVisibility(View.GONE);
-		// } else { // 현금지출
-		// mCard.setVisibility(View.GONE);
-		// mCash.setVisibility(View.VISIBLE);
-		// }
 	}
 
 	private void changeRadioButtonState(int checkedId) {
@@ -313,8 +333,8 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 	}
 
 	private void clearSelectedAll() {
-		mResultPanelFrameLayout.setVisibility(View.INVISIBLE);
-		mDetilPanelFrameLayout.setVisibility(View.INVISIBLE);
+		mResultPanel.setVisibility(View.INVISIBLE);
+		mDetilPanel.setVisibility(View.INVISIBLE);
 		vod.setSelected(false);
 		tvch.setSelected(false);
 		naver.setSelected(false);
@@ -340,6 +360,9 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 			break;
 		case R.id.top_search_icon:
 			resetAll();
+		case R.id.search_edit:
+			if (mNoSearchWordPanel.getVisibility() == View.VISIBLE)
+				mNoSearchWordPanel.setVisibility(View.GONE);
 			break;
 		}
 
@@ -395,6 +418,12 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 
 	}
 
+	@Override
+	public void onDestroy() {
+		getActivity().getContentResolver().unregisterContentObserver(observer);
+		super.onDestroy();
+	}
+
 	public void resetAll() {
 		Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag("search_vod_detail");
 		if (f != null) {
@@ -404,11 +433,41 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		radioGroup.setVisibility(View.GONE);
 		mTitleLayout.setVisibility(View.GONE);
 		edit.setText("");
-		mResultPanelFrameLayout.setVisibility(View.INVISIBLE);
+		mResultPanel.setVisibility(View.INVISIBLE);
 	}
 
 	public void resetTitle() {
 		mTitleLayout.setVisibility(View.INVISIBLE);
 	}
+
+	// 해당 데이터베이스의 데이터값이 변경시에 onChange() method가 호출됩니다.
+	private ContentObserver observer = new ContentObserver(new Handler()) {
+		@Override
+		public void onChange(boolean selfChange) {
+			super.onChange(selfChange);
+
+			Log.d("hwang", "onChanged : " + selfChange);
+			
+			// db
+			Cursor cursor = getActivity().getContentResolver().query(SearchWord.CONTENT_URI, null, null, null, SearchWord.DEFAULT_SORT);
+			if (cursor != null) {
+				if (cursor.getCount() > 0) {
+					mArrayList.clear();
+					noSearchword = false;
+					while (cursor.moveToNext()) {
+						mArrayList.add(cursor.getString(1));
+					}
+				} else {
+					mArrayList.clear();
+					noSearchword = true;
+				}
+				cursor.close();
+				mAdapter.notifyDataSetChanged();
+				mListView.setSelection(0);
+				
+			}
+			
+		}
+	};
 
 }

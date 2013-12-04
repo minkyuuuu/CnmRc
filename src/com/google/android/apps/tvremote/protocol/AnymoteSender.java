@@ -139,7 +139,7 @@ public final class AnymoteSender implements ICommandSender {
   }
 
   public void keyPress(Code key) {
-	  Log.v("hwang2", "Code" + key);
+	  Log.v("hwang2", "Code : " + key);
     DeviceAdapter sender = getSender();
     if (sender != null) {
       sender.sendKeyEvent(key, Action.DOWN);

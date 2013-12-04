@@ -51,7 +51,8 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustPan" 
+            >
         </activity>
         <activity
             android:name=".QwertyActivity"
@@ -112,6 +113,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
+        
+        <provider
+            android:name=".provider.CnmRcProvider"
+            android:exported="false"
+            android:authorities="com.cnm.cnmrc" />
 
         <service
             android:name="com.google.android.apps.tvremote.CoreService"
