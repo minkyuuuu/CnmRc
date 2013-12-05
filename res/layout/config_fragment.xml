@@ -144,7 +144,7 @@
 
             <include
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px202"
+                android:layout_height="@dimen/px304"
                 layout="@layout/include_config_etc" />
 
             <!-- vertical blank of scrollview -->

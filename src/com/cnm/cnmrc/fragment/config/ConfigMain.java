@@ -18,8 +18,9 @@ import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.custom.SlideToggleButton;
 import com.cnm.cnmrc.popup.PopupConfigAllReset;
+import com.cnm.cnmrc.popup.PopupConfigGtvConnection;
+import com.cnm.cnmrc.popup.PopupGtvConnection;
 import com.cnm.cnmrc.popup.PopupGtvNotAlive;
-import com.cnm.cnmrc.popup.PopupGtvNotAliveTv;
 import com.cnm.cnmrc.util.CnmPreferences;
 
 @SuppressWarnings("deprecation")
@@ -49,6 +50,7 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 	TextView mAreaProduct;			// 지역/상품 문구, 지역/상품화면으로 이동함.
 	
 	Button mAllClear;				// 초기화
+	Button mGtv;					// Gtv 설정
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,6 +80,10 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 		// 초기화
 		mAllClear = (Button) layout.findViewById(R.id.config_all_clear);
 		mAllClear.setOnClickListener(this);
+		
+		// Gtv 설정
+		mGtv = (Button) layout.findViewById(R.id.config_gtv);
+		mGtv.setOnClickListener(this);
 		
 		// slide toggle button
 		mVibrate = (SlideToggleButton) layout.findViewById(R.id.slide_vibrate);
@@ -182,10 +188,19 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 			showArea();
 			break;
 		case R.id.config_all_clear:
-			FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-			PopupConfigAllReset popup = new PopupConfigAllReset();
-			popup.show(ft, PopupGtvNotAlive.class.getSimpleName());
-			//clearAll();
+			{
+				FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+				PopupConfigAllReset popup = new PopupConfigAllReset();
+				popup.show(ft, PopupGtvNotAlive.class.getSimpleName());
+	
+			}
+			break;
+		case R.id.config_gtv:
+			{
+				FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+				PopupConfigGtvConnection popup = new PopupConfigGtvConnection();
+				popup.show(ft, PopupConfigGtvConnection.class.getSimpleName());
+			}
 			break;
 		}
 

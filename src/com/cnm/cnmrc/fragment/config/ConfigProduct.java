@@ -217,7 +217,9 @@ public class ConfigProduct extends Fragment implements View.OnClickListener {
 				((ConfigMain)fg).refreshAreaProduct();
 			}
 			
-			getActivity().onBackPressed();
+			//2013-12-06
+			//getActivity().onBackPressed();
+			((MainActivity)getActivity()).clearAllFragment();
 			break;
 		}
 

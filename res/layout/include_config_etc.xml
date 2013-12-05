@@ -83,6 +83,33 @@
                 android:textColor="@drawable/xml_search_recently_delete_textcolor"
                 android:textSize="@dimen/sp30" />
         </RelativeLayout>
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px100" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/px20"
+                android:text="@string/config_gtv"
+                android:textColor="#ff797979"
+                android:textSize="@dimen/sp30" />
+
+            <Button
+                android:id="@+id/config_gtv"
+                android:layout_width="@dimen/px160"
+                android:layout_height="@dimen/px58"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/px15"
+                android:background="@drawable/xml_config_initial"
+                android:text="@string/config_title"
+                android:textColor="@drawable/xml_search_recently_delete_textcolor"
+                android:textSize="@dimen/sp30" />
+        </RelativeLayout>
     </LinearLayout>
 
     <View

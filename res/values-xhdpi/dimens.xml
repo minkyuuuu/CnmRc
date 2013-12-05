@@ -251,6 +251,7 @@
     
     <dimen name="px300">150dp</dimen>
     <dimen name="px302">151dp</dimen>
+    <dimen name="px304">152dp</dimen>
     <dimen name="px310">155dp</dimen>
     <dimen name="px315">157.5dp</dimen>
     <dimen name="px320">160dp</dimen>

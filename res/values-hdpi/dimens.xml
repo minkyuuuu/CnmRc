@@ -254,6 +254,7 @@
     
     <dimen name="px300">133.33dp</dimen>
     <dimen name="px302">134.22dp</dimen>
+    <dimen name="px304">135.11dp</dimen>
     <dimen name="px310">137.78dp</dimen>
     <dimen name="px315">140dp</dimen>
     <dimen name="px320">142.22dp</dimen>

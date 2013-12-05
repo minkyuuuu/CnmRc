@@ -424,6 +424,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		});
 
 	}
+	
+	public void setTarget(RemoteDevice remoteDevice) {
+		getConnectionManager().setTarget(remoteDevice);
+	}
+	public void requestDeviceFinder() {
+		getConnectionManager().requestDeviceFinder();
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -854,8 +861,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		clearAllFragment();
 	}
 
-	private void clearAllFragment() {
-
+	boolean isFromConfigProduct = false;
+	public void clearAllFragment() {
+		isFromConfigProduct = false;
+		
 		// ---------------------------
 		// adult certification
 		// ---------------------------
@@ -869,6 +878,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		// ---------------------------
 		final ConfigProduct configProduct = (ConfigProduct) getSupportFragmentManager().findFragmentByTag("config_product");
 		if (configProduct != null) {
+			isFromConfigProduct = true;
 			super.onBackPressed(); // go to config main
 		}
 
@@ -886,6 +896,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		// ---------------------------
 		final ConfigMain config = (ConfigMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG_MAIN);
 		if (config != null) {
+			if (isFromConfigProduct) return;
+			
 			if (config.allowBackPressed().equals("rc")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
 				backToRc();
 				mConfigPanel.setVisibility(View.INVISIBLE);

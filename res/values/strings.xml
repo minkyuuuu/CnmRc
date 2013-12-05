@@ -92,6 +92,7 @@
     <string name="config_adult_cert_line_2">인증절차없이 컨텐츠를 감상하실 수 있습니다.</string>
     <string name="config_area_product">지역/상품 설정</string>
     <string name="config_all_clear">모든 설정 초기화</string>
+    <string name="config_gtv">셋탑박스 설정</string>
     <string name="config_initial">초기화</string>
     <string name="adult_cert_not_19">해당 VOD는 19세 이상 시청등급입니다.</string>
     <string name="adult_cert_name">이름(실명)</string>
