@@ -10,12 +10,15 @@ import java.util.Date;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
@@ -26,6 +29,8 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.provider.CnmRcContract;
+import com.cnm.cnmrc.provider.CnmRcContract.VodJjim;
 
 @SuppressLint("SimpleDateFormat")
 public class Util {
@@ -356,6 +361,33 @@ public class Util {
 		wifiManager = (WifiManager) context.getSystemService(context.WIFI_SERVICE);
 		
 		return wifiManager.setWifiEnabled(status);
+	}
+	
+	// vod 찜 : database insert
+	// 보낼수 없으면 10개까지만 저장한다.
+	public static void insertDBVodJjim(Context context, String vodAssetId) {
+		Cursor cursor = context.getContentResolver().query(VodJjim.CONTENT_URI, null, null, null, null);
+		if (cursor != null) {
+			if (cursor.getCount() < 10) {
+				ContentValues values = new ContentValues();
+				values.put(VodJjim.ASSET_ID, vodAssetId);
+				Uri uri = context.getContentResolver().insert(VodJjim.CONTENT_URI, values);
+			}
+			if (cursor.getCount() == 10) {
+				// 첫번째 레코드가 가장 오래된 것이다. 이것을 지우고 마지막 레코드뒤에 추가한다.
+				// 가장 마지막 레코드가 최신 정보로 오래 보관 되어진다.
+				cursor.moveToNext();
+				int _Id = cursor.getInt(0);
+				Uri uri = CnmRcContract.VodJjim.buildVodJjimId(_Id);
+				context.getContentResolver().delete(uri, null, null);
+				
+				ContentValues values = new ContentValues();
+				values.put(VodJjim.ASSET_ID, vodAssetId);
+				uri = context.getContentResolver().insert(VodJjim.CONTENT_URI, values);
+			}
+				
+			cursor.close();
+		}
 	}
 	
 	

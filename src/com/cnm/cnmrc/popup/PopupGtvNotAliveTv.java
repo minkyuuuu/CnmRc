@@ -8,7 +8,7 @@ import android.view.View;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.provider.CnmRcContract.SearchWord;
 
-public class PopupSearchRecentlyDelete extends PopupBase {
+public class PopupGtvNotAliveTv extends PopupBase {
 	
 	public static PopupGtvSearching newInstance(String type) {
 	PopupGtvSearching f = new PopupGtvSearching();
@@ -30,10 +30,12 @@ public class PopupSearchRecentlyDelete extends PopupBase {
 	
 	@Override
 	public void onActivityCreated(Bundle arg0) {
-		mTitle.setText(getString(R.string.popup_search_title));
+		mTitle.setText(getString(R.string.popup_gtv_not_alive_title));
 		
-		mLine1.setText(getString(R.string.popup_search_line_1));
-		mLine2.setText(getString(R.string.popup_search_line_2));
+		mLine1.setText(getString(R.string.popup_gtv_not_alive_tv_input_line_1));
+		mLine2.setText(getString(R.string.popup_gtv_not_alive_tv_input_line_2));
+		
+		mNo.setVisibility(View.GONE);
 		
 		super.onActivityCreated(arg0);
 	}
@@ -43,10 +45,6 @@ public class PopupSearchRecentlyDelete extends PopupBase {
 		switch (v.getId()) {
 		case R.id.popup_yes:
 			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-			Log.i("hwang", "(search)yes button pressed");
-			
-			getActivity().getContentResolver().delete(SearchWord.CONTENT_URI, null, null);
-			
 			break;
 		case R.id.popup_no:
 			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();

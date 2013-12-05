@@ -181,18 +181,18 @@ public class CnmRcProvider extends ContentProvider{
         	return builder.table(Tables.TVRESERVING);
         }
         case TVRESERVING_ID: {
-        	final String tvreservingdateId = TvReserving.getTvReservingId(uri);
+        	final String programid = TvReserving.getTvReservingId(uri);
         	return builder.table(Tables.TVRESERVING)
-        			.where(TvReserving.RESERVERINGDATE_ID + "=?", tvreservingdateId);
+        			.where(TvReserving.PROGRAM_ID + "=?", programid);
         }
         
         case VODJJIM: {
         	return builder.table(Tables.VODJJIM);
         }
         case VODJJIM_ID: {
-        	final String vodjjimId = VodJjim.getVodJjimId(uri);
+        	final String _id = VodJjim.getVodJjimId(uri);
         	return builder.table(Tables.VODJJIM)
-        			.where(VodJjim.ASSET_ID + "=?", vodjjimId);
+        			.where(VodJjim._ID + "=?", _id);
         }
         
 		default: {
@@ -224,18 +224,18 @@ public class CnmRcProvider extends ContentProvider{
         	return builder.table(Tables.TVRESERVING);
         }
         case TVRESERVING_ID: {
-        	final String tvreservingdateId = TvReserving.getTvReservingId(uri);
+        	final String programid = TvReserving.getTvReservingId(uri);
         	return builder.table(Tables.TVRESERVING)
-        			.where(TvReserving.RESERVERINGDATE_ID + "=?", tvreservingdateId);
+        			.where(TvReserving.PROGRAM_ID + "=?", programid);
         }
         
         case VODJJIM: {
         	return builder.table(Tables.VODJJIM);
         }
         case VODJJIM_ID: {
-        	final String vodjjimId = VodJjim.getVodJjimId(uri);
+        	final String _id = VodJjim.getVodJjimId(uri);
         	return builder.table(Tables.VODJJIM)
-        			.where(VodJjim.ASSET_ID + "=?", vodjjimId);
+        			.where(VodJjim._ID + "=?", _id);
         }
         
         

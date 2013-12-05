@@ -174,15 +174,10 @@ public class TestProviderDatabase {
     	
     	String[] PROJECTION = {
     			VodJjim.ASSET_ID,
-    			VodJjim.TR_NAME,
-    			VodJjim.DATE,
     	};
     	
     	int _ID = 0;
-    	int TYPE = 1;
-    	int TITLE = 2;
-    	int CREATED = 3;
-    	int LIBRARY_ID = 4;
+    	int ASSET_ID = 1;
     }
     
     /**
@@ -193,10 +188,10 @@ public class TestProviderDatabase {
     	int _TOKEN = 0x1;
     	
     	String[] PROJECTION = {
-    			TvReserving.RESERVERINGDATE_ID,
+    			TvReserving.PROGRAM_ID,
     	};
     	
-    	int RESERVERINGDATE_ID = 0;
+    	int PROGRAM_ID = 1;
     }
     
 	

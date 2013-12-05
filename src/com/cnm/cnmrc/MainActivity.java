@@ -444,6 +444,59 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			showChannelVolume();
 			break;
 		case R.id.four_way: // replace하므로 존재체크필요없음. replace개념이므로 show(), Fragment at rc_panel framelayout
+			// hwang 2013-11-20
+			// STB에 STB의 상태를 요구한다.
+			// wifi check
+			if (!Util.isWifiAvailable(this)) {
+				Toast.makeText(this, "WiFi not Available", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			
+			// hwang 2013-11-26
+			RemoteDevice remoteDevice = getConnectionManager().getTarget();
+			String hostAddress;
+			if (remoteDevice != null) {
+				hostAddress = remoteDevice.getAddress().getHostAddress();
+			} else {
+				// STB alive check
+				CnmPreferences pref = CnmPreferences.getInstance();
+				hostAddress = pref.loadPairingHostAddress(this);
+			}
+
+
+			// test
+			hostAddress = "192.168.0.6";
+
+			try {
+				if (hostAddress.equals("")) {
+					Toast.makeText(this, "Not connect STB", Toast.LENGTH_SHORT).show();
+					return;
+				} else {
+
+					InetAddress address = InetAddress.getByName(hostAddress);
+					boolean alive = address.isReachable(2000);
+					if (alive) {
+						mMainHandler = new SendMassgeHandler();
+
+						TCPClientRequestStatus tcpClient = new TCPClientRequestStatus(mMainHandler, hostAddress);
+						tcpClient.start();
+						return;
+					} else {
+						Toast.makeText(this, "Not connect STB", Toast.LENGTH_SHORT).show();
+						return;
+
+					}
+				}
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			
+			
 			if (isFourWay) {
 				isFourWay = false;
 				showFourWay();
@@ -1010,8 +1063,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             switch (msg.what) {
             case 1:
             	String str = (String)msg.obj;
-            	Toast.makeText(MainActivity.this, (String)msg.obj, Toast.LENGTH_LONG).show();
-            	//Toast.makeText(MainActivity.this, "length : " + str.length(), Toast.LENGTH_LONG).show();
+            	Log.d("hwang", "from server : " + str + " <--- " + System.currentTimeMillis());
                 break;
  
             default:

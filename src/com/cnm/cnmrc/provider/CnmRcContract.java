@@ -45,14 +45,16 @@ public class CnmRcContract {
 	
 	// TV 예약하기
 	public interface TvReservingColumns {
-		final String RESERVERINGDATE_ID = "reservingdate_id";				// _id Primary Key
+		final String _ID = "_id";						// Natural Primary Key
+		final String PROGRAM_ID = "program_id";			// unique
+		final String PROGRAM_TIME = "program_time";		// 예약시간
+		
 	}
 	
 	// Vod 찜
 	public interface VodJjimColumns {
-		final String ASSET_ID = "asset_id";				// _id Primary Key
-		final String TR_NAME = "tr_name";				// "CM01"
-		final String DATE = "date";						// "20131107115843"
+		final String _ID = "_id";						// Natural Primary Key
+		final String ASSET_ID = "asset_id";				// unique
 	}
 	
 	// Url객체를 위한 authority 상수 선언, package name of application
@@ -98,14 +100,14 @@ public class CnmRcContract {
 		public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.cnm.cnmrc.tvreserving";
 		
 		/** Default "ORDER BY" clause. */
-        public static final String DEFAULT_SORT = TvReserving.RESERVERINGDATE_ID + " COLLATE NOCASE ASC";
+        public static final String DEFAULT_SORT = TvReserving.PROGRAM_ID + " COLLATE NOCASE ASC";
 
-        /** Build {@link Uri} for requested {@link #RESERVERINGDATE_ID}. */
+        /** Build {@link Uri} for requested {@link #PROGRAM_ID}. */
         public static Uri buildTvReservingId(String tvreservingId) {
         	return CONTENT_URI.buildUpon().appendPath(tvreservingId).build();
         }
         
-		/** Read {@link #RESERVERINGDATE_ID} from {@link TvReserving} {@link Uri}. */
+		/** Read {@link #PROGRAM_ID} from {@link TvReserving} {@link Uri}. */
         public static String getTvReservingId(Uri uri) {
             return uri.getPathSegments().get(1);
         }
@@ -120,9 +122,9 @@ public class CnmRcContract {
 		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.cnm.cnmrc.vodjjim";
 		public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.cnm.cnmrc.vodjjim";
 		
-		/** Build {@link Uri} for requested {@link #ASSET_ID}. */
-        public static Uri buildVodJjimId(String vodjjimId) {
-        	return CONTENT_URI.buildUpon().appendPath(vodjjimId).build();
+		/** Build {@link Uri} for requested {@link #_ID}. */
+        public static Uri buildVodJjimId(int _Id) {
+        	return CONTENT_URI.buildUpon().appendPath(String.valueOf(_Id)).build();
         }
         
 		/** Read {@link #ASSET_ID} from {@link VodJjim} {@link Uri}. */

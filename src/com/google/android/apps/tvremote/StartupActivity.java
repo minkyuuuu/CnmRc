@@ -69,7 +69,7 @@ public class StartupActivity extends CoreServiceActivity {
 					keystoreAvailable = true;
 					showMainActivity();
 				}
-			}, 1500);
+			}, 2000);
 		}
 	}
 

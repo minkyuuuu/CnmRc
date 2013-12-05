@@ -16,6 +16,7 @@ import java.util.Date;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.cnm.cnmrc.util.Util;
 
@@ -39,6 +40,8 @@ public class TCPClientVod extends Thread {
 		this.handler = handler;
 		this.hostAddress = hostAddress;
 		this.vodAssetId = vodAssetId;
+		
+		Log.d("hwang", "vodAssetId : " + vodAssetId + " <--- " + System.currentTimeMillis());
 	}
 
 	@Override

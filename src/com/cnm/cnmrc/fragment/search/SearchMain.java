@@ -115,11 +115,13 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		// // not work
 
 		edit = (EditText) layout.findViewById(R.id.search_edit);
-
+		
 		// 2013-12-04 처음 진입시 키보드가 안보이게...
+		//noSearchword = false;
 		edit.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				Log.i("hwang", "edit focus changed!!!");
+				
 				if (hasFocus) {
 					if (noSearchword) {
 						if (mNoSearchWordPanel.getVisibility() == View.VISIBLE)
@@ -128,7 +130,7 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 				}
 			}
 		});
-
+		
 		edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -403,12 +405,14 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 
 	@Override
 	public void onStart() {
+
 		super.onStart();
 
 	}
 
 	@Override
 	public void onResume() {
+
 		super.onResume();
 	}
 

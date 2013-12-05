@@ -6,17 +6,19 @@ import android.util.Log;
 import android.view.View;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.provider.CnmRcContract.SearchWord;
+import com.cnm.cnmrc.util.Util;
 
-public class PopupSearchRecentlyDelete extends PopupBase {
+public class PopupGtvNotAlive extends PopupBase3 {
 	
-	public static PopupGtvSearching newInstance(String type) {
-	PopupGtvSearching f = new PopupGtvSearching();
-	Bundle args = new Bundle();
-	args.putString("type", type);
-	f.setArguments(args);
-	return f;
-}
+	public static PopupGtvNotAlive newInstance(String assetId) {
+		PopupGtvNotAlive f = new PopupGtvNotAlive();
+		Bundle args = new Bundle();
+		args.putString("assetId", assetId);
+		f.setArguments(args);
+		return f;
+	}
+	
+	String assetId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -26,14 +28,18 @@ public class PopupSearchRecentlyDelete extends PopupBase {
 		int theme = android.R.style.Theme_Translucent_NoTitleBar;
 		setStyle(style, theme);
 
+		assetId = getArguments().getString("assetId");
 	}
 	
 	@Override
 	public void onActivityCreated(Bundle arg0) {
-		mTitle.setText(getString(R.string.popup_search_title));
+		mTitle.setText(getString(R.string.popup_gtv_not_alive_title));
 		
-		mLine1.setText(getString(R.string.popup_search_line_1));
-		mLine2.setText(getString(R.string.popup_search_line_2));
+		mLine1.setText(getString(R.string.popup_gtv_not_alive_input_line_1));
+		mLine2.setText(getString(R.string.popup_gtv_not_alive_input_line_2));
+		mLine3.setText(getString(R.string.popup_gtv_not_alive_input_line_3));
+		
+		mNo.setVisibility(View.GONE);
 		
 		super.onActivityCreated(arg0);
 	}
@@ -43,10 +49,8 @@ public class PopupSearchRecentlyDelete extends PopupBase {
 		switch (v.getId()) {
 		case R.id.popup_yes:
 			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-			Log.i("hwang", "(search)yes button pressed");
-			
-			getActivity().getContentResolver().delete(SearchWord.CONTENT_URI, null, null);
-			
+			Log.i("hwang", "폰에 저장후 일괄 처리됩니다.");
+			Util.insertDBVodJjim(getActivity(), assetId);		// db insert
 			break;
 		case R.id.popup_no:
 			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();

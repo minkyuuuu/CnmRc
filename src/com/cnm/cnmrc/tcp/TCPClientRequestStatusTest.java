@@ -16,7 +16,7 @@ import android.os.Message;
 
 import com.cnm.cnmrc.util.Util;
 
-public class TCPClientRequestStatus extends Thread {
+public class TCPClientRequestStatusTest extends Thread {
 	private InputStream is = null;
 	private OutputStream os = null;
 	private ObjectInputStream ois = null;
@@ -29,7 +29,7 @@ public class TCPClientRequestStatus extends Thread {
 	String size = "0008";
 	String trNo = "CM03";
 	
-	public TCPClientRequestStatus(Handler handler, String hostAddress) {
+	public TCPClientRequestStatusTest(Handler handler, String hostAddress) {
 		this.handler = handler;
 		this.hostAddress = hostAddress;
 	}
@@ -76,11 +76,14 @@ public class TCPClientRequestStatus extends Thread {
 			is = socket.getInputStream();
 			BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
 			char[] ch = new char[4096];
+			//char[] ch = null;
 			int count = br.read(ch);
+			//String msg = ch.toString(); xxx
 			String msg = new String(ch);
 			
             Message toMsg = handler.obtainMessage();	// 메시지 얻어오기
             toMsg.what = 1;			// 메시지 ID 설정
+            //toMsg.obj = String.valueOf(count);	 	// 메시지 정보 설정3 (Object 형식)
             toMsg.obj = msg;	 	// 메시지 정보 설정3 (Object 형식)
              
             handler.sendMessage(toMsg);

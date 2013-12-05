@@ -43,19 +43,34 @@ public enum Action {
 		}
 	},
 	
-	SWITCH_CHARSET_KOR {	// 한변환
-		@Override
-		public void execute(ICommandSender sender) {
-			sender.keyPress(Code.KEYCODE_PROG_RED);
-		}
-	},
-	
 	SWITCH_CHARSET_ENG {	// 영변환
 		@Override
 		public void execute(ICommandSender sender) {
-			sender.keyPress(Code.KEYCODE_PROG_BLUE);
+			sender.keyPress(Code.BTN_GAME_15);
 		}
 	},
+	
+	SWITCH_CHARSET_KOR {	// 한변환
+		@Override
+		public void execute(ICommandSender sender) {
+			sender.keyPress(Code.BTN_GAME_16);
+		}
+	},
+	
+//	SWITCH_CHARSET_ENG {	// 영변환
+//		@Override
+//		public void execute(ICommandSender sender) {
+//			sender.keyPress(Code.KEYCODE_PROG_BLUE);
+//		}
+//	},
+//	
+//	SWITCH_CHARSET_KOR {	// 한변환
+//		@Override
+//		public void execute(ICommandSender sender) {
+//			sender.keyPress(Code.KEYCODE_PROG_RED);
+//		}
+//	},
+
 	
 	CHAR_Q {		// 45 (keycode or scancode)
 		@Override

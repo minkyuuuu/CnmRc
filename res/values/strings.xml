@@ -159,6 +159,14 @@
     
     <string name="popup_gtv_pairing_dialog_title">연결 코드 입력</string>
     
+    <string name="popup_gtv_not_alive_title">알림</string>
+    <string name="popup_gtv_not_alive_input_line_1">셋탑박스가 연결이 되어 있지 않습니다.</string>
+    <string name="popup_gtv_not_alive_input_line_2">폰에 저장한 후 셋탑박스가 연결되면</string>
+    <string name="popup_gtv_not_alive_input_line_3">일괄 저장됩니다!</string>
+    
+    <string name="popup_gtv_not_alive_tv_input_line_1">셋탑박스가</string>
+    <string name="popup_gtv_not_alive_tv_input_line_2">연결되어 있지 않습니다!</string>
+    
     
     
 

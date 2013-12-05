@@ -22,12 +22,16 @@ import java.net.UnknownHostException;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.ContentObserver;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +43,15 @@ import android.widget.Toast;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.fragment.search.SearchMain;
+import com.cnm.cnmrc.popup.PopupGtvNotAlive;
+import com.cnm.cnmrc.popup.PopupGtvNotAliveTv;
+import com.cnm.cnmrc.provider.CnmRcContract.SearchWord;
+import com.cnm.cnmrc.provider.CnmRcContract.VodJjim;
 import com.cnm.cnmrc.tcp.TCPClientTv;
 import com.cnm.cnmrc.tcp.TCPClientVod;
 import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.UiUtil;
 import com.cnm.cnmrc.util.Util;
-import com.google.android.apps.tvremote.RemoteDevice;
 
 public class VodDetail extends Base implements View.OnClickListener {
 	static Context mContext;
@@ -62,7 +69,7 @@ public class VodDetail extends Base implements View.OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View layout = inflater.inflate(R.layout.search_vod_detail, container, false);
-		
+
 		mContext = getActivity();
 
 		isFirstDepth = getArguments().getBoolean("isFirstDepth");
@@ -152,20 +159,26 @@ public class VodDetail extends Base implements View.OnClickListener {
 
 	}
 
-	SendMassgeHandler mMainHandler = null;
+	VodJjimSendMassgeHandler mVodJjimMainHandler = null;
+	TvSendMassgeHandler mTvMainHandler = null;
 	CnmPreferences pref;
 	String hostAddress;
+	boolean startJobVodJjim = false;
+	boolean startJobTv = false;
+	boolean vodJjimFromDb = false;	// db에 저장된것을 보내는지 체크...
+
 	@Override
 	public void onClick(View v) {
 		// sidebar가 열려있으면 return한다.
-		if (UiUtil.isSlidingMenuOpening(getActivity()))
-			return;
-		
+		// ㅎㅎ
+		//		if (UiUtil.isSlidingMenuOpening(getActivity()))
+		//			return;
+
 		switch (v.getId()) {
 		case R.id.vod_zzim:
 			// test wifi status
 			//boolean b = Util.setWifiEnable(getActivity(), false);
-			
+
 			// wifi check
 			if (!Util.isWifiAvailable(getActivity())) {
 				Toast.makeText(getActivity(), "WiFi not Available", Toast.LENGTH_SHORT).show();
@@ -175,29 +188,61 @@ public class VodDetail extends Base implements View.OnClickListener {
 			// STB alive check
 			pref = CnmPreferences.getInstance();
 			hostAddress = pref.loadPairingHostAddress(getActivity());
-			
+
 			// test
-			//hostAddress = "192.168.0.9";
-			
+			//hostAddress = "192.168.0.6";
+
 			try {
 				if (hostAddress.equals("")) {
-					Toast.makeText(getActivity(), "Not connect STB", Toast.LENGTH_SHORT).show();
+					// 보낼수 없으면 10개까지만 저장한다.
+					Log.d("hwang", "vod 찜 : db insert");
+					FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+					PopupGtvNotAlive gtvNotAlive = PopupGtvNotAlive.newInstance(vodAssetId);
+					gtvNotAlive.show(ft, PopupGtvNotAlive.class.getSimpleName());
 					break;
 				} else {
-					
+
 					InetAddress address = InetAddress.getByName(hostAddress);
 					boolean alive = address.isReachable(2000);
+
 					if (alive) {
-						mMainHandler = new SendMassgeHandler();
-						
-						TCPClientVod tcpVodClient = new TCPClientVod(mMainHandler, hostAddress, vodAssetId);
-						tcpVodClient.start();
-						
+						if (startJobVodJjim) {
+							Log.d("hwang", "don't send again");
+							break; // 현재 화면에서 한번 보내고 나면 다시 보내지 말자!!!
+						}
+						startJobVodJjim = true;
+
+						Log.d("hwang", "send vod 찜");
+						mVodJjimMainHandler = new VodJjimSendMassgeHandler();
+
+						// if 0, just send
+						Cursor cursor = getActivity().getContentResolver().query(VodJjim.CONTENT_URI, null, null, null, null);
+						if (cursor != null) {
+							if (cursor.getCount() == 0) {
+								// 하나만 보낸다.
+								vodJjimFromDb = false;
+								TCPClientVod tcpVodClient = new TCPClientVod(mVodJjimMainHandler, hostAddress, vodAssetId);
+								tcpVodClient.start();
+
+							} else { // 일괄처리
+								// prepairing for send-loop
+								vodJjimFromDb = true;
+								getActivity().getContentResolver().registerContentObserver(VodJjim.CONTENT_URI, true, observer);
+
+								// db insert
+								Util.insertDBVodJjim(getActivity(), vodAssetId); // db insert
+
+							}
+						}
+						cursor.close();
 						break;
 					} else {
-						Toast.makeText(getActivity(), "Not connect STB", Toast.LENGTH_SHORT).show();
+						// 보낼수 없으면 10개까지만 저장한다.
+						Log.d("hwang", "vod 찜 : db insert");
+						FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+						PopupGtvNotAlive gtvNotAlive = PopupGtvNotAlive.newInstance(vodAssetId);
+						gtvNotAlive.show(ft, PopupGtvNotAlive.class.getSimpleName());
 						break;
-						
 					}
 				}
 			} catch (UnknownHostException e) {
@@ -206,10 +251,10 @@ public class VodDetail extends Base implements View.OnClickListener {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
-		
+			}
+
 			break;
-			
+
 		case R.id.vod_tv_watching:
 			// wifi check
 			if (!Util.isWifiAvailable(getActivity())) {
@@ -220,28 +265,38 @@ public class VodDetail extends Base implements View.OnClickListener {
 			// STB alive check
 			pref = CnmPreferences.getInstance();
 			hostAddress = pref.loadPairingHostAddress(getActivity());
-			
+
 			// test
 			//hostAddress = "192.168.0.6";
-			
+
 			try {
 				if (hostAddress.equals("")) {
-					Toast.makeText(getActivity(), "Not connect STB", Toast.LENGTH_SHORT).show();
+					FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+					PopupGtvNotAliveTv gtvNotAlive = new PopupGtvNotAliveTv();
+					gtvNotAlive.show(ft, PopupGtvNotAliveTv.class.getSimpleName());
 					break;
 				} else {
-					
+
 					InetAddress address = InetAddress.getByName(hostAddress);
 					boolean alive = address.isReachable(2000);
 					if (alive) {
-						mMainHandler = new SendMassgeHandler();
-						
-						TCPClientTv tcpTvClient = new TCPClientTv(mMainHandler, hostAddress, vodAssetId);
+						if (startJobTv) {
+							Log.d("hwang", "don't send again");
+							break; // 현재 화면에서 한번 보내고 나면 다시 보내지 말자!!!
+						}
+						startJobTv = true;
+
+						mTvMainHandler = new TvSendMassgeHandler();
+
+						TCPClientTv tcpTvClient = new TCPClientTv(mTvMainHandler, hostAddress, vodAssetId);
 						tcpTvClient.start();
 						break;
 					} else {
-						Toast.makeText(getActivity(), "Not connect STB", Toast.LENGTH_SHORT).show();
+						FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+						PopupGtvNotAliveTv gtvNotAlive = new PopupGtvNotAliveTv();
+						gtvNotAlive.show(ft, PopupGtvNotAlive.class.getSimpleName());
 						break;
-						
+
 					}
 				}
 			} catch (UnknownHostException e) {
@@ -250,29 +305,108 @@ public class VodDetail extends Base implements View.OnClickListener {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
-		
+			}
+
 			break;
 		}
 	}
-	
+
 	// Handler 클래스
-    class SendMassgeHandler extends Handler {
-         
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-             
-            switch (msg.what) {
-            case 1:
-            	Toast.makeText(mContext, (String)msg.obj, Toast.LENGTH_LONG).show();
-                break;
- 
-            default:
-                break;
-            }
-        }
-         
-    };
+	class VodJjimSendMassgeHandler extends Handler {
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+
+			switch (msg.what) {
+			case 1:
+				
+				//Log.d("hwang", "from server : " + ((String) msg.obj).substring(0, 9) + " <--- " + System.currentTimeMillis());
+				if (startJobVodJjim) {
+					// substring(4, 8); 4byte CM01  / substring(8, 9); 0성공
+					// return correct / popup 띄우기 / after unregister, db 지우기 /일단 일괄처리를 하자. / 
+					// getActivity().getContentResolver().delete(VodJjim.CONTENT_URI, null, null);
+					// return incorrect / startJobVodJjim = false; / popup 띄우기 /
+					String trNo = ((String) msg.obj).substring(4, 8);	// 4 byte
+					String result = ((String) msg.obj).substring(8, 9);	// 1 byte
+					Log.d("hwang", "(startJobVodJjim)from server trNo: " + trNo + " <--- " + System.currentTimeMillis());
+					Log.d("hwang", "(startJobVodJjim)from server result : " + result + " <--- " + System.currentTimeMillis());
+					
+					// 원칙적으로 개별적으로 지워야 하는데... 그럴려면 서버에서 성공처리한 assetid를 보내주어야한다. 
+					// 지금은 한번만 성공하면 모두 성공처리한것으로 간주하고 일괄 delete한다.
+					if (trNo.equals("CM01") && result.equals("0")) {
+						if (vodJjimFromDb)
+							getActivity().getContentResolver().delete(VodJjim.CONTENT_URI, null, null);
+					} else {
+						startJobVodJjim = false;
+					}
+					
+				}
+			}
+		}
+	};
+	
+	class TvSendMassgeHandler extends Handler {
+		
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			
+			switch (msg.what) {
+			case 1:
+				if (startJobTv) {
+					// substring(4, 8); 4byte CM02 / / substring(8, 9); 0성공
+					// return correct / popup 띄우기 
+					// return incorrect / startJobVodJjim = false; / popup 띄우기 /
+					String trNo = ((String) msg.obj).substring(4, 8);	// 4 byte
+					String result = ((String) msg.obj).substring(8, 9);	// 1 byte
+					Log.d("hwang", "(startJobTv)from server trNo: " + trNo + " <--- " + System.currentTimeMillis());
+					Log.d("hwang", "(startJobTv)from server result : " + result + " <--- " + System.currentTimeMillis());
+				} else {
+					startJobTv = false;
+				}
+				
+				break;
+			}
+		}
+	};
+
+	boolean once = true;
+	// vodjjim에서만 사용된다.
+	// 10개가 저장된 상태에서 새로운것이 들어오면 delete후 insert가 되면서, 이 때 서버로 보내게 되면 observer가 2번 발생되어
+	// 10개씩 두번 보내게 된다. 그래서 한번만 보내자... 현재 화면에서는 한 번만 보내게끔 되어 있다. 서버가 alive되어있는 상태에서 보내기 때문이다...
+	// 그리구 보내구 나서 db 지울때도 필요하다. 엄밀히 말해서 0개이므로 갯수로 체크해도 된다. 위의 경우도 10개일 떄만???
+	// 해당 데이터베이스의 데이터값이 변경시에 onChange() method가 호출됩니다.
+	private ContentObserver observer = new ContentObserver(new Handler()) {
+		@Override
+		public void onChange(boolean selfChange) {
+			super.onChange(selfChange);
+
+			Log.d("hwang", "onChanged : " + selfChange);
+
+			if (once) {
+				once = false;
+				final Cursor cursor = getActivity().getContentResolver().query(VodJjim.CONTENT_URI, null, null, null, null);
+
+				while (cursor.moveToNext()) {
+					TCPClientVod tcpVodClient = new TCPClientVod(mVodJjimMainHandler, hostAddress, cursor.getString(1));
+					tcpVodClient.start();
+					try {
+						Thread.sleep(20);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				cursor.close();
+			}
+		}
+	};
+
+	@Override
+	public void onDestroy() {
+		getActivity().getContentResolver().unregisterContentObserver(observer);
+		super.onDestroy();
+	}
 
 }

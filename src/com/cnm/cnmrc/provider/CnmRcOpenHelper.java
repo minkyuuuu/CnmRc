@@ -23,7 +23,7 @@ public class CnmRcOpenHelper extends SQLiteOpenHelper{
 	private static File externalStorage = Environment.getExternalStorageDirectory();
 	private static final String DATABASE_NAME = externalStorage.getAbsolutePath() + "/" + "cnmrc.db";	
 	//private static final String DATABASE_NAME = "cnmrc.db";
-	private static final int DATABASE_VERSION = 2;
+	private static final int DATABASE_VERSION = 3;
 	
     interface Tables {
     	final String SEARCHWORD = "searchword";
@@ -49,13 +49,14 @@ public class CnmRcOpenHelper extends SQLiteOpenHelper{
                 + ")");
         
         db.execSQL("CREATE TABLE " + Tables.TVRESERVING + " ("
-        		+ TvReserving.RESERVERINGDATE_ID + " INTEGER PRIMARY KEY"
+        		+ TvReserving._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+        		+ TvReserving.PROGRAM_ID + " TEXT NOT NULL UNIQUE ON CONFLICT REPLACE,"
+        		+ TvReserving.PROGRAM_TIME + " TEXT NOT NULL"
         		+ ")");
         
         db.execSQL("CREATE TABLE " + Tables.VODJJIM + " ("
-        		+ VodJjim.ASSET_ID + " TEXT PRIMARY KEY,"
-        		+ VodJjim.TR_NAME + " TEXT NOT NULL DEFAULT 'CM01',"
-        		+ VodJjim.DATE + " TEXT NOT NULL"
+        		+ VodJjim._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+        		+ VodJjim.ASSET_ID + " TEXT NOT NULL UNIQUE ON CONFLICT REPLACE"
         		+ ")");
 	}
 
