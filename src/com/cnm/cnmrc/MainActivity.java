@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	public final String TAG_FRAGMENT_BASE = "base";
 
 	public final String TAG_FRAGMENT_SEARCH = "search";
-	public final String TAG_FRAGMENT_CONFIG = "config";
+	public final String TAG_FRAGMENT_CONFIG_MAIN = "config_main";
 	public final String TAG_FRAGMENT_CONFIG_AREA = "config_area";
 
 	public final String TAG_FRAGMENT_FOURWAY = "fourway";
@@ -520,7 +520,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			openQwerty();
 			break;
 		case R.id.config_prevent_click_dispatching:
-			if (isExistFragment(TAG_FRAGMENT_CONFIG)) {
+			if (isExistFragment(TAG_FRAGMENT_CONFIG_MAIN)) {
 				Log.i("hwang", "No entering config !!!");
 				hideCircleMenu();
 			} else {
@@ -598,7 +598,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		// config와 search간의 순서를 생각해보자. 근본적으로 순서와 관계없이 처리하는 방법을 고려해보자....
 		// config
 		// ---------------------------
-		final ConfigMain config = (ConfigMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG);
+		final ConfigMain config = (ConfigMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG_MAIN);
 		if (config != null) {
 			if (config.allowBackPressed().equals("rc")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
 				backToRc();
@@ -805,7 +805,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		//  ft.replace전에 animation을 설정해야 한다.
 		// ft.setCustomAnimations(R.anim.vod_chtv_main_entering, 0, 0, R.anim.vod_chtv_main_exit); // 두 번째 진입때 문제발생...
 		ft.setCustomAnimations(R.anim.fragment_entering, 0);
-		ft.add(R.id.config_panel, config, TAG_FRAGMENT_CONFIG);
+		ft.add(R.id.config_panel, config, TAG_FRAGMENT_CONFIG_MAIN);
 		ft.addToBackStack(null); // fragment stack에 넣지 않으면 백키가 activity stack에 있는걸 처리한다. 즉 여기서는 앱이 종료된다.
 		ft.commit();
 		fm.executePendingTransactions();
@@ -884,7 +884,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		// config와 search간의 순서를 생각해보자. 근본적으로 순서와 관계없이 처리하는 방법을 고려해보자....
 		// config
 		// ---------------------------
-		final ConfigMain config = (ConfigMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG);
+		final ConfigMain config = (ConfigMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG_MAIN);
 		if (config != null) {
 			if (config.allowBackPressed().equals("rc")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
 				backToRc();
@@ -1185,7 +1185,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	}
 
 	public Fragment getFragmentConfig() {
-		Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG);
+		Fragment f = getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG_MAIN);
 		return f;
 	}
 

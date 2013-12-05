@@ -62,8 +62,15 @@
 
             <include
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/px302"
+                android:layout_height="@dimen/px200"
                 layout="@layout/include_config_remocon" />
+            
+            <!--  remove touch speed 2013-12-06 -->
+<!-- 
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px302"
+                layout="@layout/include_config_remocon" /> -->
 
             <!-- alarm -->
 

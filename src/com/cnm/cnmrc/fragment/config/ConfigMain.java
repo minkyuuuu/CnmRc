@@ -17,6 +17,9 @@ import android.widget.TextView;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.custom.SlideToggleButton;
+import com.cnm.cnmrc.popup.PopupConfigAllReset;
+import com.cnm.cnmrc.popup.PopupGtvNotAlive;
+import com.cnm.cnmrc.popup.PopupGtvNotAliveTv;
 import com.cnm.cnmrc.util.CnmPreferences;
 
 @SuppressWarnings("deprecation")
@@ -98,16 +101,17 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 		mAutoAdultCert.setChecked(false);	// drawer is closed!!!, "png is off image"
 		
 		// seekbar
-		seekbar = (SeekBar) layout.findViewById(R.id.seekbar);
-		seekbar.incrementProgressBy(1);
-		seekbar.setProgress(70);
-		seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				Log.i("hwang", "seek position --->" + progress);
-			}
-			public void onStartTrackingTouch(SeekBar seekBar) { }
-			public void onStopTrackingTouch(SeekBar seekBar) { }
-		});
+		// 2013-12-06 comment
+//		seekbar = (SeekBar) layout.findViewById(R.id.seekbar);
+//		seekbar.incrementProgressBy(1);
+//		seekbar.setProgress(70);
+//		seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+//			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//				Log.i("hwang", "seek position --->" + progress);
+//			}
+//			public void onStartTrackingTouch(SeekBar seekBar) { }
+//			public void onStopTrackingTouch(SeekBar seekBar) { }
+//		});
 		
 		return layout;
 	}
@@ -154,7 +158,7 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 		// 2) backstack에 있는 fragment가 화면에 보이게되는데, 먼저 onCreateView()가 콜백된다. onCreate() 콜백은 수행되지 않는다.
 		// 3) onCreateView() --> onActivityCreated() --> onStart() --> onResume() 순으로 화면에 복귀된다.
 		// 4) 잠시 대기중인 사라지는 이전 fragment의 나머지 콜백이 진행된다. onDestroy() ---> onDetach() ---> "객체삭제"
-		Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_CONFIG);
+		Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity) getActivity()).TAG_FRAGMENT_CONFIG_MAIN);
 		if (f != null) {
 			// getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
 		}
@@ -178,7 +182,10 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 			showArea();
 			break;
 		case R.id.config_all_clear:
-			clearAll();
+			FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+			PopupConfigAllReset popup = new PopupConfigAllReset();
+			popup.show(ft, PopupGtvNotAlive.class.getSimpleName());
+			//clearAll();
 			break;
 		}
 
@@ -186,7 +193,7 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 
 	private void goToAdultCert() {
 		Log.i("hwang", "entering adult certification !!!");
-		Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity)getActivity()).TAG_FRAGMENT_CONFIG);
+		Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity)getActivity()).TAG_FRAGMENT_CONFIG_MAIN);
 		if (f != null) {
 			ConfigAdultCert adultCert;
 			if(isFromVodTvch()) adultCert = ConfigAdultCert.newInstance("from_vod");		// type means "whence do you come?" or "Where do you come from?"
@@ -211,7 +218,7 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 	}
 
 	private void showArea() {
-		Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity)getActivity()).TAG_FRAGMENT_CONFIG);
+		Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity)getActivity()).TAG_FRAGMENT_CONFIG_MAIN);
 		if (f != null) {
 			ConfigArea configArea = ConfigArea.newInstance("강남");
 			FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -226,7 +233,7 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 		
 	}
 
-	private void clearAll() {
+	public void clearAll() {
 		mVibrate.setChecked(true);			// drawer is closed!!!, "png is off image"
 		mSound.setChecked(true);			// drawer is opened!!!, "png is on image"
 		mVodUpdate.setChecked(true);		// drawer is opened!!!, "png is on image"
