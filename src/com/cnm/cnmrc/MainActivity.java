@@ -45,6 +45,8 @@ import com.cnm.cnmrc.fragment.vodtvch.Base;
 import com.cnm.cnmrc.fragment.vodtvch.VodDetail;
 import com.cnm.cnmrc.fragment.vodtvch.VodTvchMain;
 import com.cnm.cnmrc.popup.PopupGtvConnection;
+import com.cnm.cnmrc.popup.PopupGtvNotAlive;
+import com.cnm.cnmrc.popup.PopupGtvNotAliveTv;
 import com.cnm.cnmrc.tcp.TCPClientRequestStatus;
 import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.Util;
@@ -465,11 +467,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 
 			// test
-			hostAddress = "192.168.0.6";
+			//hostAddress = "192.168.0.6";
+			//hostAddress = "";
 
 			try {
 				if (hostAddress.equals("")) {
-					Toast.makeText(this, "Not connect STB", Toast.LENGTH_SHORT).show();
+					FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+					PopupGtvNotAliveTv gtvNotAlive = new PopupGtvNotAliveTv();
+					gtvNotAlive.show(ft, PopupGtvNotAliveTv.class.getSimpleName());
 					return;
 				} else {
 
@@ -482,7 +487,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 						tcpClient.start();
 						return;
 					} else {
-						Toast.makeText(this, "Not connect STB", Toast.LENGTH_SHORT).show();
+						FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+						PopupGtvNotAliveTv gtvNotAlive = new PopupGtvNotAliveTv();
+						gtvNotAlive.show(ft, PopupGtvNotAlive.class.getSimpleName());
 						return;
 
 					}
@@ -496,14 +503,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			}
 
 			
+			// 서버의 리턴 결과로 분기하자.
+//			if (isFourWay) {
+//				isFourWay = false;
+//				showFourWay();
+//			} else {
+//				isFourWay = true;
+//				showTrickPlay();
+//			}
 			
-			if (isFourWay) {
-				isFourWay = false;
-				showFourWay();
-			} else {
-				isFourWay = true;
-				showTrickPlay();
-			}
 			break;
 		case R.id.mirroring: // DialogFragment (popup with entire display)
 			openPopupMirroring();
@@ -1062,8 +1070,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
              
             switch (msg.what) {
             case 1:
-            	String str = (String)msg.obj;
-            	Log.d("hwang", "from server : " + str + " <--- " + System.currentTimeMillis());
+            	// substring(4, 8); 4byte CM01  / substring(8, 9); 0성공 / substring(9, 10); 0Live, 1Vod
+				String trNo = ((String) msg.obj).substring(4, 8);		// 4 byte
+				String result = ((String) msg.obj).substring(8, 9);		// 1 byte
+				String tvLive = ((String) msg.obj).substring(9, 10);	// 1 byte
+				Log.d("hwang", "(LiveOrVod)from server trNo: " + trNo + " <--- " + System.currentTimeMillis());
+				Log.d("hwang", "(LiveOrVod)from server result : " + result + " <--- " + System.currentTimeMillis());
+				Log.d("hwang", "(LiveOrVod)from server tvLive : " + tvLive + " <--- " + System.currentTimeMillis());
+				
+				// 여기서 분기하자.
+				if (isFourWay) {
+					isFourWay = false;
+					showFourWay();
+				} else {
+					isFourWay = true;
+					showTrickPlay();
+				}
+            	
+            	
                 break;
  
             default:
