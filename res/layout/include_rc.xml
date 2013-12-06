@@ -13,31 +13,52 @@
         android:layout_height="@dimen/px110"
         class="com.cnm.cnmrc.fragment.rc.RcTopMenu" />
 
-    <!-- 채널/볼륨과 사방향키를 위한 fragment 대체영역 -->
     <FrameLayout
-        android:id="@+id/rc_panel"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/xml_repeat_fourwary_bg" />
-    
-    <FrameLayout
-        android:id="@+id/rc_numeric_pad"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="@dimen/px1032"
+        android:background="@drawable/touchpattern" >
 
-        <fragment
-            android:id="@+id/fragment_rc_numeric_pad"
+        <!-- 채널/볼륨과 사방향키를 위한 fragment 대체영역 -->
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px280"
-            class="com.cnm.cnmrc.fragment.rc.RcNumericPad" />
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <FrameLayout
+                android:id="@+id/rc_panel"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px282"
+                >
+            </FrameLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/rc_numeric_pad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@android:color/transparent" >
+
+            <fragment
+                android:id="@+id/fragment_rc_numeric_pad"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/px384"
+                class="com.cnm.cnmrc.fragment.rc.RcNumericPad" />
+        </FrameLayout>
     </FrameLayout>
-    
+
     <!-- 하단메뉴공간을 보상하는 영역 -->
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px90"
+        android:layout_height="@dimen/px88"
         android:layout_gravity="bottom"
         android:background="@drawable/xml_repeat_default_bg" />
 

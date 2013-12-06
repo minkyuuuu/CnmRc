@@ -1,222 +1,369 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/px280"
-    android:orientation="horizontal" >
+    android:layout_height="@dimen/px384"
+    android:orientation="vertical" >
+
+    <!-- 상단 bar -->
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px162"
-        android:layout_gravity="center_vertical"
-        android:orientation="vertical" >
+        android:layout_height="match_parent"
+        android:layout_gravity="top"
+        android:layout_marginTop="@dimen/px102"
+        android:orientation="horizontal" >
 
-        <!-- 상단 (1,2,3,4,5,6,7) -->
+        <View
+            android:layout_width="@dimen/px35"
+            android:layout_height="@dimen/px1" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="@dimen/px20"
+            android:layout_weight="81"
+            android:background="@drawable/rc_bar" />
+
+        <View
+            android:layout_width="@dimen/px35"
+            android:layout_height="@dimen/px1" />
+    </LinearLayout>
+
+    <!-- 상단 (1,2,3,4,5,6,7) -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px235"
+        android:layout_gravity="top|left"
+        android:orientation="horizontal" >
+
+        <View
+            android:layout_width="@dimen/px10"
+            android:layout_height="match_parent" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/px72"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="horizontal" >
 
-            <View
-                android:layout_width="@dimen/px26"
-                android:layout_height="match_parent" />
-
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
+                android:layout_weight="100" >
 
                 <ImageButton
                     android:id="@+id/numeric_n1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="81"
-                    android:tag="num_1"
-                    android:background="@drawable/xml_numeric_n1"
-                    android:contentDescription="@string/accessibility_general_button" />
+                    android:layout_width="@dimen/px81"
+                    android:layout_height="@dimen/px72"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/n1_n"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:tag="num_1" />
 
-                <View
-                    android:layout_width="0dp"
+                <ImageButton
+                    android:id="@+id/numeric_n1_press"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="17" />
+                    android:background="@drawable/n1_press"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="100" >
 
                 <ImageButton
                     android:id="@+id/numeric_n2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="81"
-                    android:tag="num_2"
-                    android:background="@drawable/xml_numeric_n2"
-                    android:contentDescription="@string/accessibility_general_button" />
+                    android:layout_width="@dimen/px81"
+                    android:layout_height="@dimen/px72"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/n2_n"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:tag="num_2" />
 
-                <View
-                    android:layout_width="0dp"
+                <ImageButton
+                    android:id="@+id/numeric_n2_press"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="17" />
+                    android:background="@drawable/n2_press"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="100" >
 
                 <ImageButton
                     android:id="@+id/numeric_n3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="81"
-                    android:tag="num_3"
-                    android:background="@drawable/xml_numeric_n3"
-                    android:contentDescription="@string/accessibility_general_button" />
+                    android:layout_width="@dimen/px81"
+                    android:layout_height="@dimen/px72"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/n3_n"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:tag="num_3" />
 
-                <View
-                    android:layout_width="0dp"
+                <ImageButton
+                    android:id="@+id/numeric_n3_press"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="17" />
+                    android:background="@drawable/n3_press"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="100" >
 
                 <ImageButton
                     android:id="@+id/numeric_n4"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="81"
-                    android:tag="num_4"
-                    android:background="@drawable/xml_numeric_n4"
-                    android:contentDescription="@string/accessibility_general_button" />
+                    android:layout_width="@dimen/px81"
+                    android:layout_height="@dimen/px72"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/n4_n"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:tag="num_4" />
 
-                <View
-                    android:layout_width="0dp"
+                <ImageButton
+                    android:id="@+id/numeric_n4_press"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="17" />
+                    android:background="@drawable/n4_press"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="100" >
 
                 <ImageButton
                     android:id="@+id/numeric_n5"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="81"
-                    android:tag="num_5"
-                    android:background="@drawable/xml_numeric_n5"
-                    android:contentDescription="@string/accessibility_general_button" />
+                    android:layout_width="@dimen/px81"
+                    android:layout_height="@dimen/px72"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/n5_n"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:tag="num_5" />
 
-                <View
-                    android:layout_width="0dp"
+                <ImageButton
+                    android:id="@+id/numeric_n5_press"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="17" />
+                    android:background="@drawable/n5_press"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="100" >
 
                 <ImageButton
                     android:id="@+id/numeric_n6"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="81"
-                    android:tag="num_6"
-                    android:background="@drawable/xml_numeric_n6"
-                    android:contentDescription="@string/accessibility_general_button" />
+                    android:layout_width="@dimen/px81"
+                    android:layout_height="@dimen/px72"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/n6_n"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:tag="num_6" />
 
-                <View
-                    android:layout_width="0dp"
+                <ImageButton
+                    android:id="@+id/numeric_n6_press"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="17" />
+                    android:background="@drawable/n6_press"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="100" >
 
                 <ImageButton
                     android:id="@+id/numeric_n7"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="81"
-                    android:tag="num_7"
-                    android:background="@drawable/xml_numeric_n7"
-                    android:contentDescription="@string/accessibility_general_button" />
-            </LinearLayout>
+                    android:layout_width="@dimen/px81"
+                    android:layout_height="@dimen/px72"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/n7_n"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:tag="num_7" />
 
-            <View
-                android:layout_width="@dimen/px26"
-                android:layout_height="match_parent" />
+                <ImageButton
+                    android:id="@+id/numeric_n7_press"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/n7_press"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
+            </FrameLayout>
         </LinearLayout>
 
         <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/px18" />
+            android:layout_width="@dimen/px10"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
-        <!-- 하단 (지우기,8,9,0,확인) -->
+    <!-- 하단 (지우기,8,9,0,확인) -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px235"
+        android:layout_gravity="top"
+        android:layout_marginTop="@dimen/px90"
+        android:orientation="horizontal" >
+
+        <View
+            android:layout_width="@dimen/px39"
+            android:layout_height="match_parent" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/px72"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="horizontal" >
 
-            <View
-                android:layout_width="@dimen/px39"
-                android:layout_height="match_parent" />
-
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
+                android:layout_weight="166" >
 
                 <ImageButton
                     android:id="@+id/numeric_del"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="166"
-                    android:tag="num_back"
-                    android:background="@drawable/xml_numeric_nback"
-                    android:contentDescription="@string/accessibility_general_button" />
+                    android:layout_width="@dimen/px166"
+                    android:layout_height="@dimen/px72"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/nback_n"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:tag="num_back" />
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="17" />
+                <ImageButton
+                    android:id="@+id/numeric_del_press"
+                    android:layout_width="@dimen/px166"
+                    android:layout_height="@dimen/px72"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/nback_press"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="100" >
 
                 <ImageButton
                     android:id="@+id/numeric_n8"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="81"
-                    android:tag="num_8"
-                    android:background="@drawable/xml_numeric_n8"
-                    android:contentDescription="@string/accessibility_general_button" />
+                    android:layout_width="@dimen/px81"
+                    android:layout_height="@dimen/px72"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/n8_n"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:tag="num_8" />
 
-                <View
-                    android:layout_width="0dp"
+                <ImageButton
+                    android:id="@+id/numeric_n8_press"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="17" />
+                    android:background="@drawable/n8_press"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="100" >
 
                 <ImageButton
                     android:id="@+id/numeric_n9"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="81"
-                    android:tag="num_9"
-                    android:background="@drawable/xml_numeric_n9"
-                    android:contentDescription="@string/accessibility_general_button" />
+                    android:layout_width="@dimen/px81"
+                    android:layout_height="@dimen/px72"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/n9_n"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:tag="num_9" />
 
-                <View
-                    android:layout_width="0dp"
+                <ImageButton
+                    android:id="@+id/numeric_n9_press"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="17" />
+                    android:background="@drawable/n9_press"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="100" >
 
                 <ImageButton
                     android:id="@+id/numeric_n0"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="81"
-                    android:tag="num_0"
-                    android:background="@drawable/xml_numeric_n0"
-                    android:contentDescription="@string/accessibility_general_button" />
+                    android:layout_width="@dimen/px81"
+                    android:layout_height="@dimen/px72"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/n0_n"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:tag="num_0" />
 
-                <View
-                    android:layout_width="0dp"
+                <ImageButton
+                    android:id="@+id/numeric_n0_press"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="17" />
+                    android:background="@drawable/n0_press"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10" />
+
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="166" >
 
                 <ImageButton
                     android:id="@+id/numeric_enter"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="165"
-                    android:tag="num_ok"
-                    android:background="@drawable/xml_numeric_nok"
-                    android:contentDescription="@string/accessibility_general_button" />
-            </LinearLayout>
+                    android:layout_width="@dimen/px166"
+                    android:layout_height="@dimen/px72"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/nok_n"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:tag="num_ok" />
 
-            <View
-                android:layout_width="@dimen/px39"
-                android:layout_height="match_parent" />
+                <ImageButton
+                    android:id="@+id/numeric_enter_press"
+                    android:layout_width="@dimen/px166"
+                    android:layout_height="@dimen/px72"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:background="@drawable/nok_press"
+                    android:contentDescription="@string/accessibility_general_button"
+                    android:visibility="invisible" />
+            </FrameLayout>
         </LinearLayout>
+
+        <View
+            android:layout_width="@dimen/px39"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

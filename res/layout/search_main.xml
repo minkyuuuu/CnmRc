@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/px110"
-            android:background="#ff7961aa"
+            android:background="@drawable/topbar_bg"
             android:orientation="horizontal" >
 
             <View
@@ -75,7 +75,7 @@
             android:id="@+id/search_title_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/px110"
-            android:background="#ff7961aa" >
+            android:background="@drawable/topbar_bg" >
 
             <TextView
                 android:id="@+id/search_title"

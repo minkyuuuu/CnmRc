@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/px110"
-        android:background="#ff7961aa" >
+        android:background="@drawable/topbar_bg" >
 
         <TextView
             android:id="@+id/config_title"

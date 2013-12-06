@@ -83,7 +83,12 @@
                 android:textColor="@drawable/xml_search_recently_delete_textcolor"
                 android:textSize="@dimen/sp30" />
         </RelativeLayout>
-        
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/px2"
+            android:background="@drawable/list_line" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/px100" >

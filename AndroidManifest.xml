@@ -56,10 +56,11 @@
         </activity>
         <activity
             android:name=".QwertyActivity"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysVisible"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="sensor" />
+            />
         <activity
             android:name=".MirroringTvchActivity"
             android:configChanges="orientation|keyboardHidden"

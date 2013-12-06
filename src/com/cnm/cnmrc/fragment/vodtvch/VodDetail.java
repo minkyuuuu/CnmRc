@@ -170,6 +170,7 @@ public class VodDetail extends Base implements View.OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// sidebar가 열려있으면 return한다.
+		// 2013-12-06 comment할려는데 이미 되어있다.
 		// ㅎㅎ
 		//		if (UiUtil.isSlidingMenuOpening(getActivity()))
 		//			return;

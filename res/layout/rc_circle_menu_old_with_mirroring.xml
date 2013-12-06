@@ -5,11 +5,27 @@
     android:layout_height="@dimen/px335"
     android:background="@drawable/rcmenu_bg" >
 
+<!--     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/px90"
+        android:layout_gravity="top"
+        android:layout_marginTop="@dimen/px40" >
+
+        <ImageButton
+            android:id="@+id/mirroring"
+            android:layout_width="@dimen/px126"
+            android:layout_height="@dimen/px90"
+            android:layout_centerInParent="true"
+            android:background="@drawable/xml_rc_base_circle"
+            android:contentDescription="@string/accessibility_rcmenu_mirror"
+            android:src="@drawable/rcmenu_icon_mirror" />
+    </RelativeLayout> -->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/px90"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/px165" >
+        android:layout_marginBottom="@dimen/px126" >
 
         <ImageButton
             android:id="@+id/four_way"
@@ -17,7 +33,7 @@
             android:layout_height="@dimen/px90"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/px142"
+            android:layout_marginLeft="@dimen/px100"
             android:background="@drawable/xml_rc_base_circle"
             android:contentDescription="@string/accessibility_rcmenu_4way"
             android:src="@drawable/rcmenu_icon_4way" />
@@ -28,7 +44,7 @@
             android:layout_height="@dimen/px90"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/px142"
+            android:layout_marginRight="@dimen/px100"
             android:background="@drawable/xml_rc_base_circle"
             android:contentDescription="@string/accessibility_rcmenu_qwerty"
             android:src="@drawable/rcmenu_icon_qwerty" />
@@ -38,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/px90"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/px40" >
+        android:layout_marginBottom="@dimen/px5" >
 
         <ImageButton
             android:id="@+id/channel_volume"
@@ -46,7 +62,7 @@
             android:layout_height="@dimen/px90"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/px55"
+            android:layout_marginLeft="@dimen/px50"
             android:background="@drawable/xml_rc_base_circle"
             android:contentDescription="@string/accessibility_rcmenu_chvol"
             android:src="@drawable/rcmenu_icon_chvol" />
@@ -57,7 +73,7 @@
             android:layout_height="@dimen/px90"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/px55"
+            android:layout_marginRight="@dimen/px50"
             android:background="@drawable/xml_rc_base_circle"
             android:contentDescription="@string/accessibility_rcmenu_config"
             android:src="@drawable/rcmenu_icon_setting" />

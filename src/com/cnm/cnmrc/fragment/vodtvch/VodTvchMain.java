@@ -130,6 +130,8 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				// sidebar가 닫혀있으면 return... 그러지 않으면 밑에있는 sidebar 메뉴 아이템이 클릭된다...
+				// 2013-12-06 comment later
+				// ㅎㅎ
 				if (!mSlidingMenu.isOpening())
 					return;
 

@@ -296,7 +296,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		mCircleMenuBg = (FrameLayout) findViewById(R.id.circle_menu_background);
 
 		// circle menu
-		mMirroring = (ImageButton) findViewById(R.id.mirroring);
+		//mMirroring = (ImageButton) findViewById(R.id.mirroring);
 		mFourWay = (ImageButton) findViewById(R.id.four_way);
 		mQwerty = (ImageButton) findViewById(R.id.qwerty);
 		mChannelVolume = (ImageButton) findViewById(R.id.channel_volume);
@@ -353,7 +353,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		mRcIcon.setOnClickListener(this);
 
 		// circle menu
-		mMirroring.setOnClickListener(this);
+		//mMirroring.setOnClickListener(this);
 		mFourWay.setOnClickListener(this);
 		mQwerty.setOnClickListener(this);
 		mChannelVolume.setOnClickListener(this);
@@ -520,9 +520,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 //			}
 			
 			break;
-		case R.id.mirroring: // DialogFragment (popup with entire display)
-			openPopupMirroring();
-			break;
+//		case R.id.mirroring: // DialogFragment (popup with entire display)
+//			openPopupMirroring();
+//			break;
 		case R.id.qwerty: // Activity
 			openQwerty();
 			break;

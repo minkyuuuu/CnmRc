@@ -86,6 +86,8 @@ public class TvchList extends Base  implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id)
             {
 				// sidebar가 열려있으면 return한다.
+				// 2013-12-06 comment later
+				// ㅎㅎ
             	if (UiUtil.isSlidingMenuOpening(getActivity())) return;
             	
             	increaseCurrentDepth();

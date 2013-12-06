@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/adult_cert"
+    android:id="@+id/prevent_click_dispatching"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/xml_repeat_default_bg"
@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/px110"
-        android:background="#ff7961aa" >
+        android:background="@drawable/topbar_bg" >
 
         <TextView
             android:layout_width="wrap_content"

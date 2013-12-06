@@ -15,6 +15,7 @@
 
     
     
+    
     <!-- 상단메뉴의 vod, tvch 화면을 위한 fragment 대체영역 -->
     <!-- vod, tvch 메뉴는 자신의 vod_top_menu를 갖는다. -->
     <FrameLayout
@@ -42,14 +43,16 @@
 
     
     
+    
     <!-- 하단 bottom menu -->
     <fragment
         android:id="@+id/fragment_rc_bottom_menu"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px90"
+        android:layout_height="@dimen/px88"
         android:layout_gravity="bottom"
         class="com.cnm.cnmrc.fragment.rc.RcBottomMenu" />
 
+    
     
     
     <!-- circle menu가 보일때 바탕에 깔리는 반투명배경 -->

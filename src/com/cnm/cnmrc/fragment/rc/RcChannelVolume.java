@@ -53,7 +53,7 @@ public class RcChannelVolume extends RcBase implements View.OnClickListener {
 	ImageButton mOK;
 	ImageView mAnimOK;
 
-	boolean mToogleMuteOff = true;
+//	boolean mToogleMuteOff = true;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -70,9 +70,9 @@ public class RcChannelVolume extends RcBase implements View.OnClickListener {
 		mVolPlus.setOnClickListener(this);
 
 		mMute = (ImageButton) layout.findViewById(R.id.control_mute);
-		mAnimMute = (ImageView) layout.findViewById(R.id.anim_mute);
-		mMute.setBackgroundResource(R.drawable.xml_control_mute_off); // mute off
-		mToogleMuteOff = true;
+//		mAnimMute = (ImageView) layout.findViewById(R.id.anim_mute);
+		//mMute.setBackgroundResource(R.drawable.xml_control_mute_off); // mute off
+//		mToogleMuteOff = true;
 		mMute.setOnClickListener(this);
 
 		mVolMinus = (ImageButton) layout.findViewById(R.id.control_volminus);
@@ -125,22 +125,22 @@ public class RcChannelVolume extends RcBase implements View.OnClickListener {
 			Action.VOLUME_UP.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, mAnimVolPlus);
-			mMute.setBackgroundResource(R.drawable.xml_control_mute_off); // mute 배경이미지가 바뀌어야 한다.
-			mToogleMuteOff = true;
+//			mMute.setBackgroundResource(R.drawable.xml_control_mute_off); // mute 배경이미지가 바뀌어야 한다.
+//			mToogleMuteOff = true;
 			break;
 		case R.id.control_mute:
 			if (!oneClickTapPress) return;
-			oneClickTapPress = false;
+			//oneClickTapPress = false;
 			Action.MUTE.execute(((BaseActivity)getActivity()).getCommands());
 			
-			startLoadingAni((ImageButton) v, mAnimMute);
-			if (mToogleMuteOff) {
-				mMute.setBackgroundResource(R.drawable.xml_control_mute_on); // mute 배경이미지가 바뀌어야 한다.
-				mToogleMuteOff = false;
-			} else {
-				mMute.setBackgroundResource(R.drawable.xml_control_mute_off); // mute 배경이미지가 바뀌어야 한다.
-				mToogleMuteOff = true;
-			}
+//			startLoadingAni((ImageButton) v, mAnimMute);
+//			if (mToogleMuteOff) {
+//				mMute.setBackgroundResource(R.drawable.xml_control_mute_on); // mute 배경이미지가 바뀌어야 한다.
+//				mToogleMuteOff = false;
+//			} else {
+//				mMute.setBackgroundResource(R.drawable.xml_control_mute_off); // mute 배경이미지가 바뀌어야 한다.
+//				mToogleMuteOff = true;
+//			}
 			break;
 		case R.id.control_volminus:
 			if (!oneClickTapPress) return;
@@ -148,7 +148,7 @@ public class RcChannelVolume extends RcBase implements View.OnClickListener {
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, mAnimVolMinus);
 			mMute.setBackgroundResource(R.drawable.xml_control_mute_off); // mute 배경이미지가 바뀌어야 한다.
-			mToogleMuteOff = true;
+//			mToogleMuteOff = true;
 			break;
 		case R.id.control_chup:
 			if (!oneClickTapPress) return;
