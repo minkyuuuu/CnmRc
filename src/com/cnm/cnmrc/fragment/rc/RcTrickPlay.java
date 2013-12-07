@@ -54,23 +54,23 @@ public class RcTrickPlay extends RcBase implements View.OnClickListener {
 		play.setOnClickListener(this);
 
 		//2) ff
-		ff = (ImageButton) layout.findViewById(R.id.trick_ff);
-		aniFF = (ImageView) layout.findViewById(R.id.anim_trick_ff);
+		ff = (ImageButton) layout.findViewById(R.id.tricky_ff);
+		aniFF = (ImageView) layout.findViewById(R.id.anim_tricky_ff);
 		ff.setOnClickListener(this);
 		
 		// 3) stop
-		stop = (ImageButton) layout.findViewById(R.id.trick_stop);
-		aniStop = (ImageView) layout.findViewById(R.id.anim_trick_stop);
+		stop = (ImageButton) layout.findViewById(R.id.tricky_stop);
+		aniStop = (ImageView) layout.findViewById(R.id.anim_tricky_stop);
 		stop.setOnClickListener(this);
 		
 		// 4) rew
-		rew = (ImageButton) layout.findViewById(R.id.trick_rew);
-		aniRew = (ImageView) layout.findViewById(R.id.anim_trick_rew);
+		rew = (ImageButton) layout.findViewById(R.id.tricky_rew);
+		aniRew = (ImageView) layout.findViewById(R.id.anim_tricky_rew);
 		rew.setOnClickListener(this);
 
 		// 5) pause
-		pause = (ImageButton) layout.findViewById(R.id.trick_pause);
-		aniPause = (ImageView) layout.findViewById(R.id.anim_trick_pause);
+		pause = (ImageButton) layout.findViewById(R.id.tricky_pause);
+		aniPause = (ImageView) layout.findViewById(R.id.anim_tricky_pause);
 		pause.setOnClickListener(this);
 
 		return layout;
@@ -98,25 +98,25 @@ public class RcTrickPlay extends RcBase implements View.OnClickListener {
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, aniPlay);
 			break;
-		case R.id.trick_ff:
+		case R.id.tricky_ff:
 			if (!oneClickTapPress) return;
 			Action.MEDIA_FAST_FORWARD.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, aniFF);
 			break;
-		case R.id.trick_stop:
+		case R.id.tricky_stop:
 			if (!oneClickTapPress) return;
 			Action.MEDIA_STOP.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, aniStop);
 			break;
-		case R.id.trick_rew:
+		case R.id.tricky_rew:
 			if (!oneClickTapPress) return;
 			Action.MEDIA_REWIND.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;
 			startLoadingAni((ImageButton) v, aniRew);
 			break;
-		case R.id.trick_pause:
+		case R.id.tricky_pause:
 			if (!oneClickTapPress) return;
 			Action.MEDIA_PAUSE.execute(((BaseActivity)getActivity()).getCommands());
 			oneClickTapPress = false;

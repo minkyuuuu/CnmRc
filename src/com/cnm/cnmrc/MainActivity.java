@@ -456,68 +456,68 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			// hwang 2013-11-20
 			// STB에 STB의 상태를 요구한다.
 			// wifi check
-			if (!Util.isWifiAvailable(this)) {
-				Toast.makeText(this, "WiFi not Available", Toast.LENGTH_SHORT).show();
-				return;
-			}
-			
-			// hwang 2013-11-26
-			RemoteDevice remoteDevice = getConnectionManager().getTarget();
-			String hostAddress;
-			if (remoteDevice != null) {
-				hostAddress = remoteDevice.getAddress().getHostAddress();
-			} else {
-				// STB alive check
-				CnmPreferences pref = CnmPreferences.getInstance();
-				hostAddress = pref.loadPairingHostAddress(this);
-			}
-
-
-			// test
-			//hostAddress = "192.168.0.6";
-			//hostAddress = "";
-
-			try {
-				if (hostAddress.equals("")) {
-					FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-					PopupGtvNotAliveTv gtvNotAlive = new PopupGtvNotAliveTv();
-					gtvNotAlive.show(ft, PopupGtvNotAliveTv.class.getSimpleName());
-					return;
-				} else {
-
-					InetAddress address = InetAddress.getByName(hostAddress);
-					boolean alive = address.isReachable(2000);
-					if (alive) {
-						mMainHandler = new SendMassgeHandler();
-
-						TCPClientRequestStatus tcpClient = new TCPClientRequestStatus(mMainHandler, hostAddress);
-						tcpClient.start();
-						return;
-					} else {
-						FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-						PopupGtvNotAliveTv gtvNotAlive = new PopupGtvNotAliveTv();
-						gtvNotAlive.show(ft, PopupGtvNotAlive.class.getSimpleName());
-						return;
-
-					}
-				}
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			if (!Util.isWifiAvailable(this)) {
+//				Toast.makeText(this, "WiFi not Available", Toast.LENGTH_SHORT).show();
+//				return;
+//			}
+//			
+//			// hwang 2013-11-26
+//			RemoteDevice remoteDevice = getConnectionManager().getTarget();
+//			String hostAddress;
+//			if (remoteDevice != null) {
+//				hostAddress = remoteDevice.getAddress().getHostAddress();
+//			} else {
+//				// STB alive check
+//				CnmPreferences pref = CnmPreferences.getInstance();
+//				hostAddress = pref.loadPairingHostAddress(this);
+//			}
+//
+//			// test
+//			//hostAddress = "192.168.0.6";
+//			//hostAddress = "";
+//
+//			try {
+//				if (hostAddress.equals("")) {
+//					FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//					PopupGtvNotAliveTv gtvNotAlive = new PopupGtvNotAliveTv();
+//					gtvNotAlive.show(ft, PopupGtvNotAliveTv.class.getSimpleName());
+//					return;
+//				} else {
+//
+//					InetAddress address = InetAddress.getByName(hostAddress);
+//					boolean alive = address.isReachable(2000);
+//					if (alive) {
+//						mMainHandler = new SendMassgeHandler();
+//
+//						TCPClientRequestStatus tcpClient = new TCPClientRequestStatus(mMainHandler, hostAddress);
+//						tcpClient.start();
+//						return;
+//					} else {
+//						FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//						PopupGtvNotAliveTv gtvNotAlive = new PopupGtvNotAliveTv();
+//						gtvNotAlive.show(ft, PopupGtvNotAlive.class.getSimpleName());
+//						return;
+//
+//					}
+//				}
+//			} catch (UnknownHostException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 
 			
 			// 서버의 리턴 결과로 분기하자.
-//			if (isFourWay) {
-//				isFourWay = false;
-//				showFourWay();
-//			} else {
-//				isFourWay = true;
-//				showTrickPlay();
-//			}
+			// 결정되면 위에서 풀자, wifi상태, stb 상태...
+			if (isFourWay) {
+				isFourWay = false;
+				showFourWay();
+			} else {
+				isFourWay = true;
+				showTrickPlay();
+			}
 			
 			break;
 //		case R.id.mirroring: // DialogFragment (popup with entire display)

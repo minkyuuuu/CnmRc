@@ -7,7 +7,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px19" />
+        android:layout_height="@dimen/px31" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,14 +16,15 @@
         android:orientation="horizontal" >
 
         <View
-            android:layout_width="@dimen/px20"
+            android:layout_width="@dimen/px26"
             android:layout_height="match_parent" />
 
         <RelativeLayout
             android:id="@+id/view"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1" 
+            android:background="@drawable/pad">
 
             <com.google.android.apps.tvremote.widget.SoftDpad
                 android:id="@+id/SoftDpad"
@@ -41,24 +42,26 @@
             <!-- 1) up -->
 
             <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/px160"
+                android:layout_height="@dimen/px160"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" >
+                android:layout_centerHorizontal="true" 
+                android:layout_marginTop="@dimen/px66"
+                >
 
                 <ImageButton
                     android:id="@+id/fourway_up"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/px160"
+                    android:layout_height="@dimen/px160"
                     android:layout_gravity="center"
-                    android:background="@drawable/fourwayup"
+                    android:background="@drawable/xml_fourway_up"
                     android:contentDescription="@string/accessibility_general_button" />
 
                 <ImageView
                     android:id="@+id/anim_fourway_up"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|center_horizontal"
+                    android:layout_gravity="center"
                     android:background="@drawable/anim_tappress"
                     android:contentDescription="@string/accessibility_general_button"
                     android:visibility="invisible" />
@@ -67,24 +70,26 @@
             <!-- 2) right -->
 
             <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/px160"
+                android:layout_height="@dimen/px160"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" >
+                android:layout_centerVertical="true" 
+                android:layout_marginRight="@dimen/px66"
+                >
 
                 <ImageButton
                     android:id="@+id/fourway_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/px160"
+                    android:layout_height="@dimen/px160"
                     android:layout_gravity="center"
-                    android:background="@drawable/fourwayright"
+                    android:background="@drawable/xml_fourway_right"
                     android:contentDescription="@string/accessibility_general_button" />
 
                 <ImageView
                     android:id="@+id/anim_fourway_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
+                    android:layout_gravity="center"
                     android:background="@drawable/anim_tappress"
                     android:contentDescription="@string/accessibility_general_button"
                     android:visibility="invisible" />
@@ -93,24 +98,25 @@
             <!-- 3) down -->
 
             <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/px160"
+                android:layout_height="@dimen/px160"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" >
+                android:layout_centerHorizontal="true" 
+                android:layout_marginBottom="@dimen/px67">
 
                 <ImageButton
                     android:id="@+id/fourway_down"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/px160"
+                    android:layout_height="@dimen/px160"
                     android:layout_gravity="center"
-                    android:background="@drawable/fourwaydown"
+                    android:background="@drawable/xml_fourway_down"
                     android:contentDescription="@string/accessibility_general_button" />
 
                 <ImageView
                     android:id="@+id/anim_fourway_down"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_gravity="center"
                     android:background="@drawable/anim_tappress"
                     android:contentDescription="@string/accessibility_general_button"
                     android:visibility="invisible" />
@@ -119,24 +125,25 @@
             <!-- 4) left -->
 
             <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/px160"
+                android:layout_height="@dimen/px160"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true" >
+                android:layout_centerVertical="true" 
+                android:layout_marginLeft="@dimen/px66">
 
                 <ImageButton
                     android:id="@+id/fourway_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/px160"
+                    android:layout_height="@dimen/px160"
                     android:layout_gravity="center"
-                    android:background="@drawable/fourwayleft"
+                    android:background="@drawable/xml_fourway_left"
                     android:contentDescription="@string/accessibility_general_button" />
 
                 <ImageView
                     android:id="@+id/anim_fourway_left"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_vertical"
+                    android:layout_gravity="center"
                     android:background="@drawable/anim_tappress"
                     android:contentDescription="@string/accessibility_general_button"
                     android:visibility="invisible" />
@@ -145,23 +152,23 @@
             <!-- ok button -->
 
             <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/px138"
+                android:layout_height="@dimen/px138"
                 android:layout_centerInParent="true" >
 
                 <ImageButton
                     android:id="@+id/fourway_ok"
-                    android:layout_width="@dimen/px110"
-                    android:layout_height="@dimen/px110"
+                    android:layout_width="@dimen/px138"
+                    android:layout_height="@dimen/px138"
                     android:layout_gravity="center"
                     android:background="@drawable/xml_control_ok"
                     android:contentDescription="@string/accessibility_general_button" />
 
                 <ImageView
                     android:id="@+id/anim_fourway_ok"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left|center_vertical"
+                    android:layout_width="@dimen/px130"
+                    android:layout_height="@dimen/px130"
+                    android:layout_gravity="center"
                     android:background="@drawable/anim_tappress"
                     android:contentDescription="@string/accessibility_general_button"
                     android:visibility="invisible" />
@@ -169,12 +176,12 @@
         </RelativeLayout>
 
         <View
-            android:layout_width="@dimen/px20"
+            android:layout_width="@dimen/px26"
             android:layout_height="match_parent" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/px19" />
+        android:layout_height="@dimen/px30" />
 
 </LinearLayout>

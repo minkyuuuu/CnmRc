@@ -222,86 +222,45 @@ public class RcNumericPad extends Fragment implements View.OnClickListener {
 	@Override
 	public void onClick(View v) {
 
-		switch (v.getId()) {
-		case R.id.numeric_n1:
-			Action.NUM1.execute(((BaseActivity) getActivity()).getCommands());
-			break;
-		case R.id.numeric_n2:
-			Action.NUM2.execute(((BaseActivity) getActivity()).getCommands());
-			break;
-		case R.id.numeric_n3:
-			Action.NUM3.execute(((BaseActivity) getActivity()).getCommands());
-			break;
-		case R.id.numeric_n4:
-			Action.NUM4.execute(((BaseActivity) getActivity()).getCommands());
-			break;
-		case R.id.numeric_n5:
-			Action.NUM5.execute(((BaseActivity) getActivity()).getCommands());
-			break;
-		case R.id.numeric_n6:
-			Action.NUM6.execute(((BaseActivity) getActivity()).getCommands());
-			break;
-		case R.id.numeric_n7:
-			Action.NUM7.execute(((BaseActivity) getActivity()).getCommands());
-			break;
-		//		case R.id.numeric_n8:
-		//			Action.NUM8.execute(((BaseActivity)getActivity()).getCommands());
-		//			break;
-		//		case R.id.numeric_n9:
-		//			Action.NUM9.execute(((BaseActivity)getActivity()).getCommands());
-		//			break;
-		//		case R.id.numeric_n0:
-		//			Action.NUM0.execute(((BaseActivity)getActivity()).getCommands());
-		//			break;
-		//			
-		//		case R.id.numeric_del:
-		//			Action.DEL.execute(((BaseActivity)getActivity()).getCommands());
-		//			break;
-		//		case R.id.numeric_enter:
-		//			Action.ENTER.execute(((BaseActivity)getActivity()).getCommands());
-		//			break;
-		}
-
-		/*
-		 * // 테스트용... part 0 switch (v.getId()) { case R.id.numeric_n1: // DVR,
-		 * 실시간TV와 같음
-		 * Action.GO_TO_DVR.execute(((BaseActivity)getActivity()).getCommands
-		 * ()); break; case R.id.numeric_n2: // guide, bookmark (tv프로그램 또는 영화)
-		 * 전화면을 기억하여 북마크로 이동한다.
-		 * Action.GO_TO_GUIDE.execute(((BaseActivity)getActivity
-		 * ()).getCommands()); break; case R.id.numeric_n3: // Google TV 설정화면
-		 * Action.SETTINGS.execute(((BaseActivity)getActivity()).getCommands());
-		 * break; case R.id.numeric_n4: // 브라우저에서 페이지단위 이동, 볼륨키도 적용된다.
-		 * Action.PAGE_UP.execute(((BaseActivity)getActivity()).getCommands());
-		 * break; case R.id.numeric_n5: // 브라우저에서 페이지단위 이동, 볼륨키도 적용된다.
-		 * Action.PAGE_DOWN
-		 * .execute(((BaseActivity)getActivity()).getCommands()); break; case
-		 * R.id.numeric_n6: // recall, ???
-		 * Action.TAB.execute(((BaseActivity)getActivity()).getCommands());
-		 * break; case R.id.numeric_n7: // 옵셔메뉴
-		 * Action.GO_TO_MENU.execute(((BaseActivity
-		 * )getActivity()).getCommands()); break;
-		 * 
-		 * case R.id.numeric_n8: // 검색
-		 * Action.NAVBAR.execute(((BaseActivity)getActivity()).getCommands());
-		 * //showActivity(KeyboardActivity.class); break; case R.id.numeric_n9:
-		 * // 실시간 TV
-		 * Action.GO_TO_LIVE_TV.execute(((BaseActivity)getActivity()).getCommands
-		 * ()); break; case R.id.numeric_n0: // bookmark (tv프로그램 또는 영화) 전화면을
-		 * 기억하여 북마크로 이동한다. tv모드일때만 book가 실행된다. home에서는 안된다. 그러나 guide는 home에서도
-		 * 이동한다.
-		 * Action.GO_TO_BOOKMARK.execute(((BaseActivity)getActivity()).getCommands
-		 * ()); break;
-		 * 
-		 * case R.id.numeric_nback: Intent intent = getActivity().getIntent();
-		 * intent.setAction(Intent.ACTION_SEND);
-		 * intent.putExtra(Intent.EXTRA_TEXT, "http://daum.net");
-		 * intent.setType("text/plain");
-		 * ((MainActivity)getActivity()).flingIntent(intent); break; case
-		 * R.id.numeric_nok:
-		 * Action.ENTER.execute(((BaseActivity)getActivity()).getCommands());
-		 * break; }
-		 */
+//		switch (v.getId()) {
+//		case R.id.numeric_n1:
+//			Action.NUM1.execute(((BaseActivity) getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n2:
+//			Action.NUM2.execute(((BaseActivity) getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n3:
+//			Action.NUM3.execute(((BaseActivity) getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n4:
+//			Action.NUM4.execute(((BaseActivity) getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n5:
+//			Action.NUM5.execute(((BaseActivity) getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n6:
+//			Action.NUM6.execute(((BaseActivity) getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n7:
+//			Action.NUM7.execute(((BaseActivity) getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n8:
+//			Action.NUM8.execute(((BaseActivity) getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n9:
+//			Action.NUM9.execute(((BaseActivity) getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_n0:
+//			Action.NUM0.execute(((BaseActivity) getActivity()).getCommands());
+//			break;
+//
+//		case R.id.numeric_del:
+//			Action.DEL.execute(((BaseActivity) getActivity()).getCommands());
+//			break;
+//		case R.id.numeric_enter:
+//			Action.ENTER.execute(((BaseActivity) getActivity()).getCommands());
+//			break;
+//		}
 
 		// 테스트용... part 1
 		//		switch (v.getId()) {
