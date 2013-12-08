@@ -1,21 +1,16 @@
 package com.cnm.cnmrc;
 
-import java.io.File;
-
 import android.app.Application;
-import android.app.Dialog;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Environment;
 import android.telephony.TelephonyManager;
-import android.util.Log;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.ProgressBar;
 
 import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.Sound;
-import com.cnm.cnmrc.util.Util;
+import com.urbanairship.AirshipConfigOptions;
+import com.urbanairship.UAirship;
+import com.urbanairship.push.PushManager;
 
 
 /**
@@ -91,6 +86,14 @@ public class CnmApplication extends Application {
 			
 			initializeConfig(getApplicationContext());
 		}
+		
+		// push service
+		AirshipConfigOptions options = AirshipConfigOptions.loadDefaultOptions(this);
+		UAirship.takeOff(this, options);
+		PushManager.shared().setIntentReceiver(IntentReceiver.class);
+        // 앱에서 push service 초기화할 때 사용한다.
+		PushManager.enablePush();
+		//PushManager.disablePush();
 		
 	}
 

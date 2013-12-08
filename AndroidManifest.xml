@@ -8,18 +8,30 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
 
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.INTERNET" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
-    </uses-permission>
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+    <!-- REQUIRED PERMISSIONS (for Urban Airship GCM) -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- GCM requires a Google account. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- Keeps the processor from sleeping when a message is received. -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" /> <!-- This app has permission to register with GCM and receive message -->
+
+
+    <!-- MODIFICATION REQUIRED - Replace "com.minkyuuuu.cnmrc" with your package name -->
+    <permission
+        android:name="com.cnm.cnmrc.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.cnm.cnmrc.permission.C2D_MESSAGE" />
+    <!-- The two elements above ensure that only this application can receive the messages and registration result -->
+
+
+    <!-- END Urban Airship Required Permissions -->
 
     <uses-feature
         android:name="android.hardware.touchscreen"
@@ -32,14 +44,15 @@
         android:name=".CnmApplication"
         android:allowBackup="true"
         android:debuggable="true"
+        android:enabled="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.google.android.apps.tvremote.StartupActivity"
-            android:theme="@android:style/Theme.NoTitleBar" 
+            android:launchMode="singleTask"
             android:noHistory="true"
-            >
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,19 +61,18 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:allowClearUserData="true"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Light.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:windowSoftInputMode="adjustPan" 
-            >
+            android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name=".QwertyActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:windowSoftInputMode="stateAlwaysVisible"
-            android:configChanges="orientation|keyboardHidden"
-            />
+            android:windowSoftInputMode="stateAlwaysVisible" />
         <activity
             android:name=".MirroringTvchActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -97,8 +109,7 @@
             android:name="com.google.android.apps.tvremote.DeviceFinder"
             android:label="@string/finder_label"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" 
-            />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.google.android.apps.tvremote.PairingActivity"
             android:label="@string/pairing_activity_label"
@@ -114,11 +125,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
-        
+
         <provider
             android:name=".provider.CnmRcProvider"
-            android:exported="false"
-            android:authorities="com.cnm.cnmrc" />
+            android:authorities="com.cnm.cnmrc"
+            android:exported="false" />
 
         <service
             android:name="com.google.android.apps.tvremote.CoreService"
@@ -126,6 +137,51 @@
             android:exported="true"
             android:label="@string/core_service_label"
             android:permission="android.permission.INTERNET" />
+
+        <!-- REQUIRED for Urban Airship GCM -->
+        <receiver android:name="com.urbanairship.CoreReceiver" />
+        <receiver
+            android:name="com.urbanairship.push.GCMPushReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <!-- MODIFICATION REQUIRED - Use your package name as the category -->
+                <category android:name="com.cnm.cnmrc" />
+            </intent-filter>
+
+            <!-- REQUIRED for detecting when the application is upgraded so it can request a new GCM ID -->
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.urbanairship.push.PushService"
+            android:label="Push Notification Service" />
+<!--         REQUIRED only with UA Android lib version 2.1.4 and earlier. Do not include PushWorkerService with UA Android lib version 3.0.0+ since it has been deprecated
+        <service
+            android:name="com.urbanairship.push.PushWorkerService"
+            android:label="Push Notification Worker Service" /> -->
+        <service
+            android:name="com.urbanairship.analytics.EventService"
+            android:label="Event Service" />
+
+        <!-- This is required for persisting preferences related to push and location -->
+        <provider
+            android:name="com.urbanairship.UrbanAirshipProvider"
+            android:authorities="com.cnm.cnmrc.urbanairship.provider"
+            android:exported="false"
+            android:multiprocess="true" />
+        <!-- END OF REQUIRED ITEMS -->
+
+
+        <!-- OPTIONAL, if you want to receive push, push opened and registration completed intents -->
+        <!-- Replace the receiver below with your package and class name -->
+        <receiver android:name="com.cnm.cnmrc.IntentReceiver" />
     </application>
 
 </manifest>

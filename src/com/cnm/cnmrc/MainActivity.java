@@ -6,7 +6,10 @@ import java.net.UnknownHostException;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -45,17 +48,16 @@ import com.cnm.cnmrc.fragment.vodtvch.Base;
 import com.cnm.cnmrc.fragment.vodtvch.VodDetail;
 import com.cnm.cnmrc.fragment.vodtvch.VodTvchMain;
 import com.cnm.cnmrc.popup.PopupGtvConnection;
-import com.cnm.cnmrc.popup.PopupGtvNotAlive;
-import com.cnm.cnmrc.popup.PopupGtvNotAliveTv;
 import com.cnm.cnmrc.tcp.TCPClientRequestStatus;
 import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.Util;
 import com.google.android.apps.tvremote.BaseActivity;
-import com.google.android.apps.tvremote.DeviceFinder;
 import com.google.android.apps.tvremote.RemoteDevice;
 import com.google.android.apps.tvremote.widget.HighlightView;
 import com.google.android.apps.tvremote.widget.KeyCodeButton;
 import com.google.anymote.Key;
+import com.urbanairship.UAirship;
+import com.urbanairship.push.PushManager;
 
 /**
  * 
@@ -141,6 +143,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 	Fragment mRcTopMenu;
 	
+    IntentFilter apidUpdateFilter;
+	
 
 	public MainActivity() {
 		//super();
@@ -167,6 +171,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			isMirroringTV = bundle.getBoolean("isMirroringTV");
 			isChaeWon1 = bundle.getBoolean("isChaeWon1");
 		}
+		
+		// push service
+        apidUpdateFilter = new IntentFilter();
+        apidUpdateFilter.addAction(UAirship.getPackageName()+IntentReceiver.APID_UPDATED_ACTION_SUFFIX);
 
 		// -------------------------
 		// initialize UI
@@ -226,9 +234,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 		// hwang
 		//Util.hideSoftKeyboard(this);
+		
+		// push service
+        registerReceiver(apidUpdateReceiver, apidUpdateFilter);
+        //updateApidField();
 
 		super.onResume();
 	}
+	
+    private BroadcastReceiver apidUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //updateApidField();
+        }
+    };
+
+    private void updateApidField() {
+        String apidString = PushManager.shared().getAPID();		// aadcb8c3-2991-45b1-a787-c054e5b0e8a0
+        
+        boolean b = PushManager.shared().getPreferences().isPushEnabled();
+        Log.e("hwang", "Apid : " + apidString);
+    }
 
 	@Override
 	protected void onDestroy() {
