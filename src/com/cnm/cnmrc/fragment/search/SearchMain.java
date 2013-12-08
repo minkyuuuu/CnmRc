@@ -44,10 +44,11 @@ import com.cnm.cnmrc.util.Util;
 
 public class SearchMain extends Fragment implements View.OnClickListener {
 
-	public static SearchMain newInstance(String type) {
+	public static SearchMain newInstance(String type, boolean isFirstEntering) {
 		SearchMain f = new SearchMain();
 		Bundle args = new Bundle();
-		args.putString("type", type); // vod or tvch
+		args.putString("type", type); 							// vod or tvch
+		args.putBoolean("isFirstEntering", isFirstEntering); 	// for dealing with focus change, not used...
 		f.setArguments(args);
 		return f;
 	}
@@ -71,7 +72,7 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 	FrameLayout mResultPanel;
 	FrameLayout mDetilPanel;
 	RelativeLayout mNoSearchWordPanel;
-	boolean noSearchword = false;
+//	boolean isFirstEntering = false;
 
 	Button mSearchRecentlyDelete;
 	Button mEditSearchIcon;
@@ -115,21 +116,22 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		// // not work
 
 		edit = (EditText) layout.findViewById(R.id.search_edit);
+		edit.setOnClickListener(this);
 		
 		// 2013-12-04 처음 진입시 키보드가 안보이게...
-		//noSearchword = false;
-		edit.setOnFocusChangeListener(new OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-				Log.i("hwang", "edit focus changed!!!");
-				
-				if (hasFocus) {
-					if (noSearchword) {
-						if (mNoSearchWordPanel.getVisibility() == View.VISIBLE)
-							mNoSearchWordPanel.setVisibility(View.GONE);
-					}
-				}
-			}
-		});
+//		isFirstEntering = getArguments().getBoolean("isFirstEntering");
+//		edit.setOnFocusChangeListener(new OnFocusChangeListener() {
+//			public void onFocusChange(View v, boolean hasFocus) {
+//				Log.i("hwang", "edit focus changed!!!");
+//				
+//				if (hasFocus) {
+//					if (!isFirstEntering) {
+//						if (mNoSearchWordPanel.getVisibility() == View.VISIBLE)
+//							mNoSearchWordPanel.setVisibility(View.GONE);
+//					}
+//				}
+//			}
+//		});
 		
 		edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
@@ -170,7 +172,7 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 				changeViewList(checkedId);
 			}
 		});
-		radioGroup.setVisibility(View.GONE);
+		//radioGroup.setVisibility(View.INVISIBLE);
 
 		// listview
 		mListView = (ListView) layout.findViewById(R.id.search_recently_listview);
@@ -184,7 +186,6 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		if (cursor != null) {
 			if (cursor.getCount() > 0) {
 				mNoSearchWordPanel.setVisibility(View.GONE);
-				noSearchword = false;
 				mArrayList = new ArrayList<String>(cursor.getCount());
 				while (cursor.moveToNext()) {
 					mArrayList.add(cursor.getString(1));
@@ -192,7 +193,6 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 			} else {
 				mArrayList = new ArrayList<String>(0);
 				mNoSearchWordPanel.setVisibility(View.VISIBLE);
-				noSearchword = true;
 			}
 			cursor.close();
 		}
@@ -228,7 +228,7 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 
 		Util.hideSoftKeyboard(getActivity());
 		mResultPanel.setVisibility(View.VISIBLE);
-		radioGroup.setVisibility(View.VISIBLE);
+//		radioGroup.setVisibility(View.VISIBLE);
 
 		// 검색어를 db에 저장		
 		ContentValues values = new ContentValues();
@@ -313,8 +313,9 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 
 		// test
 		// 최근검색어 라인이 필요없는것 같다. 하단의 "최근 검색어 삭제" 버튼이 현재 리스트의 내용을 가리키고있다.
-		TextView word = (TextView) layout.findViewById(R.id.search_recently_word);
-		word.setVisibility(View.GONE);
+		// 아니다. 필요하다, 아니면 둘다 없든지... 위의 "최근검색어"와 아래의 "최근검색어삭제"는 같이할 운명이다.
+//		TextView word = (TextView) layout.findViewById(R.id.search_recently_word);
+//		word.setVisibility(View.GONE);
 
 	}
 
@@ -363,6 +364,7 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 		case R.id.top_search_icon:
 			resetAll();
 		case R.id.search_edit:
+//			isFirstEntering = false;
 			if (mNoSearchWordPanel.getVisibility() == View.VISIBLE)
 				mNoSearchWordPanel.setVisibility(View.GONE);
 			break;
@@ -434,7 +436,7 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 			getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
 		}
 
-		radioGroup.setVisibility(View.GONE);
+//		radioGroup.setVisibility(View.INVISIBLE);
 		mTitleLayout.setVisibility(View.GONE);
 		edit.setText("");
 		mResultPanel.setVisibility(View.INVISIBLE);
@@ -457,13 +459,11 @@ public class SearchMain extends Fragment implements View.OnClickListener {
 			if (cursor != null) {
 				if (cursor.getCount() > 0) {
 					mArrayList.clear();
-					noSearchword = false;
 					while (cursor.moveToNext()) {
 						mArrayList.add(cursor.getString(1));
 					}
 				} else {
 					mArrayList.clear();
-					noSearchword = true;
 				}
 				cursor.close();
 				mAdapter.notifyDataSetChanged();

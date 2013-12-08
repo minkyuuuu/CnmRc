@@ -763,11 +763,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		Log.i("hwang", "after when mainActivity fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
 	}
 
-	public void goToSearch(String type) {
+	public void goToSearch(String type, boolean isFirstEntering) {
 		FragmentManager fm = getSupportFragmentManager();
 		Log.i("hwang", "(Search) before when mainActivity  fragment count --> " + Integer.toString(fm.getBackStackEntryCount()));
 
-		SearchMain search = SearchMain.newInstance(type);
+		SearchMain search = SearchMain.newInstance(type, isFirstEntering);
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
 		//  ft.replace전에 animation을 설정해야 한다.

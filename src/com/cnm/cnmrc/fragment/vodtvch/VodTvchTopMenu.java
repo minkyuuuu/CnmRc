@@ -80,7 +80,7 @@ public class VodTvchTopMenu extends Fragment implements View.OnClickListener {
 
 		switch (v.getId()) {
 		case R.id.vod_tvch_top_search:
-			((MainActivity) getActivity()).goToSearch("vod_tvch");
+			((MainActivity) getActivity()).goToSearch("vod_tvch", true);
 			Log.i("hwang", "go to search");
 			break;
 		case R.id.vod_tvch_top_category:

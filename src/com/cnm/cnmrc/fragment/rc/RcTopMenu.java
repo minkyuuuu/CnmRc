@@ -137,7 +137,7 @@ public class RcTopMenu extends Fragment implements View.OnClickListener {
 			((MainActivity)getActivity()).goToVodTvch("tvch");
 			break;
 		case R.id.search:
-			((MainActivity)getActivity()).goToSearch("rc");
+			((MainActivity)getActivity()).goToSearch("rc", true);
 			break;
 		}
 	}
