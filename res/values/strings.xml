@@ -171,6 +171,9 @@
     <string name="popup_config_allreset_input_line_1">모든 설정을</string>
     <string name="popup_config_allreset_input_line_2">초기화하시겠습니까?</string>
     
+    <string name="popup_tvreserving_title">시청예약을 하시겠습니까?</string>
+    <string name="popup_tvreserving_confirm_title">시청예약</string>
+    
     
     
 

@@ -103,7 +103,7 @@ public class RcTopMenu extends Fragment implements View.OnClickListener {
 		switch (v.getId()) {
 		case R.id.stb_power:
 			// 반드시 풀자....
-			Action.POWER.execute(((BaseActivity)getActivity()).getCommands()); 	// POWER_TV(x) POWER(o) POWER_AVR(x) POWER_BD(x) POWER_STB(x)
+			Action.POWER_STB.execute(((BaseActivity)getActivity()).getCommands()); 	// POWER_TV(x) POWER(o) POWER_AVR(x) POWER_BD(x) POWER_STB(x)
 			
 			
 			//Action.SWITCH_CHARSET.execute(((BaseActivity)getActivity()).getCommands()); 	// POWER_TV(x) POWER(o) POWER_AVR(x) POWER_BD(x) POWER_STB(x)
@@ -121,7 +121,7 @@ public class RcTopMenu extends Fragment implements View.OnClickListener {
 			
 			break;
 		case R.id.integration_ui_main:
-			Action.HOME.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
+			Action.GO_TO_GUIDE.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
 			
 			// 2013-11-13 test hangul
 			// 연속으로 action을 보내도 보낸 순서로 잘 처리된다. 따로 handler를 사용할 필요가 없다.

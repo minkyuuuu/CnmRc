@@ -57,9 +57,52 @@ public class Util {
 	public static Date toDate(int yyyy, int mm, int dd) {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, yyyy);
-		cal.set(Calendar.MONTH, mm);
+		//cal.set(Calendar.MONTH, mm);
+		cal.set(Calendar.MONTH, mm-1);
 		cal.set(Calendar.DAY_OF_MONTH, dd);
 		return cal.getTime();
+	}
+	
+	// 시청예약
+	public static Date toDate(String time) {
+		Log.v("hwang", "time : " + time);
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, Integer.valueOf(time.substring(0, 4)));
+		Log.v("hwang", "YEARtime.substring(0, 4) : " + time.substring(0, 4));
+		Log.v("hwang", "YEAR  : " + Integer.valueOf(time.substring(0, 4)));
+		
+		cal.set(Calendar.MONTH, Integer.valueOf(time.substring(5, 7)) - 1);
+		Log.v("hwang", "MONTHtime.substring(5, 7) : " + time.substring(5, 7));
+		Log.v("hwang", "MONTH  : " + Integer.valueOf(time.substring(5, 7)));
+		
+		cal.set(Calendar.DAY_OF_MONTH, Integer.valueOf(time.substring(8, 10)));
+		Log.v("hwang", "DAY_OF_MONTHtime.substring(8, 10) : " + time.substring(8, 10));
+		Log.v("hwang", "DAY_OF_MONTH  : " + Integer.valueOf(time.substring(8, 10)));
+		
+		cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(time.substring(11, 13)));  
+		Log.v("hwang", "HOUR_OF_DAYtime.substring(11, 13) : " + time.substring(11, 13));
+		Log.v("hwang", "HOUR_OF_DAY  : " + Integer.valueOf(time.substring(11, 13)));
+		
+		cal.set(Calendar.MINUTE, Integer.valueOf(time.substring(14, 16)));
+		Log.v("hwang", "MINUTEtime.substring(14, 16) : " + time.substring(14, 16));
+		Log.v("hwang", "MINUTE  : " + Integer.valueOf(time.substring(14, 16)));
+		
+		cal.set(Calendar.SECOND, Integer.valueOf(time.substring(17)));
+		Log.v("hwang", "SECONDtime.substring(17) : " + time.substring(17));
+		Log.v("hwang", "SECOND  : " + Integer.valueOf(time.substring(17)));
+		
+		return cal.getTime();
+	}
+	public static String getTvReserving(String time1, String time2) {
+		String start = time1.substring(11, 16);
+		String end = time2.substring(11, 16);
+		return start + " ~ " + end;
+	}
+	public static String getTvReservingLast(String time1) {
+		String start = time1.substring(11, 16);
+		String end = "23:59";
+		return start + " ~ " + end;
 	}
 
 	public static Calendar toCalendar(Date solraFixedDate) {

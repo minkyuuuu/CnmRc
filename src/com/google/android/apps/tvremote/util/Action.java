@@ -94,6 +94,19 @@ public enum Action {
 	// -----------------------------
 	// MainActivity > top menu
 	// -----------------------------
+	POWER_STB {
+		@Override
+		public void execute(ICommandSender sender) {
+			sender.keyPress(Code.KEYCODE_STB_POWER);
+		}
+	},
+	GO_TO_GUIDE {		// guide, bookmark (tv프로그램 또는 영화) 전화면을 기억하여 북마크로 이동한다. 
+		@Override
+		public void execute(ICommandSender sender) {
+			sender.keyPress(Code.KEYCODE_GUIDE);
+		}
+	},
+	
 	// KEYCODE_POWER(o), KEYCODE_BD_POWER(x), KEYCODE_STB_POWER(x), KEYCODE_TV_POWER(x)  KEYCODE_AVR_POWER(x) 
 	POWER {		// 기획의도는 셋탑전원인데 ...
 		@Override
@@ -411,12 +424,6 @@ public enum Action {
 			sender.keyPress(Code.KEYCODE_DVR);
 		}
 	},
-	GO_TO_GUIDE {		// guide, bookmark (tv프로그램 또는 영화) 전화면을 기억하여 북마크로 이동한다. 
-		@Override
-		public void execute(ICommandSender sender) {
-			sender.keyPress(Code.KEYCODE_GUIDE);
-		}
-	},
 	GO_TO_INFO {		// info, 아무런 동작을 하지 않는다. ???
 		@Override
 		public void execute(ICommandSender sender) {
@@ -545,12 +552,7 @@ public enum Action {
 	// ---------------
 	// test 4 part
 	// ---------------
-	POWER_STB {
-		@Override
-		public void execute(ICommandSender sender) {
-			sender.keyPress(Code.KEYCODE_STB_POWER);
-		}
-	},
+
 	INPUT_STB {
 		@Override
 		public void execute(ICommandSender sender) {

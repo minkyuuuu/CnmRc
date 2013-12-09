@@ -18,15 +18,20 @@ package com.cnm.cnmrc.fragment.vodtvch;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.FragmentTransaction;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
@@ -46,6 +51,8 @@ import com.cnm.cnmrc.adapter.TvchDetailAdapter;
 import com.cnm.cnmrc.item.ItemTvchDetail;
 import com.cnm.cnmrc.item.ItemTvchDetailList;
 import com.cnm.cnmrc.parser.TvchDetailParser;
+import com.cnm.cnmrc.popup.PopupTvReserving;
+import com.cnm.cnmrc.receiver.AlarmReceiver;
 import com.cnm.cnmrc.util.UiUtil;
 import com.cnm.cnmrc.util.UrlAddress;
 import com.cnm.cnmrc.util.Util;
@@ -53,13 +60,13 @@ import com.cnm.cnmrc.util.Util;
 public class TvchDetail extends Base implements View.OnClickListener {
 
 	public TvchDetail newInstance(int selectedCategory, String title, boolean isFirstDepth, Bundle bundle) {
-		TvchDetail f = new TvchDetail();
+		mTvchDetail = new TvchDetail();
 		Bundle args = new Bundle();
 		args.putString("title", title);
 		args.putBoolean("isFirstDepth", isFirstDepth);
 		args.putBundle("bundle", bundle);
-		f.setArguments(args);
-		return f;
+		mTvchDetail.setArguments(args);
+		return mTvchDetail;
 	}
 
 	LinearLayout preventClickDispatching; // 현재화면 밑에있는 화면으로 클릭이벤트가 전달되는것을 막기위함.
@@ -76,6 +83,8 @@ public class TvchDetail extends Base implements View.OnClickListener {
 	List<ArrayFragment> fragments;	// 뷰페이저의 전체페이지
 	private ViewPager mPager; 		// 뷰 페이저
 	private FragmentPagerAdapterClass pagerAdapter = null;
+	
+	TvchDetail mTvchDetail = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -137,7 +146,7 @@ public class TvchDetail extends Base implements View.OnClickListener {
 				if(position == 0) prev.setVisibility(View.INVISIBLE);
 				else prev.setVisibility(View.VISIBLE);
 				
-				if(position == 5) next.setVisibility(View.INVISIBLE);
+				if(position == 6) next.setVisibility(View.INVISIBLE);
 				else next.setVisibility(View.VISIBLE);
 			}
 			@Override public void onPageScrolled(int position, float positionOffest, int positionOffsetPixels) {
@@ -152,17 +161,6 @@ public class TvchDetail extends Base implements View.OnClickListener {
 			}
 		});
 		
-//		mPager.setOnTouchListener(new View.OnTouchListener() {
-//			@Override
-//			public boolean onTouch(View v, MotionEvent event) {
-//				// TODO Auto-generated method stub
-//				//pagerAdapter.getItem(mPager.getCurrentItem());
-//				// getsture를 이용해서 마지막페이지 처리???
-//				return false;
-//			}
-//		});
-		//((ArrayFragment)pagerAdapter.getItem(0)).showTvchDetail(); // 여기선 안된다...
-
 		return layout;
 	}
 
@@ -234,7 +232,7 @@ public class TvchDetail extends Base implements View.OnClickListener {
 			break;
 		}
 	}
-
+	
 	// -----------------------------------------
 	// FragmentPager 구현
 	// -----------------------------------------
@@ -287,13 +285,13 @@ public class TvchDetail extends Base implements View.OnClickListener {
 //		}
 //
 //		// instantiateItem메소드에서 생성한 객체를 이용할 것인지
-////		@Override
-////		public boolean isViewFromObject(View view, Object object) {
-////			// TODO Auto-generated method stub
-////			return view == object;
-////			// return super.isViewFromObject(view, object);
-////		}
-////		
+//		@Override
+//		public boolean isViewFromObject(View view, Object object) {
+//			// TODO Auto-generated method stub
+//			return view == object;
+//			// return super.isViewFromObject(view, object);
+//		}
+//		
 //		@Override
 //		public void restoreState(Parcelable state, ClassLoader loader) {
 //			// TODO Auto-generated method stub
@@ -361,6 +359,13 @@ public class TvchDetail extends Base implements View.OnClickListener {
 			dateIndex = String.valueOf(position);
 		}
 
+		String mTitle = "";
+		String mTimePeriod = "";
+		String mBroadcastingTime = "";
+		long broadcastingTime = 0;
+		int mPosition = 0;
+		HashMap<String , String> map = new HashMap<String , String>();	// 같은 program id는 체크
+		
 		//fragment의 UI 생성
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -378,16 +383,70 @@ public class TvchDetail extends Base implements View.OnClickListener {
 					// ㅎㅎ
 					if (UiUtil.isSlidingMenuOpening(getActivity()))
 						return;
-
+					
+					// position
+					mPosition = position;
+					
+					// popup
+					mTitle = adapter.getItem(position).getTitle();
+					mBroadcastingTime = adapter.getItem(position).getBroadcastingTime();
+					Date temp = Util.toDate(mBroadcastingTime);
+					broadcastingTime = temp.getTime();
+					
+					// 현재시각보다 과거는 리턴한다.
+					if(broadcastingTime < System.currentTimeMillis()) return;
+					
+					// 마지막 방송의 끝나는 시각은 23:59분으로 처리한다.
+					String time1 = adapter.getItem(position).getBroadcastingTime();
+					if(position == adapter.getCount()-1) {
+						mTimePeriod = Util.getTvReservingLast(time1);
+					}
+					else {
+						String time2 = adapter.getItem(position+1).getBroadcastingTime();
+						mTimePeriod = Util.getTvReserving(time1, time2);
+					}
+					
+					FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+					PopupTvReserving popup = new PopupTvReserving(mTitle, mTimePeriod);
+					popup.show(ft, PopupTvReserving.class.getSimpleName());
+					popup.setInterceptor(new PopupTvReserving.Interceptor() {
+						@Override
+						public void onSetAlarm() {
+							// 같은 program id는 체크하여 예약하지 않는다.
+							if(map.containsKey(adapter.getItem(mPosition).getId())) {
+								Log.e("hwang", "already tv reserving (program id) : " + adapter.getItem(mPosition).getId());
+								return;
+							}
+								
+							// 시청예약알림
+							Intent intent = new Intent(getActivity(), AlarmReceiver.class);	// 예약에 의해 호출될 BR 지정
+							intent.putExtra("title", mTitle);
+							intent.putExtra("time", mTimePeriod);
+							
+							PendingIntent sender = PendingIntent.getBroadcast(getActivity(), (int)System.currentTimeMillis(), intent, 0);
+							AlarmManager am = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+							// 알람 시간. 10초후
+//							Calendar calendar = Calendar.getInstance();
+//							calendar.setTimeInMillis(System.currentTimeMillis());
+//							calendar.add(Calendar.SECOND, 10);
+//							am.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
+							
+							am.set(AlarmManager.RTC, broadcastingTime, sender);
+							
+							// 같은 program id는 체크하여 예약하지 않는다. 그 처리를 위한 저장.
+							map.put(adapter.getItem(mPosition).getId(), adapter.getItem(mPosition).getId());
+							
+						}
+					});
+					
 				}
 
 			});
-
+			
 			if(dateIndex.equals("1")) showTvchDetail();
 
 			return layout;
 		}
-		
 		
 		private void showTvchDetail() {
 			// check network and data loading
@@ -396,8 +455,6 @@ public class TvchDetail extends Base implements View.OnClickListener {
 			} else {
 				new VodSemiAsyncTask().execute();
 			}
-			
-			//new VodSemiAsyncTask().execute();
 		}
 
 		long elapsedTime;
