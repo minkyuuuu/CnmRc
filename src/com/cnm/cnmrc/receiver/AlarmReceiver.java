@@ -16,7 +16,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 	private NotificationManager notificationManager;
 
 	public void onReceive(Context context, Intent intent) {
-		Toast.makeText(context, "It's time to start", Toast.LENGTH_SHORT).show();
 		String mTitle = intent.getStringExtra("title");
 		String mTime = intent.getStringExtra("time");
 		

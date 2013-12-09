@@ -16,14 +16,14 @@
 
 package com.google.android.apps.tvremote;
 
-import java.util.concurrent.TimeUnit;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
@@ -38,6 +38,7 @@ public class StartupActivity extends CoreServiceActivity {
 
 	private boolean keystoreAvailable;
 	TimeWatch watch;
+	ImageView coachMark;
 
 	/**
 	 * 주 기능: splash display (1500 milliseconds) make KeyStore at
@@ -50,6 +51,17 @@ public class StartupActivity extends CoreServiceActivity {
 		// Show splash UI.
 		setContentView(R.layout.startup);
 
+		coachMark = (ImageView) findViewById(R.id.coachmark);
+		coachMark.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (coachMark.getVisibility() == (View.VISIBLE)) {
+					keystoreAvailable = true;
+					showMainActivity();
+				}
+			}
+		});
+
 		Log.e("hwang-tvremote", "StartupActivity : onCreate()");
 	}
 
@@ -61,13 +73,12 @@ public class StartupActivity extends CoreServiceActivity {
 			new KeystoreInitializerTask(getUniqueId()).execute(getKeyStoreManager()); // take times : 1500 milliseconds
 		} else {
 			Log.i("hwang-tvremote", "StartupActivity : already KeyStore hasServerIdentityAlias");
-			
+
 			// show MainActiviry after 1500 milliseconds
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
-					keystoreAvailable = true;
-					showMainActivity();
+					coachMark.setVisibility(View.VISIBLE);
 				}
 			}, 2000);
 		}
@@ -92,7 +103,7 @@ public class StartupActivity extends CoreServiceActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		
+
 		Log.e("hwang-tvremote", "StartupActivity : onDestroy()");
 	}
 

@@ -412,7 +412,7 @@ public class TvchDetail extends Base implements View.OnClickListener {
 					popup.setInterceptor(new PopupTvReserving.Interceptor() {
 						@Override
 						public void onSetAlarm() {
-							// 같은 program id는 체크하여 예약하지 않는다.
+							// 같은 program id는 체크하여 예약하지 않는다. // 나중에 db로 처리???
 							if(map.containsKey(adapter.getItem(mPosition).getId())) {
 								Log.e("hwang", "already tv reserving (program id) : " + adapter.getItem(mPosition).getId());
 								return;
