@@ -181,7 +181,10 @@
 
         <!-- OPTIONAL, if you want to receive push, push opened and registration completed intents -->
         <!-- Replace the receiver below with your package and class name -->
-        <receiver android:name="com.cnm.cnmrc.IntentReceiver" />
+        <receiver android:name="com.cnm.cnmrc.receiver.GcmReceiver" />
+        
+        <!-- 시청예약알림 -->
+        <receiver android:name="com.cnm.cnmrc.receiver.AlarmReceiver" />
     </application>
 
 </manifest>

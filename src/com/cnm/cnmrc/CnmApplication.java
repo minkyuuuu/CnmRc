@@ -6,6 +6,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 
+import com.cnm.cnmrc.receiver.GcmReceiver;
 import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.Sound;
 import com.urbanairship.AirshipConfigOptions;
@@ -90,7 +91,7 @@ public class CnmApplication extends Application {
 		// push service
 		AirshipConfigOptions options = AirshipConfigOptions.loadDefaultOptions(this);
 		UAirship.takeOff(this, options);
-		PushManager.shared().setIntentReceiver(IntentReceiver.class);
+		PushManager.shared().setIntentReceiver(GcmReceiver.class);
         // 앱에서 push service 초기화할 때 사용한다.
 		PushManager.enablePush();
 		//PushManager.disablePush();

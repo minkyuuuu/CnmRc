@@ -48,6 +48,7 @@ import com.cnm.cnmrc.fragment.vodtvch.Base;
 import com.cnm.cnmrc.fragment.vodtvch.VodDetail;
 import com.cnm.cnmrc.fragment.vodtvch.VodTvchMain;
 import com.cnm.cnmrc.popup.PopupGtvConnection;
+import com.cnm.cnmrc.receiver.GcmReceiver;
 import com.cnm.cnmrc.tcp.TCPClientRequestStatus;
 import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.Util;
@@ -174,7 +175,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		
 		// push service
         apidUpdateFilter = new IntentFilter();
-        apidUpdateFilter.addAction(UAirship.getPackageName()+IntentReceiver.APID_UPDATED_ACTION_SUFFIX);
+        apidUpdateFilter.addAction(UAirship.getPackageName()+GcmReceiver.APID_UPDATED_ACTION_SUFFIX);
 
 		// -------------------------
 		// initialize UI

@@ -19,9 +19,9 @@ package com.cnm.cnmrc.fragment.vodtvch;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Vector;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,7 +31,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -105,14 +104,22 @@ public class TvchDetail extends Base implements View.OnClickListener {
 		Date date = new Date(System.currentTimeMillis());
 		titleDate.setText(Util.getMMDDE(date));
 		
-        fragments = new Vector<ArrayFragment>();
-        fragments.add(ArrayFragment.newInstance(0, channelId));
-        fragments.add(ArrayFragment.newInstance(1, channelId));
-        fragments.add(ArrayFragment.newInstance(2, channelId));
-        fragments.add(ArrayFragment.newInstance(3, channelId));
-        fragments.add(ArrayFragment.newInstance(4, channelId));
-        fragments.add(ArrayFragment.newInstance(5, channelId));
-        fragments.add(ArrayFragment.newInstance(6, channelId));
+        fragments = new ArrayList<ArrayFragment>();
+        fragments.add(new ArrayFragment(0, channelId));
+        fragments.add(new ArrayFragment(1, channelId));
+        fragments.add(new ArrayFragment(2, channelId));
+        fragments.add(new ArrayFragment(3, channelId));
+        fragments.add(new ArrayFragment(4, channelId));
+        fragments.add(new ArrayFragment(5, channelId));
+        fragments.add(new ArrayFragment(6, channelId));
+        
+//        fragments.add(ArrayFragment.newInstance(0, channelId));
+//        fragments.add(ArrayFragment.newInstance(1, channelId));
+//        fragments.add(ArrayFragment.newInstance(2, channelId));
+//        fragments.add(ArrayFragment.newInstance(3, channelId));
+//        fragments.add(ArrayFragment.newInstance(4, channelId));
+//        fragments.add(ArrayFragment.newInstance(5, channelId));
+//        //fragments.add(ArrayFragment.newInstance(6, channelId));
 
 		mPager = (ViewPager) layout.findViewById(R.id.pager); 		//뷰 페이저
 		pagerAdapter  = new FragmentPagerAdapterClass(getActivity().getSupportFragmentManager(), fragments);
@@ -130,7 +137,7 @@ public class TvchDetail extends Base implements View.OnClickListener {
 				if(position == 0) prev.setVisibility(View.INVISIBLE);
 				else prev.setVisibility(View.VISIBLE);
 				
-				if(position == 6) next.setVisibility(View.INVISIBLE);
+				if(position == 5) next.setVisibility(View.INVISIBLE);
 				else next.setVisibility(View.VISIBLE);
 			}
 			@Override public void onPageScrolled(int position, float positionOffest, int positionOffsetPixels) {
@@ -145,15 +152,15 @@ public class TvchDetail extends Base implements View.OnClickListener {
 			}
 		});
 		
-		mPager.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// TODO Auto-generated method stub
-				//pagerAdapter.getItem(mPager.getCurrentItem());
-				// getsture를 이용해서 마지막페이지 처리???
-				return false;
-			}
-		});
+//		mPager.setOnTouchListener(new View.OnTouchListener() {
+//			@Override
+//			public boolean onTouch(View v, MotionEvent event) {
+//				// TODO Auto-generated method stub
+//				//pagerAdapter.getItem(mPager.getCurrentItem());
+//				// getsture를 이용해서 마지막페이지 처리???
+//				return false;
+//			}
+//		});
 		//((ArrayFragment)pagerAdapter.getItem(0)).showTvchDetail(); // 여기선 안된다...
 
 		return layout;
@@ -162,11 +169,37 @@ public class TvchDetail extends Base implements View.OnClickListener {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
+		
+//		pagerAdapter = null;
+//		fragments = null;
+		
+		// 여기서는 fragments가 null이다.
+//		for(Fragment f : fragments) {
+//			getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
+//		}
 
 		// ----------------------------------------------------------------------------------------------
 		// vod에 일부인 vodtopmenu fragment는 vod가 destory될 때 자식인 vodtopmenu도 같이 destory해주진 않는다.
 		// 이유는 아마 자식이래도 같은 fragment 레벨이므로 vod의 생명주기와 함께 하는것이 아니라 Activity의 관리를 받는것 같다.
 		// ----------------------------------------------------------------------------------------------
+//        {
+//	        Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.vod_tvch_panel);
+//	        if (f != null) {
+//	        	getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
+//	        }
+//        }
+		
+		
+	}
+
+	@Override
+	public void onStop() {
+		// Fragment에서 Fragment를 만들어 사용하게되면 나갈때 만든 Fragment를 remove 해주어야한다. 아니면 다시 진입할 때 기존의 Fragment가 그대로 사용되어 다시 만들어지지 않는다.
+		for(Fragment f : fragments) {
+			getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
+		}
+
+		super.onStop();
 	}
 
 	@Override
@@ -226,61 +259,64 @@ public class TvchDetail extends Base implements View.OnClickListener {
 		@Override 
 		public Fragment getItem(int position) {	// 여기서 position대신 dataIndex가 사용된다.
 			//if(position == 0) this.fragments.get(position).showTvchDetail();
-			return this.fragments.get(position);
+			return fragments.get(position);
 			// return ArrayFragment.newInstance(position, channelId, dateIndex);
 		}
 		
 		//뷰페이저에서 보여질 총 페이지 수
-		@Override public int getCount() { return this.fragments.size(); }
+		@Override 
+		public int getCount() { return this.fragments.size(); }
 		
+		// destroyItem 하면 안된다.
+//		@Override
+//		public void destroyItem(ViewGroup container, int position, Object object) {
+//		    getActivity().getSupportFragmentManager().beginTransaction().remove((Fragment)object).commit();
+//		  super.destroyItem(container, position, object);
+//		}
 		
-		
-/*		
-		@Override
-		public void setPrimaryItem(ViewGroup container, int position, Object object) {
-			// TODO Auto-generated method stub
-			super.setPrimaryItem(container, position, object);
-		}
-
-		@Override
-		public void finishUpdate(ViewGroup container) {
-			// TODO Auto-generated method stub
-			super.finishUpdate(container);
-		}
-
-		// instantiateItem메소드에서 생성한 객체를 이용할 것인지
-		@Override
-		public boolean isViewFromObject(View view, Object object) {
-			// TODO Auto-generated method stub
-			return view == object;
-			// return super.isViewFromObject(view, object);
-		}
-		
-		@Override
-		public void restoreState(Parcelable state, ClassLoader loader) {
-			// TODO Auto-generated method stub
-			super.restoreState(state, loader);
-		}
-
-		@Override
-		public Parcelable saveState() {
-			// TODO Auto-generated method stub
-			return super.saveState();
-		}
-
-
-
-		@Override
-		public void startUpdate(ViewGroup container) {
-			// TODO Auto-generated method stub
-			super.startUpdate(container);
-		}
-
-		@Override
-		public void registerDataSetObserver(DataSetObserver observer) {
-			// TODO Auto-generated method stub
-			super.registerDataSetObserver(observer);
-		}*/
+//		@Override
+//		public void setPrimaryItem(ViewGroup container, int position, Object object) {
+//			// TODO Auto-generated method stub
+//			super.setPrimaryItem(container, position, object);
+//		}
+//
+//		@Override
+//		public void finishUpdate(ViewGroup container) {
+//			// TODO Auto-generated method stub
+//			super.finishUpdate(container);
+//		}
+//
+//		// instantiateItem메소드에서 생성한 객체를 이용할 것인지
+////		@Override
+////		public boolean isViewFromObject(View view, Object object) {
+////			// TODO Auto-generated method stub
+////			return view == object;
+////			// return super.isViewFromObject(view, object);
+////		}
+////		
+//		@Override
+//		public void restoreState(Parcelable state, ClassLoader loader) {
+//			// TODO Auto-generated method stub
+//			super.restoreState(state, loader);
+//		}
+//
+//		@Override
+//		public Parcelable saveState() {
+//			// TODO Auto-generated method stub
+//			return super.saveState();
+//		}
+//
+//		@Override
+//		public void startUpdate(ViewGroup container) {
+//			// TODO Auto-generated method stub
+//			super.startUpdate(container);
+//		}
+//
+//		@Override
+//		public void registerDataSetObserver(DataSetObserver observer) {
+//			// TODO Auto-generated method stub
+//			super.registerDataSetObserver(observer);
+//		}
 
 
 	}
@@ -288,7 +324,7 @@ public class TvchDetail extends Base implements View.OnClickListener {
 	// -----------------------------------------
 	//	뷰 페이저의 페이지에 맞는 fragment를 생성하는 객체
 	// -----------------------------------------
-	public static class ArrayFragment extends Fragment {
+	public class ArrayFragment extends Fragment {
 		
 		ListView listView;
 		TvchDetailAdapter adapter;
@@ -299,21 +335,28 @@ public class TvchDetail extends Base implements View.OnClickListener {
 		String channelId;	// "조회할 채널 id" 를 의미한다.
 		
 		//fragment 생성하는 static 메소드 뷰페이저의 position을 값을 받는다.
-		static ArrayFragment newInstance(int position, String channelId) {
-			ArrayFragment f = new ArrayFragment(); 	//객체 생성
-			Bundle args = new Bundle(); 			//해당 fragment에서 사용될 정보 담을 번들 객체
-			args.putInt("position", position); 		//"조회할 날짜"를 의미한다.
-			args.putString("channelId", channelId); //"조회할 채널 id"를 의미한다.
-			f.setArguments(args); 					//fragment에 정보 전달.
-			return f; 								//fragment 반환
+//		static ArrayFragment newInstance(int position, String channelId) {
+//			ArrayFragment f = new ArrayFragment(); 	//객체 생성
+//			Bundle args = new Bundle(); 			//해당 fragment에서 사용될 정보 담을 번들 객체
+//			args.putInt("position", position); 		//"조회할 날짜"를 의미한다.
+//			args.putString("channelId", channelId); //"조회할 채널 id"를 의미한다.
+//			f.setArguments(args); 					//fragment에 정보 전달.
+//			return f; 								//fragment 반환
+//		}
+		
+		
+		ArrayFragment(int position, String channelId) {
+			this.position = position;
+			this.channelId = channelId;
 		}
+		
 
 		//fragment가 만들어질 때
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-			channelId = getArguments() != null ? getArguments().getString("channelId") : ""; 	// 뷰페이저의 "조회할 채널 id" 값을 넘겨 받음
-			position = getArguments() != null ? getArguments().getInt("position") : 0; 			// 뷰페이저의 "조회할 날짜" 값을 넘겨 받음
+			//channelId = getArguments() != null ? getArguments().getString("channelId") : ""; 	// 뷰페이저의 "조회할 채널 id" 값을 넘겨 받음
+			//position = getArguments() != null ? getArguments().getInt("position") : 0; 			// 뷰페이저의 "조회할 날짜" 값을 넘겨 받음
 			position++;
 			dateIndex = String.valueOf(position);
 		}
@@ -354,7 +397,7 @@ public class TvchDetail extends Base implements View.OnClickListener {
 				new VodSemiAsyncTask().execute();
 			}
 			
-			new VodSemiAsyncTask().execute();
+			//new VodSemiAsyncTask().execute();
 		}
 
 		long elapsedTime;
