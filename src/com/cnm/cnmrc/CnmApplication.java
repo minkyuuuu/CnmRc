@@ -7,7 +7,6 @@ import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 
 import com.cnm.cnmrc.receiver.GcmReceiver;
-import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.Sound;
 import com.urbanairship.AirshipConfigOptions;
 import com.urbanairship.UAirship;
@@ -92,14 +91,21 @@ public class CnmApplication extends Application {
 		AirshipConfigOptions options = AirshipConfigOptions.loadDefaultOptions(this);
 		UAirship.takeOff(this, options);
 		PushManager.shared().setIntentReceiver(GcmReceiver.class);
-        // 앱에서 push service 초기화할 때 사용한다.
-		PushManager.enablePush();
-		//PushManager.disablePush();
+		
+		// push service
+		// 앱에서 push service 초기화할 때 사용한다.
+		if(pref.loadConfigVodUpdateNoti(getApplicationContext())) PushManager.enablePush();
+		else PushManager.disablePush();
 		
 	}
 
 	private void initializeConfig(Context context) {
-
+		// pref는 기존앱에서 가지고 있는 정보를 앱을 다시 설치해도 가지고 있다. ??? 아니다. package name을 명시하면 된다.
+//		pref.saveConfigVibrateEffect(getApplicationContext(), false);
+//		pref.saveConfigSoundEffect(getApplicationContext(), false);
+//		pref.saveConfigVodUpdateNoti(getApplicationContext(), false);
+//		pref.saveConfigTvWatchResNoti(getApplicationContext(), false);
+//		pref.saveConfigAutoAdultCert(getApplicationContext(), false);
 	}
 
 	public void setMobileIMIE(Context context) {

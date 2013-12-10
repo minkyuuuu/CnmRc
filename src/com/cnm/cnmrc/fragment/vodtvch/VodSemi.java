@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,13 +31,16 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.cnm.cnmrc.CnmPreferences;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.adapter.VodSemiAdapter;
 import com.cnm.cnmrc.item.ItemVodSemi;
 import com.cnm.cnmrc.item.ItemVodSemiList;
 import com.cnm.cnmrc.parser.VodSemiParser;
-import com.cnm.cnmrc.slidingmenu.SlidingMenu;
+import com.cnm.cnmrc.popup.PopupAdultCert;
+import com.cnm.cnmrc.popup.PopupConfigAdultCertFail;
+import com.cnm.cnmrc.popup.PopupConfigAdultCertNeed;
 import com.cnm.cnmrc.util.UiUtil;
 import com.cnm.cnmrc.util.UrlAddress;
 import com.cnm.cnmrc.util.Util;
@@ -63,10 +66,10 @@ public class VodSemi extends Base implements View.OnClickListener {
 	ListView listView;
 	VodSemiAdapter adapter;
 	ArrayList<ItemVodSemi> mResult = null;
-	
-	int selectedCategory;	// where to declare? Base or here / vodtvch메인화면에서 vod의 메인화면을 가르킨다. (0:예고편) / (1:최신영화) / (2:TV다시보기)
+
+	int selectedCategory; // where to declare? Base or here / vodtvch메인화면에서 vod의 메인화면을 가르킨다. (0:예고편) / (1:최신영화) / (2:TV다시보기)
 	String title;
-	String genreId = "";	// vodtvch메인화면에서는 ""이 전달되고, VodList화면에서는 genreId가 전달되어진다.
+	String genreId = ""; // vodtvch메인화면에서는 ""이 전달되고, VodList화면에서는 genreId가 전달되어진다.
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,11 +94,31 @@ public class VodSemi extends Base implements View.OnClickListener {
 				// sidebar가 열려있으면 return한다.
 				// 2013-12-06 comment later
 				// ㅎㅎ
-				if (UiUtil.isSlidingMenuOpening(getActivity())) return;
-				
-				increaseCurrentDepth();
-				Bundle bundle = UiUtil.makeVodDetailBundle(getActivity(), adapter, view, position); 
-				loadingData(2, "상세보기", false, bundle); // go to VodDetail (2:클래스타입, false:1 depth가 아님)
+				if (UiUtil.isSlidingMenuOpening(getActivity()))
+					return;
+
+				// 성인인증상태를 먼저 체크~
+				CnmPreferences pref = CnmPreferences.getInstance();
+				String grade = adapter.getItem(position).getGrade();
+				if (!pref.loadConfigAdultCertStatus(getActivity()) && Util.isAdultGrade(grade)) {
+					FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+					PopupConfigAdultCertNeed popup = new PopupConfigAdultCertNeed();
+					popup.show(ft, PopupConfigAdultCertNeed.class.getSimpleName());
+					popup.setInterceptor(new PopupConfigAdultCertNeed.Interceptor() {
+						@Override
+						public void onReturnVodSemi(boolean isAdultCert) {
+							if (isAdultCert) {
+								// 성인인증화면
+								goToPopupAdultCert();
+							}
+						}
+					});
+				} else {
+					increaseCurrentDepth();
+					Bundle bundle = UiUtil.makeVodDetailBundle(getActivity(), adapter, view, position);
+					loadingData(2, "상세보기", false, bundle); // go to VodDetail (2:클래스타입, false:1 depth가 아님)
+				}
+
 			}
 
 		});
@@ -104,6 +127,28 @@ public class VodSemi extends Base implements View.OnClickListener {
 		showVodSemi();
 
 		return layout;
+	}
+	
+	private void goToPopupAdultCert() {
+		FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+		PopupAdultCert popup = new PopupAdultCert();
+		popup.show(ft, PopupAdultCert.class.getSimpleName());
+		popup.setInterceptor(new PopupAdultCert.Interceptor() {
+			@Override
+			public void onReturnVodSemi(boolean isAdultCert) {
+				// 화면을 갱신한다. 성인이미지 보여주기...
+				if (isAdultCert) {
+					adapter.notifyDataSetChanged();
+					Log.v("hwang", "return from adult cert : " + isAdultCert);
+				} else {
+					Log.v("hwang", "return from adult cert : " + isAdultCert);
+				}
+			}
+		});
+	}
+	
+	public void updateAdapter() {
+		adapter.notifyDataSetChanged();
 	}
 
 	private void showVodSemi() {
@@ -117,10 +162,11 @@ public class VodSemi extends Base implements View.OnClickListener {
 
 	long elapsedTime;
 	ItemVodSemiList list;
+
 	private class VodSemiAsyncTask extends AsyncTask<Void, Void, ArrayList<ItemVodSemi>> {
 		@Override
 		protected void onPreExecute() {
-			((MainActivity)getActivity()).getMyProgressBar().show();
+			((MainActivity) getActivity()).getMyProgressBar().show();
 			super.onPreExecute();
 		}
 
@@ -140,7 +186,7 @@ public class VodSemi extends Base implements View.OnClickListener {
 		@Override
 		protected void onPostExecute(ArrayList<ItemVodSemi> result) {
 			mResult = result;
-			
+
 			if (mResult.size() == 0) {
 				Toast.makeText(getActivity(), "데이타가 없습니다!", Toast.LENGTH_LONG).show();
 				((MainActivity) getActivity()).getMyProgressBar().dismiss();
@@ -171,18 +217,21 @@ public class VodSemi extends Base implements View.OnClickListener {
 			super.onCancelled();
 		}
 	}
-	
+
 	private String determineUrl() {
 		String url = "";
-		
-		if(genreId.equals("")) {	// vodtvch 메인화면에서 VodSemi를 호출함.
-			if(selectedCategory == 0) url = UrlAddress.Vod.getGetVodTrailer();
-			if(selectedCategory == 1) url = UrlAddress.Vod.getGetVodMovie();
-			if(selectedCategory == 2) url = UrlAddress.Vod.getGetVodTv();
-		} else {	// VodList 화면에서 장르별 vod정보를 요구하는 VodSemi를 호출함.
-			url = UrlAddress.Vod.getGetVodGenreInfo(genreId);	// http://58.143.243.91/SMApplicationServer/GetVodGenreInfo.asp?genreId=725828
+
+		if (genreId.equals("")) { // vodtvch 메인화면에서 VodSemi를 호출함.
+			if (selectedCategory == 0)
+				url = UrlAddress.Vod.getGetVodTrailer();
+			if (selectedCategory == 1)
+				url = UrlAddress.Vod.getGetVodMovie();
+			if (selectedCategory == 2)
+				url = UrlAddress.Vod.getGetVodTv();
+		} else { // VodList 화면에서 장르별 vod정보를 요구하는 VodSemi를 호출함.
+			url = UrlAddress.Vod.getGetVodGenreInfo(genreId); // http://58.143.243.91/SMApplicationServer/GetVodGenreInfo.asp?genreId=725828
 		}
-		
+
 		return url;
 	}
 
@@ -215,4 +264,3 @@ public class VodSemi extends Base implements View.OnClickListener {
 	}
 
 }
-

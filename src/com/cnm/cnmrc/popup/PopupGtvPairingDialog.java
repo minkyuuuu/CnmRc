@@ -21,8 +21,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cnm.cnmrc.CnmPreferences;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.Util;
 import com.google.android.apps.tvremote.DeviceFinder;
 import com.google.android.apps.tvremote.PairingActivity;

@@ -46,11 +46,11 @@ import com.cnm.cnmrc.fragment.search.SearchNaver;
 import com.cnm.cnmrc.fragment.search.SearchVodDetail;
 import com.cnm.cnmrc.fragment.vodtvch.Base;
 import com.cnm.cnmrc.fragment.vodtvch.VodDetail;
+import com.cnm.cnmrc.fragment.vodtvch.VodSemi;
 import com.cnm.cnmrc.fragment.vodtvch.VodTvchMain;
 import com.cnm.cnmrc.popup.PopupGtvConnection;
 import com.cnm.cnmrc.receiver.GcmReceiver;
 import com.cnm.cnmrc.tcp.TCPClientRequestStatus;
-import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.Util;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.RemoteDevice;
@@ -65,14 +65,13 @@ import com.urbanairship.push.PushManager;
  * @author minkyu
  * @date 2013.7.17
  * 
- *       메인화면 구성 
- *       1) 상단메뉴(top) / 하단숫자(numeric) / 하단메뉴(bottom) / 하단써클메뉴(circle)
+ *       메인화면 구성 1) 상단메뉴(top) / 하단숫자(numeric) / 하단메뉴(bottom) / 하단써클메뉴(circle)
  * 
- *       여기서 pannel이란 용어는 fragment가 대체되는 FrameLayout viewgroup을 의미한다. 
- *       2) vod_tvch_panel : top menu에서 vod, tvch 아이콘의 메인화면이 대체되는 fragment 영역 
- *       
- *       3) rc_panel : circle menu에서 미러TV, 사방향키, 채널/볼륨 화면이 대체되는 fragment 영역 circle
- *       menu의 쿼티화면은 activity로 처리함.
+ *       여기서 pannel이란 용어는 fragment가 대체되는 FrameLayout viewgroup을 의미한다. 2)
+ *       vod_tvch_panel : top menu에서 vod, tvch 아이콘의 메인화면이 대체되는 fragment 영역
+ * 
+ *       3) rc_panel : circle menu에서 미러TV, 사방향키, 채널/볼륨 화면이 대체되는 fragment 영역
+ *       circle menu의 쿼티화면은 activity로 처리함.
  * 
  *       4) 하단중앙 리모컨아이콘 : rc icon
  * 
@@ -112,23 +111,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 	boolean doubleBackKeyPressedToExitApp;
 
-	boolean isMirroringTV = true; 				// for test, which MirroringTV or MirroringVOD
-	boolean isChaeWon1 = true; 					// for test, which MirroringTV or MirroringVOD
-	public boolean noVodTvchDestroy = false; 	// vod_tvch화면에서 mirroingTV을 진입할 때 VodTvch의 onDestroyView()에서 destory를 막기위해...
+	boolean isMirroringTV = true; // for test, which MirroringTV or MirroringVOD
+	boolean isChaeWon1 = true; // for test, which MirroringTV or MirroringVOD
+	public boolean noVodTvchDestroy = false; // vod_tvch화면에서 mirroingTV을 진입할 때 VodTvch의 onDestroyView()에서 destory를 막기위해...
 
-	FrameLayout mRcPanel; 		// rc_panel(채널/볼륨, 사방향) 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
-	FrameLayout mRcNumericPad; 	// rc_numeric_pad 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
+	FrameLayout mRcPanel; // rc_panel(채널/볼륨, 사방향) 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
+	FrameLayout mRcNumericPad; // rc_numeric_pad 화면 (sidebar overshootinterpolator효과시 화면아래에 보이므로 이를 안보이게 할려구...)
 
 	ImageButton mMirroring, mFourWay, mQwerty, mChannelVolume, mConfig; // circle menu (미러TV, 사방향키, 쿼티, 채널/볼륨, 설정)
 
-	ImageButton mRcIcon; 		// remocon icon
-	LinearLayout mCircleMenu; 	// circle menu를 담고있는 레이아웃
-	FrameLayout mCircleMenuBg; 	// circle menu가 보일때 바탕에 깔리는 반투명배경의 레이아웃
+	ImageButton mRcIcon; // remocon icon
+	LinearLayout mCircleMenu; // circle menu를 담고있는 레이아웃
+	FrameLayout mCircleMenuBg; // circle menu가 보일때 바탕에 깔리는 반투명배경의 레이아웃
 	boolean toggleCircleMenu = true; // circle menu가 보이는지 or 안보이는지?
 
-	FrameLayout mVodTvchPanel; 	// top menu의 vod, tvch 아이콘의 메인화면의 레이아웃
-	FrameLayout mSearchPanel; 	// top menu의 search 아이콘의 메인화면의 레이아웃
-	FrameLayout mConfigPanel; 	// circle menu의 config 아이콘의 메인화면의 레이아웃
+	FrameLayout mVodTvchPanel; // top menu의 vod, tvch 아이콘의 메인화면의 레이아웃
+	FrameLayout mSearchPanel; // top menu의 search 아이콘의 메인화면의 레이아웃
+	FrameLayout mConfigPanel; // circle menu의 config 아이콘의 메인화면의 레이아웃
 
 	public Animation aniRcPanelFadeout;
 	public Animation aniRcTopMenuFadein;
@@ -143,9 +142,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	private HighlightView surface;
 
 	Fragment mRcTopMenu;
-	
-    IntentFilter apidUpdateFilter;
-	
+
+	IntentFilter apidUpdateFilter;
 
 	public MainActivity() {
 		//super();
@@ -167,15 +165,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		// hwang 2013-12-01
 		//surface = (HighlightView) findViewById(R.id.HighlightView);
 
-		if (savedInstanceState != null) {
-			Bundle bundle = savedInstanceState.getBundle("save_data");
-			isMirroringTV = bundle.getBoolean("isMirroringTV");
-			isChaeWon1 = bundle.getBoolean("isChaeWon1");
-		}
-		
+		// 2013-12-10 mirroring
+		//		if (savedInstanceState != null) {
+		//			Bundle bundle = savedInstanceState.getBundle("save_data");
+		//			isMirroringTV = bundle.getBoolean("isMirroringTV");
+		//			isChaeWon1 = bundle.getBoolean("isChaeWon1");
+		//		}
+
 		// push service
-        apidUpdateFilter = new IntentFilter();
-        apidUpdateFilter.addAction(UAirship.getPackageName()+GcmReceiver.APID_UPDATED_ACTION_SUFFIX);
+		apidUpdateFilter = new IntentFilter();
+		apidUpdateFilter.addAction(UAirship.getPackageName() + GcmReceiver.APID_UPDATED_ACTION_SUFFIX);
 
 		// -------------------------
 		// initialize UI
@@ -235,27 +234,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 		// hwang
 		//Util.hideSoftKeyboard(this);
-		
+
 		// push service
-        registerReceiver(apidUpdateReceiver, apidUpdateFilter);
-        //updateApidField();
+		registerReceiver(apidUpdateReceiver, apidUpdateFilter);
+		//updateApidField();
 
 		super.onResume();
 	}
-	
-    private BroadcastReceiver apidUpdateReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //updateApidField();
-        }
-    };
 
-    private void updateApidField() {
-        String apidString = PushManager.shared().getAPID();		// aadcb8c3-2991-45b1-a787-c054e5b0e8a0
-        
-        boolean b = PushManager.shared().getPreferences().isPushEnabled();
-        Log.e("hwang", "Apid : " + apidString);
-    }
+	private BroadcastReceiver apidUpdateReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			//updateApidField();
+		}
+	};
+
+	private void updateApidField() {
+		String apidString = PushManager.shared().getAPID(); // aadcb8c3-2991-45b1-a787-c054e5b0e8a0
+
+		boolean b = PushManager.shared().getPreferences().isPushEnabled();
+		Log.e("hwang", "Apid : " + apidString);
+	}
 
 	@Override
 	protected void onDestroy() {
@@ -271,28 +270,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		Log.e("hwang-tvremote", "MainActivity : onConfigurationChanged()");
 	}
 
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		Bundle bundle = new Bundle();
-
-		bundle.putBoolean("isMirroringTV", isMirroringTV);
-
-		if (isMirroringTV)
-			isChaeWon1 ^= isChaeWon1;
-		bundle.putBoolean("isChaeWon1", isChaeWon1);
-
-		outState.putBundle("save_data", bundle);
-
-		//super.onSaveInstanceState(outState); // vod_tvch --> mirrorTV -->  popup exit --> error
-
-		Log.e("hwang-tvremote", "MainActivity : onSaveInstanceState()");
-	}
-
-	protected void onRestroreInstanceState(Bundle outState) {
-		isMirroringTV = outState.getBoolean("isMirroringTV");
-
-		Log.e("hwang-tvremote", "MainActivity : onRestroreInstanceState()");
-	}
+	// 2013-12-10 mirroring
+	//	@Override
+	//	protected void onSaveInstanceState(Bundle outState) {
+	//		Bundle bundle = new Bundle();
+	//		bundle.putBoolean("isMirroringTV", isMirroringTV);
+	//
+	//		if (isMirroringTV)
+	//			isChaeWon1 ^= isChaeWon1;
+	//		bundle.putBoolean("isChaeWon1", isChaeWon1);
+	//
+	//		outState.putBundle("save_data", bundle);
+	//
+	//		//super.onSaveInstanceState(outState); // vod_tvch --> mirrorTV -->  popup exit --> error
+	//
+	//		Log.e("hwang-tvremote", "MainActivity : onSaveInstanceState()");
+	//	}
+	//
+	//	protected void onRestroreInstanceState(Bundle outState) {
+	//		isMirroringTV = outState.getBoolean("isMirroringTV");
+	//
+	//		Log.e("hwang-tvremote", "MainActivity : onRestroreInstanceState()");
+	//	}
 
 	// ----------------------------
 	// prepare app
@@ -451,10 +450,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		});
 
 	}
-	
+
 	public void setTarget(RemoteDevice remoteDevice) {
 		getConnectionManager().setTarget(remoteDevice);
 	}
+
 	public void requestDeviceFinder() {
 		getConnectionManager().requestDeviceFinder();
 	}
@@ -483,59 +483,58 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			// hwang 2013-11-20
 			// STB에 STB의 상태를 요구한다.
 			// wifi check
-//			if (!Util.isWifiAvailable(this)) {
-//				Toast.makeText(this, "WiFi not Available", Toast.LENGTH_SHORT).show();
-//				return;
-//			}
-//			
-//			// hwang 2013-11-26
-//			RemoteDevice remoteDevice = getConnectionManager().getTarget();
-//			String hostAddress;
-//			if (remoteDevice != null) {
-//				hostAddress = remoteDevice.getAddress().getHostAddress();
-//			} else {
-//				// STB alive check
-//				CnmPreferences pref = CnmPreferences.getInstance();
-//				hostAddress = pref.loadPairingHostAddress(this);
-//			}
-//
-//			// test
-//			//hostAddress = "192.168.0.6";
-//			//hostAddress = "";
-//
-//			try {
-//				if (hostAddress.equals("")) {
-//					FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//					PopupGtvNotAliveTv gtvNotAlive = new PopupGtvNotAliveTv();
-//					gtvNotAlive.show(ft, PopupGtvNotAliveTv.class.getSimpleName());
-//					return;
-//				} else {
-//
-//					InetAddress address = InetAddress.getByName(hostAddress);
-//					boolean alive = address.isReachable(2000);
-//					if (alive) {
-//						mMainHandler = new SendMassgeHandler();
-//
-//						TCPClientRequestStatus tcpClient = new TCPClientRequestStatus(mMainHandler, hostAddress);
-//						tcpClient.start();
-//						return;
-//					} else {
-//						FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//						PopupGtvNotAliveTv gtvNotAlive = new PopupGtvNotAliveTv();
-//						gtvNotAlive.show(ft, PopupGtvNotAlive.class.getSimpleName());
-//						return;
-//
-//					}
-//				}
-//			} catch (UnknownHostException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			//			if (!Util.isWifiAvailable(this)) {
+			//				Toast.makeText(this, "WiFi not Available", Toast.LENGTH_SHORT).show();
+			//				return;
+			//			}
+			//			
+			//			// hwang 2013-11-26
+			//			RemoteDevice remoteDevice = getConnectionManager().getTarget();
+			//			String hostAddress;
+			//			if (remoteDevice != null) {
+			//				hostAddress = remoteDevice.getAddress().getHostAddress();
+			//			} else {
+			//				// STB alive check
+			//				CnmPreferences pref = CnmPreferences.getInstance();
+			//				hostAddress = pref.loadPairingHostAddress(this);
+			//			}
+			//
+			//			// test
+			//			//hostAddress = "192.168.0.6";
+			//			//hostAddress = "";
+			//
+			//			try {
+			//				if (hostAddress.equals("")) {
+			//					FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			//					PopupGtvNotAliveTv gtvNotAlive = new PopupGtvNotAliveTv();
+			//					gtvNotAlive.show(ft, PopupGtvNotAliveTv.class.getSimpleName());
+			//					return;
+			//				} else {
+			//
+			//					InetAddress address = InetAddress.getByName(hostAddress);
+			//					boolean alive = address.isReachable(2000);
+			//					if (alive) {
+			//						mMainHandler = new SendMassgeHandler();
+			//
+			//						TCPClientRequestStatus tcpClient = new TCPClientRequestStatus(mMainHandler, hostAddress);
+			//						tcpClient.start();
+			//						return;
+			//					} else {
+			//						FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+			//						PopupGtvNotAliveTv gtvNotAlive = new PopupGtvNotAliveTv();
+			//						gtvNotAlive.show(ft, PopupGtvNotAlive.class.getSimpleName());
+			//						return;
+			//
+			//					}
+			//				}
+			//			} catch (UnknownHostException e) {
+			//				// TODO Auto-generated catch block
+			//				e.printStackTrace();
+			//			} catch (IOException e) {
+			//				// TODO Auto-generated catch block
+			//				e.printStackTrace();
+			//			}
 
-			
 			// 서버의 리턴 결과로 분기하자.
 			// 결정되면 위에서 풀자, wifi상태, stb 상태...
 			if (isFourWay) {
@@ -545,11 +544,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 				isFourWay = true;
 				showTrickPlay();
 			}
-			
+
 			break;
-//		case R.id.mirroring: // DialogFragment (popup with entire display)
-//			openPopupMirroring();
-//			break;
+		//		case R.id.mirroring: // DialogFragment (popup with entire display)
+		//			openPopupMirroring();
+		//			break;
 		case R.id.qwerty: // Activity
 			openQwerty();
 			break;
@@ -643,6 +642,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			}
 			if (config.allowBackPressed().equals("vod_tvch")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
 				mConfigPanel.setVisibility(View.INVISIBLE);
+
+				// 2013-12-10 update vodsemi after config>adultcert change
+				// VodSemi Fragment 찾기.
+				VodSemi vodSemi = (VodSemi) getSupportFragmentManager().findFragmentByTag("vod_semi_for_config");
+				if (vodSemi != null) {
+					vodSemi.updateAdapter();
+				}
 
 				super.onBackPressed(); // go to destroyView of vodtvch
 				return;
@@ -759,8 +765,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			String hostAddress = remoteDevice.getAddress().getHostAddress();
 			CnmPreferences pref = CnmPreferences.getInstance();
 			pref.savePairingHostAddress(this, hostAddress);
-		} 
-		
+		}
+
 		clearVodTvchTopMenu();
 
 		FragmentManager fm = getSupportFragmentManager();
@@ -889,9 +895,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	}
 
 	boolean isFromConfigProduct = false;
+
 	public void clearAllFragment() {
 		isFromConfigProduct = false;
-		
+
 		// ---------------------------
 		// adult certification
 		// ---------------------------
@@ -923,8 +930,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 		// ---------------------------
 		final ConfigMain config = (ConfigMain) getSupportFragmentManager().findFragmentByTag(TAG_FRAGMENT_CONFIG_MAIN);
 		if (config != null) {
-			if (isFromConfigProduct) return;
-			
+			if (isFromConfigProduct)
+				return;
+
 			if (config.allowBackPressed().equals("rc")) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
 				backToRc();
 				mConfigPanel.setVisibility(View.INVISIBLE);
@@ -1041,7 +1049,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			Toast.makeText(this, "WiFi not Available", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		
+
 		// hwang 2013-11-26
 		RemoteDevice remoteDevice = getConnectionManager().getTarget();
 		String hostAddress;
@@ -1052,7 +1060,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			CnmPreferences pref = CnmPreferences.getInstance();
 			hostAddress = pref.loadPairingHostAddress(this);
 		}
-
 
 		// test
 		//hostAddress = "192.168.0.6";
@@ -1085,38 +1092,39 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 			e.printStackTrace();
 		}
 
-		if (isMirroringTV) {
-			Intent intent = new Intent(this, MirroringTvchActivity.class);
-			startActivity(intent);
-			isMirroringTV = false;
-		} else {
-			Intent intent = new Intent(this, MirroringVodActivity.class);
-			intent.putExtra("isChaeWon1", isChaeWon1);
-			startActivity(intent);
-			isMirroringTV = true;
-		}
+		// 2013-12-10 mirroring
+		//		if (isMirroringTV) {
+		//			Intent intent = new Intent(this, MirroringTvchActivity.class);
+		//			startActivity(intent);
+		//			isMirroringTV = false;
+		//		} else {
+		//			Intent intent = new Intent(this, MirroringVodActivity.class);
+		//			intent.putExtra("isChaeWon1", isChaeWon1);
+		//			startActivity(intent);
+		//			isMirroringTV = true;
+		//		}
 
 	}
-	
+
 	// Handler 클래스
 	SendMassgeHandler mMainHandler = null;
-	
-    class SendMassgeHandler extends Handler {
-         
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-             
-            switch (msg.what) {
-            case 1:
-            	// substring(4, 8); 4byte CM01  / substring(8, 9); 0성공 / substring(9, 10); 0Live, 1Vod
-				String trNo = ((String) msg.obj).substring(4, 8);		// 4 byte
-				String result = ((String) msg.obj).substring(8, 9);		// 1 byte
-				String tvLive = ((String) msg.obj).substring(9, 10);	// 1 byte
+
+	class SendMassgeHandler extends Handler {
+
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+
+			switch (msg.what) {
+			case 1:
+				// substring(4, 8); 4byte CM01  / substring(8, 9); 0성공 / substring(9, 10); 0Live, 1Vod
+				String trNo = ((String) msg.obj).substring(4, 8); // 4 byte
+				String result = ((String) msg.obj).substring(8, 9); // 1 byte
+				String tvLive = ((String) msg.obj).substring(9, 10); // 1 byte
 				Log.d("hwang", "(LiveOrVod)from server trNo: " + trNo + " <--- " + System.currentTimeMillis());
 				Log.d("hwang", "(LiveOrVod)from server result : " + result + " <--- " + System.currentTimeMillis());
 				Log.d("hwang", "(LiveOrVod)from server tvLive : " + tvLive + " <--- " + System.currentTimeMillis());
-				
+
 				// 여기서 분기하자.
 				if (isFourWay) {
 					isFourWay = false;
@@ -1125,16 +1133,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 					isFourWay = true;
 					showTrickPlay();
 				}
-            	
-            	
-                break;
- 
-            default:
-                break;
-            }
-        }
-         
-    };
+
+				break;
+
+			default:
+				break;
+			}
+		}
+
+	};
 
 	private void openQwerty() {
 		rcIconOn();
@@ -1153,13 +1160,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	}
 
 	// remove hwang 2013-11-28
-//	public void openGtvConnection() {
-//		rcIconOn();
-//
-//		Intent intent = new Intent(this, DeviceFinder.class);
-//		startActivity(intent);
-//		overridePendingTransition(R.anim.qwerty_zoom_in, 0);
-//	}
+	//	public void openGtvConnection() {
+	//		rcIconOn();
+	//
+	//		Intent intent = new Intent(this, DeviceFinder.class);
+	//		startActivity(intent);
+	//		overridePendingTransition(R.anim.qwerty_zoom_in, 0);
+	//	}
 
 	private void rcIconOn() {
 		if (mCircleMenuBg.getVisibility() == View.VISIBLE)
@@ -1237,9 +1244,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	// tvremocon
 	// --------------------------------------
 	// hwang 2013-12-01
-	/*public HighlightView getHighlightView() {
-		return surface;
-	}*/
+	/*
+	 * public HighlightView getHighlightView() { return surface; }
+	 */
 
 	// KeyCode handler implementation.
 	public void onRelease(Key.Code keyCode) {

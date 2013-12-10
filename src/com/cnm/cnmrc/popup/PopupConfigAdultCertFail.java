@@ -2,22 +2,21 @@ package com.cnm.cnmrc.popup;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.provider.CnmRcContract.SearchWord;
+import com.cnm.cnmrc.fragment.config.ConfigMain;
+import com.cnm.cnmrc.popup.PopupConfigAdultCertSucceed.Interceptor;
 
-public class PopupGtvNotAliveTv extends PopupBase2 {
+public class PopupConfigAdultCertFail extends PopupBase1 {
 	
-	public static PopupGtvSearching newInstance(String type) {
-	PopupGtvSearching f = new PopupGtvSearching();
-	Bundle args = new Bundle();
-	args.putString("type", type);
-	f.setArguments(args);
-	return f;
-}
-
+	public interface Interceptor {
+		public void onGoToConfigMain();
+	}
+	
+	private Interceptor interceptor;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,10 +31,11 @@ public class PopupGtvNotAliveTv extends PopupBase2 {
 	public void onActivityCreated(Bundle arg0) {
 		mTitle.setText(getString(R.string.popup_gtv_not_alive_title));
 		
-		mLine1.setText(getString(R.string.popup_gtv_not_alive_tv_input_line_1));
-		mLine2.setText(getString(R.string.popup_gtv_not_alive_tv_input_line_2));
+		mLine1.setText(getString(R.string.popup_config_adult_result_fail_line_1));
 		
 		mNo.setVisibility(View.GONE);
+		
+		setCancelable(false);
 		
 		super.onActivityCreated(arg0);
 	}
@@ -45,12 +45,13 @@ public class PopupGtvNotAliveTv extends PopupBase2 {
 		switch (v.getId()) {
 		case R.id.popup_yes:
 			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-			break;
-		case R.id.popup_no:
-			getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+			interceptor.onGoToConfigMain();
 			break;
 		}
-
+	}
+	
+	public void setInterceptor(Interceptor interceptor) {
+		this.interceptor = interceptor;
 	}
 
 }

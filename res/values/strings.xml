@@ -86,8 +86,8 @@
     <string name="config_watch_res_alarm">시청예약알림</string>
     <string name="config_adult_cert">성인인증</string>
     <string name="config_auto_adult_cert">자동성인인증하기</string>
-    <string name="config_adult_cert_on">인증 상태입니다</string>
-    <string name="config_adult_cert_off">미인증 상태입니다</string>
+    <string name="config_adult_cert_on">인증 상태입니다.</string>
+    <string name="config_adult_cert_off">미인증 상태입니다.</string>
     <string name="config_adult_cert_line_1">자동성인인증으로 설정하시면</string>
     <string name="config_adult_cert_line_2">인증절차없이 컨텐츠를 감상하실 수 있습니다.</string>
     <string name="config_area_product">지역/상품 설정</string>
@@ -173,6 +173,17 @@
     
     <string name="popup_tvreserving_title">시청예약을 하시겠습니까?</string>
     <string name="popup_tvreserving_confirm_title">시청예약</string>
+    
+    <string name="popup_config_adult_name_line_1">이름을</string>
+    <string name="popup_config_adult_name_line_2">입력해 주십시요!</string>
+    <string name="popup_config_adult_number_line_1">주민등록번호을</string>
+    <string name="popup_config_adult_number_line_2">입력해 주십시요!</string>
+    <string name="popup_config_adult_number1_line_1">올바른 주민등록번호을</string>
+    <string name="popup_config_adult_number1_line_2">입력해 주십시요!</string>
+    <string name="popup_config_adult_result_succeed_line_1">성인인증 성공!</string>
+    <string name="popup_config_adult_result_fail_line_1">인증실패</string>
+    <string name="popup_config_adult_cert_need_line_1">성인인증이 필요한 컨텐츠 입니다.</string>
+    <string name="popup_config_adult_cert_need_line_2">성인인증을 하시겠습니까?</string>
     
     
     

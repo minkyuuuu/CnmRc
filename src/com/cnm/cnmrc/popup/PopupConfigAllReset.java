@@ -8,7 +8,7 @@ import android.view.View;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.fragment.config.ConfigMain;
 
-public class PopupConfigAllReset extends PopupBase {
+public class PopupConfigAllReset extends PopupBase2 {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.cnm.cnmrc.custom.ExtendedEditTextTextWatcherTest2;
-import com.cnm.cnmrc.util.CnmPreferences;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.TextInputHandler;
 import com.google.android.apps.tvremote.TouchHandler;

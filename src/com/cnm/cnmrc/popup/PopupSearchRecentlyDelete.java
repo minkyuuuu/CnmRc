@@ -8,7 +8,7 @@ import android.view.View;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.provider.CnmRcContract.SearchWord;
 
-public class PopupSearchRecentlyDelete extends PopupBase {
+public class PopupSearchRecentlyDelete extends PopupBase2 {
 	
 	public static PopupGtvSearching newInstance(String type) {
 	PopupGtvSearching f = new PopupGtvSearching();

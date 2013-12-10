@@ -8,14 +8,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.widget.Toast;
+import android.util.Log;
 
+import com.cnm.cnmrc.CnmPreferences;
 import com.cnm.cnmrc.TvReservingConfirm;
 
 public class AlarmReceiver extends BroadcastReceiver {
 	private NotificationManager notificationManager;
 
 	public void onReceive(Context context, Intent intent) {
+		// 설정 > vod 업데이트 알림
+		CnmPreferences pref = CnmPreferences.getInstance();
+		boolean vodUpdate = pref.loadConfigVodUpdateNoti(context);
+		if (!vodUpdate) {
+			Log.v("hwang", "no Notification because configuration is disabled");
+			return;
+		}
+		
 		String mTitle = intent.getStringExtra("title");
 		String mTime = intent.getStringExtra("time");
 		

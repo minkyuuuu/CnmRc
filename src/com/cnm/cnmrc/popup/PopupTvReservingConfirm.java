@@ -8,7 +8,7 @@ import android.view.View;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.custom.ExtendedEditText.Interceptor;
 
-public class PopupTvReservingConfirm extends PopupBase {
+public class PopupTvReservingConfirm extends PopupBase2 {
 	
 	String title ="";
 	String time ="";

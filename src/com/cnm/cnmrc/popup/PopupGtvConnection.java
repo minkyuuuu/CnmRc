@@ -5,11 +5,11 @@ import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
 
+import com.cnm.cnmrc.CnmPreferences;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.util.CnmPreferences;
 
-public class PopupGtvConnection extends PopupBase {
+public class PopupGtvConnection extends PopupBase2 {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

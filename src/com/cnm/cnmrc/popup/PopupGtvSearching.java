@@ -7,12 +7,12 @@ import android.support.v4.app.DialogFragment;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.cnm.cnmrc.CnmPreferences;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.util.CnmPreferences;
 import com.google.android.apps.tvremote.DeviceFinder;
 import com.google.android.apps.tvremote.PairingActivity;
 
-public class PopupGtvSearching extends PopupBase {
+public class PopupGtvSearching extends PopupBase2 {
 	
 	
 //	public static PopupGtvSearching newInstance(String type) {

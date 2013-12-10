@@ -40,6 +40,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cnm.cnmrc.CnmPreferences;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.fragment.search.SearchMain;
@@ -49,7 +50,6 @@ import com.cnm.cnmrc.provider.CnmRcContract.SearchWord;
 import com.cnm.cnmrc.provider.CnmRcContract.VodJjim;
 import com.cnm.cnmrc.tcp.TCPClientTv;
 import com.cnm.cnmrc.tcp.TCPClientVod;
-import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.UiUtil;
 import com.cnm.cnmrc.util.Util;
 

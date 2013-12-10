@@ -9,7 +9,7 @@ import android.view.View;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 
-public class PopupMirroringEnter extends PopupBase {
+public class PopupMirroringEnter extends PopupBase2 {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -6,13 +6,13 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.cnm.cnmrc.CnmPreferences;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.custom.ExtendedEditText.Interceptor;
 import com.cnm.cnmrc.fragment.vodtvch.TvchDetail;
-import com.cnm.cnmrc.util.CnmPreferences;
 
-public class PopupTvReserving extends PopupBase {
+public class PopupTvReserving extends PopupBase2 {
 	
 //	public static PopupTvReserving newInstance(String title, String time, TvchDetail tvchDetail) {
 //		PopupTvReserving f = new PopupTvReserving();

@@ -10,7 +10,7 @@ import android.view.View;
 import com.cnm.cnmrc.R;
 import com.google.android.apps.tvremote.PairingActivity;
 
-public class PopupGtvWaitingPairingCode extends PopupBase {
+public class PopupGtvWaitingPairingCode extends PopupBase2 {
 
 	//	public static PopupGtvSearching newInstance(String type) {
 	//		PopupGtvSearching f = new PopupGtvSearching();

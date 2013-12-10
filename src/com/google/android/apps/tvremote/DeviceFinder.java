@@ -63,11 +63,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cnm.cnmrc.CnmPreferences;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.popup.PopupGtvManuallyInput;
 import com.cnm.cnmrc.popup.PopupGtvSearching;
 import com.cnm.cnmrc.popup.PopupGtvTimeout;
-import com.cnm.cnmrc.util.CnmPreferences;
 
 /**
  * Device discovery with mDNS.

@@ -14,14 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.cnm.cnmrc.CnmPreferences;
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.custom.SlideToggleButton;
 import com.cnm.cnmrc.popup.PopupConfigAllReset;
 import com.cnm.cnmrc.popup.PopupConfigGtvConnection;
-import com.cnm.cnmrc.popup.PopupGtvConnection;
 import com.cnm.cnmrc.popup.PopupGtvNotAlive;
-import com.cnm.cnmrc.util.CnmPreferences;
+import com.urbanairship.push.PushManager;
 
 @SuppressWarnings("deprecation")
 public class ConfigMain extends Fragment implements View.OnClickListener {
@@ -40,7 +40,7 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 	
 	Button mDone;							// 상단 타이틀영역 왼쪽에 위치한 "완료"버튼, 이전 화면으로 이동.
 
-	SlideToggleButton mVibrate, mSound, mVodUpdate, mWatchingRes, mAutoAdultCert;
+	SlideToggleButton mVibrate, mSound, mVodUpdate, mTvWatchRes, mAutoAdultCert;
 	SeekBar seekbar;
 	
 	TextView mAdultCertStatus;		// 성인인증상태 문구, 성인인증화면으로 이동함.
@@ -71,7 +71,7 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 		mAdultCertStatus.setOnClickListener(this);
 		mAdultWarningMsg = (RelativeLayout) layout.findViewById(R.id.config_adult_warning_msg);
 		mDefaultBlankLine = (View) layout.findViewById(R.id.config_default_blank_line);
-
+		
 		// 지역/상품 문구, 지역/상품화면으로 이동함.
 		mAreaProduct = (TextView) layout.findViewById(R.id.config_area_product);
 		refreshAreaProduct();
@@ -88,23 +88,30 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 		// slide toggle button
 		mVibrate = (SlideToggleButton) layout.findViewById(R.id.slide_vibrate);
 		mVibrate.setOnCheckChangedListner(slideToogleButtonListener);
-		mVibrate.setChecked(true);	// drawer is closed!!!, "png is off image"
+		mVibrate.setChecked(pref.loadConfigVibrateEffect(getActivity()));	
 
 		mSound = (SlideToggleButton) layout.findViewById(R.id.slide_sound);
 		mSound.setOnCheckChangedListner(slideToogleButtonListener);
-		mSound.setChecked(true);	// drawer is opened!!!, "png is on image"
+		mSound.setChecked(pref.loadConfigSoundEffect(getActivity()));	 
 
 		mVodUpdate = (SlideToggleButton) layout.findViewById(R.id.slide_vod_update);
 		mVodUpdate.setOnCheckChangedListner(slideToogleButtonListener);
-		mVodUpdate.setChecked(true);	// drawer is opened!!!, "png is on image"
-
-		mWatchingRes = (SlideToggleButton) layout.findViewById(R.id.slide_watching_res);
-		mWatchingRes.setOnCheckChangedListner(slideToogleButtonListener);
-		mWatchingRes.setChecked(true);	// drawer is opened!!!, "png is on image"
+		mVodUpdate.setChecked(pref.loadConfigVodUpdateNoti(getActivity()));	 
+		
+		// push service
+		// 여기서는 설정할 필요가 없다. 앱 시작시 설정해야한다.
+//		if(pref.loadConfigVodUpdateNoti(getActivity())) PushManager.enablePush();
+//		else PushManager.disablePush();
+		
+		mTvWatchRes = (SlideToggleButton) layout.findViewById(R.id.slide_watching_res);
+		mTvWatchRes.setOnCheckChangedListner(slideToogleButtonListener);
+		mTvWatchRes.setChecked(pref.loadConfigTvWatchResNoti(getActivity()));	 
 
 		mAutoAdultCert = (SlideToggleButton) layout.findViewById(R.id.slide_auto_adult_cert);
 		mAutoAdultCert.setOnCheckChangedListner(slideToogleButtonListener);
-		mAutoAdultCert.setChecked(false);	// drawer is closed!!!, "png is off image"
+		
+		onUpdateCertStatus();
+
 		
 		// seekbar
 		// 2013-12-06 comment
@@ -121,34 +128,79 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 		
 		return layout;
 	}
+	
+	public void onUpdateCertStatus() {
+		// 성인인증상태 보이기입니다, 인증상태가 on이고 자동인증이 on일때만 "인증상태입니다.", 
+		// "사실은 성인인증입니다." 즉 성인인증상태란 자동인증이 on이된 상태에서 인증절차에 성공한 상태를 의미한다.
+		if(pref.loadConfigAdultCertStatus(getActivity()) && 
+				pref.loadConfigAutoAdultCert(getActivity())) {
+			mAdultCertStatus.setText(getActivity().getResources().getString(R.string.config_adult_cert_on));
+			pref.saveConfigAdultCertStatus(getActivity(), true);
+		} else {
+			mAdultCertStatus.setText(getActivity().getResources().getString(R.string.config_adult_cert_off));
+			pref.saveConfigAdultCertStatus(getActivity(), false);
+		}
+		
+		// 자동성인인증
+		mAutoAdultCert.setChecked(pref.loadConfigAutoAdultCert(getActivity()));	 
+		
+		if(pref.loadConfigAutoAdultCert(getActivity())) {
+			mAdultWarningMsg.setVisibility(View.GONE); 
+			mDefaultBlankLine.setVisibility(View.GONE);
+		} else {
+			mAdultWarningMsg.setVisibility(View.VISIBLE);
+			mDefaultBlankLine.setVisibility(View.VISIBLE);
+		}
+		
+		super.onResume();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
 
 	private SlideToggleButton.OnCheckChangedListner slideToogleButtonListener = new SlideToggleButton.OnCheckChangedListner() {
 		@Override
 		public void onCheckChanged(View v, boolean isChecked) {
 			if (v instanceof SlideToggleButton) {
 				if (v.getTag().equals("slide_vibrate")) {
-					Log.i("hwang", "slide_vibrate");
-					Log.i("hwang", "is open --->" + mVibrate.isChecked());	// true means "opened", "png is on image"
+					if(isChecked) pref.saveConfigVibrateEffect(getActivity(), true);
+					else pref.saveConfigVibrateEffect(getActivity(), false);
 				}
 				if (v.getTag().equals("slide_sound")) {
-					Log.i("hwang", "slide_sound");
+					if(isChecked) pref.saveConfigSoundEffect(getActivity(), true);
+					else pref.saveConfigSoundEffect(getActivity(), false);
 				}
 				if (v.getTag().equals("slide_vod_update")) {
-					Log.i("hwang", "slide_vod_update");
+					if(isChecked) {
+						PushManager.enablePush();
+						pref.saveConfigVodUpdateNoti(getActivity(), true);
+					}
+					else {
+						PushManager.disablePush();
+						pref.saveConfigVodUpdateNoti(getActivity(), false);
+					}
 				}
 				if (v.getTag().equals("slide_watching_res")) {
-					Log.i("hwang", "slide_watching_reservation");
+					if(isChecked) pref.saveConfigTvWatchResNoti(getActivity(), true);  
+					else pref.saveConfigTvWatchResNoti(getActivity(), false);
 				}
 				if (v.getTag().equals("slide_auto_adult_cert")) {
-					boolean b = ((SlideToggleButton) v).isOpened();	// on image로 변할 때 fasle값임. 아마 그전의 상태를 의미하는것 같다.
-					if(b) {		// off image로 변경될 
-						mAdultWarningMsg.setVisibility(View.VISIBLE);
-						mDefaultBlankLine.setVisibility(View.VISIBLE);
-					} else {	// on image로 변경될 
+					boolean b = ((SlideToggleButton) v).isOpened();	// on image로 변할 때 fasle값임. 아마 그전의 상태를 의미하는것 같다. 이것도 가능하다...
+					if(isChecked) {	
+						// 자동성인인증이 on일때는 문구는 don't care, 그러나 성인인증화면에 적용해야한다.
+						pref.saveConfigAutoAdultCert(getActivity(), true);
 						mAdultWarningMsg.setVisibility(View.GONE);
 						mDefaultBlankLine.setVisibility(View.GONE);
+					} else {	
+						// 자동성인인증이 off가 되면 무조건 성인인증문구는 "미인중상태입니다"로 변경되어야한다. 이 의미는 컨텐츠를 볼 때 무조건 성인인증 절차가 필요하다는 의미.
+						mAdultCertStatus.setText(getActivity().getResources().getString(R.string.config_adult_cert_off));
+						pref.saveConfigAdultCertStatus(getActivity(), false);
+						pref.saveConfigAutoAdultCert(getActivity(), false);
+						mAdultWarningMsg.setVisibility(View.VISIBLE);
+						mDefaultBlankLine.setVisibility(View.VISIBLE);
 					}
-					Log.i("hwang", "slide_auto_adult_certification : " + b);
 				}
 			}
 		}
@@ -211,8 +263,10 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 		Fragment f = getActivity().getSupportFragmentManager().findFragmentByTag(((MainActivity)getActivity()).TAG_FRAGMENT_CONFIG_MAIN);
 		if (f != null) {
 			ConfigAdultCert adultCert;
-			if(isFromVodTvch()) adultCert = ConfigAdultCert.newInstance("from_vod");		// type means "whence do you come?" or "Where do you come from?"
-			else adultCert = ConfigAdultCert.newInstance("from_config");
+			//의미가 없다.
+//			if(isFromVodTvch()) adultCert = ConfigAdultCert.newInstance("from_vod_semi");		// type means "whence do you come?" or "Where do you come from?"
+//			else adultCert = ConfigAdultCert.newInstance("from_config");
+			adultCert = ConfigAdultCert.newInstance("from_config_main");
 			
 			FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 			
@@ -249,18 +303,24 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 	}
 
 	public void clearAll() {
-		mVibrate.setChecked(true);			// drawer is closed!!!, "png is off image"
-		mSound.setChecked(true);			// drawer is opened!!!, "png is on image"
-		mVodUpdate.setChecked(true);		// drawer is opened!!!, "png is on image"
-		mWatchingRes.setChecked(true);		// drawer is opened!!!, "png is on image"
-		mAutoAdultCert.setChecked(false);	// drawer is closed!!!, "png is off image"
+		mVibrate.setChecked(false);			
+		mSound.setChecked(false);			
+		mVodUpdate.setChecked(false);		
+		mTvWatchRes.setChecked(false);		
+		mAutoAdultCert.setChecked(false);	
+		
+		pref.saveConfigVibrateEffect(getActivity(), false);
+		pref.saveConfigSoundEffect(getActivity(), false);
+		pref.saveConfigVodUpdateNoti(getActivity(), false);
+		pref.saveConfigTvWatchResNoti(getActivity(), false);
+		pref.saveConfigAutoAdultCert(getActivity(), false);
 	}
 	
 	public void refreshAreaProduct() {
 		String str = pref.loadChannelAreaName(getActivity()) + "/" + pref.loadChannelProductName(getActivity());
 		mAreaProduct.setText(str);
 	}
-
+	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -281,11 +341,6 @@ public class ConfigMain extends Fragment implements View.OnClickListener {
 		super.onStart();
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-	
 	@Override
 	public void onPause() {
 		super.onPause();

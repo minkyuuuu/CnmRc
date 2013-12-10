@@ -7,7 +7,7 @@ import android.view.View;
 import com.cnm.cnmrc.R;
 import com.google.android.apps.tvremote.DeviceFinder;
 
-public class PopupGtvNoWifi extends PopupBase {
+public class PopupGtvNoWifi extends PopupBase2 {
 	
 	
 //	public static PopupGtvSearching newInstance(String type) {

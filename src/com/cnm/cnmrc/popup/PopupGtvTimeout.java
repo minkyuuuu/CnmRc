@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 
+import com.cnm.cnmrc.CnmPreferences;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.util.CnmPreferences;
 import com.google.android.apps.tvremote.DeviceFinder;
 
-public class PopupGtvTimeout extends PopupBase {
+public class PopupGtvTimeout extends PopupBase2 {
 	
 	
 //	public static PopupGtvSearching newInstance(String type) {

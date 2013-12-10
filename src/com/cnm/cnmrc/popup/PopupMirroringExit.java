@@ -9,7 +9,7 @@ import com.cnm.cnmrc.MirroringTvchActivity;
 import com.cnm.cnmrc.MirroringVodActivity;
 import com.cnm.cnmrc.R;
 
-public class PopupMirroringExit extends PopupBase {
+public class PopupMirroringExit extends PopupBase2 {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

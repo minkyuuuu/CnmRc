@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cnm.cnmrc.CnmPreferences;
 import com.cnm.cnmrc.R;
 import com.cnm.cnmrc.item.ItemVodSemi;
 import com.cnm.cnmrc.util.ImageDownloader;
@@ -27,12 +28,15 @@ public class VodSemiAdapter extends ArrayAdapter<ItemVodSemi> {
     private ArrayList<ItemVodSemi> itemList;
     
     private ImageDownloader imageDownloader;
+    CnmPreferences pref;
 
     public VodSemiAdapter(Context context, int layoutResId, ArrayList<ItemVodSemi> arrayList) {
         super(context, layoutResId, arrayList);
         this.layoutResId = layoutResId;
         this.context = (Activity) context;
         this.itemList = arrayList;
+        
+        pref = CnmPreferences.getInstance();
         
         imageDownloader = new ImageDownloader();
         imageDownloader.setContext(context);
@@ -73,16 +77,28 @@ public class VodSemiAdapter extends ArrayAdapter<ItemVodSemi> {
         // 좌측의 큰 이미지 포스터
         //titleResId.setImageBitmap(Util.getNoBitmap(context));
         String str = itemList.get(position).getImg();
+        String grade = itemList.get(position).getGrade();;
         if(str != null && !str.equals("")) {
         	Bitmap loadBitmap = Util.BitmapLoadFromFile(context, itemList.get(position).getImg());	
         	if(loadBitmap == null) {
-	        	String grade = itemList.get(position).getGrade();
 	        	if(grade != null) {
-	        		if(Util.isAdultGrade(grade)) holder.logoImg.setImageBitmap(Util.getAdultBitmap(context));
-	        		else imageDownloader.download(itemList.get(position).getImg().trim(), holder.logoImg, Util.getNoBitmap(context));
+	        		// 그 다음에 19세 처리한다.
+	        		if(!pref.loadConfigAdultCertStatus(context) && Util.isAdultGrade(grade)) {
+	        			holder.logoImg.setImageBitmap(Util.getAdultBitmap(context));
+	        		} else {
+	        			imageDownloader.download(itemList.get(position).getImg().trim(), holder.logoImg, Util.getNoBitmap(context));
+	        		}
+	        		
+//	        		if(Util.isAdultGrade(grade)) holder.logoImg.setImageBitmap(Util.getAdultBitmap(context));
+//	        		else imageDownloader.download(itemList.get(position).getImg().trim(), holder.logoImg, Util.getNoBitmap(context));
 	        	}	// 기본적으로 no image 포스터가 적용되어 있다.
-        	} else 
-        		holder.logoImg.setImageBitmap(loadBitmap);	// use disk cache
+        	} else {
+        		if(!pref.loadConfigAdultCertStatus(context) && Util.isAdultGrade(grade)) {
+        			holder.logoImg.setImageBitmap(Util.getAdultBitmap(context));
+        		} else {
+        			holder.logoImg.setImageBitmap(loadBitmap);	// use disk cache
+        		}
+        	}
         }
         
         // title

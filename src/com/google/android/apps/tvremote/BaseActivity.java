@@ -34,8 +34,8 @@ import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.cnm.cnmrc.CnmPreferences;
 import com.cnm.cnmrc.R;
-import com.cnm.cnmrc.util.CnmPreferences;
 import com.cnm.cnmrc.util.Util;
 import com.google.android.apps.tvremote.ConnectionManager.ConnectionListener;
 import com.google.android.apps.tvremote.TrackballHandler.Direction;

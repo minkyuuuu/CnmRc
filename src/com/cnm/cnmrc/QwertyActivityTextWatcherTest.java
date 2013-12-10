@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.cnm.cnmrc.custom.ExtendedEditText;
 import com.cnm.cnmrc.custom.ExtendedEditTextTextWatcherTest;
-import com.cnm.cnmrc.util.CnmPreferences;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.TextInputHandler;
 import com.google.android.apps.tvremote.TouchHandler;

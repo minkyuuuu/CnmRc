@@ -241,11 +241,13 @@ public class Base extends Fragment {
 			
 			classObject = Class.forName(packageName + mClassTypeArray[selectedCategory]);
 			Object obj = classObject.newInstance();
+			Log.v("hwang", "classObject : " + obj.getClass());
 
 			Base base = ((Base) obj).newInstance(selectedCategory, title, isFirstDepth, bundle);
-
+			
 	        Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.vod_tvch_panel);
 	    	if (f != null) {
+	    		
 	    		ft.add(R.id.loading_data_panel, base, ((MainActivity) getActivity()).TAG_FRAGMENT_BASE);
 	    		ft.addToBackStack(null);	// push to "fragment stack" for back key operation
 	    	}
