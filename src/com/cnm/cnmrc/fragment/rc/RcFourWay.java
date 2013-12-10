@@ -27,10 +27,9 @@ import android.widget.RelativeLayout;
 
 import com.cnm.cnmrc.R;
 import com.google.android.apps.tvremote.BaseActivity;
-import com.google.android.apps.tvremote.TouchHandlerTestExtendFunction;
-import com.google.android.apps.tvremote.TouchHandlerTestExtendFunction.Mode;
+import com.google.android.apps.tvremote.TouchHandler;
+import com.google.android.apps.tvremote.TouchHandler.Mode;
 import com.google.android.apps.tvremote.util.Action;
-import com.google.android.apps.tvremote.widget.SoftDpad;
 
 public class RcFourWay extends RcBase implements View.OnClickListener{
 
@@ -78,7 +77,10 @@ public class RcFourWay extends RcBase implements View.OnClickListener{
 	    
 		// Attach touch handler to the touch pad.
 		view = (RelativeLayout) layout.findViewById(R.id.view);
-		new TouchHandlerTestExtendFunction(view, Mode.POINTER_MULTITOUCH, ((BaseActivity)getActivity()).getCommands(), ((BaseActivity)getActivity()).getDefaultDpadListener() );
+		new TouchHandler(view, Mode.POINTER_MULTITOUCH, ((BaseActivity)getActivity()).getCommands(), getActivity());
+		
+		
+		//new TouchHandlerTestExtendFunction(view, Mode.POINTER_MULTITOUCH, ((BaseActivity)getActivity()).getCommands(), ((BaseActivity)getActivity()).getDefaultDpadListener() );
 
 		return layout;
 	}

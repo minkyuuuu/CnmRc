@@ -16,9 +16,17 @@
 
 package com.google.android.apps.tvremote;
 
+import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.CountDownTimer;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.cnm.cnmrc.R;
 import com.google.android.apps.tvremote.backport.ScaleGestureDetector;
@@ -68,7 +76,8 @@ public final class TouchHandler implements View.OnTouchListener {
 	/**
 	 * Threshold to send a scroll event.
 	 */
-	private static final int SCROLL_THRESHOLD = 2;
+	private static final int SCROLL_THRESHOLD = 5;
+	//private static final int SCROLL_THRESHOLD = 2;
 
 	/**
 	 * Thresholds for multitouch gestures.
@@ -85,19 +94,64 @@ public final class TouchHandler implements View.OnTouchListener {
 		POINTER, POINTER_MULTITOUCH, SCROLL_VERTICAL, SCROLL_HORIZONTAL, ZOOM_VERTICAL
 	}
 
-	public TouchHandler(View view, Mode pointerMultitouch, ICommandSender commands) {
-		if (Mode.POINTER_MULTITOUCH.equals(pointerMultitouch)) {
+	final AnimationDrawable animation = new AnimationDrawable();
+	ImageView anim;
+	RelativeLayout.LayoutParams params;
+	int width;
+	int ratio = 5;
+
+	public TouchHandler(View view, Mode mode, ICommandSender commands, Context context) {
+		if (Mode.POINTER_MULTITOUCH.equals(mode)) {
 			this.scaleGestureDetector = ScaleGestureDetectorFactory.createScaleGestureDetector(view, new MultitouchHandler());
 			this.mode = Mode.POINTER;
 		} else {
 			this.scaleGestureDetector = null;
-			this.mode = pointerMultitouch;
+			this.mode = mode;
 		}
 
 		this.commands = commands;
 		isActive = true;
 		zoomThreshold = view.getResources().getInteger(R.integer.zoom_threshold);
 		view.setOnTouchListener(this);
+
+		BitmapDrawable frame1 = (BitmapDrawable) context.getResources().getDrawable(R.drawable.tappress01);
+		BitmapDrawable frame2 = (BitmapDrawable) context.getResources().getDrawable(R.drawable.tappress02);
+		BitmapDrawable frame3 = (BitmapDrawable) context.getResources().getDrawable(R.drawable.tappress03);
+		BitmapDrawable frame4 = (BitmapDrawable) context.getResources().getDrawable(R.drawable.tappress04);
+		animation.addFrame(frame1, 100);
+		animation.addFrame(frame2, 100);
+		animation.addFrame(frame3, 100);
+		animation.addFrame(frame4, 100);
+		animation.start();
+		animation.setOneShot(false);
+
+		anim = new ImageView(context);
+		anim.setBackground(animation);
+
+		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+		width = metrics.widthPixels;
+
+		params = new RelativeLayout.LayoutParams(width/ratio, width/ratio);	// 애니메이션 크기
+
+		anim.setLayoutParams(params);
+		((RelativeLayout) view).addView(anim);
+		anim.setVisibility(View.INVISIBLE);
+//		
+//		LayoutParams params1 = ((RelativeLayout) view).getLayoutParams();
+//		Log.v("hwang", "view : width ---> " + params1.width);		// return value : 0
+//		Log.v("hwang", "view : height ---> " + params1.height);		// return value : 1
+	}
+
+	private int xx(int x) {
+		return x - (width / ratio) / 2;
+	}
+
+	private int yy(int y) {
+		return y - ((width / ratio) / 2) - ((width / ratio) / 4);	// 살짝 위로 올려주어야 손가락 위로 보인다.
+	}
+
+	private boolean constrain(int x, int y) {
+		return true;
 	}
 
 	public boolean onTouch(View v, MotionEvent event) {
@@ -121,19 +175,38 @@ public final class TouchHandler implements View.OnTouchListener {
 		long timestamp = event.getEventTime();
 		switch (event.getAction()) {
 		case MotionEvent.ACTION_DOWN:
+			anim.setVisibility(View.VISIBLE);
+			Log.v("hwang", "ACTION_DOWN : x ---> " + x);
+			Log.v("hwang", "ACTION_DOWN : y ---> " + y);
+
+			if (constrain(x, y)) {
+				params.leftMargin = xx(x);
+				params.topMargin = yy(y);
+				anim.setLayoutParams(params);
+				//params.setMargins(x, y, 0, 0);
+			}
+
 			state = new Sequence(x, y, timestamp);
 			return true;
 
 		case MotionEvent.ACTION_CANCEL:
 			state = null;
+			anim.setVisibility(View.INVISIBLE);
 			return true;
 
 		case MotionEvent.ACTION_UP:
 			boolean handled = state != null && state.handleUp(x, y, timestamp);
 			state = null;
+			anim.setVisibility(View.INVISIBLE);
 			return handled;
 
 		case MotionEvent.ACTION_MOVE:
+			if (constrain(x, y)) {
+				params.leftMargin = xx(x);
+				params.topMargin = yy(y);
+				anim.setLayoutParams(params);
+			}
+			
 			return state != null && state.handleMove(x, y, timestamp);
 
 		default:
@@ -206,7 +279,7 @@ public final class TouchHandler implements View.OnTouchListener {
 
 		/**
 		 * Starts a timer that will expire after
-		 * {@link TouchHandlerTestExtendFunction#CLICK_TIME_THRESHOLD} and start to send a click
+		 * {@link TouchHandler#CLICK_TIME_THRESHOLD} and start to send a click
 		 * down event if the touch event cannot be interpreted as a movement.
 		 */
 		private void startClickDownTimer() {

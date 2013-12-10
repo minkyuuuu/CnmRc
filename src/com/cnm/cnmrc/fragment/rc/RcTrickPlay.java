@@ -24,9 +24,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.cnm.cnmrc.R;
 import com.google.android.apps.tvremote.BaseActivity;
+import com.google.android.apps.tvremote.TouchHandler;
+import com.google.android.apps.tvremote.TouchHandler.Mode;
 import com.google.android.apps.tvremote.util.Action;
 
 public class RcTrickPlay extends RcBase implements View.OnClickListener {
@@ -35,6 +38,8 @@ public class RcTrickPlay extends RcBase implements View.OnClickListener {
 
 	ImageButton play, ff, stop, rew, pause;
 	ImageView aniPlay, aniFF, aniStop, aniRew, aniPause;
+	
+	RelativeLayout view;	// Attach touch handler to the touch pad.
 
 	public static RcTrickPlay newInstance(String type) {
 		RcTrickPlay f = new RcTrickPlay();
@@ -72,7 +77,10 @@ public class RcTrickPlay extends RcBase implements View.OnClickListener {
 		pause = (ImageButton) layout.findViewById(R.id.tricky_pause);
 		aniPause = (ImageView) layout.findViewById(R.id.anim_tricky_pause);
 		pause.setOnClickListener(this);
-
+		
+		view = (RelativeLayout) layout.findViewById(R.id.view);
+		//new TouchHandler(view, Mode.POINTER_MULTITOUCH, ((BaseActivity)getActivity()).getCommands(), getActivity());
+		
 		return layout;
 	}
 

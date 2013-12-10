@@ -86,7 +86,7 @@ public class QwertyActivityTextWatcherTest2 extends BaseActivity {
 
 		// Attach touch handler to the touch pad.
 		view = (View) findViewById(R.id.view);
-		new TouchHandler(view, Mode.POINTER_MULTITOUCH, getCommands());
+		//new TouchHandler(view, Mode.POINTER_MULTITOUCH, getCommands());
 
 	}
 
