@@ -68,9 +68,13 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 	public int mBackStackEntry = 100;
 
 	public int currentDepth = 1;
-	boolean isSkipTitle = false;
+	
+	// 2013-12-10 아무런 의미도 없는것 같다.
+	boolean isSkipTitle = true;
 
 	String type;
+	
+	boolean isSidebarItemClick = false;
 
 	public HashMap<Integer, String> mMapTitle = null;
 
@@ -134,6 +138,9 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 				// ㅎㅎ
 				if (!mSlidingMenu.isOpening())
 					return;
+				
+				// 2013-12-10 사이드바 오픈후에 그냥 close 되면 다시 데이타로딩을 막기 위해서...
+				isSidebarItemClick = true;
 
 				// sidebar가 닫힐때까지 다른 item선택되지 않게하기 위해서...
 				mCategoryCover.setVisibility(View.VISIBLE);
@@ -205,7 +212,7 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 
 			//ft.addToBackStack(null);	// addTBackStack하지 않으면 onBackPressed()가 콜백되지 않는것이지... remove fragment하면 onDestroyView()는 콜백된다.
 
-			// 2013-12-10
+			// 2013-12-10 update vodsemi after config>adultcert change
 			if (mClassTypeArray[selectedCategory].equals("VodSemi")) {
 				ft.replace(R.id.loading_data_panel, base, "vod_semi_for_config");
 			} else {
@@ -387,19 +394,21 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 
 	@Override
 	public void onSidebarClosedStart() {
-		{
-			Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.loading_data_panel);
+		if(isSidebarItemClick) {
+			{
+				Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.loading_data_panel);
+				if (f != null)
+					getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
+			}
+	
+			// ------------------------------------
+			// 하단의 bottom menu에서 depth level 설정
+			// onSidebarClosedEnd() > loadingDataForSidrebar()에서도 하는데 늦다...
+			// ------------------------------------
+			Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_rc_bottom_menu);
 			if (f != null)
-				getActivity().getSupportFragmentManager().beginTransaction().remove(f).commit();
+				((RcBottomMenu) f).setDepthLevelClear(); // set 1 depth
 		}
-
-		// ------------------------------------
-		// 하단의 bottom menu에서 depth level 설정
-		// onSidebarClosedEnd() > loadingDataForSidrebar()에서도 하는데 늦다...
-		// ------------------------------------
-		Fragment f = getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_rc_bottom_menu);
-		if (f != null)
-			((RcBottomMenu) f).setDepthLevelClear(); // set 1 depth
 	}
 
 	@Override
@@ -409,7 +418,8 @@ public class VodTvchMain extends Fragment implements View.OnClickListener, Slidi
 		// ---------------
 		// data loading
 		// ---------------
-		loadingDataForSidrebar();
+		if(isSidebarItemClick) loadingDataForSidrebar();
+		isSidebarItemClick = false;
 	}
 
 	@Override

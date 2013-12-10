@@ -174,6 +174,10 @@ public class VodDetail extends Base implements View.OnClickListener {
 		// ㅎㅎ
 		//		if (UiUtil.isSlidingMenuOpening(getActivity()))
 		//			return;
+		
+		// 2013-12-10
+		// 사이드바가 열려있으면 닫는다.
+		if (UiUtil.isSlidingMenuOpening(getActivity())) UiUtil.toggleSidebar(getActivity());
 
 		switch (v.getId()) {
 		case R.id.vod_zzim:

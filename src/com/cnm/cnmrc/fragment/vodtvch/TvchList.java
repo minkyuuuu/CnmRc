@@ -88,8 +88,12 @@ public class TvchList extends Base  implements View.OnClickListener {
 				// sidebar가 열려있으면 return한다.
 				// 2013-12-06 comment later
 				// ㅎㅎ
-            	if (UiUtil.isSlidingMenuOpening(getActivity())) return;
+            	//if (UiUtil.isSlidingMenuOpening(getActivity())) return;
             	
+				// 2013-12-10
+				// 사이드바가 열려있으면 닫는다.
+				if (UiUtil.isSlidingMenuOpening(getActivity())) UiUtil.toggleSidebar(getActivity());
+				
             	increaseCurrentDepth();
         		
         		String genreName = adapter.getItem(position).getGenreName();
