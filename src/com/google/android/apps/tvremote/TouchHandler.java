@@ -99,6 +99,7 @@ public final class TouchHandler implements View.OnTouchListener {
 	RelativeLayout.LayoutParams params;
 	int width;
 	int ratio = 5;
+	int compensateWidth = 4;		// 1280 x 1980 : 4	// 480 x 800 : 3
 
 	public TouchHandler(View view, Mode mode, ICommandSender commands, Context context) {
 		if (Mode.POINTER_MULTITOUCH.equals(mode)) {
@@ -126,10 +127,17 @@ public final class TouchHandler implements View.OnTouchListener {
 		animation.setOneShot(false);
 
 		anim = new ImageView(context);
-		anim.setBackground(animation);
+		
+		int sdk = android.os.Build.VERSION.SDK_INT;
+		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+			anim.setBackgroundDrawable(animation);
+		} else {
+			anim.setBackground(animation);	// api 16
+		}
 
 		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
 		width = metrics.widthPixels;
+		if (width <= 480) compensateWidth = 3;
 
 		params = new RelativeLayout.LayoutParams(width/ratio, width/ratio);	// 애니메이션 크기
 
@@ -147,7 +155,7 @@ public final class TouchHandler implements View.OnTouchListener {
 	}
 
 	private int yy(int y) {
-		return y - ((width / ratio) / 2) - ((width / ratio) / 4);	// 살짝 위로 올려주어야 손가락 위로 보인다.
+		return y - ((width / ratio) / 2) - ((width / ratio) / compensateWidth);	// 살짝 위로 올려주어야 손가락 위로 보인다.
 	}
 
 	private boolean constrain(int x, int y) {

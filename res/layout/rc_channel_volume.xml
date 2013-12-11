@@ -46,7 +46,7 @@
                         android:layout_gravity="top|center_horizontal"
                         android:layout_marginTop="@dimen/px7" >
 
-                        <ImageButton
+                        <com.cnm.cnmrc.custom.ExtendedImageButton
                             android:id="@+id/control_volplus"
                             android:layout_width="@dimen/px228"
                             android:layout_height="@dimen/px167"
@@ -74,7 +74,7 @@
                         android:layout_marginRight="@dimen/px16"
                         android:background="@drawable/mute_off">
 
-                        <ImageButton
+                        <com.cnm.cnmrc.custom.ExtendedImageButton
                             android:id="@+id/control_mute"
                             android:layout_width="@dimen/px198"
                             android:layout_height="@dimen/px92"
@@ -99,7 +99,7 @@
                         android:layout_gravity="bottom|center_horizontal"
                         android:layout_marginBottom="@dimen/px7" >
 
-                        <ImageButton
+                        <com.cnm.cnmrc.custom.ExtendedImageButton
                             android:id="@+id/control_volminus"
                             android:layout_width="@dimen/px228"
                             android:layout_height="@dimen/px167"
@@ -136,7 +136,7 @@
                         android:layout_gravity="top|center_horizontal"
                         android:layout_marginTop="@dimen/px7" >
 
-                        <ImageButton
+                        <com.cnm.cnmrc.custom.ExtendedImageButton
                             android:id="@+id/control_chup"
                             android:layout_width="@dimen/px228"
                             android:layout_height="@dimen/px167"
@@ -169,7 +169,7 @@
                         android:layout_gravity="bottom|center_horizontal"
                         android:layout_marginBottom="@dimen/px7" >
 
-                        <ImageButton
+                        <com.cnm.cnmrc.custom.ExtendedImageButton
                             android:id="@+id/control_chdown"
                             android:layout_width="@dimen/px228"
                             android:layout_height="@dimen/px167"
@@ -195,7 +195,7 @@
                 android:layout_height="match_parent"
                 android:visibility="visible" >
 
-                <ImageButton
+                <com.cnm.cnmrc.custom.ExtendedImageButton
                     android:id="@+id/ok"
                     android:layout_width="@dimen/px138"
                     android:layout_height="@dimen/px138"

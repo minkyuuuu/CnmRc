@@ -6,7 +6,7 @@
     android:gravity="center_vertical"
     android:orientation="horizontal" >
 
-    <ImageButton
+    <com.cnm.cnmrc.custom.ExtendedImageButton
         android:id="@+id/stb_power"
         android:layout_width="@dimen/px98"
         android:layout_height="@dimen/px94"
@@ -14,7 +14,7 @@
         android:background="@drawable/xml_rc_stb_power"
         android:contentDescription="@string/accessibility_stb_power" />
 
-    <ImageButton
+    <com.cnm.cnmrc.custom.ExtendedImageButton
         android:id="@+id/integration_ui_main"
         android:layout_width="@dimen/px98"
         android:layout_height="@dimen/px94"

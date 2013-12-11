@@ -8,28 +8,28 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.custom.ExtendedImageButton;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.util.Action;
 
 public class RcBottomMenu extends Fragment implements View.OnClickListener {
 	
 	View layout;
-	ImageButton mPrevious, mFavoriteChannel, mViewSwitch, mExit;			// bottom menu (이전, 선호채널, 보기전환, 나가기)
+	ExtendedImageButton mPrevious, mFavoriteChannel, mViewSwitch, mExit;			// bottom menu (이전, 선호채널, 보기전환, 나가기)
 	LinearLayout mRemoconMode, mVodTvchMode;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		layout = inflater.inflate(R.layout.rc_bottom_menu, container, false);
 		
-		mPrevious = (ImageButton) layout.findViewById(R.id.previous);
-		mFavoriteChannel = (ImageButton) layout.findViewById(R.id.favorite_channel);
-		mViewSwitch = (ImageButton) layout.findViewById(R.id.view_switch);
-		mExit = (ImageButton) layout.findViewById(R.id.exit);
+		mPrevious = (ExtendedImageButton) layout.findViewById(R.id.previous);
+		mFavoriteChannel = (ExtendedImageButton) layout.findViewById(R.id.favorite_channel);
+		mViewSwitch = (ExtendedImageButton) layout.findViewById(R.id.view_switch);
+		mExit = (ExtendedImageButton) layout.findViewById(R.id.exit);
 		
 		mRemoconMode = (LinearLayout) layout.findViewById(R.id.bottom_remocon_mode);
 		mVodTvchMode = (LinearLayout) layout.findViewById(R.id.bottom_vod_tvch_mode);

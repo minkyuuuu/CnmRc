@@ -27,7 +27,7 @@ public class CnmPreferences {
 	public final String CHANNEL_PRODUCT_NAME = "channel_product_name";	// Channel Product Name
 	
 	public final String CONFIG_VIBRATE_EFFECT = "config_vibrate_effect";		// 설정 (진동효과)
-	public final String CONFIG_SOUND_EFFECT = "config_vibrate_effect";			// 설정 (소리효과)
+	public final String CONFIG_SOUND_EFFECT = "config_sound_effect";			// 설정 (소리효과)
 //	public final String CONFIG_TOUCH_SPEED = "config_touch_speed";				// 설정 (터치속도)
 	public final String CONFIG_VOD_UPDATE_NOTI = "config_vod_update_noti";		// 설정 (VOD업데이트알림)
 	public final String CONFIG_WATCHING_RES_NOTI = "config_watching_res_noti";	// 설정 (시청예약알림)

@@ -26,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.custom.ExtendedImageButton;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.util.Action;
 
@@ -44,13 +45,14 @@ public class RcChannelVolume extends RcBase implements View.OnClickListener {
 	View layout;
 
 	AnimationDrawable mTapPressAnimation;
-	ImageButton mVolPlus, mVolMinus, mMute; // volume
+	ExtendedImageButton mVolPlus, mVolMinus, mMute; // volume
 	ImageView mAnimVolPlus, mAnimMute, mAnimVolMinus;
 
-	ImageButton mChUp, mChDown, mChname; // channel
+	ExtendedImageButton mChUp, mChDown; 			// channel
+	ImageButton mChname; 							// channel
 	ImageView mAnimChUp, mAnimChDown;
 	
-	ImageButton mOK;
+	ExtendedImageButton mOK;
 	ImageView mAnimOK;
 
 //	boolean mToogleMuteOff = true;
@@ -65,32 +67,32 @@ public class RcChannelVolume extends RcBase implements View.OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		layout = inflater.inflate(R.layout.rc_channel_volume, container, false);
 
-		mVolPlus = (ImageButton) layout.findViewById(R.id.control_volplus);
+		mVolPlus = (ExtendedImageButton) layout.findViewById(R.id.control_volplus);
 		mAnimVolPlus = (ImageView) layout.findViewById(R.id.anim_volplus);
 		mVolPlus.setOnClickListener(this);
 
-		mMute = (ImageButton) layout.findViewById(R.id.control_mute);
+		mMute = (ExtendedImageButton) layout.findViewById(R.id.control_mute);
 //		mAnimMute = (ImageView) layout.findViewById(R.id.anim_mute);
 		//mMute.setBackgroundResource(R.drawable.xml_control_mute_off); // mute off
 //		mToogleMuteOff = true;
 		mMute.setOnClickListener(this);
 
-		mVolMinus = (ImageButton) layout.findViewById(R.id.control_volminus);
+		mVolMinus = (ExtendedImageButton) layout.findViewById(R.id.control_volminus);
 		mAnimVolMinus = (ImageView) layout.findViewById(R.id.anim_volminus);
 		mVolMinus.setOnClickListener(this);
 
-		mChUp = (ImageButton) layout.findViewById(R.id.control_chup);
+		mChUp = (ExtendedImageButton) layout.findViewById(R.id.control_chup);
 		mAnimChUp = (ImageView) layout.findViewById(R.id.anim_chup);
 		mChUp.setOnClickListener(this);
 
-		mChDown = (ImageButton) layout.findViewById(R.id.control_chdown);
+		mChDown = (ExtendedImageButton) layout.findViewById(R.id.control_chdown);
 		mAnimChDown = (ImageView) layout.findViewById(R.id.anim_chdown);
 		mChDown.setOnClickListener(this);
 
 		mChname = (ImageButton) layout.findViewById(R.id.panel_chname);
 		mChname.setOnClickListener(this);
 		
-		mOK = (ImageButton) layout.findViewById(R.id.ok);
+		mOK = (ExtendedImageButton) layout.findViewById(R.id.ok);
 		mAnimOK = (ImageView) layout.findViewById(R.id.anim_ok);
 		mOK.setOnClickListener(this);
 

@@ -1,7 +1,6 @@
 package com.cnm.cnmrc;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,8 +9,6 @@ import android.widget.TextView;
 import com.cnm.cnmrc.custom.ExtendedEditText;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.TextInputHandler;
-import com.google.android.apps.tvremote.TouchHandler;
-import com.google.android.apps.tvremote.TouchHandler.Mode;
 import com.google.android.apps.tvremote.util.Action;
 
 public class QwertyActivity extends BaseActivity {
@@ -45,7 +42,6 @@ public class QwertyActivity extends BaseActivity {
 		//if(locale.contains(status)) textInputHandler.setStatusApp(true);
 		//else textInputHandler.setStatusApp(false);
 		
-
 		editText = (ExtendedEditText) findViewById(R.id.qwerty_edit);
 		editText.requestFocus();
 		((ExtendedEditText) editText).setInterceptor(new ExtendedEditText.Interceptor() {

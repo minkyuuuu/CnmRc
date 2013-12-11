@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.custom.ExtendedImageButton;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.TouchHandler;
 import com.google.android.apps.tvremote.TouchHandler.Mode;
@@ -35,7 +36,7 @@ public class RcFourWay extends RcBase implements View.OnClickListener{
 
 	View layout;
 	
-	ImageButton up, down, left, right, ok;
+	ExtendedImageButton up, down, left, right, ok;
 	ImageView aniUp, aniDown, aniLeft, aniRight, aniOk;
 	
 	RelativeLayout view;	// Attach touch handler to the touch pad.
@@ -52,23 +53,23 @@ public class RcFourWay extends RcBase implements View.OnClickListener{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		layout = inflater.inflate(R.layout.rc_four_way, container, false);
 		
-		up = (ImageButton) layout.findViewById(R.id.fourway_up);
+		up = (ExtendedImageButton) layout.findViewById(R.id.fourway_up);
 		aniUp = (ImageView) layout.findViewById(R.id.anim_fourway_up);
 		up.setOnClickListener(this);
 		
-		right = (ImageButton) layout.findViewById(R.id.fourway_right);
+		right = (ExtendedImageButton) layout.findViewById(R.id.fourway_right);
 		aniRight = (ImageView) layout.findViewById(R.id.anim_fourway_right);
 		right.setOnClickListener(this);
 		
-		down = (ImageButton) layout.findViewById(R.id.fourway_down);
+		down = (ExtendedImageButton) layout.findViewById(R.id.fourway_down);
 		aniDown = (ImageView) layout.findViewById(R.id.anim_fourway_down);
 		down.setOnClickListener(this);
 		
-		left = (ImageButton) layout.findViewById(R.id.fourway_left);
+		left = (ExtendedImageButton) layout.findViewById(R.id.fourway_left);
 		aniLeft = (ImageView) layout.findViewById(R.id.anim_fourway_left);
 		left.setOnClickListener(this);
 		
-		ok = (ImageButton) layout.findViewById(R.id.fourway_ok);
+		ok = (ExtendedImageButton) layout.findViewById(R.id.fourway_ok);
 		aniOk = (ImageView) layout.findViewById(R.id.anim_fourway_ok);
 		ok.setOnClickListener(this);
 		

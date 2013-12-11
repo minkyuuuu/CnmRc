@@ -219,6 +219,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 	protected void onPause() {
 		rcIconOn();
 		Log.e("hwang-tvremote", "MainActivity : onPause()");
+		
+		unregisterReceiver(apidUpdateReceiver);
 
 		super.onPause();
 	}

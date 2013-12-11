@@ -18,7 +18,6 @@ package com.cnm.cnmrc.fragment.rc;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.custom.ExtendedImageButton;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.TouchHandler;
 import com.google.android.apps.tvremote.TouchHandler.Mode;
@@ -36,7 +36,7 @@ public class RcTrickPlay extends RcBase implements View.OnClickListener {
 
 	View layout;
 
-	ImageButton play, ff, stop, rew, pause;
+	ExtendedImageButton play, ff, stop, rew, pause;
 	ImageView aniPlay, aniFF, aniStop, aniRew, aniPause;
 	
 	RelativeLayout view;	// Attach touch handler to the touch pad.
@@ -54,32 +54,32 @@ public class RcTrickPlay extends RcBase implements View.OnClickListener {
 		layout = inflater.inflate(R.layout.rc_trick_play, container, false);
 
 		// 1) play
-		play = (ImageButton) layout.findViewById(R.id.trick_play);
+		play = (ExtendedImageButton) layout.findViewById(R.id.trick_play);
 		aniPlay = (ImageView) layout.findViewById(R.id.anim_trick_play);
 		play.setOnClickListener(this);
 
 		//2) ff
-		ff = (ImageButton) layout.findViewById(R.id.tricky_ff);
+		ff = (ExtendedImageButton) layout.findViewById(R.id.tricky_ff);
 		aniFF = (ImageView) layout.findViewById(R.id.anim_tricky_ff);
 		ff.setOnClickListener(this);
 		
 		// 3) stop
-		stop = (ImageButton) layout.findViewById(R.id.tricky_stop);
+		stop = (ExtendedImageButton) layout.findViewById(R.id.tricky_stop);
 		aniStop = (ImageView) layout.findViewById(R.id.anim_tricky_stop);
 		stop.setOnClickListener(this);
 		
 		// 4) rew
-		rew = (ImageButton) layout.findViewById(R.id.tricky_rew);
+		rew = (ExtendedImageButton) layout.findViewById(R.id.tricky_rew);
 		aniRew = (ImageView) layout.findViewById(R.id.anim_tricky_rew);
 		rew.setOnClickListener(this);
 
 		// 5) pause
-		pause = (ImageButton) layout.findViewById(R.id.tricky_pause);
+		pause = (ExtendedImageButton) layout.findViewById(R.id.tricky_pause);
 		aniPause = (ImageView) layout.findViewById(R.id.anim_tricky_pause);
 		pause.setOnClickListener(this);
 		
 		view = (RelativeLayout) layout.findViewById(R.id.view);
-		//new TouchHandler(view, Mode.POINTER_MULTITOUCH, ((BaseActivity)getActivity()).getCommands(), getActivity());
+		new TouchHandler(view, Mode.POINTER_MULTITOUCH, ((BaseActivity)getActivity()).getCommands(), getActivity());
 		
 		return layout;
 	}

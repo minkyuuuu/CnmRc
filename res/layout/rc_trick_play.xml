@@ -34,7 +34,7 @@
                 android:layout_centerHorizontal="true" 
                 android:layout_marginTop="@dimen/px66">
 
-                <ImageButton
+                <com.cnm.cnmrc.custom.ExtendedImageButton
                     android:id="@+id/trick_play"
                     android:layout_width="@dimen/px160"
                     android:layout_height="@dimen/px160"
@@ -61,7 +61,7 @@
                 android:layout_centerVertical="true" 
                 android:layout_marginRight="@dimen/px66">
 
-                <ImageButton
+                <com.cnm.cnmrc.custom.ExtendedImageButton
                     android:id="@+id/tricky_ff"
                     android:layout_width="@dimen/px160"
                     android:layout_height="@dimen/px160"
@@ -88,7 +88,7 @@
                 android:layout_centerHorizontal="true" 
                 android:layout_marginBottom="@dimen/px67">
 
-                <ImageButton
+                <com.cnm.cnmrc.custom.ExtendedImageButton
                     android:id="@+id/tricky_stop"
                     android:layout_width="@dimen/px160"
                     android:layout_height="@dimen/px160"
@@ -115,7 +115,7 @@
                 android:layout_centerVertical="true" 
                 android:layout_marginLeft="@dimen/px66">
 
-                <ImageButton
+                <com.cnm.cnmrc.custom.ExtendedImageButton
                     android:id="@+id/tricky_rew"
                     android:layout_width="@dimen/px160"
                     android:layout_height="@dimen/px160"
@@ -140,7 +140,7 @@
                 android:layout_height="@dimen/px138"
                 android:layout_centerInParent="true" >
 
-                <ImageButton
+                <com.cnm.cnmrc.custom.ExtendedImageButton
                     android:id="@+id/tricky_pause"
                     android:layout_width="@dimen/px138"
                     android:layout_height="@dimen/px138"

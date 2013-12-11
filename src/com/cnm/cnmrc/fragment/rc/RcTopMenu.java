@@ -17,8 +17,8 @@
 package com.cnm.cnmrc.fragment.rc;
 
 import android.app.Activity;
+import android.media.AudioManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,20 +27,22 @@ import android.widget.ImageButton;
 
 import com.cnm.cnmrc.MainActivity;
 import com.cnm.cnmrc.R;
+import com.cnm.cnmrc.custom.ExtendedImageButton;
 import com.google.android.apps.tvremote.BaseActivity;
 import com.google.android.apps.tvremote.util.Action;
 
 public class RcTopMenu extends Fragment implements View.OnClickListener {
 
-	ImageButton mStbPower, mIntegrationUiMain, mVod, mTvch, mSearch; // top menu (셋탑전원, 통합ui메인, vod, TV채널, 검색)
+	ExtendedImageButton mStbPower, mIntegrationUiMain; 	// top menu (셋탑전원, 통합ui메인, vod, TV채널, 검색)
+	ImageButton mVod, mTvch, mSearch; 					// top menu (셋탑전원, 통합ui메인, vod, TV채널, 검색)
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View layout = inflater.inflate(R.layout.rc_top_menu, container, false);
 
 		// top menu
-		mStbPower = (ImageButton) layout.findViewById(R.id.stb_power);
-		mIntegrationUiMain = (ImageButton) layout.findViewById(R.id.integration_ui_main);
+		mStbPower = (ExtendedImageButton) layout.findViewById(R.id.stb_power);
+		mIntegrationUiMain = (ExtendedImageButton) layout.findViewById(R.id.integration_ui_main);
 		mVod = (ImageButton) layout.findViewById(R.id.vod);
 		mTvch = (ImageButton) layout.findViewById(R.id.tvch);
 		mSearch = (ImageButton) layout.findViewById(R.id.search);
@@ -55,8 +57,11 @@ public class RcTopMenu extends Fragment implements View.OnClickListener {
 		return layout;
 	}
 
+	Activity a;
+
 	@Override
 	public void onAttach(Activity activity) {
+		a = activity;
 		super.onAttach(activity);
 
 	}
@@ -66,13 +71,13 @@ public class RcTopMenu extends Fragment implements View.OnClickListener {
 		super.onDetach();
 
 	}
-	
+
 	public void backToRc() {
-		mStbPower.startAnimation(((MainActivity)getActivity()).aniRcTopMenuFadein);
-		mIntegrationUiMain.startAnimation(((MainActivity)getActivity()).aniRcTopMenuFadein);
-		mVod.startAnimation(((MainActivity)getActivity()).aniRcTopMenuFadein);
-		mTvch.startAnimation(((MainActivity)getActivity()).aniRcTopMenuFadein);
-		mSearch.startAnimation(((MainActivity)getActivity()).aniRcTopMenuFadein);
+		mStbPower.startAnimation(((MainActivity) getActivity()).aniRcTopMenuFadein);
+		mIntegrationUiMain.startAnimation(((MainActivity) getActivity()).aniRcTopMenuFadein);
+		mVod.startAnimation(((MainActivity) getActivity()).aniRcTopMenuFadein);
+		mTvch.startAnimation(((MainActivity) getActivity()).aniRcTopMenuFadein);
+		mSearch.startAnimation(((MainActivity) getActivity()).aniRcTopMenuFadein);
 
 		mStbPower.setVisibility(View.VISIBLE);
 		mIntegrationUiMain.setVisibility(View.VISIBLE);
@@ -80,13 +85,13 @@ public class RcTopMenu extends Fragment implements View.OnClickListener {
 		mTvch.setVisibility(View.VISIBLE);
 		mSearch.setVisibility(View.VISIBLE);
 	}
-	
+
 	public void goToVodTvch() {
-		mStbPower.startAnimation(((MainActivity)getActivity()).aniRcPanelFadeout);
-		mIntegrationUiMain.startAnimation(((MainActivity)getActivity()).aniRcPanelFadeout);
-		mVod.startAnimation(((MainActivity)getActivity()).aniRcPanelFadeout);
-		mTvch.startAnimation(((MainActivity)getActivity()).aniRcPanelFadeout);
-		mSearch.startAnimation(((MainActivity)getActivity()).aniRcPanelFadeout);
+		mStbPower.startAnimation(((MainActivity) getActivity()).aniRcPanelFadeout);
+		mIntegrationUiMain.startAnimation(((MainActivity) getActivity()).aniRcPanelFadeout);
+		mVod.startAnimation(((MainActivity) getActivity()).aniRcPanelFadeout);
+		mTvch.startAnimation(((MainActivity) getActivity()).aniRcPanelFadeout);
+		mSearch.startAnimation(((MainActivity) getActivity()).aniRcPanelFadeout);
 
 		mStbPower.setVisibility(View.INVISIBLE);
 		mIntegrationUiMain.setVisibility(View.INVISIBLE);
@@ -95,49 +100,25 @@ public class RcTopMenu extends Fragment implements View.OnClickListener {
 		mSearch.setVisibility(View.INVISIBLE);
 	}
 
+	boolean toogle = false;
+	AudioManager amanager;
 	@Override
 	public void onClick(View v) {
-		// Gtv에 연결이 안되어있으면 팝업 띄우기... 지금은 ㅎ
-		//((MainActivity)getActivity()).showPopupGtvConnection();
-		
 		switch (v.getId()) {
 		case R.id.stb_power:
-			// 반드시 풀자....
-			Action.POWER_STB.execute(((BaseActivity)getActivity()).getCommands()); 	// POWER_TV(x) POWER(o) POWER_AVR(x) POWER_BD(x) POWER_STB(x)
-			
-			
-			//Action.SWITCH_CHARSET.execute(((BaseActivity)getActivity()).getCommands()); 	// POWER_TV(x) POWER(o) POWER_AVR(x) POWER_BD(x) POWER_STB(x)
-			
-			// 2013-11-13 test hangul
-			/*Action.CHAR_Q.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
-			
-			Handler h = new Handler();
-			h.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					Action.CHAR_H.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
-				}
-			}, 20);*/
-			
+			Action.POWER_STB.execute(((BaseActivity) getActivity()).getCommands()); // POWER_TV(x) POWER(o) POWER_AVR(x) POWER_BD(x) POWER_STB(x)
 			break;
 		case R.id.integration_ui_main:
-			Action.GO_TO_GUIDE.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
-			
-			// 2013-11-13 test hangul
-			// 연속으로 action을 보내도 보낸 순서로 잘 처리된다. 따로 handler를 사용할 필요가 없다.
-//			Action.CHAR_Q.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
-//			Action.CHAR_H.execute(((BaseActivity)getActivity()).getCommands()); 	// KEYCODE_MOVE_HOME은 안된다. ???
-			
-			
+			Action.GO_TO_GUIDE.execute(((BaseActivity) getActivity()).getCommands()); // KEYCODE_MOVE_HOME은 안된다. ???
 			break;
 		case R.id.vod:
-			((MainActivity)getActivity()).goToVodTvch("vod");
+			((MainActivity) getActivity()).goToVodTvch("vod");
 			break;
 		case R.id.tvch:
-			((MainActivity)getActivity()).goToVodTvch("tvch");
+			((MainActivity) getActivity()).goToVodTvch("tvch");
 			break;
 		case R.id.search:
-			((MainActivity)getActivity()).goToSearch("rc", true);
+			((MainActivity) getActivity()).goToSearch("rc", true);
 			break;
 		}
 	}

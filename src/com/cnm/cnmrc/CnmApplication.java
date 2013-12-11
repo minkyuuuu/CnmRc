@@ -6,8 +6,9 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
 
+import com.cnm.cnmrc.global.SoundEffect;
+import com.cnm.cnmrc.global.VibratorEffect;
 import com.cnm.cnmrc.receiver.GcmReceiver;
-import com.cnm.cnmrc.util.Sound;
 import com.urbanairship.AirshipConfigOptions;
 import com.urbanairship.UAirship;
 import com.urbanairship.push.PushManager;
@@ -40,7 +41,8 @@ public class CnmApplication extends Application {
 
 	CnmPreferences pref;
 	
-	Sound mSoundPool;
+	SoundEffect mSoundPool;
+	VibratorEffect mVibrator;
 
 	@Override
 	public void onCreate() {
@@ -61,7 +63,8 @@ public class CnmApplication extends Application {
 		
 		pref = CnmPreferences.getInstance();
 		
-		mSoundPool = new Sound(getApplicationContext());
+		mSoundPool = new SoundEffect(getApplicationContext(), pref);
+		mVibrator = new VibratorEffect(getApplicationContext(), pref);
 		
 		// 앱 진입시 마다 cache folder 삭제
 //		Log.e("hwang", "starting remove files on cache");
@@ -120,6 +123,16 @@ public class CnmApplication extends Application {
 			UDID = wifiInfo.getMacAddress().replace(":", "");
 			pref.saveUdid(getApplicationContext(), UDID);
 		}
+	}
+	
+	public void playSoundEffect() {
+		mSoundPool.play();
+	}
+	public void playVibratorEffect() {
+		mVibrator.play();
+	}
+	public CnmPreferences getCnmPrefernce() {
+		return pref;
 	}
 	
 
