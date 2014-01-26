@@ -539,13 +539,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
 			// 서버의 리턴 결과로 분기하자.
 			// 결정되면 위에서 풀자, wifi상태, stb 상태...
-			if (isFourWay) {
-				isFourWay = false;
-				showFourWay();
-			} else {
-				isFourWay = true;
-				showTrickPlay();
-			}
+			// 2014-01-26 수정함. 현재는 단지 사방향키만 사용함.
+//			if (isFourWay) {
+//				isFourWay = false;
+//				showFourWay();
+//			} else {
+//				isFourWay = true;
+//				showTrickPlay();
+//			}
+			
+			showFourWay();
 
 			break;
 		//		case R.id.mirroring: // DialogFragment (popup with entire display)

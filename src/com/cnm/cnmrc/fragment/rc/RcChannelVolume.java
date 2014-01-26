@@ -132,8 +132,8 @@ public class RcChannelVolume extends RcBase implements View.OnClickListener {
 			break;
 		case R.id.control_mute:
 			if (!oneClickTapPress) return;
-			//oneClickTapPress = false;
 			Action.MUTE.execute(((BaseActivity)getActivity()).getCommands());
+			//oneClickTapPress = false;
 			
 //			startLoadingAni((ImageButton) v, mAnimMute);
 //			if (mToogleMuteOff) {

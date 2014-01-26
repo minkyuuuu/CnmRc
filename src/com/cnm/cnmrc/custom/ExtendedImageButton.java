@@ -53,12 +53,13 @@ public class ExtendedImageButton extends ImageButton {
 			boolean check = cnm.getCnmPrefernce().loadFirstConnectGtv(context);
 			if(!check) {
 				showPopupGtvConnection();
+				return true; // 2014-01-26, 연결이 안되어 있으면 탭 애니메이션과 셋탑에 키코드를 보낼 이유가 없다.
 			}
 			break;
 		}
 		
-		return true;
-		//return super.onTouchEvent(event);
+		//return true; // 2014-01-26
+		return super.onTouchEvent(event);
 	}
 	
 	public void showPopupGtvConnection() {

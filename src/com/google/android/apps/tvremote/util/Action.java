@@ -362,7 +362,8 @@ public enum Action {
 	ESCAPE {		// 나가기
 		@Override
 		public void execute(ICommandSender sender) {
-			sender.keyPress(Code.KEYCODE_ESCAPE);
+			// sender.keyPress(Code.KEYCODE_ESCAPE); // 2014-01-26 수정
+			sender.keyPress(Code.BTN_GAME_14);
 		}
 	},
 	

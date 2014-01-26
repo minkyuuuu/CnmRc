@@ -2,7 +2,9 @@
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_pressed="true"  android:drawable="@drawable/icon_yellow_press"/>
+<!--     <item android:state_pressed="true"  android:drawable="@drawable/icon_yellow_press"/>  204-01-26-->
+    
+    <item android:state_pressed="true"  android:drawable="@drawable/icon_green_press"/>
     <item 								android:drawable="@android:color/transparent" />
 
 </selector>
